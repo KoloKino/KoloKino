@@ -10,11 +10,17 @@
       color: #fff;
       margin: 0;
       padding: 0;
-      text-align: center;
     }
     .banner {
       width: 100%;
-      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+    .content {
+      padding-top: 300px;
+      text-align: center;
     }
     .pdf-page {
       width: 100%;
@@ -48,26 +54,28 @@
 <body>
   <img src="banner.jpg" alt="Kolo Kino Banner" class="banner">
 
-  <img src="pages/page_01.jpg" alt="Page 1" class="pdf-page">
-<img src="pages/page_02.jpg" alt="Page 2" class="pdf-page">
-<img src="pages/page_03.jpg" alt="Page 3" class="pdf-page">
-<img src="pages/page_04.jpg" alt="Page 4" class="pdf-page">
-<img src="pages/page_05.jpg" alt="Page 5" class="pdf-page">
-<img src="pages/page_06.jpg" alt="Page 6" class="pdf-page">
-<img src="pages/page_07.jpg" alt="Page 7" class="pdf-page">
-<img src="pages/page_08.jpg" alt="Page 8" class="pdf-page">
-<img src="pages/page_09.jpg" alt="Page 9" class="pdf-page">
-<img src="pages/page_10.jpg" alt="Page 10" class="pdf-page">
+  <div class="content">
+    <img src="pages/page_01.png" alt="Page 1" class="pdf-page">
+<img src="pages/page_02.png" alt="Page 2" class="pdf-page">
+<img src="pages/page_03.png" alt="Page 3" class="pdf-page">
+<img src="pages/page_04.png" alt="Page 4" class="pdf-page">
+<img src="pages/page_05.png" alt="Page 5" class="pdf-page">
+<img src="pages/page_06.png" alt="Page 6" class="pdf-page">
+<img src="pages/page_07.png" alt="Page 7" class="pdf-page">
+<img src="pages/page_08.png" alt="Page 8" class="pdf-page">
+<img src="pages/page_09.png" alt="Page 9" class="pdf-page">
+<img src="pages/page_10.png" alt="Page 10" class="pdf-page">
 
-  <div class="links">
-    <a class="link" href="media-kit.pdf" target="_blank"><img src="pdf.png" alt="PDF Icon">Download Media-Kit</a>
-    <a class="link" href="mailto:collaborations@okolo-kino.com"><img src="email.png" alt="Email Icon">email – collaborations@okolo-kino.com</a>
-    <a class="link" href="https://www.youtube.com/@OkoloKino" target="_blank"><img src="youtube.png" alt="YouTube Icon">YouTube – Kolo Kino</a>
-    <a class="link" href="https://www.youtube.com/@kolokinoclips" target="_blank"><img src="youtube.png" alt="YouTube Icon">YouTube – Kolo Kino Clips</a>
-    <a class="link" href="https://www.reddit.com/r/KoloKino/" target="_blank"><img src="reddit.png" alt="Reddit Icon">Reddit</a>
-    <a class="link" href="https://www.tiktok.com/@kolo_kino" target="_blank"><img src="tiktok.png" alt="TikTok Icon">TikTok</a>
-    <a class="link" href="https://www.instagram.com/kolokino_clips" target="_blank"><img src="instagram.png" alt="Instagram Icon">Instagram</a>
-    <a class="link" href="https://www.facebook.com/okolokinoeng" target="_blank"><img src="facebook.png" alt="Facebook Icon">Facebook</a>
+    <div class="links">
+      <a class="link" href="media-kit.pdf" target="_blank"><img src="pdf.png" alt="PDF Icon">Download Media-Kit</a>
+      <a class="link" href="mailto:collaborations@okolo-kino.com"><img src="email.png" alt="Email Icon">email – collaborations@okolo-kino.com</a>
+      <a class="link" href="https://www.youtube.com/@OkoloKino" target="_blank"><img src="youtube.png" alt="YouTube Icon">YouTube – Kolo Kino</a>
+      <a class="link" href="https://www.youtube.com/@kolokinoclips" target="_blank"><img src="youtube.png" alt="YouTube Icon">YouTube – Kolo Kino Clips</a>
+      <a class="link" href="https://www.reddit.com/r/KoloKino/" target="_blank"><img src="reddit.png" alt="Reddit Icon">Reddit</a>
+      <a class="link" href="https://www.tiktok.com/@kolo_kino" target="_blank"><img src="tiktok.png" alt="TikTok Icon">TikTok</a>
+      <a class="link" href="https://www.instagram.com/kolokino_clips" target="_blank"><img src="instagram.png" alt="Instagram Icon">Instagram</a>
+      <a class="link" href="https://www.facebook.com/okolokinoeng" target="_blank"><img src="facebook.png" alt="Facebook Icon">Facebook</a>
+    </div>
   </div>
 </body>
 </html>
