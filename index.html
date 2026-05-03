@@ -1,349 +1,1229 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>Kolo Kino | Media Kit</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Kolo Kino · Cinema Documentaries · 132K subscribers on YouTube</title>
+<meta name="description" content="Kolo Kino is an independent documentary channel exploring the stories behind cinema — from Tarantino and Scorsese to Cameron and DiCaprio. 132K+ subscribers, 18M+ views, made by and for true lovers of the seventh art." />
+<meta name="keywords" content="Kolo Kino, cinema documentaries, filmmaking, Tarantino, Christopher Nolan, Martin Scorsese, James Cameron, Leonardo DiCaprio, Guy Ritchie, YouTube documentary channel" />
+<meta name="author" content="Kolo Kino" />
+<meta name="theme-color" content="#0b0b0b" />
+<link rel="canonical" href="https://kolo-kino.com/" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Kolo Kino" />
+<meta property="og:title" content="Kolo Kino · Cinema Documentaries" />
+<meta property="og:description" content="Independent documentaries exploring the stories behind cinema. 132K subscribers · 18M+ views · since 2016." />
+<meta property="og:url" content="https://kolo-kino.com/" />
+<meta property="og:image" content="https://kolo-kino.com/banner.jpg" />
+<meta property="og:image:width" content="1500" />
+<meta property="og:image:height" content="500" />
+<meta property="og:locale" content="en_US" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Kolo Kino · Cinema Documentaries" />
+<meta name="twitter:description" content="Independent documentaries exploring the stories behind cinema. 132K subscribers on YouTube." />
+<meta name="twitter:image" content="https://kolo-kino.com/banner.jpg" />
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="logo_200p.png" />
+<link rel="apple-touch-icon" href="logo_200p.png" />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;900&display=swap" rel="stylesheet" />
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Kolo Kino",
+  "url": "https://kolo-kino.com",
+  "logo": "https://kolo-kino.com/logo.png",
+  "description": "Independent documentary channel exploring the stories behind cinema and its most eminent figures.",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Bentagache Street 13, 2B",
+    "addressLocality": "Las Palmas de Gran Canaria",
+    "postalCode": "35009",
+    "addressCountry": "ES"
+  },
+  "email": "collabs@okolo-kino.com",
+  "sameAs": [
+    "https://www.youtube.com/@OkoloKino",
+    "https://www.youtube.com/@kolokinoclips",
+    "https://www.facebook.com/okolokinoeng",
+    "https://www.instagram.com/kolokino_clips",
+    "https://www.tiktok.com/@kolo_kino",
+    "https://www.reddit.com/r/KoloKino/"
+  ]
+}
+</script>
+
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QBGPSD3G5E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-QBGPSD3G5E', { anonymize_ip: true });
+</script>
+
 <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #000 url('background.png') repeat;
-      background-size: cover;
-      margin: 0;
-      padding: 0;
-      color: #fff;
-    }
-    .banner {
-      width: 100%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1000;
-    }
-    .content {
-      padding-top: 200px;
-      text-align: center;
-    }
-    .pdf-page {
-      width: 100%;
-      max-width: 900px;
-      margin: 20px auto;
-      display: block;
-      box-shadow: 0 0 10px rgba(0,0,0,0.6);
-      position: relative;
-    }
-    .page-wrapper {
-      position: relative;
-      display: block;
-    }
-    .zoom-area {
-      position: absolute;
-      left: 37.5%;
-      top: 70.7%;
-      width: 28.22%;
-      height: 19.90%;
-      z-index: 10;
-      cursor: pointer;
-      transition: transform 0.2s ease-in-out;
-    }
-    .zoom-area:hover {
-      transform: scale(1.07);
-      transform-origin: center;
-    }
-    .links {
-      padding: 40px 20px;
-    }
-    .link {
-      display: inline-flex;
-      align-items: center;
-      margin: 12px 10px;
-      font-size: 18px;
-      color: #f5f5f5;
-      text-decoration: none;
-    }
-    .link img {
-      width: 28px;
-      height: 28px;
-      margin-right: 8px;
-      vertical-align: middle;
-    }
-    .link:hover {
-      color: #ff4444;
-    }
-  </style>
+  :root {
+    --bg: #0b0b0b;
+    --bg-warm: #110b0a;
+    --bg-elev: #181414;
+    --bg-card: #1c1716;
+    --bg-card-alt: #221919;
+    --line: #2a2424;
+    --line-warm: #3a2828;
+    --fg: #f5f5f5;
+    --fg-dim: #b5b0ab;
+    --fg-mute: #7a7570;
+    --accent: #ff3b3b;
+    --accent-hover: #ff6060;
+    --accent-soft: #4a1212;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --radius: 12px;
+    --max-w: 1200px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: var(--accent-hover); }
+  .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+
+  /* Typography */
+  h1, h2, h3 { font-family: var(--serif); font-weight: 700; line-height: 1.2; margin: 0 0 0.5em; letter-spacing: -0.01em; }
+  h1 { font-size: clamp(2.2rem, 5vw, 4rem); }
+  h2 { font-size: clamp(1.6rem, 3.2vw, 2.6rem); }
+  h3 { font-size: clamp(1.1rem, 1.8vw, 1.35rem); }
+  p { margin: 0 0 1em; color: var(--fg-dim); }
+  .eyebrow {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 1.1rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.1rem;
+    font-weight: 700;
+    position: relative;
+  }
+  .eyebrow::before,
+  .eyebrow::after {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 1px;
+    background: var(--accent);
+    vertical-align: middle;
+    margin: 0 14px 4px;
+    opacity: 0.55;
+  }
+  .section-head .eyebrow::before,
+  .section-head .eyebrow::after { display: inline-block; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all .15s ease;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-hover); color: #fff; transform: translateY(-1px); }
+  .btn-ghost { background: transparent; color: var(--fg); border-color: var(--line); }
+  .btn-ghost:hover { border-color: var(--fg); color: var(--fg); }
+
+  /* Fixed top banner — anchored to top edge, full-width edge-to-edge at rest,
+     shrinks to half height on scroll with black side bars filling the width */
+  .top-banner-wrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 11.28vw; /* exact banner aspect 231/2048 = 11.28% */
+    background: #000;
+    z-index: 1000;
+    pointer-events: none;
+    overflow: hidden;
+    transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  body.scrolled .top-banner-wrap { height: 5.64vw; }
+  .top-banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    display: block;
+    transform-origin: top center;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+  body.scrolled .top-banner { transform: scale(0.5); }
+  body {
+    padding-top: 11.28vw;
+    transition: padding-top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  body.scrolled { padding-top: 5.64vw; }
+
+  /* Hero */
+  .hero {
+    position: relative;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 70px 24px 80px;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 50% 20%, rgba(255,59,59,0.12) 0%, transparent 55%),
+      linear-gradient(180deg, rgba(11,11,11,0.78) 0%, rgba(11,11,11,0.92) 70%, var(--bg) 100%),
+      url('background.png') center/cover no-repeat fixed;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.012) 0px,
+      rgba(255,255,255,0.012) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+    pointer-events: none;
+    mix-blend-mode: overlay;
+  }
+  .hero-content {
+    width: 100%;
+    max-width: 920px;
+    padding: 0;
+    position: relative;
+    z-index: 2;
+  }
+  .hero h1 {
+    font-size: clamp(2.6rem, 6.5vw, 5rem);
+    margin-bottom: 22px;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 30px rgba(0,0,0,0.6);
+  }
+  .hero-tagline {
+    font-size: clamp(1.1rem, 1.7vw, 1.35rem);
+    color: var(--fg-dim);
+    max-width: 720px;
+    margin: 0 auto 8px;
+    line-height: 1.5;
+  }
+  .hero-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 36px;
+    justify-content: center;
+    margin: 36px 0 36px;
+    color: var(--fg-mute);
+    font-size: 1.05rem;
+  }
+  .hero-stats strong {
+    color: var(--fg);
+    font-weight: 700;
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    letter-spacing: 0.02em;
+  }
+  .scroll-cue {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--fg-mute);
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    animation: bob 2.5s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, 6px); }
+  }
+  .hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  /* Sections */
+  .section { padding: 80px 0; position: relative; }
+  .section.alt { background: var(--bg-warm); }
+  .section.alt::before, .section.alt::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.6;
+  }
+  .section.alt::before { top: 0; }
+  .section.alt::after { bottom: 0; }
+  .section-head { max-width: 760px; margin: 0 auto 48px; text-align: center; }
+  .section-head h2 { font-size: clamp(1.9rem, 3.6vw, 2.8rem); }
+  .section-head p { font-size: 1.1rem; margin-bottom: 0; color: var(--fg-dim); }
+
+  /* Team */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+  .team-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 28px 22px;
+    text-align: center;
+    transition: border-color .2s ease, transform .2s ease;
+  }
+  .team-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .team-photo {
+    width: 160px;
+    height: 200px;
+    border-radius: 10px;
+    margin: 0 auto 20px;
+    object-fit: cover;
+    object-position: center top;
+    border: 1px solid var(--line);
+    background: var(--bg-elev);
+  }
+  .team-photo.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--serif);
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--fg-dim);
+    letter-spacing: 0.05em;
+  }
+  .team-card h3 { margin-bottom: 4px; font-size: 1.3rem; }
+  .team-role {
+    font-size: 0.92rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .team-location { font-size: 0.92rem; color: var(--fg-mute); margin-bottom: 14px; }
+  .team-bio { font-size: 1rem; color: var(--fg-dim); margin-bottom: 16px; line-height: 1.6; }
+  .team-links {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    font-size: 0.92rem;
+  }
+  .team-links a { color: var(--fg-mute); border-bottom: 1px solid transparent; padding-bottom: 1px; }
+  .team-links a:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* Contact toggle (Gabe) */
+  .contact-toggle {
+    margin-top: 16px;
+    text-align: center;
+  }
+  .contact-toggle summary {
+    list-style: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 18px;
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    transition: all .2s ease;
+    user-select: none;
+  }
+  .contact-toggle summary::-webkit-details-marker { display: none; }
+  .contact-toggle summary::after {
+    content: '↓';
+    display: inline-block;
+    transition: transform .25s ease;
+  }
+  .contact-toggle[open] summary::after { transform: rotate(-180deg); }
+  .contact-toggle summary:hover {
+    background: var(--accent);
+    color: #fff;
+    transform: translateY(-1px);
+  }
+  .contact-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+    animation: fadeSlide 0.25s ease-out;
+  }
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .contact-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: 0.88rem;
+    color: var(--fg-dim);
+    transition: all .15s ease;
+    justify-content: center;
+  }
+  .contact-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateX(2px);
+  }
+  .contact-btn .ico {
+    font-size: 1rem;
+    color: var(--accent);
+  }
+
+  /* Numbers */
+  .numbers-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .number-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--line-warm);
+    border-radius: var(--radius);
+    padding: 36px 20px 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: border-color .2s ease, transform .2s ease;
+  }
+  .number-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .number-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40%;
+    height: 2px;
+    background: var(--accent);
+    opacity: 0.6;
+  }
+  .number-value {
+    font-family: var(--serif);
+    font-size: clamp(2.6rem, 4.4vw, 3.8rem);
+    font-weight: 800;
+    color: var(--fg);
+    line-height: 1;
+    margin-bottom: 10px;
+    letter-spacing: -0.02em;
+  }
+  .number-label {
+    font-size: 0.92rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    font-weight: 600;
+  }
+
+  /* Featured documentaries */
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .featured-card {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    display: block;
+    transition: transform .25s ease, border-color .25s ease;
+  }
+  .featured-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+  .featured-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .4s ease;
+  }
+  .featured-card:hover img { transform: scale(1.04); }
+  .featured-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 35%, rgba(0,0,0,0.92) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 28px;
+  }
+  .featured-subject {
+    font-family: var(--serif);
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .featured-title {
+    font-size: 0.95rem;
+    color: var(--fg-dim);
+    margin-bottom: 0;
+  }
+  .play-badge {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 999px;
+  }
+
+  /* Latest videos grid */
+  .videos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .video-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color .2s ease, transform .2s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .video-card:hover { border-color: var(--accent); transform: translateY(-2px); color: var(--fg); }
+  .video-thumb {
+    aspect-ratio: 16/9;
+    background: var(--bg-elev);
+    overflow: hidden;
+    position: relative;
+  }
+  .video-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .video-meta {
+    padding: 14px 16px 18px;
+  }
+  .video-meta h3 {
+    font-family: var(--sans);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.35;
+    margin: 0 0 6px;
+    color: var(--fg);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .video-views { font-size: 0.88rem; color: var(--fg-mute); }
+  .videos-cta { text-align: center; margin-top: 40px; }
+
+  /* Audience */
+  .audience-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .audience-block {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 32px;
+  }
+  .audience-block h3 {
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    text-transform: uppercase;
+    letter-spacing: 0.13em;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 22px;
+  }
+  .audience-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 12px 0 10px;
+    border-bottom: 1px solid var(--line);
+    font-size: 1rem;
+    column-gap: 14px;
+    position: relative;
+  }
+  .audience-row:last-child { border-bottom: none; }
+  .audience-row .a-label { color: var(--fg-dim); }
+  .audience-row .a-value { color: var(--fg); font-weight: 700; font-variant-numeric: tabular-nums; font-family: var(--serif); font-size: 1.1rem; }
+  .audience-row .a-bar {
+    grid-column: 1 / -1;
+    height: 3px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+  .audience-row .a-bar > i {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #ff8a8a);
+    border-radius: 2px;
+    transform-origin: left;
+    animation: bar-grow 1.4s ease-out forwards;
+  }
+  @keyframes bar-grow {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  /* Sponsorship */
+  .sponsorship-points {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 40px;
+  }
+  .sponsor-point {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 30px 26px 26px;
+    text-align: left;
+    transition: border-color .2s ease, transform .2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .sponsor-point::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+  }
+  .sponsor-point:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .sponsor-point .icon {
+    font-family: var(--serif);
+    font-size: 2.4rem;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .sponsor-point h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    font-family: var(--sans);
+    font-weight: 700;
+  }
+  .sponsor-point > p { font-size: 1rem; margin: 0 0 14px; color: var(--fg-dim); line-height: 1.55; }
+  .sponsor-point details { margin-top: 12px; }
+  .sponsor-point details summary {
+    cursor: pointer;
+    color: var(--accent);
+    font-size: 0.92rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    list-style: none;
+    padding: 6px 0;
+    user-select: none;
+    transition: color .15s ease;
+  }
+  .sponsor-point details summary::-webkit-details-marker { display: none; }
+  .sponsor-point details summary::after {
+    content: '  +';
+    display: inline-block;
+    transition: transform .25s ease;
+    font-weight: 400;
+  }
+  .sponsor-point details[open] summary::after { content: '  −'; }
+  .sponsor-point details summary:hover { color: var(--accent-hover); }
+  .sponsor-point details .more {
+    margin-top: 12px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    font-size: 0.95rem;
+    color: var(--fg-dim);
+    line-height: 1.6;
+  }
+  .sponsor-point details .more img {
+    border-radius: 8px;
+    margin: 12px 0 4px;
+    border: 1px solid var(--line);
+  }
+
+  /* Contact */
+  .contact-section {
+    text-align: center;
+    background:
+      linear-gradient(180deg, var(--bg) 0%, #1a0808 100%);
+  }
+  .contact-email {
+    display: inline-block;
+    font-family: var(--serif);
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    color: var(--accent);
+    margin: 16px 0 24px;
+    border-bottom: 2px solid transparent;
+    transition: border-color .2s ease;
+  }
+  .contact-email:hover { border-color: var(--accent); color: var(--accent-hover); }
+  .contact-address {
+    font-size: 1rem;
+    color: var(--fg-mute);
+    margin-bottom: 36px;
+  }
+
+  /* Footer */
+  footer { padding: 50px 24px 30px; border-top: 1px solid var(--line); background: #060606; }
+  .footer-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 30px;
+    align-items: center;
+  }
+  .social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    justify-content: flex-end;
+  }
+  .social-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--fg-dim);
+    font-size: 0.95rem;
+    transition: color .15s ease;
+  }
+  .social-links a:hover { color: var(--accent); }
+  .social-links img { width: 22px; height: 22px; opacity: 0.85; }
+  .social-links a:hover img { opacity: 1; }
+  .footer-meta {
+    color: var(--fg-mute);
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+  .footer-meta a { color: var(--fg-dim); border-bottom: 1px dotted var(--fg-mute); }
+  .download-pdf {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    color: var(--fg);
+    font-weight: 600;
+    font-size: 1rem;
+    border: 1px solid var(--line);
+    padding: 12px 22px;
+    border-radius: 999px;
+    transition: border-color .2s ease;
+  }
+  .download-pdf:hover { border-color: var(--accent); color: var(--accent); }
+  .download-pdf img { width: 18px; height: 18px; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .team-grid { grid-template-columns: repeat(2, 1fr); }
+    .numbers-grid { grid-template-columns: repeat(2, 1fr); }
+    .featured-grid { grid-template-columns: 1fr; }
+    .videos-grid { grid-template-columns: repeat(2, 1fr); }
+    .audience-grid { grid-template-columns: 1fr; }
+    .sponsorship-points { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; text-align: center; }
+    .social-links { justify-content: center; }
+    .section { padding: 48px 0; }
+    .hero-banner { margin-bottom: 28px; }
+  }
+  @media (max-width: 600px) {
+    .team-grid { grid-template-columns: 1fr; }
+    .videos-grid { grid-template-columns: 1fr; }
+    .hero { padding-bottom: 40px; }
+    .hero-banner { margin-bottom: 24px; }
+    .container { padding: 0 18px; }
+    .section { padding: 44px 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    html { scroll-behavior: auto; }
+  }
+</style>
 </head>
+
 <body>
-<img alt="Kolo Kino Banner" class="banner" src="banner.jpg"/>
-<div class="content">
-<div class="page-wrapper"><img alt="Page 1" class="pdf-page" src="pages/page_01.jpg"/></div><div class="page-wrapper">
-<img alt="Page 2" class="pdf-page" src="pages/page_02.jpg"/>
-<a class="zoom-area" href="https://www.youtube.com/@OkoloKino" style="
-        left: 17.67578125%;
-        top: 69.2467173462336%;
-        width: 66.2109375%;
-        height: 5.6668970283344855%;
-    " target="_blank"></a><a class="zoom-area" href="https://www.youtube.com/@OkoloKino" style="
-        left: 23.53515625%;
-        top: 35.86731167933656%;
-        width: 16.552734375%;
-        height: 21.49274360746372%;
-    " target="_blank"></a><a class="zoom-area" href="https://www.youtube.com/@kolokinoclips" style="
-        left: 89.501953125%;
-        top: 87.97512093987561%;
-        width: 10.498046875%;
-        height: 12.024879060124395%;
-    " target="_blank"></a><a class="zoom-area" href="https://www.youtube.com/@kolokinoclips" style="
-        left: 61.9140625%;
-        top: 35.521769177608846%;
-        width: 16.162109375%;
-        height: 22.529371112646857%;
-    " target="_blank"></a>
+
+<!-- Fixed top banner (always visible; shrinks on scroll with black side bars) -->
+<div class="top-banner-wrap">
+  <img src="banner.jpg" alt="Kolo Kino" class="top-banner" />
 </div>
-<div class="page-wrapper">
-<div class="page-wrapper">
-<img alt="Page 3" class="pdf-page" src="pages/page_03.jpg"/>
-<a class="zoom-area" href="https://www.youtube.com/@OkoloKino" style="
-            left: 17.68%;
-            top: 69.25%;
-            width: 66.21%;
-            height: 5.67%;
-        " target="_blank"></a>
-<a class="zoom-area" href="https://www.youtube.com/@OkoloKino" style="
-            left: 23.54%;
-            top: 35.87%;
-            width: 16.55%;
-            height: 21.49%;
-        " target="_blank"></a>
-<a class="zoom-area" href="https://www.youtube.com/@kolokinoclips" style="
-            left: 89.50%;
-            top: 87.98%;
-            width: 10.50%;
-            height: 12.02%;
-        " target="_blank"></a>
-<a class="zoom-area" href="https://www.youtube.com/@kolokinoclips" style="
-            left: 61.91%;
-            top: 35.52%;
-            width: 16.16%;
-            height: 22.53%;
-        " target="_blank"></a>
-</div>
-<a class="zoom-area" href="https://www.youtube.com/@OkoloKino" style="
-            left: 17.68%;
-            top: 69.25%;
-            width: 66.21%;
-            height: 5.67%;
-        " target="_blank"></a>
-<a class="zoom-area" href="https://www.youtube.com/@OkoloKino" style="
-            left: 23.54%;
-            top: 35.87%;
-            width: 16.55%;
-            height: 21.49%;
-        " target="_blank"></a>
-<a class="zoom-area" href="https://www.youtube.com/@kolokinoclips" style="
-            left: 89.50%;
-            top: 87.98%;
-            width: 10.50%;
-            height: 12.02%;
-        " target="_blank"></a>
-<a class="zoom-area" href="https://www.youtube.com/@kolokinoclips" style="
-            left: 61.91%;
-            top: 35.52%;
-            width: 16.16%;
-            height: 22.53%;
-        " target="_blank"></a>
-</div>
-<img alt="Page 4" class="pdf-page" src="pages/page_04.jpg"/>
-<img alt="Page 5" class="pdf-page" src="pages/page_05.jpg"/>
-<img alt="Page 6" class="pdf-page" src="pages/page_06.jpg"/>
-<img alt="Page 7" class="pdf-page" src="pages/page_07.jpg"/>
-<div class="page-wrapper">
-<div class="page-wrapper">
-<div class="page-wrapper">
-<div class="page-wrapper">
-<img alt="Page 8" class="pdf-page" src="pages/page_08.jpg"/>
-<a class="zoom-area" href="https://youtu.be/JYmu5IZsVHM?si=Ic4yk2S9VdaTMhlg" style="
-        left: 190px;
-        top: 297px;
-        width: 147px;
-        height: 83px;
-    " target="_blank"></a>
-<a class="zoom-area" href="https://youtu.be/8VS5OEzVqGs?si=8c7bc6UNOyZMbac4" style="
-        left: 190px;
-        top: 399px;
-        width: 148px;
-        height: 83px;
-    " target="_blank"></a>
-<a class="zoom-area" href="https://youtu.be/bP4XXWfcXJU?si=GSTBKtnbwZ_wA1um" style="
-        left: 194px;
-        top: 502px;
-        width: 146px;
-        height: 82px;
-    " target="_blank"></a>
-<a class="zoom-area" href="https://youtu.be/wCyrkdfeJ3I?si=i-BduOmWEZyxa8Bw" style="
-        left: 432px;
-        top: 297px;
-        width: 148px;
-        height: 81px;
-    " target="_blank"></a>
-<a class="zoom-area" href="https://youtu.be/FZLGtkxpuHo?si=7OLT34GSD-MpBfyV" style="
-        left: 433px;
-        top: 399px;
-        width: 148px;
-        height: 83px;
-    " target="_blank"></a>
-<a class="zoom-area" href="https://youtu.be/GR0-qex_Vz8?si=v3mT0WY-QDFflXIt" style="
-        left: 432px;
-        top: 500px;
-        width: 148px;
-        height: 81px;
-    " target="_blank"></a>
-</div>
-<a class="zoom-area" href="https://youtu.be/JYmu5IZsVHM?si=Ic4yk2S9VdaTMhlg" style="
-        left: 90px;
-        top: 297px;
-        width: 147px;
-        height: 83px;
-    " target="_blank"></a>
-<a class="zoom-area" href="https://youtu.be/8VS5OEzVqGs?si=8c7bc6UNOyZMbac4" style="
-        left: 90px;
-        top: 399px;
-        width: 148px;
-        height: 83px;
-    " target="_blank"></a>
-<a class="zoom-area" href="https://youtu.be/bP4XXWfcXJU?si=GSTBKtnbwZ_wA1um" style="
-        left: 94px;
-        top: 502px;
-        width: 146px;
-        height: 82px;
-    " target="_blank"></a>
-<a class="zoom-area" href="https://youtu.be/wCyrkdfeJ3I?si=i-BduOmWEZyxa8Bw" style="
-        left: 432px;
-        top: 297px;
-        width: 148px;
-        height: 81px;
-    " target="_blank"></a>
-<a class="zoom-area" href="https://youtu.be/FZLGtkxpuHo?si=7OLT34GSD-MpBfyV" style="
-        left: 433px;
-        top: 399px;
-        width: 148px;
-        height: 83px;
-    " target="_blank"></a>
-<a class="zoom-area" href="https://youtu.be/GR0-qex_Vz8?si=v3mT0WY-QDFflXIt" style="
-        left: 432px;
-        top: 500px;
-        width: 148px;
-        height: 81px;
-    " target="_blank"></a>
-</div>
-<a class="zoom-area" href="https://youtu.be/JYmu5IZsVHM?si=Ic4yk2S9VdaTMhlg" style="
-            left: 6.69%;
-            top: 46.72%;
-            width: 16.36%;
-            height: 13.13%;
-        " target="_blank"></a>
-<a class="zoom-area" href="https://youtu.be/8VS5OEzVqGs?si=8c7bc6UNOyZMbac4" style="
-            left: 6.74%;
-            top: 62.82%;
-            width: 16.50%;
-            height: 13.20%;
-        " target="_blank"></a>
-<a class="zoom-area" href="https://youtu.be/bP4XXWfcXJU?si=GSTBKtnbwZ_wA1um" style="
-            left: 7.18%;
-            top: 79.06%;
-            width: 16.31%;
-            height: 12.92%;
-        " target="_blank"></a>
-<a class="zoom-area" href="https://youtu.be/wCyrkdfeJ3I?si=i-BduOmWEZyxa8Bw" style="
-            left: 48.10%;
-            top: 46.86%;
-            width: 16.46%;
-            height: 12.85%;
-        " target="_blank"></a>
-<a class="zoom-area" href="https://youtu.be/FZLGtkxpuHo?si=7OLT34GSD-MpBfyV" style="
-            left: 48.19%;
-            top: 62.82%;
-            width: 16.46%;
-            height: 13.13%;
-        " target="_blank"></a>
-<a class="zoom-area" href="https://youtu.be/GR0-qex_Vz8?si=v3mT0WY-QDFflXIt" style="
-            left: 48.10%;
-            top: 78.71%;
-            width: 16.55%;
-            height: 12.79%;
-        " target="_blank"></a>
-</div>
-<a class="zoom-area" href="https://youtu.be/JYmu5IZsVHM?si=Ic4yk2S9VdaTMhlg" style="
-        left: 6.689453125%;
-        top: 46.71734623358673%;
-        width: 16.357421875%;
-        height: 13.130615065653076%;
-    " target="_blank"></a><a class="zoom-area" href="https://youtu.be/8VS5OEzVqGs?si=8c7bc6UNOyZMbac4" style="
-        left: 6.73828125%;
-        top: 62.81962681409814%;
-        width: 16.50390625%;
-        height: 13.199723565998617%;
-    " target="_blank"></a><a class="zoom-area" href="https://youtu.be/bP4XXWfcXJU?si=GSTBKtnbwZ_wA1um" style="
-        left: 7.177734375%;
-        top: 79.06012439530062%;
-        width: 16.30859375%;
-        height: 12.923289564616447%;
-    " target="_blank"></a><a class="zoom-area" href="https://youtu.be/wCyrkdfeJ3I?si=i-BduOmWEZyxa8Bw" style="
-        left: 48.095703125%;
-        top: 46.85556323427782%;
-        width: 16.455078125%;
-        height: 12.854181064270906%;
-    " target="_blank"></a><a class="zoom-area" href="https://youtu.be/FZLGtkxpuHo?si=7OLT34GSD-MpBfyV" style="
-        left: 48.193359375%;
-        top: 62.81962681409814%;
-        width: 16.455078125%;
-        height: 13.130615065653076%;
-    " target="_blank"></a><a class="zoom-area" href="https://youtu.be/GR0-qex_Vz8?si=v3mT0WY-QDFflXIt" style="
-        left: 48.095703125%;
-        top: 78.71458189357291%;
-        width: 16.552734375%;
-        height: 12.785072563925363%;
-    " target="_blank"></a>
-</div>
-<img alt="Page 9" class="pdf-page" src="pages/page_09.jpg"/>
-<div class="page-wrapper">
-<img alt="Page 10" class="pdf-page" src="pages/page_10.jpg"/>
-<a class="zoom-area" href="https://youtu.be/XZ1h5FB1hx4?si=DofWXy1QBl2vuvVL&amp;t=113" target="_blank"></a>
-</div>
-<div class="page-wrapper">
-<div class="page-wrapper">
-<div class="page-wrapper">
-<img alt="Page 11" class="pdf-page" src="pages/page_11.jpg"/>
-<a class="zoom-area" href="mailto:collabs@okolo-kino.com" style="
-        left: 194px;
-        top: 502px;
-        width: 146px;
-        height: 82px;
-    " target="_blank"></a>
-</div>
-<a class="zoom-area" href="mailto:collabs@okolo-kino.com" style="
-        left: 305px;
-        top: 299px;
-        width: 464px;
-        height: 37px;
-    " target="_blank"></a>
-</div>
-<a class="zoom-area" href="mailto:collabs@okolo-kino.com" style="
-        left: 584px;
-        top: 249px;
-        width: 464px;
-        height: 37px;
-    " target="_blank"></a>
-</div>
-<div class="links">
-<a class="link" href="Kolo%20Kino%20Media%20Kit.pdf" target="_blank"><img alt="PDF Icon" src="pdf.png"/>Download Media-Kit</a>
-<a class="link" href="mailto:collabs@okolo-kino.com"><img alt="Email Icon" src="email.png"/>email – collabs@okolo-kino.com</a>
-<a class="link" href="https://www.youtube.com/@OkoloKino" target="_blank"><img alt="YouTube Icon" src="youtube.png"/>YouTube – Kolo Kino</a>
-<a class="link" href="https://www.youtube.com/@kolokinoclips" target="_blank"><img alt="YouTube Icon" src="youtube.png"/>YouTube – Kolo Kino Clips</a>
-<a class="link" href="https://www.reddit.com/r/KoloKino/" target="_blank"><img alt="Reddit Icon" src="reddit.png"/>Reddit</a>
-<a class="link" href="https://www.tiktok.com/@kolo_kino" target="_blank"><img alt="TikTok Icon" src="tiktok.png"/>TikTok</a>
-<a class="link" href="https://www.instagram.com/kolokino_clips" target="_blank"><img alt="Instagram Icon" src="instagram.png"/>Instagram</a>
-<a class="link" href="https://www.facebook.com/okolokinoeng" target="_blank"><img alt="Facebook Icon" src="facebook.png"/>Facebook</a>
-</div>
-</div>
+
+<!-- ============== HERO ============== -->
+<header class="hero">
+  <div class="hero-content">
+    <p class="eyebrow">Cinema Documentaries · Since 2016</p>
+    <h1>The stories behind the screen.</h1>
+    <p class="hero-tagline">An independent documentary channel exploring the lives, films and craft behind cinema's most eminent figures.</p>
+    <div class="hero-stats">
+      <span><strong>23.1M</strong> lifetime views</span>
+      <span><strong>6.5M</strong> hours watched</span>
+      <span><strong>132K</strong> subscribers</span>
+    </div>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="https://www.youtube.com/@OkoloKino" target="_blank" rel="noopener">▶ Watch on YouTube</a>
+      <a class="btn btn-ghost" href="#contact">Sponsor with us</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============== TEAM ============== -->
+<section class="section" id="team">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">The Team</p>
+      <h2>The people behind every frame</h2>
+      <p>A small, international team of cinephiles obsessed with telling cinema's stories the way they deserve.</p>
+    </div>
+    <div class="team-grid">
+
+      <article class="team-card">
+        <div class="team-photo placeholder" aria-label="Photo placeholder for Ievgen Khalimovskyi">IK</div>
+        <h3>Ievgen Khalimovskyi</h3>
+        <p class="team-role">Founder · Creative Director</p>
+        <p class="team-location">Ukraine</p>
+        <p class="team-bio">Founder of Kolo Kino. Writer, director and editor on every documentary. Everything you love about this channel — the storytelling, the craft, the rhythm, the look — comes from Ievgen.</p>
+        <div class="team-links">
+          <a href="https://www.imdb.com/name/nm17402806/" target="_blank" rel="noopener">IMDb</a>
+        </div>
+      </article>
+
+      <article class="team-card">
+        <img src="team/alex.jpg" alt="Alexander Mandrik" class="team-photo" loading="lazy" />
+        <h3>Alexander Mandrik</h3>
+        <p class="team-role">Co-founder · Director &amp; Producer</p>
+        <p class="team-location">Las Palmas de Gran Canaria, Spain</p>
+        <p class="team-bio">Co-founder. Channel director and producer — runs operations, sponsor relations and overall strategy. Alex makes sure every project ships and reaches the right audience.</p>
+        <div class="team-links">
+          <a href="https://www.imdb.com/name/nm17402807/" target="_blank" rel="noopener">IMDb</a>
+        </div>
+      </article>
+
+      <article class="team-card">
+        <img src="team/gabe.jpg" alt="Gabriel J. Perez" class="team-photo" loading="lazy" />
+        <h3>Gabriel J. Perez</h3>
+        <p class="team-role">Voice &amp; Narration</p>
+        <p class="team-location">Miami, FL · SAG-AFTRA</p>
+        <p class="team-bio">The voice of Kolo Kino since 2020. Actor, producer and narrator with credits in <em>Griffin in Summer</em>, <em>The NFL Today</em> and over 30 podcast and documentary narrations.</p>
+        <div class="team-links">
+          <a href="https://www.feralhogcontent.com" target="_blank" rel="noopener">feralhogcontent.com</a>
+          <a href="https://www.imdb.com/name/nm3524200/" target="_blank" rel="noopener">IMDb</a>
+        </div>
+        <details class="contact-toggle">
+          <summary>Contact Gabe</summary>
+          <div class="contact-options">
+            <a class="contact-btn" href="mailto:gabe@feralhogcontent.com"><span class="ico">✉</span> gabe@feralhogcontent.com</a>
+            <a class="contact-btn" href="tel:+13053023593"><span class="ico">☏</span> +1 305-302-3593</a>
+            <a class="contact-btn" href="https://www.feralhogcontent.com" target="_blank" rel="noopener"><span class="ico">↗</span> feralhogcontent.com</a>
+          </div>
+        </details>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============== NUMBERS ============== -->
+<section class="section alt" id="numbers">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">By The Numbers</p>
+      <h2>An audience that watches, not just clicks</h2>
+      <p>6.5 million hours watched. Half of that on living-room TVs.</p>
+    </div>
+    <div class="numbers-grid">
+      <div class="number-card">
+        <div class="number-value">23.1M</div>
+        <div class="number-label">Lifetime Views</div>
+      </div>
+      <div class="number-card">
+        <div class="number-value">6.5M</div>
+        <div class="number-label">Hours Watched</div>
+      </div>
+      <div class="number-card">
+        <div class="number-value">132K</div>
+        <div class="number-label">Subscribers</div>
+      </div>
+      <div class="number-card">
+        <div class="number-value">52%</div>
+        <div class="number-label">Watched on TV</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FEATURED DOCUMENTARIES ============== -->
+<section class="section" id="featured">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Full Stories</p>
+      <h2>Long-form documentaries</h2>
+      <p>Years of research per film. The full story of cinema's most defining figures, told the way they deserve.</p>
+    </div>
+    <div class="featured-grid">
+
+      <a class="featured-card" href="https://www.youtube.com/watch?v=XeOpf9olaWk" target="_blank" rel="noopener">
+        <img src="https://i.ytimg.com/vi/XeOpf9olaWk/maxresdefault.jpg" alt="The Ultimate Tarantino Deep Dive" loading="lazy" />
+        <span class="play-badge">▶ Watch</span>
+        <div class="featured-overlay">
+          <div class="featured-subject">Quentin Tarantino</div>
+          <p class="featured-title">The Ultimate Tarantino Deep Dive</p>
+        </div>
+      </a>
+
+      <a class="featured-card" href="https://www.youtube.com/watch?v=4kMWWLcVWdk" target="_blank" rel="noopener">
+        <img src="https://i.ytimg.com/vi/4kMWWLcVWdk/maxresdefault.jpg" alt="The Martin Scorsese Story You've Never Seen" loading="lazy" />
+        <span class="play-badge">▶ Watch</span>
+        <div class="featured-overlay">
+          <div class="featured-subject">Martin Scorsese</div>
+          <p class="featured-title">The Martin Scorsese Story You've Never Seen</p>
+        </div>
+      </a>
+
+      <a class="featured-card" href="https://www.youtube.com/watch?v=X3yYnbn7vwA" target="_blank" rel="noopener">
+        <img src="https://i.ytimg.com/vi/X3yYnbn7vwA/maxresdefault.jpg" alt="James Cameron vs. The Impossible" loading="lazy" />
+        <span class="play-badge">▶ Watch</span>
+        <div class="featured-overlay">
+          <div class="featured-subject">James Cameron</div>
+          <p class="featured-title">James Cameron vs. The Impossible</p>
+        </div>
+      </a>
+
+      <a class="featured-card" href="https://www.youtube.com/watch?v=bP4XXWfcXJU" target="_blank" rel="noopener">
+        <img src="https://i.ytimg.com/vi/bP4XXWfcXJU/maxresdefault.jpg" alt="Leonardo DiCaprio: From Break-Dance to Oscar" loading="lazy" />
+        <span class="play-badge">▶ Watch</span>
+        <div class="featured-overlay">
+          <div class="featured-subject">Leonardo DiCaprio</div>
+          <p class="featured-title">Leonardo DiCaprio: From Break-Dance to Oscar · 1.9M views</p>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============== LATEST VIDEOS ============== -->
+<section class="section alt" id="videos">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Latest Releases</p>
+      <h2>Fresh from the channel</h2>
+    </div>
+
+    <!-- VIDEOS-START · this block is auto-generated by update_videos.py -->
+    <div class="videos-grid">
+
+      <a class="video-card" href="https://www.youtube.com/watch?v=HDn6iJZl87k" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="https://i.ytimg.com/vi/HDn6iJZl87k/hqdefault.jpg" alt="" loading="lazy" /></div>
+        <div class="video-meta">
+          <h3>Why BATMAN BEGINS Still Feels Different</h3>
+          <p class="video-views">1M views</p>
+        </div>
+      </a>
+
+      <a class="video-card" href="https://www.youtube.com/watch?v=Dz9NRTXnDlQ" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="https://i.ytimg.com/vi/Dz9NRTXnDlQ/hqdefault.jpg" alt="" loading="lazy" /></div>
+        <div class="video-meta">
+          <h3>It's Nolan's Best… and Nobody Talks About It</h3>
+          <p class="video-views">43K views</p>
+        </div>
+      </a>
+
+      <a class="video-card" href="https://www.youtube.com/watch?v=TJcCKYfhN4k" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="https://i.ytimg.com/vi/TJcCKYfhN4k/hqdefault.jpg" alt="" loading="lazy" /></div>
+        <div class="video-meta">
+          <h3>Memento Is Actually Insane</h3>
+          <p class="video-views">49K views</p>
+        </div>
+      </a>
+
+      <a class="video-card" href="https://www.youtube.com/watch?v=Wrlqoi8uT44" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="https://i.ytimg.com/vi/Wrlqoi8uT44/hqdefault.jpg" alt="" loading="lazy" /></div>
+        <div class="video-meta">
+          <h3>The Tiny Christopher Nolan Movie That Became Inception</h3>
+          <p class="video-views">19K views</p>
+        </div>
+      </a>
+
+      <a class="video-card" href="https://www.youtube.com/watch?v=F0CF1ngghw4" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="https://i.ytimg.com/vi/F0CF1ngghw4/hqdefault.jpg" alt="" loading="lazy" /></div>
+        <div class="video-meta">
+          <h3>The Dirty Movies That Changed Hollywood</h3>
+          <p class="video-views">16K views</p>
+        </div>
+      </a>
+
+      <a class="video-card" href="https://www.youtube.com/watch?v=rinDm8lLPjo" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="https://i.ytimg.com/vi/rinDm8lLPjo/hqdefault.jpg" alt="" loading="lazy" /></div>
+        <div class="video-meta">
+          <h3>This Movie Has No Business Being So Much Fun</h3>
+          <p class="video-views">89K views</p>
+        </div>
+      </a>
+
+      <a class="video-card" href="https://www.youtube.com/watch?v=KhM0TpAyjpo" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="https://i.ytimg.com/vi/KhM0TpAyjpo/hqdefault.jpg" alt="" loading="lazy" /></div>
+        <div class="video-meta">
+          <h3>The MOST Pretentious Movie Guy Ritchie Ever Made</h3>
+          <p class="video-views">6.8K views</p>
+        </div>
+      </a>
+
+      <a class="video-card" href="https://www.youtube.com/watch?v=F9y_Klw6IkU" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="https://i.ytimg.com/vi/F9y_Klw6IkU/hqdefault.jpg" alt="" loading="lazy" /></div>
+        <div class="video-meta">
+          <h3>You Watched In Bruges Wrong</h3>
+          <p class="video-views">20K views</p>
+        </div>
+      </a>
+
+      <a class="video-card" href="https://www.youtube.com/watch?v=22NRwF-WnI0" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="https://i.ytimg.com/vi/22NRwF-WnI0/hqdefault.jpg" alt="" loading="lazy" /></div>
+        <div class="video-meta">
+          <h3>You Laughed at Blue Will Smith. Now Explain $1,000,000,000</h3>
+          <p class="video-views">4.5K views</p>
+        </div>
+      </a>
+
+      <a class="video-card" href="https://www.youtube.com/watch?v=iAVGNJOlJ_Y" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="https://i.ytimg.com/vi/iAVGNJOlJ_Y/hqdefault.jpg" alt="" loading="lazy" /></div>
+        <div class="video-meta">
+          <h3>They Planned SIX Movies… Then Lost $150M on the First One</h3>
+          <p class="video-views">9.7K views</p>
+        </div>
+      </a>
+
+      <a class="video-card" href="https://www.youtube.com/watch?v=UZLVrXCkrT8" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="https://i.ytimg.com/vi/UZLVrXCkrT8/hqdefault.jpg" alt="" loading="lazy" /></div>
+        <div class="video-meta">
+          <h3>This $75M Spy Movie FLOPPED… Then the Internet Discovered It</h3>
+          <p class="video-views">120K views</p>
+        </div>
+      </a>
+
+      <a class="video-card" href="https://www.youtube.com/watch?v=t9xXRdrHy84" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="https://i.ytimg.com/vi/t9xXRdrHy84/hqdefault.jpg" alt="" loading="lazy" /></div>
+        <div class="video-meta">
+          <h3>This Movie Aged Surprisingly Well</h3>
+          <p class="video-views">184K views</p>
+        </div>
+      </a>
+
+    </div>
+    <!-- VIDEOS-END -->
+
+    <div class="videos-cta">
+      <a class="btn btn-primary" href="https://www.youtube.com/@OkoloKino/videos" target="_blank" rel="noopener">View all 66 videos on YouTube</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============== AUDIENCE ============== -->
+<section class="section" id="audience">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Audience</p>
+      <h2>Cinephiles, worldwide</h2>
+    </div>
+    <div class="audience-grid">
+
+      <div class="audience-block">
+        <h3>Top 5 Countries</h3>
+        <div class="audience-row"><span class="a-label">United States</span><span class="a-value">63.3%</span><span class="a-bar"><i style="width:100%"></i></span></div>
+        <div class="audience-row"><span class="a-label">United Kingdom</span><span class="a-value">15.4%</span><span class="a-bar"><i style="width:24.3%"></i></span></div>
+        <div class="audience-row"><span class="a-label">Canada</span><span class="a-value">9.7%</span><span class="a-bar"><i style="width:15.3%"></i></span></div>
+        <div class="audience-row"><span class="a-label">Australia</span><span class="a-value">6.5%</span><span class="a-bar"><i style="width:10.3%"></i></span></div>
+        <div class="audience-row"><span class="a-label">Germany</span><span class="a-value">5.1%</span><span class="a-bar"><i style="width:8.0%"></i></span></div>
+      </div>
+
+      <div class="audience-block">
+        <h3>By Age</h3>
+        <div class="audience-row"><span class="a-label">18 – 24</span><span class="a-value">9.3%</span><span class="a-bar"><i style="width:38.7%"></i></span></div>
+        <div class="audience-row"><span class="a-label">25 – 34</span><span class="a-value">21.6%</span><span class="a-bar"><i style="width:90%"></i></span></div>
+        <div class="audience-row"><span class="a-label">35 – 44</span><span class="a-value">24.0%</span><span class="a-bar"><i style="width:100%"></i></span></div>
+        <div class="audience-row"><span class="a-label">45 – 54</span><span class="a-value">21.1%</span><span class="a-bar"><i style="width:88%"></i></span></div>
+        <div class="audience-row"><span class="a-label">55+</span><span class="a-value">23.3%</span><span class="a-bar"><i style="width:97%"></i></span></div>
+      </div>
+
+      <div class="audience-block">
+        <h3>By Device</h3>
+        <div class="audience-row"><span class="a-label">Television</span><span class="a-value">52.2%</span><span class="a-bar"><i style="width:100%"></i></span></div>
+        <div class="audience-row"><span class="a-label">Mobile phone</span><span class="a-value">21.3%</span><span class="a-bar"><i style="width:40.8%"></i></span></div>
+        <div class="audience-row"><span class="a-label">Computer</span><span class="a-value">20.5%</span><span class="a-bar"><i style="width:39.3%"></i></span></div>
+        <div class="audience-row"><span class="a-label">Tablet</span><span class="a-value">5.9%</span><span class="a-bar"><i style="width:11.3%"></i></span></div>
+      </div>
+
+      <div class="audience-block">
+        <h3>Reach Beyond Subs</h3>
+        <p style="color: var(--fg-dim); margin: 0; font-size: 0.98rem; line-height: 1.6;">
+          <strong style="color: var(--fg); font-family: var(--serif); font-size: 1.6rem; display: block; margin-bottom: 8px;">92%</strong>
+          of watch time comes from <em>non-subscribers</em> — viewers who found us through YouTube's recommendation engine. Sponsorships reach far beyond our core audience.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============== SPONSORSHIP ============== -->
+<section class="section alt" id="sponsorship">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Brand Partnerships</p>
+      <h2>Sponsorship that fits the story</h2>
+      <p>We integrate sponsors into the documentary's narrative — not against it. The result: long-form attention from a high-intent audience.</p>
+    </div>
+    <div class="sponsorship-points">
+
+      <div class="sponsor-point">
+        <span class="icon">◐</span>
+        <h3>Story-driven integration</h3>
+        <p>Your brand becomes part of the documentary's arc, not a 60-second interruption between scenes. We write, voice and edit each integration as a natural beat in the story.</p>
+        <details>
+          <summary>How it works</summary>
+          <div class="more">
+            We discuss your brand's voice, values and audience. We then craft a 60–120s segment that feels like the narrator quoting a relevant fact — not a commercial. Final cuts are reviewed with you before publication. This approach is why our viewers don't skip: the integration <em>is</em> the show.
+          </div>
+        </details>
+      </div>
+
+      <div class="sponsor-point">
+        <span class="icon">◑</span>
+        <h3>Long-form watch time</h3>
+        <p>6.5 million hours watched lifetime. Our average video is 14 minutes — sponsors get viewers who chose to spend real time with the content.</p>
+        <details>
+          <summary>Why this matters</summary>
+          <div class="more">
+            Short-form ads compete with thumb-scrolls. We compete with movies. <strong>52% of our watch time happens on living-room TVs</strong> (Smart TVs, Roku, Apple TV, Fire TV) — the same setting people watch Netflix in, with the same attention level. That is rare on YouTube and almost unheard of among independent creators.
+          </div>
+        </details>
+      </div>
+
+      <div class="sponsor-point">
+        <span class="icon">◓</span>
+        <h3>Evergreen visibility</h3>
+        <p>Documentaries don't expire. Every Oscar, every new release, every anniversary brings a fresh wave of viewers back to the relevant film — and back to your sponsorship.</p>
+        <details>
+          <summary>See the DiCaprio effect</summary>
+          <div class="more">
+            Our <em>Leonardo DiCaprio</em> documentary (1.9M views) keeps spiking years after release whenever a new DiCaprio film drops or awards season comes around. The chart below tracks views over time — every peak is a free distribution event for the sponsor of that video.
+            <img src="pages/page_05.jpg" alt="DiCaprio documentary view spikes over time" loading="lazy" />
+          </div>
+        </details>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============== CONTACT ============== -->
+<section class="section contact-section" id="contact">
+  <div class="container">
+    <p class="eyebrow">Don't Be A Stranger</p>
+    <h2>Let's make something together</h2>
+    <a class="contact-email" href="mailto:collabs@okolo-kino.com">collabs@okolo-kino.com</a>
+    <p class="contact-address">Bentagache 13, 2B · Las Palmas de Gran Canaria · 35009, Spain</p>
+    <a class="download-pdf" href="Kolo%20Kino%20Media%20Kit.pdf" target="_blank" rel="noopener">
+      <img src="pdf.png" alt="" />
+      Download the full Media Kit (PDF)
+    </a>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-meta">
+      © 2026 Kolo Kino · Independent documentary studio<br/>
+      <a href="https://www.youtube.com/@OkoloKino" target="_blank" rel="noopener">@OkoloKino</a> ·
+      <a href="mailto:collabs@okolo-kino.com">collabs@okolo-kino.com</a>
+    </div>
+    <nav class="social-links" aria-label="Social media links">
+      <a href="https://www.youtube.com/@OkoloKino" target="_blank" rel="noopener" aria-label="YouTube — Kolo Kino"><img src="youtube.png" alt="" /> YouTube</a>
+      <a href="https://www.youtube.com/@kolokinoclips" target="_blank" rel="noopener" aria-label="YouTube — Kolo Kino Clips"><img src="youtube.png" alt="" /> Clips</a>
+      <a href="https://www.instagram.com/kolokino_clips" target="_blank" rel="noopener" aria-label="Instagram"><img src="instagram.png" alt="" /> Instagram</a>
+      <a href="https://www.tiktok.com/@kolo_kino" target="_blank" rel="noopener" aria-label="TikTok"><img src="tiktok.png" alt="" /> TikTok</a>
+      <a href="https://www.reddit.com/r/KoloKino/" target="_blank" rel="noopener" aria-label="Reddit"><img src="reddit.png" alt="" /> Reddit</a>
+      <a href="https://www.facebook.com/okolokinoeng" target="_blank" rel="noopener" aria-label="Facebook"><img src="facebook.png" alt="" /> Facebook</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  // Shrink the fixed top banner to half size after the user scrolls past 60px.
+  (function() {
+    var threshold = 60;
+    var ticking = false;
+    function update() {
+      document.body.classList.toggle('scrolled', window.scrollY > threshold);
+      ticking = false;
+    }
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    }, { passive: true });
+    update();
+  })();
+</script>
+
 </body>
 </html>
