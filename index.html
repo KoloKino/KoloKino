@@ -35,7 +35,7 @@
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@500;700;900&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;900&display=swap" rel="stylesheet" />
 
 <!-- Structured data -->
 <script type="application/ld+json">
@@ -91,6 +91,7 @@
     --accent-soft: #4a1212;
     --serif: 'Playfair Display', Georgia, serif;
     --sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --num: 'Bodoni Moda', 'Playfair Display', Georgia, serif;
     --radius: 12px;
     --max-w: 1200px;
   }
@@ -173,7 +174,34 @@
     cursor: pointer;
   }
   .btn-primary { background: var(--accent); color: #fff; }
-  .btn-primary:hover { background: var(--accent-hover); color: #fff; transform: translateY(-1px); }
+  .btn-primary:hover {
+    background: var(--accent-hover);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(255, 59, 59, 0.35);
+  }
+  /* Gold filled — premium partnership feel */
+  .btn-gold {
+    background: linear-gradient(135deg, #d4a14a 0%, #b8821e 100%);
+    color: #1a0e00;
+  }
+  .btn-gold:hover {
+    background: linear-gradient(135deg, #e2b25b 0%, #c89539 100%);
+    color: #1a0e00;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(200, 149, 57, 0.4);
+  }
+  /* Cream / parchment — document feel */
+  .btn-paper {
+    background: #ede5d2;
+    color: #1a0e00;
+  }
+  .btn-paper:hover {
+    background: #f5edd6;
+    color: #1a0e00;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(237, 229, 210, 0.28);
+  }
   .btn-ghost { background: transparent; color: var(--fg); border-color: var(--line); }
   .btn-ghost:hover { border-color: var(--fg); color: var(--fg); }
 
@@ -319,7 +347,8 @@
   .hero-stats strong {
     color: var(--fg);
     font-weight: 700;
-    font-family: var(--serif);
+    font-family: var(--num);
+    font-variant-numeric: tabular-nums lining-nums;
     font-size: 1.25rem;
     letter-spacing: 0.02em;
   }
@@ -348,22 +377,21 @@
 
   /* Sections */
   .section { padding: 80px 0; position: relative; }
-  .section.alt { background: var(--bg-warm); }
-  .section.alt::before, .section.alt::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    opacity: 0.6;
+  /* Warm sections fade in and out at their edges so the change against the
+     dark/grainy background feels gradual instead of stepped. */
+  .section.alt {
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      var(--bg-warm) 120px,
+      var(--bg-warm) calc(100% - 120px),
+      transparent 100%
+    );
   }
-  .section.alt::before { top: 0; }
-  .section.alt::after { bottom: 0; }
   .section-head { max-width: 760px; margin: 0 auto 48px; text-align: center; }
   .section-head h2 { font-size: clamp(1.9rem, 3.6vw, 2.8rem); }
-  .section-head p { font-size: 1.1rem; margin-bottom: 0; color: var(--fg-dim); }
+  /* Target only the description paragraph, not the eyebrow (also a <p>) */
+  .section-head p:not(.eyebrow) { font-size: 1.1rem; margin-bottom: 0; color: var(--fg-dim); }
 
   /* Team */
   .team-grid {
@@ -528,7 +556,8 @@
     opacity: 0.6;
   }
   .number-value {
-    font-family: var(--serif);
+    font-family: var(--num);
+    font-variant-numeric: tabular-nums lining-nums;
     font-size: clamp(2.6rem, 4.4vw, 3.8rem);
     font-weight: 800;
     color: var(--fg);
@@ -713,11 +742,11 @@
     font-size: 1rem;
   }
   .premiere .pct {
-    font-family: var(--serif);
+    font-family: var(--num);
+    font-variant-numeric: tabular-nums lining-nums;
     font-size: 1.25rem;
     color: var(--fg);
     font-weight: 700;
-    font-variant-numeric: tabular-nums;
   }
 
   /* 2. Age — 35mm filmstrip with realistic perforations and frame numbers */
@@ -801,11 +830,11 @@
   }
   .filmstrip .frame.featured .bracket { color: var(--fg-dim); }
   .filmstrip .frame .pct {
-    font-family: var(--serif);
+    font-family: var(--num);
+    font-variant-numeric: tabular-nums lining-nums;
     font-size: 1.25rem;
     font-weight: 700;
     color: var(--fg);
-    font-variant-numeric: tabular-nums;
     line-height: 1;
     position: relative;
     z-index: 1;
@@ -843,13 +872,13 @@
     filter: drop-shadow(0 0 14px rgba(255,59,59,0.45));
   }
   .device .pct {
-    font-family: var(--serif);
+    font-family: var(--num);
+    font-variant-numeric: tabular-nums lining-nums;
     font-size: 1.15rem;
     font-weight: 700;
     color: var(--fg);
     line-height: 1;
     margin-bottom: 2px;
-    font-variant-numeric: tabular-nums;
   }
   .device .label {
     font-size: 0.78rem;
@@ -915,7 +944,8 @@
     text-align: center;
   }
   .aperture-center .big {
-    font-family: var(--serif);
+    font-family: var(--num);
+    font-variant-numeric: tabular-nums lining-nums;
     font-size: 3.2rem;
     font-weight: 800;
     color: var(--fg);
@@ -1280,8 +1310,8 @@
     </div>
     <div class="hero-cta">
       <a class="btn btn-primary" href="https://www.youtube.com/@OkoloKino" target="_blank" rel="noopener">▶ Watch on YouTube</a>
-      <a class="btn btn-ghost" href="#contact">Sponsor with us</a>
-      <a class="btn btn-ghost" href="Kolo%20Kino%20Media%20Kit.pdf" target="_blank" rel="noopener">↓ Download Media Kit</a>
+      <a class="btn btn-gold" href="#contact">★ Sponsor with us</a>
+      <a class="btn btn-paper" href="Kolo%20Kino%20Media%20Kit.pdf" target="_blank" rel="noopener">↓ Download Media Kit</a>
     </div>
   </div>
 </header>
