@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <title>Kolo Kino · Cinema Documentaries · 132K subscribers on YouTube</title>
-<meta name="description" content="Kolo Kino is an independent documentary channel exploring the stories behind cinema — from Tarantino and Scorsese to Cameron and DiCaprio. 132K+ subscribers, 18M+ views, made by and for true lovers of the seventh art." />
+<meta name="description" content="Kolo Kino is an independent documentary channel exploring the stories behind cinema, from Tarantino and Scorsese to Cameron and DiCaprio. 132K+ subscribers, 23M+ views, made by and for true lovers of the seventh art." />
 <meta name="keywords" content="Kolo Kino, cinema documentaries, filmmaking, Tarantino, Christopher Nolan, Martin Scorsese, James Cameron, Leonardo DiCaprio, Guy Ritchie, YouTube documentary channel" />
 <meta name="author" content="Kolo Kino" />
 <meta name="theme-color" content="#0b0b0b" />
@@ -15,7 +15,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Kolo Kino" />
 <meta property="og:title" content="Kolo Kino · Cinema Documentaries" />
-<meta property="og:description" content="Independent documentaries exploring the stories behind cinema. 132K subscribers · 18M+ views · since 2016." />
+<meta property="og:description" content="Independent documentaries exploring the stories behind cinema. 132K subscribers · 23M+ views · since 2016." />
 <meta property="og:url" content="https://kolo-kino.com/" />
 <meta property="og:image" content="https://kolo-kino.com/banner.jpg" />
 <meta property="og:image:width" content="1500" />
@@ -259,6 +259,36 @@
     font-size: 1.25rem;
     letter-spacing: 0.02em;
   }
+  .hero-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 26px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-nav a {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--fg-dim);
+    transition: all 0.18s ease;
+    background: rgba(255,255,255,0.02);
+  }
+  .hero-nav a:hover {
+    color: var(--fg);
+    border-color: var(--accent);
+    background: rgba(255,59,59,0.08);
+    transform: translateY(-1px);
+  }
   .scroll-cue {
     position: absolute;
     bottom: 28px;
@@ -397,6 +427,17 @@
     margin-top: 12px;
     animation: fadeSlide 0.25s ease-out;
   }
+  .bio-text {
+    margin: 14px 0 0;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    font-size: 0.92rem;
+    color: var(--fg-dim);
+    line-height: 1.65;
+    text-align: left;
+    animation: fadeSlide 0.25s ease-out;
+  }
+  .bio-text strong { color: var(--fg); }
   @keyframes fadeSlide {
     from { opacity: 0; transform: translateY(-6px); }
     to { opacity: 1; transform: translateY(0); }
@@ -573,13 +614,15 @@
   .audience-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 32px;
+    gap: 28px;
   }
   .audience-block {
     background: var(--bg-elev);
     border: 1px solid var(--line);
     border-radius: var(--radius);
-    padding: 32px;
+    padding: 30px 28px;
+    position: relative;
+    overflow: hidden;
   }
   .audience-block h3 {
     font-family: var(--sans);
@@ -588,40 +631,328 @@
     letter-spacing: 0.13em;
     color: var(--accent);
     font-weight: 700;
-    margin-bottom: 22px;
+    margin: 0 0 22px;
   }
-  .audience-row {
+  .audience-block .caption {
+    margin: 18px 0 0;
+    font-size: 0.92rem;
+    color: var(--fg-mute);
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  /* 1. Geography — premiere list with real flag images */
+  .premiere-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .premiere {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 56px 1fr auto;
     align-items: center;
-    padding: 12px 0 10px;
-    border-bottom: 1px solid var(--line);
-    font-size: 1rem;
-    column-gap: 14px;
-    position: relative;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px dashed rgba(255,255,255,0.06);
   }
-  .audience-row:last-child { border-bottom: none; }
-  .audience-row .a-label { color: var(--fg-dim); }
-  .audience-row .a-value { color: var(--fg); font-weight: 700; font-variant-numeric: tabular-nums; font-family: var(--serif); font-size: 1.1rem; }
-  .audience-row .a-bar {
-    grid-column: 1 / -1;
-    height: 3px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 2px;
-    overflow: hidden;
-    margin-top: 6px;
-  }
-  .audience-row .a-bar > i {
+  .premiere:last-child { border-bottom: none; }
+  .premiere .flag {
+    width: 56px;
+    height: 36px;
+    object-fit: cover;
     display: block;
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent), #ff8a8a);
-    border-radius: 2px;
-    transform-origin: left;
-    animation: bar-grow 1.4s ease-out forwards;
+    border-radius: 3px;
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
   }
-  @keyframes bar-grow {
-    from { transform: scaleX(0); }
-    to { transform: scaleX(1); }
+  .premiere .flag.globe {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.04);
+    color: var(--fg-mute);
+    object-fit: initial;
+  }
+  .premiere .flag.globe svg { width: 22px; height: 22px; }
+  .premiere .country {
+    color: var(--fg-dim);
+    font-size: 1rem;
+  }
+  .premiere .pct {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    color: var(--fg);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* 2. Age — 35mm filmstrip with realistic perforations and frame numbers */
+  .filmstrip {
+    display: block;
+    margin: 6px 0 0;
+    background: #0a0606;
+    border-radius: 2px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+    overflow: hidden;
+  }
+  .filmstrip .sprockets {
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
+    gap: 4px;
+    height: 14px;
+    align-items: center;
+    padding: 4px 6px;
+    background: #050202;
+  }
+  .filmstrip .sprockets > i {
+    display: block;
+    height: 7px;
+    background: rgba(245,245,235,0.92);
+    border-radius: 1px;
+    box-shadow: inset 0 0 2px rgba(0,0,0,0.4);
+  }
+  .filmstrip .frames {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 3px;
+    padding: 3px 6px;
+    background: #050202;
+  }
+  .filmstrip .frame {
+    aspect-ratio: 4 / 3;
+    background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005));
+    border: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6px 4px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.25s ease;
+  }
+  .filmstrip .frame::before {
+    content: attr(data-num);
+    position: absolute;
+    top: 4px;
+    left: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.32);
+    letter-spacing: 0.05em;
+  }
+  .filmstrip .frame::after {
+    /* vignette */
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.45) 100%);
+    pointer-events: none;
+  }
+  .filmstrip .frame.featured {
+    background:
+      radial-gradient(ellipse at center, rgba(255,59,59,0.32) 0%, rgba(255,59,59,0.08) 70%, transparent 100%),
+      linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.4));
+    border-color: rgba(255,59,59,0.55);
+  }
+  .filmstrip .frame.featured::before { color: rgba(255,59,59,0.7); }
+  .filmstrip .frame .bracket {
+    font-size: 0.72rem;
+    color: var(--fg-mute);
+    letter-spacing: 0.04em;
+    margin-bottom: 5px;
+    position: relative;
+    z-index: 1;
+  }
+  .filmstrip .frame.featured .bracket { color: var(--fg-dim); }
+  .filmstrip .frame .pct {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--fg);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  }
+
+  /* 3. Device — icons sized by share */
+  .devices {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    align-items: end;
+    min-height: 130px;
+    padding-top: 8px;
+  }
+  .device {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: center;
+    color: var(--fg-mute);
+    transition: color 0.2s ease;
+  }
+  .device svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 8px;
+    color: rgba(255,255,255,0.35);
+    transition: color 0.2s ease, filter 0.3s ease;
+  }
+  .device.dominant svg {
+    color: var(--accent);
+    filter: drop-shadow(0 0 14px rgba(255,59,59,0.45));
+  }
+  .device .pct {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--fg);
+    line-height: 1;
+    margin-bottom: 2px;
+    font-variant-numeric: tabular-nums;
+  }
+  .device .label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--fg-mute);
+  }
+  .device.dominant .label { color: var(--accent); }
+  /* device icon sizes — physical proportions (TV biggest, phone smallest) */
+  .device-tv svg     { max-width: 110px; }
+  .device-pc svg     { max-width: 78px;  padding-bottom: 4px; }
+  .device-tablet svg { max-width: 56px;  padding-bottom: 6px; }
+  .device-mobile svg { max-width: 36px;  padding-bottom: 10px; }
+
+  /* 4. Reach beyond subs — aperture donut */
+  .reach-block .aperture { max-width: 170px; margin: 0 auto 18px; }
+  .reach-text {
+    text-align: left;
+    color: var(--fg-dim);
+    line-height: 1.6;
+    font-size: 0.96rem;
+  }
+  .reach-text p { margin: 0 0 10px; }
+  .reach-text p:last-child { margin-bottom: 0; }
+  .reach-text strong { color: var(--fg); font-weight: 600; }
+  .reach-text em { font-style: italic; color: var(--accent); font-weight: 500; }
+  .aperture {
+    width: 100%;
+    max-width: 220px;
+    margin: 0 auto 6px;
+    position: relative;
+    aspect-ratio: 1;
+  }
+  .aperture svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+  .aperture .ring-bg {
+    fill: none;
+    stroke: rgba(255,255,255,0.06);
+    stroke-width: 9;
+  }
+  .aperture .ring-fg {
+    fill: none;
+    stroke: url(#apertureGrad);
+    stroke-width: 9;
+    stroke-linecap: round;
+    stroke-dasharray: 282.74;
+    stroke-dashoffset: 282.74;
+    animation: ring-fill 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  @keyframes ring-fill {
+    to { stroke-dashoffset: 22.62; } /* 282.74 * (1 - 0.92) */
+  }
+  .aperture-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .aperture-center .big {
+    font-family: var(--serif);
+    font-size: 3.2rem;
+    font-weight: 800;
+    color: var(--fg);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .aperture-center .lbl {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    margin-top: 6px;
+    font-weight: 600;
+  }
+
+  /* Past partners footer (XGIMI etc.) */
+  .past-partners {
+    margin-top: 56px;
+    padding-top: 26px;
+    border-top: 1px solid var(--line-warm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px 22px;
+  }
+  .past-partners .label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--fg-mute);
+    font-weight: 600;
+  }
+  .past-partners .brand-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 22px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: rgba(255,255,255,0.03);
+    transition: all .2s ease;
+  }
+  .past-partners .brand-link:hover {
+    border-color: var(--accent);
+    background: rgba(255,59,59,0.08);
+    transform: translateY(-1px);
+  }
+  .past-partners .brand-link img {
+    display: block;
+    height: 28px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    opacity: 0.92;
+    transition: opacity .2s ease;
+  }
+  .past-partners .brand-link:hover img { opacity: 1; }
+  .past-partners .brand-link .brand-text {
+    font-family: var(--sans);
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--fg);
+    letter-spacing: 0.18em;
+    line-height: 28px;
+  }
+  .past-partners .watch-tag {
+    font-size: 0.78rem;
+    color: var(--fg-mute);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 500;
   }
 
   /* Sponsorship */
@@ -698,6 +1029,65 @@
     border-radius: 8px;
     margin: 12px 0 4px;
     border: 1px solid var(--line);
+  }
+
+  /* Zoomable image + lightbox */
+  .zoomable {
+    cursor: zoom-in;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .zoomable:hover {
+    transform: scale(1.015);
+    border-color: var(--accent) !important;
+  }
+  .zoom-hint {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.78rem;
+    color: var(--fg-mute);
+    font-style: italic;
+    letter-spacing: 0.04em;
+  }
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.94);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4vh 4vw;
+    cursor: zoom-out;
+    animation: lbFadeIn 0.2s ease-out;
+  }
+  .lightbox[hidden] { display: none; }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    box-shadow: 0 8px 60px rgba(0,0,0,0.8);
+    border-radius: 4px;
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 18px;
+    right: 24px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2.6rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 8px;
+    opacity: 0.85;
+    transition: opacity 0.15s ease;
+  }
+  .lightbox-close:hover { opacity: 1; }
+  @keyframes lbFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 
   /* Contact */
@@ -810,7 +1200,7 @@
 <header class="hero">
   <div class="hero-content">
     <p class="eyebrow">Cinema Documentaries · Since 2016</p>
-    <h1>The stories behind the screen.</h1>
+    <h1>The stories cinema deserves</h1>
     <p class="hero-tagline">An independent documentary channel exploring the lives, films and craft behind cinema's most eminent figures.</p>
     <div class="hero-stats">
       <span><strong>23.1M</strong> lifetime views</span>
@@ -821,6 +1211,15 @@
       <a class="btn btn-primary" href="https://www.youtube.com/@OkoloKino" target="_blank" rel="noopener">▶ Watch on YouTube</a>
       <a class="btn btn-ghost" href="#contact">Sponsor with us</a>
     </div>
+    <nav class="hero-nav" aria-label="Page sections">
+      <a href="#team">Team</a>
+      <a href="#numbers">Numbers</a>
+      <a href="#featured">Full Stories</a>
+      <a href="#videos">Latest</a>
+      <a href="#audience">Audience</a>
+      <a href="#sponsorship">Sponsorship</a>
+      <a href="#contact">Contact</a>
+    </nav>
   </div>
 </header>
 
@@ -835,14 +1234,18 @@
     <div class="team-grid">
 
       <article class="team-card">
-        <div class="team-photo placeholder" aria-label="Photo placeholder for Ievgen Khalimovskyi">IK</div>
+        <img src="team/ievgen.jpg" alt="Ievgen Khalimovskyi" class="team-photo" loading="lazy" />
         <h3>Ievgen Khalimovskyi</h3>
         <p class="team-role">Founder · Creative Director</p>
         <p class="team-location">Ukraine</p>
-        <p class="team-bio">Founder of Kolo Kino. Writer, director and editor on every documentary. Everything you love about this channel — the storytelling, the craft, the rhythm, the look — comes from Ievgen.</p>
+        <p class="team-bio">Founder of Kolo Kino. Writer, director and editor on every documentary. Everything you love about this channel comes from Ievgen: the storytelling, the craft, the rhythm and the look.</p>
         <div class="team-links">
           <a href="https://www.imdb.com/name/nm17402806/" target="_blank" rel="noopener">IMDb</a>
         </div>
+        <details class="contact-toggle">
+          <summary>About Ievgen</summary>
+          <p class="bio-text">Studied stage direction (left in his final year) and worked as a graphic designer and editor before starting Kolo Kino as a hobby in his Kiev kitchen in 2016. He still works from Ukraine, where he kept the channel running through the war with generators, batteries and laptops bought from channel revenue. The creative engine behind every Kolo Kino documentary: concept, narrative direction, editing and the visual signature that defines the channel.</p>
+        </details>
       </article>
 
       <article class="team-card">
@@ -850,10 +1253,14 @@
         <h3>Alexander Mandrik</h3>
         <p class="team-role">Co-founder · Director &amp; Producer</p>
         <p class="team-location">Las Palmas de Gran Canaria, Spain</p>
-        <p class="team-bio">Co-founder. Channel director and producer — runs operations, sponsor relations and overall strategy. Alex makes sure every project ships and reaches the right audience.</p>
+        <p class="team-bio">Co-founder, channel director and producer. Runs operations, sponsor relations and overall strategy, making sure every project ships and reaches the right audience.</p>
         <div class="team-links">
           <a href="https://www.imdb.com/name/nm17402807/" target="_blank" rel="noopener">IMDb</a>
         </div>
+        <details class="contact-toggle">
+          <summary>About Alex</summary>
+          <p class="bio-text">A psychologist by training, Alex spent a decade in international business and industry, first as a branch director in China and later leading technical policy in Europe. He brings that operational background to Kolo Kino, where he handles strategy, sponsor relations and day-to-day operations from Las Palmas. His creativity lives in spreadsheets and negotiations.</p>
+        </details>
       </article>
 
       <article class="team-card">
@@ -863,7 +1270,6 @@
         <p class="team-location">Miami, FL · SAG-AFTRA</p>
         <p class="team-bio">The voice of Kolo Kino since 2020. Actor, producer and narrator with credits in <em>Griffin in Summer</em>, <em>The NFL Today</em> and over 30 podcast and documentary narrations.</p>
         <div class="team-links">
-          <a href="https://www.feralhogcontent.com" target="_blank" rel="noopener">feralhogcontent.com</a>
           <a href="https://www.imdb.com/name/nm3524200/" target="_blank" rel="noopener">IMDb</a>
         </div>
         <details class="contact-toggle">
@@ -1084,38 +1490,117 @@
     </div>
     <div class="audience-grid">
 
+      <!-- 1. GEOGRAPHY — top markets, raw % from YouTube Studio + Rest of world -->
       <div class="audience-block">
-        <h3>Top 5 Countries</h3>
-        <div class="audience-row"><span class="a-label">United States</span><span class="a-value">63.3%</span><span class="a-bar"><i style="width:100%"></i></span></div>
-        <div class="audience-row"><span class="a-label">United Kingdom</span><span class="a-value">15.4%</span><span class="a-bar"><i style="width:24.3%"></i></span></div>
-        <div class="audience-row"><span class="a-label">Canada</span><span class="a-value">9.7%</span><span class="a-bar"><i style="width:15.3%"></i></span></div>
-        <div class="audience-row"><span class="a-label">Australia</span><span class="a-value">6.5%</span><span class="a-bar"><i style="width:10.3%"></i></span></div>
-        <div class="audience-row"><span class="a-label">Germany</span><span class="a-value">5.1%</span><span class="a-bar"><i style="width:8.0%"></i></span></div>
+        <h3>Top Markets</h3>
+        <ol class="premiere-list">
+          <li class="premiere"><img class="flag" src="https://flagcdn.com/w160/us.png" alt="United States flag" loading="lazy" /><span class="country">United States</span><span class="pct">40.6%</span></li>
+          <li class="premiere"><img class="flag" src="https://flagcdn.com/w160/gb.png" alt="United Kingdom flag" loading="lazy" /><span class="country">United Kingdom</span><span class="pct">9.9%</span></li>
+          <li class="premiere"><img class="flag" src="https://flagcdn.com/w160/ca.png" alt="Canada flag" loading="lazy" /><span class="country">Canada</span><span class="pct">6.2%</span></li>
+          <li class="premiere"><img class="flag" src="https://flagcdn.com/w160/au.png" alt="Australia flag" loading="lazy" /><span class="country">Australia</span><span class="pct">4.2%</span></li>
+          <li class="premiere"><img class="flag" src="https://flagcdn.com/w160/de.png" alt="Germany flag" loading="lazy" /><span class="country">Germany</span><span class="pct">3.3%</span></li>
+          <li class="premiere">
+            <span class="flag globe" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"/>
+                <ellipse cx="12" cy="12" rx="9" ry="3.5"/>
+                <line x1="12" y1="3" x2="12" y2="21"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+              </svg>
+            </span>
+            <span class="country">Rest of world</span><span class="pct">35.8%</span>
+          </li>
+        </ol>
+        <p class="caption">Sums to 100% of lifetime views. Top 5 markets are all Tier-1 high-CPM regions.</p>
       </div>
 
+      <!-- 2. AGE — 35mm filmstrip, each bracket is a frame -->
       <div class="audience-block">
         <h3>By Age</h3>
-        <div class="audience-row"><span class="a-label">18 – 24</span><span class="a-value">9.3%</span><span class="a-bar"><i style="width:38.7%"></i></span></div>
-        <div class="audience-row"><span class="a-label">25 – 34</span><span class="a-value">21.6%</span><span class="a-bar"><i style="width:90%"></i></span></div>
-        <div class="audience-row"><span class="a-label">35 – 44</span><span class="a-value">24.0%</span><span class="a-bar"><i style="width:100%"></i></span></div>
-        <div class="audience-row"><span class="a-label">45 – 54</span><span class="a-value">21.1%</span><span class="a-bar"><i style="width:88%"></i></span></div>
-        <div class="audience-row"><span class="a-label">55+</span><span class="a-value">23.3%</span><span class="a-bar"><i style="width:97%"></i></span></div>
+        <div class="filmstrip" role="img" aria-label="Age distribution: 18 to 24 9.3 percent, 25 to 34 21.6 percent, 35 to 44 24 percent, 45 to 54 21.1 percent, 55 plus 23.3 percent">
+          <div class="sprockets" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="frames">
+            <div class="frame" data-num="01"><span class="bracket">18-24</span><span class="pct">9.3%</span></div>
+            <div class="frame featured" data-num="02"><span class="bracket">25-34</span><span class="pct">21.6%</span></div>
+            <div class="frame featured" data-num="03"><span class="bracket">35-44</span><span class="pct">24.0%</span></div>
+            <div class="frame featured" data-num="04"><span class="bracket">45-54</span><span class="pct">21.1%</span></div>
+            <div class="frame featured" data-num="05"><span class="bracket">55+</span><span class="pct">23.3%</span></div>
+          </div>
+          <div class="sprockets" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="caption">67% in the 25-54 prime advertising bracket.</p>
       </div>
 
+      <!-- 3. DEVICE — icons scaled by share -->
       <div class="audience-block">
         <h3>By Device</h3>
-        <div class="audience-row"><span class="a-label">Television</span><span class="a-value">52.2%</span><span class="a-bar"><i style="width:100%"></i></span></div>
-        <div class="audience-row"><span class="a-label">Mobile phone</span><span class="a-value">21.3%</span><span class="a-bar"><i style="width:40.8%"></i></span></div>
-        <div class="audience-row"><span class="a-label">Computer</span><span class="a-value">20.5%</span><span class="a-bar"><i style="width:39.3%"></i></span></div>
-        <div class="audience-row"><span class="a-label">Tablet</span><span class="a-value">5.9%</span><span class="a-bar"><i style="width:11.3%"></i></span></div>
+        <div class="devices" role="img" aria-label="Device share: Television 52.2 percent, Mobile 21.3 percent, Computer 20.5 percent, Tablet 5.9 percent">
+
+          <div class="device device-tv dominant" title="52.2% Television">
+            <svg viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+              <rect x="6" y="8" width="88" height="56" rx="4"/>
+              <line x1="36" y1="72" x2="64" y2="72"/>
+              <line x1="50" y1="64" x2="50" y2="72"/>
+            </svg>
+            <div class="pct">52%</div>
+            <div class="label">TV</div>
+          </div>
+
+          <div class="device device-mobile" title="21.3% Mobile">
+            <svg viewBox="0 0 40 70" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" aria-hidden="true">
+              <rect x="4" y="4" width="32" height="62" rx="5"/>
+              <line x1="16" y1="58" x2="24" y2="58"/>
+            </svg>
+            <div class="pct">21%</div>
+            <div class="label">Mobile</div>
+          </div>
+
+          <div class="device device-pc" title="20.5% Computer">
+            <svg viewBox="0 0 80 70" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+              <rect x="6" y="6" width="68" height="46" rx="3"/>
+              <line x1="28" y1="62" x2="52" y2="62"/>
+              <line x1="40" y1="52" x2="40" y2="62"/>
+            </svg>
+            <div class="pct">20%</div>
+            <div class="label">Computer</div>
+          </div>
+
+          <div class="device device-tablet" title="5.9% Tablet">
+            <svg viewBox="0 0 40 56" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="3" width="34" height="50" rx="3"/>
+              <circle cx="20" cy="48" r="1.2" fill="currentColor"/>
+            </svg>
+            <div class="pct">6%</div>
+            <div class="label">Tablet</div>
+          </div>
+
+        </div>
+        <p class="caption">More than half the watch time happens on living-room TVs.</p>
       </div>
 
-      <div class="audience-block">
+      <!-- 4. REACH BEYOND SUBS — aperture donut + story -->
+      <div class="audience-block reach-block">
         <h3>Reach Beyond Subs</h3>
-        <p style="color: var(--fg-dim); margin: 0; font-size: 0.98rem; line-height: 1.6;">
-          <strong style="color: var(--fg); font-family: var(--serif); font-size: 1.6rem; display: block; margin-bottom: 8px;">92%</strong>
-          of watch time comes from <em>non-subscribers</em> — viewers who found us through YouTube's recommendation engine. Sponsorships reach far beyond our core audience.
-        </p>
+        <div class="aperture" role="img" aria-label="92 percent of watch time from non-subscribers">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <defs>
+              <linearGradient id="apertureGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#ff3b3b"/>
+                <stop offset="100%" stop-color="#ff8a8a"/>
+              </linearGradient>
+            </defs>
+            <circle class="ring-bg" cx="50" cy="50" r="45"/>
+            <circle class="ring-fg" cx="50" cy="50" r="45"/>
+          </svg>
+          <div class="aperture-center">
+            <span class="big">92%</span>
+            <span class="lbl">non-subs</span>
+          </div>
+        </div>
+        <div class="reach-text">
+          <p>Most channels grow on the back of their subscribers. Kolo Kino has a different story: <strong>nine in ten viewers have never subscribed</strong>. YouTube's algorithm serves them our documentaries, and they stay.</p>
+          <p>For a sponsor, that means every campaign lands in front of a <em>constantly refreshing</em> audience, far beyond our 132K core. Each new video opens the doors of the cinema again.</p>
+        </div>
       </div>
 
     </div>
@@ -1128,7 +1613,7 @@
     <div class="section-head">
       <p class="eyebrow">Brand Partnerships</p>
       <h2>Sponsorship that fits the story</h2>
-      <p>We integrate sponsors into the documentary's narrative — not against it. The result: long-form attention from a high-intent audience.</p>
+      <p>We integrate sponsors into the documentary's narrative, not against it. The result: long-form attention from a high-intent audience.</p>
     </div>
     <div class="sponsorship-points">
 
@@ -1139,7 +1624,7 @@
         <details>
           <summary>How it works</summary>
           <div class="more">
-            We discuss your brand's voice, values and audience. We then craft a 60–120s segment that feels like the narrator quoting a relevant fact — not a commercial. Final cuts are reviewed with you before publication. This approach is why our viewers don't skip: the integration <em>is</em> the show.
+            We discuss your brand's voice, values and audience. We then craft a 60 to 120-second segment that feels like the narrator quoting a relevant fact, not a commercial. Final cuts are reviewed with you before publication. This approach is why our viewers don't skip: the integration <em>is</em> the show.
           </div>
         </details>
       </div>
@@ -1147,11 +1632,11 @@
       <div class="sponsor-point">
         <span class="icon">◑</span>
         <h3>Long-form watch time</h3>
-        <p>6.5 million hours watched lifetime. Our average video is 14 minutes — sponsors get viewers who chose to spend real time with the content.</p>
+        <p>6.5 million hours watched lifetime. Our average video is 14 minutes long, so sponsors get viewers who chose to spend real time with the content.</p>
         <details>
           <summary>Why this matters</summary>
           <div class="more">
-            Short-form ads compete with thumb-scrolls. We compete with movies. <strong>52% of our watch time happens on living-room TVs</strong> (Smart TVs, Roku, Apple TV, Fire TV) — the same setting people watch Netflix in, with the same attention level. That is rare on YouTube and almost unheard of among independent creators.
+            Short-form ads compete with thumb-scrolls. We compete with movies. <strong>52% of our watch time happens on living-room TVs</strong> (Smart TVs, Roku, Apple TV, Fire TV), the same setting people watch Netflix in, with the same attention level. That is rare on YouTube and almost unheard of among independent creators.
           </div>
         </details>
       </div>
@@ -1159,17 +1644,28 @@
       <div class="sponsor-point">
         <span class="icon">◓</span>
         <h3>Evergreen visibility</h3>
-        <p>Documentaries don't expire. Every Oscar, every new release, every anniversary brings a fresh wave of viewers back to the relevant film — and back to your sponsorship.</p>
+        <p>Documentaries don't expire. Every Oscar, every new release, every anniversary brings a fresh wave of viewers back to the relevant film, and back to your sponsorship.</p>
         <details>
           <summary>See the DiCaprio effect</summary>
           <div class="more">
-            Our <em>Leonardo DiCaprio</em> documentary (1.9M views) keeps spiking years after release whenever a new DiCaprio film drops or awards season comes around. The chart below tracks views over time — every peak is a free distribution event for the sponsor of that video.
-            <img src="pages/page_05.jpg" alt="DiCaprio documentary view spikes over time" loading="lazy" />
+            Our <em>Leonardo DiCaprio</em> documentary (1.9M views) keeps spiking years after release whenever a new DiCaprio film drops or awards season comes around. The chart below tracks views over time, and every peak is a free distribution event for the sponsor of that video.
+            <img src="pages/page_05.jpg" alt="DiCaprio documentary view spikes over time" loading="lazy" class="zoomable" />
+            <span class="zoom-hint">Click the chart to enlarge</span>
           </div>
         </details>
       </div>
 
     </div>
+
+    <!-- Past partners — social proof closing -->
+    <div class="past-partners">
+      <span class="label">Past partner</span>
+      <a class="brand-link" href="https://youtu.be/XZ1h5FB1hx4?t=113" target="_blank" rel="noopener" title="Watch the XGIMI integration on Kolo Kino">
+        <img src="xgimi.png" alt="XGIMI" />
+      </a>
+      <span class="watch-tag">Watch the integration ↗</span>
+    </div>
+
   </div>
 </section>
 
@@ -1196,8 +1692,8 @@
       <a href="mailto:collabs@okolo-kino.com">collabs@okolo-kino.com</a>
     </div>
     <nav class="social-links" aria-label="Social media links">
-      <a href="https://www.youtube.com/@OkoloKino" target="_blank" rel="noopener" aria-label="YouTube — Kolo Kino"><img src="youtube.png" alt="" /> YouTube</a>
-      <a href="https://www.youtube.com/@kolokinoclips" target="_blank" rel="noopener" aria-label="YouTube — Kolo Kino Clips"><img src="youtube.png" alt="" /> Clips</a>
+      <a href="https://www.youtube.com/@OkoloKino" target="_blank" rel="noopener" aria-label="YouTube Kolo Kino"><img src="youtube.png" alt="" /> YouTube</a>
+      <a href="https://www.youtube.com/@kolokinoclips" target="_blank" rel="noopener" aria-label="YouTube Kolo Kino Clips"><img src="youtube.png" alt="" /> Clips</a>
       <a href="https://www.instagram.com/kolokino_clips" target="_blank" rel="noopener" aria-label="Instagram"><img src="instagram.png" alt="" /> Instagram</a>
       <a href="https://www.tiktok.com/@kolo_kino" target="_blank" rel="noopener" aria-label="TikTok"><img src="tiktok.png" alt="" /> TikTok</a>
       <a href="https://www.reddit.com/r/KoloKino/" target="_blank" rel="noopener" aria-label="Reddit"><img src="reddit.png" alt="" /> Reddit</a>
@@ -1205,6 +1701,12 @@
     </nav>
   </div>
 </footer>
+
+<!-- Lightbox container (hidden by default; injected once for any zoomable image) -->
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Enlarged image">
+  <button class="lightbox-close" type="button" aria-label="Close enlarged image">×</button>
+  <img alt="" />
+</div>
 
 <script>
   // Shrink the fixed top banner to half size after the user scrolls past 60px.
@@ -1222,6 +1724,33 @@
       }
     }, { passive: true });
     update();
+  })();
+
+  // Lightbox: click any .zoomable image to enlarge; click backdrop or press ESC to close.
+  (function() {
+    var lb = document.getElementById('lightbox');
+    if (!lb) return;
+    var lbImg = lb.querySelector('img');
+
+    function open(src, alt) {
+      lbImg.src = src;
+      lbImg.alt = alt || '';
+      lb.hidden = false;
+      document.body.style.overflow = 'hidden';
+    }
+    function close() {
+      lb.hidden = true;
+      lbImg.src = '';
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('img.zoomable').forEach(function(img) {
+      img.addEventListener('click', function() { open(img.src, img.alt); });
+    });
+    lb.addEventListener('click', close);
+    document.addEventListener('keydown', function(e) {
+      if (!lb.hidden && (e.key === 'Escape' || e.key === 'Esc')) close();
+    });
   })();
 </script>
 
