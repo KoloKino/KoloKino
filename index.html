@@ -105,6 +105,21 @@
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    isolation: isolate; /* keeps body::before z-index: -1 contained inside body */
+  }
+  /* Film-grain texture in the background. The PNG is alpha-only black, so we
+     invert it to white and dim it to mid-gray, otherwise it disappears on dark. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("SG Grainy Speckle Textures/7.png");
+    background-size: 700px 700px;
+    background-repeat: repeat;
+    pointer-events: none;
+    z-index: -1;
+    filter: invert(1) brightness(0.4);
+    opacity: 0.7;
   }
   img { max-width: 100%; height: auto; display: block; }
   a { color: inherit; text-decoration: none; }
@@ -118,7 +133,10 @@
   h3 { font-size: clamp(1.1rem, 1.8vw, 1.35rem); }
   p { margin: 0 0 1em; color: var(--fg-dim); }
   .eyebrow {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
     font-family: var(--sans);
     font-size: 1.1rem;
     letter-spacing: 0.22em;
@@ -126,21 +144,20 @@
     color: var(--accent);
     margin-bottom: 1.1rem;
     font-weight: 700;
-    position: relative;
+    max-width: 100%;
+    text-wrap: balance;
+    line-height: 1.35;
   }
   .eyebrow::before,
   .eyebrow::after {
     content: '';
-    display: inline-block;
+    flex-shrink: 0;
+    display: block;
     width: 32px;
     height: 1px;
     background: var(--accent);
-    vertical-align: middle;
-    margin: 0 14px 4px;
     opacity: 0.55;
   }
-  .section-head .eyebrow::before,
-  .section-head .eyebrow::after { display: inline-block; }
 
   /* Buttons */
   .btn {
@@ -187,11 +204,53 @@
     will-change: transform;
   }
   body.scrolled .top-banner { transform: scale(0.5); }
+
+  /* Sticky site nav — sits below the banner, always visible */
+  .site-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 11.28vw;
+    z-index: 999;
+    background: rgba(10, 7, 7, 0.92);
+    backdrop-filter: saturate(140%) blur(14px);
+    -webkit-backdrop-filter: saturate(140%) blur(14px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.4);
+    padding: 12px 16px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    transition: top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  body.scrolled .site-nav { top: 5.64vw; }
+  .site-nav a {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 999px;
+    color: var(--fg);
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    transition: all 0.18s ease;
+    white-space: nowrap;
+  }
+  .site-nav a:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    transform: translateY(-1px);
+  }
+
   body {
-    padding-top: 11.28vw;
+    padding-top: calc(11.28vw + 56px); /* banner + nav */
     transition: padding-top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  body.scrolled { padding-top: 5.64vw; }
+  body.scrolled { padding-top: calc(5.64vw + 56px); }
 
   /* Hero */
   .hero {
@@ -236,13 +295,18 @@
     letter-spacing: -0.02em;
     text-shadow: 0 2px 30px rgba(0,0,0,0.6);
   }
-  .hero-tagline {
-    font-size: clamp(1.1rem, 1.7vw, 1.35rem);
-    color: var(--fg-dim);
+  .hero-intro {
+    margin: 26px auto 30px;
     max-width: 720px;
-    margin: 0 auto 8px;
-    line-height: 1.5;
+    text-align: center;
   }
+  .hero-intro p {
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    color: var(--fg-dim);
+    line-height: 1.65;
+    margin: 0 0 14px;
+  }
+  .hero-intro p:last-child { margin-bottom: 0; }
   .hero-stats {
     display: flex;
     flex-wrap: wrap;
@@ -258,36 +322,6 @@
     font-family: var(--serif);
     font-size: 1.25rem;
     letter-spacing: 0.02em;
-  }
-  .hero-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-    margin-top: 26px;
-    padding-top: 24px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    max-width: 760px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .hero-nav a {
-    display: inline-flex;
-    align-items: center;
-    padding: 8px 16px;
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 999px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--fg-dim);
-    transition: all 0.18s ease;
-    background: rgba(255,255,255,0.02);
-  }
-  .hero-nav a:hover {
-    color: var(--fg);
-    border-color: var(--accent);
-    background: rgba(255,59,59,0.08);
-    transform: translateY(-1px);
   }
   .scroll-cue {
     position: absolute;
@@ -1181,6 +1215,29 @@
     .hero-banner { margin-bottom: 24px; }
     .container { padding: 0 18px; }
     .section { padding: 44px 0; }
+    .eyebrow {
+      font-size: 0.82rem;
+      letter-spacing: 0.15em;
+      gap: 10px;
+    }
+    .eyebrow::before, .eyebrow::after { display: none; }
+    .site-nav {
+      padding: 8px 12px;
+      gap: 6px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      justify-content: flex-start;
+      scrollbar-width: none;
+    }
+    .site-nav::-webkit-scrollbar { display: none; }
+    .site-nav a {
+      flex-shrink: 0;
+      padding: 6px 13px;
+      font-size: 0.82rem;
+    }
+    body { padding-top: calc(11.28vw + 48px); }
+    body.scrolled { padding-top: calc(5.64vw + 48px); }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -1196,12 +1253,26 @@
   <img src="banner.jpg" alt="Kolo Kino" class="top-banner" />
 </div>
 
+<!-- Sticky navigation — sits below the banner and stays put on scroll -->
+<nav class="site-nav" aria-label="Page sections">
+  <a href="#featured">Full Stories</a>
+  <a href="#videos">Latest</a>
+  <a href="#numbers">Numbers</a>
+  <a href="#audience">Audience</a>
+  <a href="#team">Team</a>
+  <a href="#sponsorship">Sponsorship</a>
+  <a href="#contact">Contact</a>
+</nav>
+
 <!-- ============== HERO ============== -->
 <header class="hero">
   <div class="hero-content">
     <p class="eyebrow">Cinema Documentaries · Since 2016</p>
     <h1>The stories cinema deserves</h1>
-    <p class="hero-tagline">An independent documentary channel exploring the lives, films and craft behind cinema's most eminent figures.</p>
+    <div class="hero-intro">
+      <p>Kolo Kino is an independent documentary studio dedicated to the stories behind cinema. We make long-form films about its directors, its craft, and the moments that shaped the films you grew up with.</p>
+      <p>Months of research per project, broadcast-grade audio and visuals, and a small team of cinephiles obsessed with telling these stories the way they deserve. Built for the way cinema is best enjoyed: on a big screen, leaning back, with the lights down.</p>
+    </div>
     <div class="hero-stats">
       <span><strong>23.1M</strong> lifetime views</span>
       <span><strong>6.5M</strong> hours watched</span>
@@ -1210,110 +1281,10 @@
     <div class="hero-cta">
       <a class="btn btn-primary" href="https://www.youtube.com/@OkoloKino" target="_blank" rel="noopener">▶ Watch on YouTube</a>
       <a class="btn btn-ghost" href="#contact">Sponsor with us</a>
+      <a class="btn btn-ghost" href="Kolo%20Kino%20Media%20Kit.pdf" target="_blank" rel="noopener">↓ Download Media Kit</a>
     </div>
-    <nav class="hero-nav" aria-label="Page sections">
-      <a href="#team">Team</a>
-      <a href="#numbers">Numbers</a>
-      <a href="#featured">Full Stories</a>
-      <a href="#videos">Latest</a>
-      <a href="#audience">Audience</a>
-      <a href="#sponsorship">Sponsorship</a>
-      <a href="#contact">Contact</a>
-    </nav>
   </div>
 </header>
-
-<!-- ============== TEAM ============== -->
-<section class="section" id="team">
-  <div class="container">
-    <div class="section-head">
-      <p class="eyebrow">The Team</p>
-      <h2>The people behind every frame</h2>
-      <p>A small, international team of cinephiles obsessed with telling cinema's stories the way they deserve.</p>
-    </div>
-    <div class="team-grid">
-
-      <article class="team-card">
-        <img src="team/ievgen.jpg" alt="Ievgen Khalimovskyi" class="team-photo" loading="lazy" />
-        <h3>Ievgen Khalimovskyi</h3>
-        <p class="team-role">Founder · Creative Director</p>
-        <p class="team-location">Ukraine</p>
-        <p class="team-bio">Founder of Kolo Kino. Writer, director and editor on every documentary. Everything you love about this channel comes from Ievgen: the storytelling, the craft, the rhythm and the look.</p>
-        <div class="team-links">
-          <a href="https://www.imdb.com/name/nm17402806/" target="_blank" rel="noopener">IMDb</a>
-        </div>
-        <details class="contact-toggle">
-          <summary>About Ievgen</summary>
-          <p class="bio-text">Studied stage direction (left in his final year) and worked as a graphic designer and editor before starting Kolo Kino as a hobby in his Kiev kitchen in 2016. He still works from Ukraine, where he kept the channel running through the war with generators, batteries and laptops bought from channel revenue. The creative engine behind every Kolo Kino documentary: concept, narrative direction, editing and the visual signature that defines the channel.</p>
-        </details>
-      </article>
-
-      <article class="team-card">
-        <img src="team/alex.jpg" alt="Alexander Mandrik" class="team-photo" loading="lazy" />
-        <h3>Alexander Mandrik</h3>
-        <p class="team-role">Co-founder · Director &amp; Producer</p>
-        <p class="team-location">Las Palmas de Gran Canaria, Spain</p>
-        <p class="team-bio">Co-founder, channel director and producer. Runs operations, sponsor relations and overall strategy, making sure every project ships and reaches the right audience.</p>
-        <div class="team-links">
-          <a href="https://www.imdb.com/name/nm17402807/" target="_blank" rel="noopener">IMDb</a>
-        </div>
-        <details class="contact-toggle">
-          <summary>About Alex</summary>
-          <p class="bio-text">A psychologist by training, Alex spent a decade in international business and industry, first as a branch director in China and later leading technical policy in Europe. He brings that operational background to Kolo Kino, where he handles strategy, sponsor relations and day-to-day operations from Las Palmas. His creativity lives in spreadsheets and negotiations.</p>
-        </details>
-      </article>
-
-      <article class="team-card">
-        <img src="team/gabe.jpg" alt="Gabriel J. Perez" class="team-photo" loading="lazy" />
-        <h3>Gabriel J. Perez</h3>
-        <p class="team-role">Voice &amp; Narration</p>
-        <p class="team-location">Miami, FL · SAG-AFTRA</p>
-        <p class="team-bio">The voice of Kolo Kino since 2020. Actor, producer and narrator with credits in <em>Griffin in Summer</em>, <em>The NFL Today</em> and over 30 podcast and documentary narrations.</p>
-        <div class="team-links">
-          <a href="https://www.imdb.com/name/nm3524200/" target="_blank" rel="noopener">IMDb</a>
-        </div>
-        <details class="contact-toggle">
-          <summary>Contact Gabe</summary>
-          <div class="contact-options">
-            <a class="contact-btn" href="mailto:gabe@feralhogcontent.com"><span class="ico">✉</span> gabe@feralhogcontent.com</a>
-            <a class="contact-btn" href="tel:+13053023593"><span class="ico">☏</span> +1 305-302-3593</a>
-            <a class="contact-btn" href="https://www.feralhogcontent.com" target="_blank" rel="noopener"><span class="ico">↗</span> feralhogcontent.com</a>
-          </div>
-        </details>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-<!-- ============== NUMBERS ============== -->
-<section class="section alt" id="numbers">
-  <div class="container">
-    <div class="section-head">
-      <p class="eyebrow">By The Numbers</p>
-      <h2>An audience that watches, not just clicks</h2>
-      <p>6.5 million hours watched. Half of that on living-room TVs.</p>
-    </div>
-    <div class="numbers-grid">
-      <div class="number-card">
-        <div class="number-value">23.1M</div>
-        <div class="number-label">Lifetime Views</div>
-      </div>
-      <div class="number-card">
-        <div class="number-value">6.5M</div>
-        <div class="number-label">Hours Watched</div>
-      </div>
-      <div class="number-card">
-        <div class="number-value">132K</div>
-        <div class="number-label">Subscribers</div>
-      </div>
-      <div class="number-card">
-        <div class="number-value">52%</div>
-        <div class="number-label">Watched on TV</div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ============== FEATURED DOCUMENTARIES ============== -->
 <section class="section" id="featured">
@@ -1481,8 +1452,37 @@
   </div>
 </section>
 
+<!-- ============== NUMBERS ============== -->
+<section class="section" id="numbers">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">By The Numbers</p>
+      <h2>An audience that watches, not just clicks</h2>
+      <p>6.5 million hours watched. Half of that on living-room TVs.</p>
+    </div>
+    <div class="numbers-grid">
+      <div class="number-card">
+        <div class="number-value">23.1M</div>
+        <div class="number-label">Lifetime Views</div>
+      </div>
+      <div class="number-card">
+        <div class="number-value">6.5M</div>
+        <div class="number-label">Hours Watched</div>
+      </div>
+      <div class="number-card">
+        <div class="number-value">132K</div>
+        <div class="number-label">Subscribers</div>
+      </div>
+      <div class="number-card">
+        <div class="number-value">52%</div>
+        <div class="number-label">Watched on TV</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============== AUDIENCE ============== -->
-<section class="section" id="audience">
+<section class="section alt" id="audience">
   <div class="container">
     <div class="section-head">
       <p class="eyebrow">Audience</p>
@@ -1607,6 +1607,69 @@
   </div>
 </section>
 
+<!-- ============== TEAM ============== -->
+<section class="section" id="team">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">The Team</p>
+      <h2>The people behind every frame</h2>
+      <p>A small, international team of cinephiles obsessed with telling cinema's stories the way they deserve.</p>
+    </div>
+    <div class="team-grid">
+
+      <article class="team-card">
+        <img src="team/ievgen.jpg" alt="Ievgen Khalimovskyi" class="team-photo" loading="lazy" />
+        <h3>Ievgen Khalimovskyi</h3>
+        <p class="team-role">Founder · Creative Director</p>
+        <p class="team-location">Ukraine</p>
+        <p class="team-bio">Founder of Kolo Kino. Writer, director and editor on every documentary. Everything you love about this channel comes from Ievgen: the storytelling, the craft, the rhythm and the look.</p>
+        <div class="team-links">
+          <a href="https://www.imdb.com/name/nm17402806/" target="_blank" rel="noopener">IMDb</a>
+        </div>
+        <details class="contact-toggle">
+          <summary>About Ievgen</summary>
+          <p class="bio-text">Studied stage direction (left in his final year) and worked as a graphic designer and editor before starting Kolo Kino as a hobby in his Kiev kitchen in 2016. He still works from Ukraine, where he kept the channel running through the war with generators, batteries and laptops bought from channel revenue. The creative engine behind every Kolo Kino documentary: concept, narrative direction, editing and the visual signature that defines the channel.</p>
+        </details>
+      </article>
+
+      <article class="team-card">
+        <img src="team/alex.jpg" alt="Alexander Mandrik" class="team-photo" loading="lazy" />
+        <h3>Alexander Mandrik</h3>
+        <p class="team-role">Co-founder · Director &amp; Producer</p>
+        <p class="team-location">Las Palmas de Gran Canaria, Spain</p>
+        <p class="team-bio">Co-founder, channel director and producer. Runs operations, sponsor relations and overall strategy, making sure every project ships and reaches the right audience.</p>
+        <div class="team-links">
+          <a href="https://www.imdb.com/name/nm17402807/" target="_blank" rel="noopener">IMDb</a>
+        </div>
+        <details class="contact-toggle">
+          <summary>About Alex</summary>
+          <p class="bio-text">A psychologist by training, Alex spent a decade in international business and industry, first as a branch director in China and later leading technical policy in Europe. He brings that operational background to Kolo Kino, where he handles strategy, sponsor relations and day-to-day operations from Las Palmas. His creativity lives in spreadsheets and negotiations.</p>
+        </details>
+      </article>
+
+      <article class="team-card">
+        <img src="team/gabe.jpg" alt="Gabriel J. Perez" class="team-photo" loading="lazy" />
+        <h3>Gabriel J. Perez</h3>
+        <p class="team-role">Voice &amp; Narration</p>
+        <p class="team-location">Miami, FL · SAG-AFTRA</p>
+        <p class="team-bio">The voice of Kolo Kino since 2020. Actor, producer and narrator with credits in <em>Griffin in Summer</em>, <em>The NFL Today</em> and over 30 podcast and documentary narrations.</p>
+        <div class="team-links">
+          <a href="https://www.imdb.com/name/nm3524200/" target="_blank" rel="noopener">IMDb</a>
+        </div>
+        <details class="contact-toggle">
+          <summary>Contact Gabe</summary>
+          <div class="contact-options">
+            <a class="contact-btn" href="mailto:gabe@feralhogcontent.com"><span class="ico">✉</span> gabe@feralhogcontent.com</a>
+            <a class="contact-btn" href="tel:+13053023593"><span class="ico">☏</span> +1 305-302-3593</a>
+            <a class="contact-btn" href="https://www.feralhogcontent.com" target="_blank" rel="noopener"><span class="ico">↗</span> feralhogcontent.com</a>
+          </div>
+        </details>
+      </article>
+
+    </div>
+  </div>
+</section>
+
 <!-- ============== SPONSORSHIP ============== -->
 <section class="section alt" id="sponsorship">
   <div class="container">
@@ -1687,13 +1750,10 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-meta">
-      © 2026 Kolo Kino · Independent documentary studio<br/>
-      <a href="https://www.youtube.com/@OkoloKino" target="_blank" rel="noopener">@OkoloKino</a> ·
-      <a href="mailto:collabs@okolo-kino.com">collabs@okolo-kino.com</a>
+      © 2026 Kolo Kino · Independent documentary studio
     </div>
     <nav class="social-links" aria-label="Social media links">
       <a href="https://www.youtube.com/@OkoloKino" target="_blank" rel="noopener" aria-label="YouTube Kolo Kino"><img src="youtube.png" alt="" /> YouTube</a>
-      <a href="https://www.youtube.com/@kolokinoclips" target="_blank" rel="noopener" aria-label="YouTube Kolo Kino Clips"><img src="youtube.png" alt="" /> Clips</a>
       <a href="https://www.instagram.com/kolokino_clips" target="_blank" rel="noopener" aria-label="Instagram"><img src="instagram.png" alt="" /> Instagram</a>
       <a href="https://www.tiktok.com/@kolo_kino" target="_blank" rel="noopener" aria-label="TikTok"><img src="tiktok.png" alt="" /> TikTok</a>
       <a href="https://www.reddit.com/r/KoloKino/" target="_blank" rel="noopener" aria-label="Reddit"><img src="reddit.png" alt="" /> Reddit</a>
