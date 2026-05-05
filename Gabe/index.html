@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<!--
+  Feral Hog Content. Redesign draft v0.3
+  Static HTML mockup for stakeholder review.
+  Open with double-click. Run copiar-assets.bat first if assets are missing.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feral Hog Content. Audiobooks, voice-over and production | Gabriel J. Perez</title>
+<meta name="description" content="Production company by Gabriel J. Perez: audiobooks for Audible, voice-over and dubbing ES/EN, translation and audiovisual production from Jersey City, NJ.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Feral Hog Content by Gabriel J. Perez">
+<meta property="og:description" content="Voice actor, narrator and producer. Audiobooks, ES/EN dubbing and audiovisual production.">
+<meta property="og:image" content="./assets/images/31-headshot-gabriel-perez.jpg">
+
+<link rel="icon" type="image/x-icon" href="./assets/images/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ==========================================
+     Tokens
+     ========================================== */
+  :root {
+    --black: #0E0E0E;
+    --black-soft: #1A1A1A;
+    --black-deep: #060606;
+    --cream: #F4F1EC;
+    --cream-dim: #E8E3DA;
+    --red: #D64541;
+    --red-dark: #B33A2E;
+    --mustard: #E0A800;
+    --gray: #8B8579;
+    --gray-soft: #DAD4C8;
+    --gray-mid: #5C5950;
+
+    --font-display: 'Fraunces', 'Georgia', serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+
+    --radius-sm: 4px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+
+    --max-width: 1240px;
+    --gutter: clamp(20px, 4vw, 60px);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--black);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+
+  body.lang-en .lang-es { display: none !important; }
+  body.lang-es .lang-en { display: none !important; }
+
+  /* Boar symbol via mask-image */
+  .boar {
+    display: inline-block;
+    background-color: currentColor;
+    -webkit-mask-image: url('./assets/images/feral-hog-silhouette.png');
+            mask-image: url('./assets/images/feral-hog-silhouette.png');
+    -webkit-mask-size: contain;
+            mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+            mask-position: center;
+    aspect-ratio: 1200 / 766;
+    flex-shrink: 0;
+  }
+  .boar-sm  { width: 36px; }
+  .boar-md  { width: 64px; }
+  .boar-lg  { width: clamp(280px, 38vw, 620px); }
+  .boar-xl  { width: clamp(220px, 30vw, 340px); }
+  .boar-divider { width: 36px; opacity: .35; }
+
+  /* Boar as real <img> for guaranteed visibility */
+  .boar-img {
+    display: inline-block;
+    height: auto; width: auto;
+    flex-shrink: 0;
+  }
+  .boar-img-nav {
+    height: 36px; width: auto;
+    object-fit: contain;
+  }
+  .boar-img-final {
+    width: clamp(220px, 30vw, 340px);
+    height: auto;
+    /* Source PNG is dark silhouette; on the dark sign-off background we invert it to bright cream-white and add a warm gold glow */
+    filter: brightness(0) invert(1) drop-shadow(0 16px 40px rgba(224, 168, 0, 0.45));
+  }
+
+  .wrap { max-width: var(--max-width); margin: 0 auto; padding: 0 var(--gutter); }
+  .eyebrow {
+    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--red); font-weight: 600;
+  }
+  .h-display {
+    font-family: var(--font-display);
+    font-weight: 600; line-height: 1.05; letter-spacing: -0.02em;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 26px; border-radius: 100px;
+    font-weight: 600; font-size: 15px; text-decoration: none;
+    transition: transform .2s ease, background .2s ease, color .2s ease, box-shadow .2s ease;
+    border: 0; cursor: pointer; font-family: inherit;
+    line-height: 1;
+  }
+  .btn-primary { background: var(--red); color: var(--cream); box-shadow: 0 8px 22px rgba(214, 69, 65, 0.30); }
+  .btn-primary:hover { background: var(--red-dark); transform: translateY(-1px); box-shadow: 0 10px 28px rgba(214, 69, 65, 0.45); }
+  .btn-ghost { background: transparent; color: var(--cream); border: 1px solid rgba(255,255,255,.4); }
+  .btn-ghost:hover { background: var(--cream); color: var(--black); border-color: var(--cream); }
+  .btn-ghost-dark { background: transparent; color: var(--black); border: 1px solid rgba(0,0,0,.5); }
+  .btn-ghost-dark:hover { background: var(--black); color: var(--cream); }
+  .btn-cream { background: var(--cream); color: var(--black); }
+  .btn-cream:hover { background: var(--mustard); transform: translateY(-1px); }
+  .btn .icon { font-size: 17px; line-height: 1; }
+
+  /* ==========================================
+     STICKY NAV. Always visible, brand always shown
+     ========================================== */
+  header.site-nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(244, 241, 236, 0.94);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--gray-soft);
+  }
+  .nav-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px var(--gutter); gap: 18px;
+    max-width: var(--max-width); margin: 0 auto;
+  }
+  .brand {
+    font-family: var(--font-display);
+    font-weight: 800; font-size: clamp(13px, 1.4vw, 17px);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 12px;
+    color: var(--black);
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .brand .boar { color: var(--red); transition: color .25s ease; }
+  .brand:hover .boar { color: var(--black); }
+  .brand-name { white-space: nowrap; }
+
+  .nav-links {
+    display: flex; gap: clamp(8px, 2vw, 24px); align-items: center;
+    list-style: none; padding: 0; margin: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-links a, .nav-links button.linkish {
+    text-decoration: none;
+    font-size: clamp(12px, 1.3vw, 14px);
+    font-weight: 500;
+    color: var(--black);
+    background: transparent; border: 0; cursor: pointer;
+    font-family: inherit;
+    padding: 6px 4px;
+    white-space: nowrap;
+  }
+  .nav-links a:hover, .nav-links button.linkish:hover { color: var(--red); }
+
+  .nav-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+  .lang-toggle {
+    display: inline-flex; align-items: center; gap: 0;
+    border: 1px solid var(--gray-soft); border-radius: 100px;
+    padding: 2px;
+  }
+  .lang-toggle button {
+    background: transparent; border: 0; cursor: pointer;
+    padding: 4px 10px; border-radius: 100px;
+    font-family: inherit; font-size: 12px; font-weight: 600;
+    color: var(--gray-mid); letter-spacing: 0.06em;
+  }
+  .lang-toggle button.active { background: var(--black); color: var(--cream); }
+
+  .nav-cta {
+    background: var(--red); color: var(--cream);
+    border: 0; cursor: pointer;
+    padding: 9px 16px; border-radius: 100px;
+    font-family: inherit; font-size: 13px; font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(214, 69, 65, 0.30);
+    transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+    white-space: nowrap;
+  }
+  .nav-cta:hover { background: var(--red-dark); transform: translateY(-1px); box-shadow: 0 6px 18px rgba(214, 69, 65, 0.45); }
+
+  @media (max-width: 720px) {
+    .nav-row { flex-wrap: wrap; padding: 10px var(--gutter); row-gap: 8px; }
+    .brand { order: 1; }
+    .nav-right { order: 2; }
+    .nav-links {
+      order: 3; width: 100%;
+      gap: 14px; padding-bottom: 4px;
+      border-top: 1px solid var(--gray-soft);
+      padding-top: 8px;
+    }
+  }
+
+  /* ==========================================
+     HERO
+     ========================================== */
+  .hero {
+    background: var(--black);
+    color: var(--cream);
+    padding: clamp(60px, 12vw, 140px) 0 clamp(80px, 14vw, 160px);
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(circle at 80% 30%, rgba(214, 69, 65, 0.18), transparent 50%),
+                      radial-gradient(circle at 20% 80%, rgba(224, 168, 0, 0.12), transparent 50%);
+    pointer-events: none;
+  }
+  .hero-boar {
+    position: absolute;
+    right: -2%; bottom: -8%;
+    color: var(--mustard);
+    opacity: .12;
+    pointer-events: none;
+    z-index: 0;
+    filter: drop-shadow(0 0 60px rgba(224, 168, 0, 0.2));
+  }
+  @media (max-width: 900px) { .hero-boar { right: -16%; bottom: -2%; opacity: .07; } }
+
+  .hero-grid {
+    position: relative;
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: 60px;
+    align-items: center;
+    z-index: 1;
+  }
+  @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+  .hero h1 {
+    margin: 14px 0 24px;
+    font-size: clamp(38px, 6.5vw, 84px);
+  }
+  .hero h1 em { font-style: italic; color: var(--mustard); font-weight: 400; }
+  .hero p.lead {
+    font-size: clamp(16px, 1.4vw, 21px);
+    color: var(--gray-soft);
+    max-width: 560px;
+    margin: 0 0 36px;
+  }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+
+  .hero-portrait {
+    aspect-ratio: 4/5;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--black-soft);
+    box-shadow: 0 30px 80px rgba(0,0,0,.35);
+    border: 1px solid rgba(255,255,255,.08);
+    position: relative;
+  }
+  .hero-portrait img { width: 100%; height: 100%; object-fit: cover; }
+  .hero-portrait::after {
+    content: 'Gabriel J. Perez'; position: absolute; left: 20px; bottom: 16px;
+    font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--cream); opacity: .85;
+  }
+  /* Fix mobile: portrait must be proportional, not full width */
+  @media (max-width: 900px) {
+    .hero-portrait { max-width: 320px; margin: 0 auto; }
+  }
+  @media (max-width: 480px) {
+    .hero-portrait { max-width: 240px; }
+  }
+
+  .hero-meta {
+    margin-top: 64px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+    border-top: 1px solid rgba(255,255,255,.12);
+    padding-top: 32px;
+    position: relative; z-index: 1;
+  }
+  .hero-meta div .num {
+    font-family: var(--font-display); font-size: 36px; font-weight: 600;
+    color: var(--mustard); line-height: 1;
+  }
+  .hero-meta div .lbl {
+    font-size: 13px; color: var(--gray-soft); margin-top: 8px;
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  @media (max-width: 700px) { .hero-meta { grid-template-columns: repeat(2, 1fr); } }
+
+  /* ==========================================
+     SECTIONS
+     ========================================== */
+  .section { padding: clamp(70px, 10vw, 130px) 0; position: relative; }
+  .section-head { max-width: 760px; margin-bottom: 48px; }
+  .section-head h2 { font-size: clamp(32px, 4.4vw, 56px); margin: 12px 0 16px; }
+  .section-head p { color: var(--gray); font-size: 18px; }
+  .section.dark { background: var(--black); color: var(--cream); }
+  .section.dark .section-head p { color: var(--gray-soft); }
+  .section.dark .eyebrow { color: var(--mustard); }
+
+  /* Services (expandable) */
+  .services-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+  }
+  @media (max-width: 720px) { .services-grid { grid-template-columns: 1fr; } }
+  details.service-card {
+    background: var(--cream-dim);
+    border-radius: var(--radius-md);
+    padding: 0;
+    border: 1px solid transparent;
+    transition: background .25s ease, border-color .25s ease;
+    overflow: hidden;
+  }
+  details.service-card[open] {
+    background: var(--black); color: var(--cream); border-color: var(--mustard);
+  }
+  details.service-card summary {
+    list-style: none; cursor: pointer;
+    padding: 28px 28px;
+    display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 18px;
+  }
+  details.service-card summary::-webkit-details-marker { display: none; }
+  .service-icon {
+    font-size: 22px; color: var(--red);
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--cream); display: grid; place-items: center;
+    transition: background .25s ease, color .25s ease;
+  }
+  details.service-card[open] .service-icon { background: var(--mustard); color: var(--black); }
+  .service-title h3 { font-family: var(--font-display); font-size: 22px; font-weight: 600; margin: 0 0 4px; }
+  .service-title p { margin: 0; font-size: 14px; opacity: .85; }
+  .service-toggle {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--black); color: var(--cream);
+    display: grid; place-items: center;
+    font-size: 16px; transition: transform .25s ease;
+  }
+  details.service-card[open] .service-toggle {
+    transform: rotate(45deg);
+    background: var(--mustard); color: var(--black);
+  }
+  .service-body {
+    padding: 0 28px 32px 90px;
+    font-size: 15px; line-height: 1.65;
+  }
+  .service-body ul { padding-left: 18px; margin: 14px 0; }
+  .service-body li { margin-bottom: 8px; }
+  .service-body p { margin: 0 0 14px; }
+  .service-body .meta-row {
+    margin-top: 18px; padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,.15);
+    font-size: 13px; color: var(--gray-soft);
+    display: flex; gap: 24px; flex-wrap: wrap;
+  }
+  details.service-card:not([open]) .service-body .meta-row { border-color: var(--gray-soft); color: var(--gray-mid); }
+  @media (max-width: 560px) {
+    details.service-card summary { grid-template-columns: auto 1fr auto; padding: 22px; gap: 14px; }
+    .service-body { padding: 0 22px 26px 22px; }
+  }
+
+  /* Audiobooks */
+  .audio-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 22px;
+  }
+  @media (max-width: 1100px) { .audio-grid { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 900px)  { .audio-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 600px)  { .audio-grid { grid-template-columns: repeat(2, 1fr); } }
+  .audio-card { color: var(--cream); display: flex; flex-direction: column; }
+  .audio-cover {
+    aspect-ratio: 2/3; border-radius: var(--radius-sm); overflow: hidden;
+    background: linear-gradient(180deg, #131311 0%, #0b0a08 100%);
+    box-shadow: 0 14px 32px rgba(0,0,0,.45);
+    position: relative; cursor: pointer;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .audio-card:hover .audio-cover { transform: translateY(-4px); box-shadow: 0 22px 44px rgba(0,0,0,.55); }
+  .audio-cover img {
+    width: 100%; height: 100%;
+    object-fit: contain; object-position: center;
+    background: var(--black-deep);
+    transition: filter .3s ease;
+  }
+  .audio-card.is-playing .audio-cover img { filter: brightness(0.45); }
+  .audio-play {
+    position: absolute; top: 10px; left: 10px;
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--red); color: var(--cream);
+    border: 0; cursor: pointer;
+    display: grid; place-items: center;
+    font-size: 14px; line-height: 1;
+    transition: background .2s ease, transform .2s ease;
+    box-shadow: 0 6px 14px rgba(0,0,0,.4);
+    z-index: 2;
+  }
+  .audio-play:hover { background: var(--red-dark); transform: scale(1.06); }
+  .audio-play .icon-pause { display: none; }
+  .audio-card.is-playing .audio-play .icon-play { display: none; }
+  .audio-card.is-playing .audio-play .icon-pause { display: inline; }
+  .audio-amazon {
+    position: absolute; bottom: 10px; right: 10px;
+    height: 32px; padding: 0 12px; border-radius: 100px;
+    background: var(--mustard); color: var(--black);
+    text-decoration: none;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: background .2s ease, transform .2s ease;
+    box-shadow: 0 6px 14px rgba(0,0,0,.4);
+    z-index: 2;
+  }
+  .audio-amazon:hover { background: var(--cream); transform: scale(1.04); }
+  .audio-amazon::after { content: '↗'; font-size: 14px; }
+  .audio-progress {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,.7);
+    padding: 8px 12px;
+    transform: translateY(100%);
+    transition: transform .25s ease;
+    z-index: 1;
+  }
+  .audio-card.is-playing .audio-progress { transform: translateY(0); }
+  .audio-card.is-playing .audio-amazon { bottom: 56px; }
+  .audio-progress .bar { height: 4px; border-radius: 2px; background: rgba(255,255,255,.18); overflow: hidden; cursor: pointer; }
+  .audio-progress .bar-fill { height: 100%; width: 0; background: var(--mustard); transition: width .15s linear; }
+  .audio-progress .time {
+    margin-top: 6px;
+    font-size: 11px; color: var(--cream);
+    display: flex; justify-content: space-between;
+    letter-spacing: 0.04em;
+  }
+  .audio-card h4 {
+    font-size: 15px; margin: 16px 0 4px; font-weight: 600;
+    font-family: var(--font-display);
+  }
+  .audio-card .platform { font-size: 12px; color: var(--gray-soft); }
+
+  /* Reels */
+  .reels-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 800px) { .reels-grid { grid-template-columns: 1fr; } }
+  .reel-card {
+    aspect-ratio: 16/9; border-radius: var(--radius-md); overflow: hidden;
+    background: var(--black);
+    position: relative;
+  }
+  .reel-card video { width: 100%; height: 100%; object-fit: cover; }
+  .reel-card .reel-title {
+    position: absolute; left: 24px; bottom: 22px;
+    font-family: var(--font-display); font-weight: 600; font-size: 22px;
+    color: var(--cream); margin: 0;
+    pointer-events: none;
+    text-shadow: 0 2px 8px rgba(0,0,0,.6);
+  }
+
+  /* ==========================================
+     V.O. link cards (kolo-kino style)
+     ========================================== */
+  .vo-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  }
+  @media (max-width: 900px) { .vo-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .vo-grid { grid-template-columns: 1fr; } }
+  .vo-card {
+    display: flex; flex-direction: column;
+    text-decoration: none; color: inherit;
+    border: 1px solid var(--gray-soft);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--cream);
+    transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  }
+  .vo-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--red);
+    box-shadow: 0 12px 28px rgba(0,0,0,.10);
+  }
+  .vo-thumb {
+    aspect-ratio: 16/9;
+    background: var(--black);
+    overflow: hidden;
+    position: relative;
+  }
+  .vo-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease; }
+  .vo-card:hover .vo-thumb img { transform: scale(1.04); }
+  .vo-thumb .yt-badge {
+    position: absolute; top: 10px; right: 10px;
+    background: rgba(0,0,0,.78); color: var(--cream);
+    padding: 4px 10px; border-radius: 4px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .vo-thumb .yt-badge::before {
+    content: '▶'; color: var(--red); font-size: 10px;
+  }
+  .vo-meta { padding: 16px 18px 20px; flex: 1; display: flex; flex-direction: column; }
+  .vo-title {
+    font-family: var(--font-display); font-weight: 600; font-size: 17px;
+    line-height: 1.25; margin: 0 0 8px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .vo-views { font-size: 13px; color: var(--gray-mid); margin-top: auto; letter-spacing: 0.02em; }
+  .vo-views strong { color: var(--black); font-weight: 700; }
+
+  .yt-more { margin-top: 36px; text-align: center; }
+
+  /* ==========================================
+     Self-Help playlist strip (compact)
+     ========================================== */
+  .playlist-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 18px; gap: 16px; flex-wrap: wrap;
+  }
+  .playlist-head h3 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 22px; margin: 0;
+  }
+  .playlist-head .meta { font-size: 13px; color: var(--gray-mid); }
+  .playlist-strip {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px;
+  }
+  @media (max-width: 1000px) { .playlist-strip { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 560px)  { .playlist-strip { grid-template-columns: repeat(2, 1fr); } }
+  .playlist-card {
+    text-decoration: none; color: inherit;
+    display: flex; flex-direction: column; gap: 8px;
+    transition: transform .2s ease;
+  }
+  .playlist-card:hover { transform: translateY(-2px); }
+  .playlist-thumb {
+    aspect-ratio: 16/9; border-radius: 6px; overflow: hidden;
+    background: var(--black); position: relative;
+  }
+  .playlist-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .playlist-thumb::after {
+    content: '▶'; position: absolute;
+    right: 6px; bottom: 6px;
+    background: rgba(0,0,0,.7); color: var(--cream);
+    width: 24px; height: 24px; border-radius: 50%;
+    display: grid; place-items: center;
+    font-size: 9px;
+  }
+  .playlist-card .ttl {
+    font-size: 12px; line-height: 1.3;
+    color: var(--black);
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ==========================================
+     Medical / Healthcare logos. Color, bigger, hover scale
+     ========================================== */
+  .logos-strip {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;
+    align-items: center;
+    padding: 50px;
+    background: var(--cream-dim);
+    border-radius: var(--radius-md);
+  }
+  @media (max-width: 720px) { .logos-strip { grid-template-columns: repeat(2, 1fr); padding: 30px; gap: 30px; } }
+  .logos-strip a {
+    display: block; padding: 8px;
+    transition: transform .25s ease;
+  }
+  .logos-strip a:hover { transform: scale(1.08); }
+  .logos-strip img {
+    max-height: 130px; max-width: 100%; width: auto;
+    margin: 0 auto;
+    display: block;
+  }
+  @media (max-width: 720px) { .logos-strip img { max-height: 100px; } }
+
+  /* ==========================================
+     Brand sign-off. Boar bigger at end of page
+     ========================================== */
+  .brand-signoff {
+    background: var(--black);
+    color: var(--cream);
+    padding: clamp(70px, 10vw, 120px) 0 clamp(50px, 8vw, 90px);
+    position: relative; overflow: hidden;
+    text-align: center;
+  }
+  .brand-signoff::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 100%, rgba(214, 69, 65, 0.18), transparent 60%);
+    pointer-events: none;
+  }
+  .brand-signoff .signoff-inner {
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column; align-items: center; gap: 18px;
+  }
+  .brand-signoff .boar {
+    color: var(--mustard);
+    filter: drop-shadow(0 16px 40px rgba(224, 168, 0, 0.30));
+  }
+  .brand-signoff .wordmark {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(34px, 6vw, 80px);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0;
+    color: var(--cream);
+  }
+  .brand-signoff .wordmark .accent { color: var(--red); }
+  .brand-signoff .tagline {
+    font-style: italic;
+    font-family: var(--font-display);
+    color: var(--gray-soft);
+    font-size: clamp(15px, 1.5vw, 19px);
+    margin: 6px 0 0;
+    max-width: 560px;
+  }
+
+  /* CTA final */
+  .boar-rule {
+    display: flex; align-items: center; justify-content: center;
+    gap: 14px; color: var(--red);
+    padding: 30px 0;
+  }
+  .boar-rule::before, .boar-rule::after {
+    content: ''; height: 1px; flex: 1; max-width: 90px;
+    background: var(--gray-soft);
+  }
+
+  .cta-final {
+    background: var(--red); color: var(--cream);
+    text-align: center;
+    padding: clamp(70px, 10vw, 130px) 0;
+  }
+  .cta-final h2 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(34px, 5vw, 64px); margin: 0 0 20px;
+    line-height: 1.05;
+  }
+  .cta-final p { font-size: 18px; opacity: .92; max-width: 560px; margin: 0 auto 36px; }
+
+  /* Footer */
+  footer.site-foot {
+    background: var(--black-soft); color: var(--cream);
+    padding: 60px 0 36px;
+    border-top: 1px solid rgba(255,255,255,.08);
+  }
+  .foot-grid {
+    display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px;
+    padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  @media (max-width: 800px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
+  .foot-grid h5 {
+    font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--gray-soft); margin: 0 0 18px;
+  }
+  .foot-grid ul { list-style: none; padding: 0; margin: 0; }
+  .foot-grid ul li { margin-bottom: 10px; font-size: 15px; }
+  .foot-grid ul a { text-decoration: none; }
+  .foot-grid ul a:hover { color: var(--mustard); }
+  .foot-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 20px; font-size: 13px; color: var(--gray-soft);
+    flex-wrap: wrap; gap: 12px;
+  }
+
+  /* ==========================================
+     Modals (About + Contact)
+     ========================================== */
+  .modal-backdrop {
+    position: fixed; inset: 0; background: rgba(14, 14, 14, 0.85);
+    backdrop-filter: blur(6px);
+    display: none; place-items: center;
+    padding: 20px; z-index: 100;
+    overflow-y: auto;
+  }
+  .modal-backdrop.is-open { display: grid; }
+  .modal-backdrop[hidden] { display: none !important; }
+  .modal {
+    background: var(--cream); color: var(--black);
+    width: 100%; max-width: 760px;
+    border-radius: var(--radius-lg);
+    padding: clamp(32px, 5vw, 56px);
+    position: relative;
+    max-height: 92vh; overflow-y: auto;
+  }
+  .modal-close {
+    position: absolute; top: 20px; right: 20px;
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--black); color: var(--cream);
+    border: 0; cursor: pointer; font-size: 16px;
+    display: grid; place-items: center;
+  }
+  .modal-close:hover { background: var(--red); }
+  .modal h2 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(28px, 3.5vw, 42px);
+    margin: 0 0 8px; letter-spacing: -0.02em;
+  }
+  .modal .modal-eyebrow {
+    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--red); font-weight: 600;
+  }
+  .modal h3 {
+    font-family: var(--font-display); font-size: 18px;
+    margin: 28px 0 10px; font-weight: 600;
+  }
+  .modal p { font-size: 15px; line-height: 1.65; margin: 0 0 14px; }
+  .modal .quote {
+    font-family: var(--font-display); font-style: italic;
+    font-size: 19px; line-height: 1.45; margin: 22px 0;
+    padding-left: 18px; border-left: 3px solid var(--red);
+  }
+  .modal .brand-list {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    list-style: none; padding: 0; margin: 8px 0 0;
+  }
+  .modal .brand-list li {
+    background: var(--cream-dim); padding: 6px 14px;
+    border-radius: 100px; font-size: 13px; font-weight: 500;
+  }
+  .modal .credit-list { padding-left: 18px; margin: 8px 0 0; }
+  .modal .credit-list li { font-size: 14px; margin-bottom: 6px; }
+  .modal-actions {
+    margin-top: 30px;
+    display: flex; gap: 12px; flex-wrap: wrap;
+  }
+
+  /* Contact form */
+  .contact-form { display: grid; gap: 14px; margin-top: 22px; }
+  .contact-form label {
+    display: flex; flex-direction: column; gap: 6px;
+    font-size: 13px; font-weight: 600; color: var(--gray-mid);
+    letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .contact-form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 560px) { .contact-form .row { grid-template-columns: 1fr; } }
+  .contact-form input, .contact-form select, .contact-form textarea {
+    border: 1px solid var(--gray-soft);
+    background: var(--cream);
+    padding: 12px 14px;
+    border-radius: 10px;
+    font: inherit;
+    color: var(--black);
+    font-size: 15px; font-weight: 400;
+    text-transform: none; letter-spacing: 0;
+  }
+  .contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus {
+    outline: 2px solid var(--red);
+    outline-offset: 1px;
+    border-color: var(--red);
+  }
+  .contact-form textarea { resize: vertical; min-height: 100px; }
+  .contact-form .opt-note {
+    font-size: 13px; color: var(--gray-mid); margin: 4px 0 0;
+    text-transform: none; letter-spacing: 0; font-weight: 400;
+  }
+  .contact-form .direct {
+    margin-top: 4px; font-size: 14px; color: var(--gray-mid);
+    text-transform: none; letter-spacing: 0; font-weight: 400;
+  }
+  .contact-form .direct a { color: var(--red); font-weight: 600; }
+</style>
+</head>
+<body class="lang-en">
+
+<!-- =========================================================
+     STICKY NAV (always visible, brand never hides)
+     ========================================================= -->
+<header class="site-nav">
+  <div class="nav-row">
+    <a href="#top" class="brand" aria-label="Feral Hog Content - Home">
+      <img class="boar-img boar-img-nav" src="./assets/images/feral-hog-silhouette.png" alt="" aria-hidden="true">
+      <span class="brand-name">FERAL HOG CONTENT</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#audiobooks"><span class="lang-en">Audiobooks</span><span class="lang-es">Audiolibros</span></a></li>
+      <li><a href="#reels"><span class="lang-en">Reels</span><span class="lang-es">Reels</span></a></li>
+      <li><a href="#voice-over"><span class="lang-en">Voice-Over</span><span class="lang-es">Voice-Over</span></a></li>
+      <li><a href="#medical-health"><span class="lang-en">Healthcare</span><span class="lang-es">Salud</span></a></li>
+      <li><button type="button" class="linkish" onclick="openAbout()"><span class="lang-en">About</span><span class="lang-es">Sobre Gabriel</span></button></li>
+    </ul>
+
+    <div class="nav-right">
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button type="button" data-lang-btn="en" class="active">EN</button>
+        <button type="button" data-lang-btn="es">ES</button>
+      </div>
+      <button type="button" class="nav-cta" onclick="openContact()">
+        <span class="lang-en">Start a project</span><span class="lang-es">Empezar proyecto</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- =========================================================
+     1. HERO
+     ========================================================= -->
+<section class="hero" id="top">
+  <span class="boar boar-lg hero-boar" role="img" aria-label="Feral Hog symbol"></span>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow"><span class="lang-en">Voice actor · Narrator · Producer</span><span class="lang-es">Voice actor · Narrador · Productor</span></span>
+      <h1 class="h-display">
+        <span class="lang-en">We produce stories.<br>The kind you <em>hear</em><br>and the kind you see.</span>
+        <span class="lang-es">Producimos historias.<br>Las que se <em>escuchan</em><br>y las que se ven.</span>
+      </h1>
+      <p class="lead">
+        <span class="lang-en">Gabriel J. Perez and Feral Hog Content, Inc. produce audiobooks, voice-over, ES/EN dubbing and audiovisual content from Jersey City. Ten audiobooks on Audible, voice work that's racked up over 20&nbsp;million views on cinema documentaries, and bilingual delivery in a single shop.</span>
+        <span class="lang-es">Gabriel J. Perez y Feral Hog Content, Inc. producen audiolibros, voice-over, doblaje ES/EN y contenido audiovisual desde Jersey City. Diez audiolibros en Audible, narraciones que ya superan los 20&nbsp;millones de views en documentales sobre cine, y trabajo bilingüe en una sola productora.</span>
+      </p>
+      <div class="hero-actions">
+        <button type="button" class="btn btn-primary" onclick="openAbout()">
+          <span class="icon">→</span>
+          <span class="lang-en">Meet Gabriel</span><span class="lang-es">Conocer a Gabriel</span>
+        </button>
+        <a href="#audiobooks" class="btn btn-ghost">
+          <span class="lang-en">Hear audio samples</span><span class="lang-es">Escuchar samples</span>
+        </a>
+      </div>
+    </div>
+    <div class="hero-portrait">
+      <img src="./assets/images/31-headshot-gabriel-perez.jpg"
+           alt="Gabriel J. Perez, voice actor and producer"
+           onerror="this.parentElement.style.background='var(--black-soft)';this.style.display='none';">
+    </div>
+  </div>
+
+  <div class="wrap hero-meta">
+    <div><div class="num">10</div><div class="lbl"><span class="lang-en">Audiobooks on Audible</span><span class="lang-es">Audiolibros en Audible</span></div></div>
+    <div><div class="num">20M+</div><div class="lbl"><span class="lang-en">Doc. views narrated</span><span class="lang-es">Views narradas</span></div></div>
+    <div><div class="num">ES / EN</div><div class="lbl"><span class="lang-en">Native bilingual</span><span class="lang-es">Bilingüe nativo</span></div></div>
+    <div><div class="num">150+</div><div class="lbl"><span class="lang-en">Radio stations</span><span class="lang-es">Estaciones de radio</span></div></div>
+  </div>
+</section>
+
+<!-- =========================================================
+     2. SERVICES (expandable)
+     ========================================================= -->
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><span class="lang-en">What we do</span><span class="lang-es">Qué hacemos</span></span>
+      <h2 class="h-display">
+        <span class="lang-en">One shop, four specialties.</span>
+        <span class="lang-es">Una productora, cuatro especialidades.</span>
+      </h2>
+      <p>
+        <span class="lang-en">Audio and video produced end-to-end. We don't outsource voices or editing. Every project runs through the same booth.</span>
+        <span class="lang-es">Audio y video producidos end-to-end. No tercerizamos voces ni edición. Cada proyecto pasa por la misma cabina.</span>
+      </p>
+    </div>
+
+    <div class="services-grid">
+      <details class="service-card">
+        <summary>
+          <span class="service-icon">♪</span>
+          <span class="service-title">
+            <h3>Audiobooks</h3>
+            <p><span class="lang-en">Narration, production and mastering. Audible/ACX ready.</span><span class="lang-es">Narración, producción y mastering. Listos para Audible/ACX.</span></p>
+          </span>
+          <span class="service-toggle" aria-hidden="true">+</span>
+        </summary>
+        <div class="service-body">
+          <div class="lang-en">
+            <p>Full-service audiobook production. Gabriel narrates and produces in-house, so the same person who reads the book also masters the file. Ten titles published on Audible to date, including original works in the <em>Annotations</em> series and classic novels narrated for new audiences.</p>
+            <ul>
+              <li>Narration in English or Spanish (native bilingual delivery).</li>
+              <li>Editing, mastering and proofing to ACX standards.</li>
+              <li>Pickup recording, retakes and final QC handled in-house.</li>
+              <li>Delivery in MP3 / WAV / M4B with the chapter markers Audible expects.</li>
+            </ul>
+            <div class="meta-row">
+              <span><strong>Turnaround:</strong> 4–8 weeks per book</span>
+              <span><strong>Languages:</strong> EN, ES</span>
+              <span><strong>Format:</strong> ACX-compliant</span>
+            </div>
+          </div>
+          <div class="lang-es">
+            <p>Producción full-service de audiolibros. Gabriel narra y produce in-house, así que la misma persona que lee el libro masteriza el archivo. Diez títulos publicados en Audible hasta hoy, incluyendo obras originales de la serie <em>Annotations</em> y novelas clásicas narradas para nuevas audiencias.</p>
+            <ul>
+              <li>Narración en inglés o español (entrega bilingüe nativa).</li>
+              <li>Edición, mastering y revisión a estándares ACX.</li>
+              <li>Pickup recording, retakes y QC final hechos in-house.</li>
+              <li>Entrega en MP3 / WAV / M4B con los chapter markers que Audible pide.</li>
+            </ul>
+            <div class="meta-row">
+              <span><strong>Tiempos:</strong> 4 a 8 semanas por libro</span>
+              <span><strong>Idiomas:</strong> EN, ES</span>
+              <span><strong>Formato:</strong> ACX-compliant</span>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="service-card">
+        <summary>
+          <span class="service-icon">◉</span>
+          <span class="service-title">
+            <h3><span class="lang-en">Voice-Over &amp; Dubbing</span><span class="lang-es">Voice-Over y Doblaje</span></h3>
+            <p><span class="lang-en">Documentaries, commercials, e-learning, ES/EN dubbing.</span><span class="lang-es">Documentales, comerciales, e-learning, doblaje ES/EN.</span></p>
+          </span>
+          <span class="service-toggle" aria-hidden="true">+</span>
+        </summary>
+        <div class="service-body">
+          <div class="lang-en">
+            <p>Lead narrator on the Kolo Kino documentary series, with long-form cinema docs that reach audiences in the millions. Gabriel's voice has aired on more than 150 radio stations across the United States, plus the comedy bits he writes himself.</p>
+            <ul>
+              <li>Documentary narration (long-form, episodic).</li>
+              <li>Commercials, promos, station IDs, jingles.</li>
+              <li>E-learning, explainers, instructional content.</li>
+              <li>Dubbing ES → EN and EN → ES, lip-sync or wild.</li>
+              <li>Character work and dramatized reads.</li>
+            </ul>
+            <div class="meta-row">
+              <span><strong>Accents:</strong> Hispanic, New York, neutral</span>
+              <span><strong>Languages:</strong> EN, ES</span>
+              <span><strong>Turnaround:</strong> 24–72 hr standard</span>
+            </div>
+          </div>
+          <div class="lang-es">
+            <p>Narrador principal de la serie de documentales Kolo Kino, con docs largos sobre cine que llegan a audiencias en millones. La voz de Gabriel salió en más de 150 estaciones de radio, además de los chistes que él mismo escribe.</p>
+            <ul>
+              <li>Narración de documentales (long-form, episódico).</li>
+              <li>Comerciales, promos, station IDs, jingles.</li>
+              <li>E-learning, explainers, contenido instruccional.</li>
+              <li>Doblaje ES → EN e EN → ES, lip-sync o wild.</li>
+              <li>Personajes y reads dramatizados.</li>
+            </ul>
+            <div class="meta-row">
+              <span><strong>Acentos:</strong> hispano, neoyorquino, neutro</span>
+              <span><strong>Idiomas:</strong> EN, ES</span>
+              <span><strong>Tiempos:</strong> 24–72 hs estándar</span>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="service-card">
+        <summary>
+          <span class="service-icon">▣</span>
+          <span class="service-title">
+            <h3><span class="lang-en">Audiovisual Production</span><span class="lang-es">Producción Audiovisual</span></h3>
+            <p><span class="lang-en">Corporate video, branded content, online castings &amp; crews.</span><span class="lang-es">Video corporativo, branded content, castings y crews online.</span></p>
+          </span>
+          <span class="service-toggle" aria-hidden="true">+</span>
+        </summary>
+        <div class="service-body">
+          <div class="lang-en">
+            <p>Full digital video production for foreign and domestic clients. We work directly with your team, source talent through online castings, and deploy production crews where needed.</p>
+            <ul>
+              <li>Corporate video and branded content.</li>
+              <li>Documentary and short-form storytelling.</li>
+              <li>Online castings, with talent sourced through our network.</li>
+              <li>Online production crews. Remote-first, in-person when it matters.</li>
+              <li>Releases and rights management included.</li>
+            </ul>
+            <div class="meta-row">
+              <span><strong>Crews:</strong> remote + on-site</span>
+              <span><strong>Releases:</strong> handled in-house</span>
+            </div>
+          </div>
+          <div class="lang-es">
+            <p>Producción digital de video completa para clientes locales e internacionales. Trabajamos directamente con tu equipo, conseguimos talento por castings online, y deployamos crews donde haga falta.</p>
+            <ul>
+              <li>Video corporativo y branded content.</li>
+              <li>Documental y short-form storytelling.</li>
+              <li>Castings online, con talento desde nuestra red.</li>
+              <li>Crews de producción online. Remote-first, presencial cuando importa.</li>
+              <li>Releases y gestión de derechos incluidos.</li>
+            </ul>
+            <div class="meta-row">
+              <span><strong>Crews:</strong> remote + on-site</span>
+              <span><strong>Releases:</strong> in-house</span>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="service-card">
+        <summary>
+          <span class="service-icon">⇄</span>
+          <span class="service-title">
+            <h3><span class="lang-en">ES/EN Translation</span><span class="lang-es">Traducción ES/EN</span></h3>
+            <p><span class="lang-en">Instructional, explainer videos, student courses, scripts.</span><span class="lang-es">Instructional, explainer videos, cursos, scripts.</span></p>
+          </span>
+          <span class="service-toggle" aria-hidden="true">+</span>
+        </summary>
+        <div class="service-body">
+          <div class="lang-en">
+            <p>Spanish/English translation by a native bilingual narrator who knows how the lines will sound when read out loud. We translate for the ear, not just for the page, so dubs, e-learning and explainers don't sound like Google Translate.</p>
+            <ul>
+              <li>Instructional content and student courses.</li>
+              <li>Explainer videos and corporate scripts.</li>
+              <li>Audiobook adaptation between EN and ES.</li>
+              <li>Localization passes for tone, idiom and timing.</li>
+            </ul>
+            <div class="meta-row">
+              <span><strong>Pair:</strong> EN ↔ ES</span>
+              <span><strong>Style:</strong> read-ready, not literal</span>
+            </div>
+          </div>
+          <div class="lang-es">
+            <p>Traducción español/inglés hecha por un narrador bilingüe nativo que sabe cómo van a sonar las líneas cuando se lean en voz alta. Traducimos para el oído, no sólo para la página, así los doblajes, e-learning y explainers no suenan a Google Translate.</p>
+            <ul>
+              <li>Contenido instruccional y cursos.</li>
+              <li>Explainer videos y scripts corporativos.</li>
+              <li>Adaptación de audiolibros entre EN y ES.</li>
+              <li>Pasadas de localización por tono, modismo y timing.</li>
+            </ul>
+            <div class="meta-row">
+              <span><strong>Par:</strong> EN ↔ ES</span>
+              <span><strong>Estilo:</strong> read-ready, no literal</span>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     3. AUDIOBOOKS
+     ========================================================= -->
+<section class="section dark" id="audiobooks">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><span class="lang-en">Audible catalog</span><span class="lang-es">Catálogo en Audible</span></span>
+      <h2 class="h-display">
+        <span class="lang-en">Audiobooks narrated and produced.</span>
+        <span class="lang-es">Audiolibros narrados y producidos.</span>
+      </h2>
+      <p>
+        <span class="lang-en">Hit the play button on any cover to listen to the retail sample without leaving the page. The Amazon button on the opposite corner takes you to the title's listing.</span>
+        <span class="lang-es">Tocá el play de cualquier portada para escuchar el sample retail sin salir de la página. El botón de Amazon en la esquina opuesta te lleva a la ficha del título.</span>
+      </p>
+    </div>
+
+    <div class="audio-grid">
+      <article class="audio-card"><div class="audio-cover"><button type="button" class="audio-play" onclick="togglePlay(this)" aria-label="Play sample"><span class="icon-play">▶</span><span class="icon-pause">❚❚</span></button><a class="audio-amazon" href="https://www.audible.com/pd/B0FRNGYLJ1/" target="_blank" rel="noopener">Amazon</a><img src="./assets/images/14-audiobook-acxtunnel.jpg" alt="The Tunnel cover"><div class="audio-progress"><div class="bar" onclick="seek(event, this)"><div class="bar-fill"></div></div><div class="time"><span class="time-current">0:00</span><span class="time-total">0:00</span></div></div><audio preload="none" src="./assets/audio/thetunnel.mp3"></audio></div><h4>The Tunnel</h4><span class="platform">Audible · <span class="lang-en">Narrated by Gabriel J. Perez</span><span class="lang-es">Narrado por Gabriel J. Perez</span></span></article>
+      <article class="audio-card"><div class="audio-cover"><button type="button" class="audio-play" onclick="togglePlay(this)" aria-label="Play sample"><span class="icon-play">▶</span><span class="icon-pause">❚❚</span></button><a class="audio-amazon" href="https://www.amazon.com/dp/B0F448M5R4/" target="_blank" rel="noopener">Amazon</a><img src="./assets/images/13-audiobook-skullface.jpg" alt="Skull-Face cover"><div class="audio-progress"><div class="bar" onclick="seek(event, this)"><div class="bar-fill"></div></div><div class="time"><span class="time-current">0:00</span><span class="time-total">0:00</span></div></div><audio preload="none" src="./assets/audio/skullface.mp3"></audio></div><h4>Skull-Face</h4><span class="platform">Robert E. Howard · Annotations</span></article>
+      <article class="audio-card"><div class="audio-cover"><button type="button" class="audio-play" onclick="togglePlay(this)" aria-label="Play sample"><span class="icon-play">▶</span><span class="icon-pause">❚❚</span></button><a class="audio-amazon" href="https://www.amazon.com/Dreams-End-Annotations-Terms-Used/dp/B0DLLJB4WH/" target="_blank" rel="noopener">Amazon</a><img src="./assets/images/11-audiobook-dreams.jpg" alt="Dream's End cover"><div class="audio-progress"><div class="bar" onclick="seek(event, this)"><div class="bar-fill"></div></div><div class="time"><span class="time-current">0:00</span><span class="time-total">0:00</span></div></div><audio preload="none" src="./assets/audio/dreamsend.mp3"></audio></div><h4>Dream's End</h4><span class="platform">Henry Kuttner · Annotations</span></article>
+      <article class="audio-card"><div class="audio-cover"><button type="button" class="audio-play" onclick="togglePlay(this)" aria-label="Play sample"><span class="icon-play">▶</span><span class="icon-pause">❚❚</span></button><a class="audio-amazon" href="https://www.amazon.com/Visability-Zero-Annotations-Gabriel-J-Perez/dp/B0F55GZBM6/" target="_blank" rel="noopener">Amazon</a><img src="./assets/images/19-audiobook-visabilityzero.jpg" alt="Visability Zero cover"><div class="audio-progress"><div class="bar" onclick="seek(event, this)"><div class="bar-fill"></div></div><div class="time"><span class="time-current">0:00</span><span class="time-total">0:00</span></div></div><audio preload="none" src="./assets/audio/visabilityzero.mp3"></audio></div><h4>Visability Zero</h4><span class="platform">John Amid · Annotations</span></article>
+      <article class="audio-card"><div class="audio-cover"><button type="button" class="audio-play" onclick="togglePlay(this)" aria-label="Play sample"><span class="icon-play">▶</span><span class="icon-pause">❚❚</span></button><a class="audio-amazon" href="https://www.amazon.com/Bulldog-Annotations-About-Book-Author/dp/B0DKB1JC2L/" target="_blank" rel="noopener">Amazon</a><img src="./assets/images/10-audiobook-bulldog.jpg" alt="Bulldog cover"><div class="audio-progress"><div class="bar" onclick="seek(event, this)"><div class="bar-fill"></div></div><div class="time"><span class="time-current">0:00</span><span class="time-total">0:00</span></div></div><audio preload="none" src="./assets/audio/bulldog.mp3"></audio></div><h4>Bulldog</h4><span class="platform">Annotations series</span></article>
+      <article class="audio-card"><div class="audio-cover"><button type="button" class="audio-play" onclick="togglePlay(this)" aria-label="Play sample"><span class="icon-play">▶</span><span class="icon-pause">❚❚</span></button><a class="audio-amazon" href="https://www.amazon.com/Plagiarist-Rigel-Annotations-References-Technology/dp/B0DJFXXJJ3/" target="_blank" rel="noopener">Amazon</a><img src="./assets/images/18-audiobook-plagiarist.jpg" alt="The Plagiarist of Rigel cover"><div class="audio-progress"><div class="bar" onclick="seek(event, this)"><div class="bar-fill"></div></div><div class="time"><span class="time-current">0:00</span><span class="time-total">0:00</span></div></div><audio preload="none" src="./assets/audio/plagiarist.mp3"></audio></div><h4>The Plagiarist of Rigel</h4><span class="platform">Annotations series</span></article>
+      <article class="audio-card"><div class="audio-cover"><button type="button" class="audio-play" onclick="togglePlay(this)" aria-label="Play sample"><span class="icon-play">▶</span><span class="icon-pause">❚❚</span></button><a class="audio-amazon" href="https://www.amazon.com/Fire-Retribution-Annotations-Written-Gabriel/dp/B0DGWQG6DY/" target="_blank" rel="noopener">Amazon</a><img src="./assets/images/44-firebook2.jpg" alt="Fire of Retribution cover"><div class="audio-progress"><div class="bar" onclick="seek(event, this)"><div class="bar-fill"></div></div><div class="time"><span class="time-current">0:00</span><span class="time-total">0:00</span></div></div><audio preload="none" src="./assets/audio/fireretribution.mp3"></audio></div><h4>Fire of Retribution</h4><span class="platform"><span class="lang-en">Written and narrated by Gabriel J. Perez</span><span class="lang-es">Escrito y narrado por Gabriel J. Perez</span></span></article>
+      <article class="audio-card"><div class="audio-cover"><button type="button" class="audio-play" onclick="togglePlay(this)" aria-label="Play sample"><span class="icon-play">▶</span><span class="icon-pause">❚❚</span></button><a class="audio-amazon" href="https://www.amazon.com/Audible-Heart-of-Darkness/dp/B0CN3SJD79/" target="_blank" rel="noopener">Amazon</a><img src="./assets/images/15-audiobook-cover-hd.jpeg" alt="Heart of Darkness cover"><div class="audio-progress"><div class="bar" onclick="seek(event, this)"><div class="bar-fill"></div></div><div class="time"><span class="time-current">0:00</span><span class="time-total">0:00</span></div></div><audio preload="none" src="./assets/audio/heartofdarkness.mp3"></audio></div><h4>Heart of Darkness</h4><span class="platform">Joseph Conrad · Annotations</span></article>
+      <article class="audio-card"><div class="audio-cover"><button type="button" class="audio-play" onclick="togglePlay(this)" aria-label="Play sample"><span class="icon-play">▶</span><span class="icon-pause">❚❚</span></button><a class="audio-amazon" href="https://www.amazon.com/Audible-Gilded-Time/dp/B0D45XLMQ3/" target="_blank" rel="noopener">Amazon</a><img src="./assets/images/16-audiobook-gilded-time.jpg" alt="Gilded Time cover"><div class="audio-progress"><div class="bar" onclick="seek(event, this)"><div class="bar-fill"></div></div><div class="time"><span class="time-current">0:00</span><span class="time-total">0:00</span></div></div><audio preload="none" src="./assets/audio/gildedtime.mp3"></audio></div><h4>Gilded Time</h4><span class="platform">Annotations series</span></article>
+      <article class="audio-card"><div class="audio-cover"><button type="button" class="audio-play" onclick="togglePlay(this)" aria-label="Play sample"><span class="icon-play">▶</span><span class="icon-pause">❚❚</span></button><a class="audio-amazon" href="https://www.amazon.com/Audible-The-Hellbilly-Blues/dp/B09X68DB7S/" target="_blank" rel="noopener">Amazon</a><img src="./assets/images/17-audiobook-hellbilly.jpg" alt="The Hellbilly Blues cover"><div class="audio-progress"><div class="bar" onclick="seek(event, this)"><div class="bar-fill"></div></div><div class="time"><span class="time-current">0:00</span><span class="time-total">0:00</span></div></div><audio preload="none" src="./assets/audio/hellbilly.mp3"></audio></div><h4>The Hellbilly Blues</h4><span class="platform">Annotations series</span></article>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     4. ACTING REELS
+     ========================================================= -->
+<section class="section" id="reels">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><span class="lang-en">Acting reels</span><span class="lang-es">Acting reels</span></span>
+      <h2 class="h-display">
+        <span class="lang-en">On-camera work.</span>
+        <span class="lang-es">El trabajo en cámara.</span>
+      </h2>
+      <p>
+        <span class="lang-en">Two current reels: monologues and the 2025 reel.</span>
+        <span class="lang-es">Dos reels actuales: monólogos y reel 2025.</span>
+      </p>
+    </div>
+    <div class="reels-grid">
+      <div class="reel-card">
+        <video preload="metadata" poster="./assets/images/01-microfono-vintage.jpg" controls>
+          <source src="./assets/videos/reel-monologos-gabriel-perez.mp4" type="video/mp4">
+        </video>
+        <h3 class="reel-title"><span class="lang-en">Monologues reel</span><span class="lang-es">Reel de monólogos</span></h3>
+      </div>
+      <div class="reel-card">
+        <video preload="metadata" poster="./assets/images/01-microfono-vintage.jpg" controls>
+          <source src="./assets/videos/reel-2025-gabriel-perez.mp4" type="video/mp4">
+        </video>
+        <h3 class="reel-title">2025 Reel</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     5. VOICE-OVER. Link cards (top 9 by views, all link to YouTube)
+     ========================================================= -->
+<section class="section" id="voice-over" style="background: var(--cream-dim);">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><span class="lang-en">Voice-Over &amp; narration</span><span class="lang-es">Voice-Over y narración</span></span>
+      <h2 class="h-display">
+        <span class="lang-en">Long-form documentary narration.</span>
+        <span class="lang-es">Narración de documentales long-form.</span>
+      </h2>
+      <p>
+        <span class="lang-en">Lead narrator on the Kolo Kino documentary channel, with over 20 million views across the top nine episodes. Click any card to watch on YouTube.</span>
+        <span class="lang-es">Narrador principal del canal Kolo Kino, con más de 20 millones de views entre los nueve episodios más vistos. Click en cualquier card para ver en YouTube.</span>
+      </p>
+    </div>
+
+    <div class="vo-grid" id="vo-grid">
+      <a class="vo-card" href="https://www.youtube.com/watch?v=JYmu5IZsVHM" target="_blank" rel="noopener">
+        <div class="vo-thumb"><img loading="lazy" src="https://img.youtube.com/vi/JYmu5IZsVHM/hqdefault.jpg" alt=""><span class="yt-badge">YouTube</span></div>
+        <div class="vo-meta">
+          <h4 class="vo-title">Once Upon a Time… in Tarantino's Hollywood (Documentary Vol. 3)</h4>
+          <p class="vo-views"><strong>2.5M</strong> <span class="lang-en">views</span><span class="lang-es">views</span></p>
+        </div>
+      </a>
+      <a class="vo-card" href="https://www.youtube.com/watch?v=K6TRhzFpbOE" target="_blank" rel="noopener">
+        <div class="vo-thumb"><img loading="lazy" src="https://img.youtube.com/vi/K6TRhzFpbOE/hqdefault.jpg" alt=""><span class="yt-badge">YouTube</span></div>
+        <div class="vo-meta">
+          <h4 class="vo-title">Everything You Didn't Know About Snatch</h4>
+          <p class="vo-views"><strong>2.1M</strong> <span class="lang-en">views</span><span class="lang-es">views</span></p>
+        </div>
+      </a>
+      <a class="vo-card" href="https://www.youtube.com/watch?v=8VS5OEzVqGs" target="_blank" rel="noopener">
+        <div class="vo-thumb"><img loading="lazy" src="https://img.youtube.com/vi/8VS5OEzVqGs/hqdefault.jpg" alt=""><span class="yt-badge">YouTube</span></div>
+        <div class="vo-meta">
+          <h4 class="vo-title">Quentin Tarantino: The Video Store Clerk Who Changed Movies (Documentary Vol. 1)</h4>
+          <p class="vo-views"><strong>1.97M</strong> <span class="lang-en">views</span><span class="lang-es">views</span></p>
+        </div>
+      </a>
+      <a class="vo-card" href="https://www.youtube.com/watch?v=bP4XXWfcXJU" target="_blank" rel="noopener">
+        <div class="vo-thumb"><img loading="lazy" src="https://img.youtube.com/vi/bP4XXWfcXJU/hqdefault.jpg" alt=""><span class="yt-badge">YouTube</span></div>
+        <div class="vo-meta">
+          <h4 class="vo-title">Leonardo DiCaprio: From Break-Dance to Oscar | Documentary</h4>
+          <p class="vo-views"><strong>1.9M</strong> <span class="lang-en">views</span><span class="lang-es">views</span></p>
+        </div>
+      </a>
+      <a class="vo-card" href="https://www.youtube.com/watch?v=HDn6iJZl87k" target="_blank" rel="noopener">
+        <div class="vo-thumb"><img loading="lazy" src="https://img.youtube.com/vi/HDn6iJZl87k/hqdefault.jpg" alt=""><span class="yt-badge">YouTube</span></div>
+        <div class="vo-meta">
+          <h4 class="vo-title">Why Batman Begins Still Feels Different</h4>
+          <p class="vo-views"><strong>1.2M</strong> <span class="lang-en">views</span><span class="lang-es">views</span></p>
+        </div>
+      </a>
+      <a class="vo-card" href="https://www.youtube.com/watch?v=3f8lRa5qNCc" target="_blank" rel="noopener">
+        <div class="vo-thumb"><img loading="lazy" src="https://img.youtube.com/vi/3f8lRa5qNCc/hqdefault.jpg" alt=""><span class="yt-badge">YouTube</span></div>
+        <div class="vo-meta">
+          <h4 class="vo-title">Everything You Didn't Know About Once Upon a Time in… Hollywood</h4>
+          <p class="vo-views"><strong>1.1M</strong> <span class="lang-en">views</span><span class="lang-es">views</span></p>
+        </div>
+      </a>
+      <a class="vo-card" href="https://www.youtube.com/watch?v=22ni2GViutA" target="_blank" rel="noopener">
+        <div class="vo-thumb"><img loading="lazy" src="https://img.youtube.com/vi/22ni2GViutA/hqdefault.jpg" alt=""><span class="yt-badge">YouTube</span></div>
+        <div class="vo-meta">
+          <h4 class="vo-title">Making of Kill Bill</h4>
+          <p class="vo-views"><strong>1.0M</strong> <span class="lang-en">views</span><span class="lang-es">views</span></p>
+        </div>
+      </a>
+      <a class="vo-card" href="https://www.youtube.com/watch?v=fSajkx03Tmc" target="_blank" rel="noopener">
+        <div class="vo-thumb"><img loading="lazy" src="https://img.youtube.com/vi/fSajkx03Tmc/hqdefault.jpg" alt=""><span class="yt-badge">YouTube</span></div>
+        <div class="vo-meta">
+          <h4 class="vo-title">Making of Inglourious Basterds</h4>
+          <p class="vo-views"><strong>869K</strong> <span class="lang-en">views</span><span class="lang-es">views</span></p>
+        </div>
+      </a>
+      <a class="vo-card" href="https://www.youtube.com/watch?v=82bZqDZ7yNg" target="_blank" rel="noopener">
+        <div class="vo-thumb"><img loading="lazy" src="https://img.youtube.com/vi/82bZqDZ7yNg/hqdefault.jpg" alt=""><span class="yt-badge">YouTube</span></div>
+        <div class="vo-meta">
+          <h4 class="vo-title">Everything You Didn't Know About Inglourious Basterds</h4>
+          <p class="vo-views"><strong>802K</strong> <span class="lang-en">views</span><span class="lang-es">views</span></p>
+        </div>
+      </a>
+    </div>
+
+    <div class="yt-more">
+      <button type="button" class="btn btn-ghost-dark" onclick="loadAllVO(this)">
+        <span class="lang-en">Show all 41 documentaries</span><span class="lang-es">Ver los 41 documentales</span>
+      </button>
+    </div>
+
+    <!-- Self-Help mini-playlist nested in same section, less prominence -->
+    <div style="margin-top: clamp(50px, 8vw, 80px);">
+      <div class="playlist-head">
+        <h3><span class="lang-en">Self-Help audiobook playlist</span><span class="lang-es">Playlist de audiolibros de self-help</span></h3>
+        <span class="meta"><span class="lang-en">6 full titles on YouTube</span><span class="lang-es">6 títulos completos en YouTube</span></span>
+      </div>
+      <div class="playlist-strip">
+        <a class="playlist-card" href="https://www.youtube.com/watch?v=AEoBMfMDJAs" target="_blank" rel="noopener"><div class="playlist-thumb"><img loading="lazy" src="https://img.youtube.com/vi/AEoBMfMDJAs/hqdefault.jpg" alt="Self-help audiobook"></div><span class="ttl"><span class="lang-en">Title 1</span><span class="lang-es">Título 1</span></span></a>
+        <a class="playlist-card" href="https://www.youtube.com/watch?v=ojfYxJeWhsw" target="_blank" rel="noopener"><div class="playlist-thumb"><img loading="lazy" src="https://img.youtube.com/vi/ojfYxJeWhsw/hqdefault.jpg" alt="Self-help audiobook"></div><span class="ttl"><span class="lang-en">Title 2</span><span class="lang-es">Título 2</span></span></a>
+        <a class="playlist-card" href="https://www.youtube.com/watch?v=9m86H_PIaRM" target="_blank" rel="noopener"><div class="playlist-thumb"><img loading="lazy" src="https://img.youtube.com/vi/9m86H_PIaRM/hqdefault.jpg" alt="Self-help audiobook"></div><span class="ttl"><span class="lang-en">Title 3</span><span class="lang-es">Título 3</span></span></a>
+        <a class="playlist-card" href="https://www.youtube.com/watch?v=1x5tZgtP2dE" target="_blank" rel="noopener"><div class="playlist-thumb"><img loading="lazy" src="https://img.youtube.com/vi/1x5tZgtP2dE/hqdefault.jpg" alt="Self-help audiobook"></div><span class="ttl"><span class="lang-en">Title 4</span><span class="lang-es">Título 4</span></span></a>
+        <a class="playlist-card" href="https://www.youtube.com/watch?v=VnhcGW83ti8" target="_blank" rel="noopener"><div class="playlist-thumb"><img loading="lazy" src="https://img.youtube.com/vi/VnhcGW83ti8/hqdefault.jpg" alt="Self-help audiobook"></div><span class="ttl"><span class="lang-en">Title 5</span><span class="lang-es">Título 5</span></span></a>
+        <a class="playlist-card" href="https://www.youtube.com/watch?v=zlzZezURymw" target="_blank" rel="noopener"><div class="playlist-thumb"><img loading="lazy" src="https://img.youtube.com/vi/zlzZezURymw/hqdefault.jpg" alt="Self-help audiobook"></div><span class="ttl"><span class="lang-en">Title 6</span><span class="lang-es">Título 6</span></span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     6. MEDICAL/HEALTH. Color logos, bigger, hover scale
+     ========================================================= -->
+<section class="section" id="medical-health">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><span class="lang-en">Healthcare projects</span><span class="lang-es">Proyectos de salud</span></span>
+      <h2 class="h-display">
+        <span class="lang-en">Medical &amp; healthcare clients.</span>
+        <span class="lang-es">Clientes de salud y medicina.</span>
+      </h2>
+      <p>
+        <span class="lang-en">A vertical we've worked in for years, with voice-over, video and translation for healthcare and pharma communications.</span>
+        <span class="lang-es">Un vertical donde venimos hace años, con voice-over, video y traducción para comunicaciones de salud y pharma.</span>
+      </p>
+    </div>
+
+    <div class="logos-strip">
+      <a href="#" aria-label="Healthcare client"><img src="./assets/images/42-logo-client-3.png" alt=""></a>
+      <a href="#" aria-label="Duke Square"><img src="./assets/images/43-logo-client-dukesquare.png" alt=""></a>
+      <a href="#" aria-label="Healthcare client"><img src="./assets/images/40-logo-client-1.png" alt=""></a>
+      <a href="#" aria-label="Healthcare client"><img src="./assets/images/41-logo-client-2.png" alt=""></a>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     7. CTA FINAL
+     ========================================================= -->
+<section class="cta-final">
+  <div class="wrap">
+    <h2>
+      <span class="lang-en">Got an audiobook,<br>a spot or a video to record?</span>
+      <span class="lang-es">¿Un audiolibro,<br>un spot o un video para grabar?</span>
+    </h2>
+    <p>
+      <span class="lang-en">Tell us about the project. Language, timeline, budget. Same-day reply.</span>
+      <span class="lang-es">Contanos del proyecto. Idioma, tiempo, presupuesto. Respondemos el mismo día.</span>
+    </p>
+    <button type="button" class="btn btn-cream" onclick="openContact()">
+      <span class="lang-en">Start a project →</span><span class="lang-es">Empezar un proyecto →</span>
+    </button>
+  </div>
+</section>
+
+<!-- =========================================================
+     8. BRAND SIGN-OFF. Boar bigger at end of page
+     ========================================================= -->
+<section class="brand-signoff">
+  <div class="signoff-inner">
+    <img class="boar-img boar-img-final" src="./assets/images/feral-hog-silhouette.png" alt="Feral Hog symbol">
+    <h2 class="wordmark">FERAL <span class="accent">HOG</span> CONTENT</h2>
+    <p class="tagline">
+      <span class="lang-en">Stories worth hearing. Stories worth seeing. Since 2014.</span>
+      <span class="lang-es">Historias que vale la pena escuchar. Historias que vale la pena ver. Desde 2014.</span>
+    </p>
+  </div>
+</section>
+
+<!-- =========================================================
+     9. FOOTER
+     ========================================================= -->
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h5><span class="lang-en">Feral Hog Content, Inc.</span><span class="lang-es">Feral Hog Content, Inc.</span></h5>
+        <p style="margin: 0; max-width: 320px; color: var(--gray-soft); font-size: 14px;">
+          <span class="lang-en">Multi-service production by Gabriel J. Perez. Audiobooks, voice-over, dubbing and audiovisual work from Jersey City, NJ.</span>
+          <span class="lang-es">Productora multi-servicio de Gabriel J. Perez. Audiolibros, voice-over, doblaje y audiovisual desde Jersey City, NJ.</span>
+        </p>
+      </div>
+      <div>
+        <h5><span class="lang-en">Services</span><span class="lang-es">Servicios</span></h5>
+        <ul>
+          <li><a href="#audiobooks"><span class="lang-en">Audiobooks</span><span class="lang-es">Audiolibros</span></a></li>
+          <li><a href="#voice-over"><span class="lang-en">Voice-Over &amp; Dubbing</span><span class="lang-es">Voice-Over y Doblaje</span></a></li>
+          <li><a href="#services"><span class="lang-en">Audiovisual production</span><span class="lang-es">Producción audiovisual</span></a></li>
+          <li><a href="#services"><span class="lang-en">ES/EN translation</span><span class="lang-es">Traducción ES/EN</span></a></li>
+        </ul>
+      </div>
+      <div>
+        <h5><span class="lang-en">Gabriel</span><span class="lang-es">Gabriel</span></h5>
+        <ul>
+          <li><button type="button" onclick="openAbout()" style="background:none;border:0;padding:0;color:inherit;font:inherit;cursor:pointer;text-decoration:none;"><span class="lang-en">About</span><span class="lang-es">Sobre Gabriel</span></button></li>
+          <li><a href="https://www.imdb.com/name/nm3524200/" target="_blank" rel="noopener">IMDb</a></li>
+          <li><a href="./assets/documents/gabriel-perez-resume.pdf" target="_blank"><span class="lang-en">Resume (PDF)</span><span class="lang-es">CV (PDF)</span></a></li>
+        </ul>
+      </div>
+      <div>
+        <h5><span class="lang-en">Contact</span><span class="lang-es">Contacto</span></h5>
+        <ul>
+          <li><a href="mailto:gabe@feralhogcontent.com">gabe@feralhogcontent.com</a></li>
+          <li><a href="tel:+13053023593">305-302-3593</a></li>
+          <li>Jersey City, NJ</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="year"></span> Feral Hog Content, Inc. <span class="lang-en">All rights reserved.</span><span class="lang-es">Todos los derechos reservados.</span></span>
+    </div>
+  </div>
+</footer>
+
+<!-- =========================================================
+     ABOUT MODAL
+     ========================================================= -->
+<div class="modal-backdrop" id="about-modal" hidden onclick="if(event.target===this) closeAbout()">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="about-title">
+    <button type="button" class="modal-close" onclick="closeAbout()" aria-label="Close">✕</button>
+    <span class="modal-eyebrow"><span class="lang-en">About</span><span class="lang-es">Sobre Gabriel</span></span>
+    <h2 id="about-title">Gabriel J. Perez</h2>
+
+    <div class="lang-en">
+      <p>Voice actor, audiobook narrator, author and producer. Founder of <strong>Feral Hog Content, Inc.</strong> in Jersey City, NJ. Bilingual native (Spanish and English), with Hispanic and New York accents among others.</p>
+      <p>Lead narrator on the <strong>Kolo Kino</strong> documentary channel, where his voice has carried more than 20 million views across the top nine episodes. The channel publishes long-form essays on cinema, directors and movies. He's also voiced over 150 radio stations across the United States, and writes the comedy bits he performs that have aired on hundreds of stations. On Audible he has released ten titles, including the original <em>Annotations</em> series of annotated audiobook editions of public-domain classics and original works.</p>
+      <blockquote class="quote">"We don't outsource voices or editing. Every project goes through the same booth."</blockquote>
+
+      <h3>Selected film &amp; TV credits</h3>
+      <ul class="credit-list">
+        <li><strong>Griffin in Summer</strong> (2024), as The Principal</li>
+        <li><strong>Enemies of the State</strong> (2020)</li>
+        <li><strong>The NFL Today</strong>, voice work</li>
+        <li><a href="https://www.imdb.com/name/nm3524200/" target="_blank" rel="noopener">Full filmography on IMDb →</a></li>
+      </ul>
+
+      <h3>Brands and clients</h3>
+      <ul class="brand-list">
+        <li>Florida Marlins</li>
+        <li>Pilon Coffee</li>
+        <li>Florida Power and Light</li>
+        <li>It's Just Lunch</li>
+        <li>Jawbone</li>
+        <li>Snackwell Cookies</li>
+        <li>The Freedom Box</li>
+        <li>IAM</li>
+        <li>Kolo Kino</li>
+        <li>Medicare for All</li>
+        <li>SPON</li>
+      </ul>
+    </div>
+
+    <div class="lang-es">
+      <p>Voice actor, narrador de audiolibros, autor y productor. Fundador de <strong>Feral Hog Content, Inc.</strong> en Jersey City, NJ. Bilingüe nativo (español e inglés), con acento hispano, neoyorquino y otros.</p>
+      <p>Narrador principal del canal de documentales <strong>Kolo Kino</strong>, donde su voz ya superó los 20 millones de views entre los nueve episodios más vistos. El canal publica ensayos de larga duración sobre cine, directores y películas. Además, su voz salió en más de 150 estaciones de radio en Estados Unidos, y escribe los chistes que interpreta, transmitidos por cientos de estaciones. En Audible publicó diez títulos, incluyendo la serie original <em>Annotations</em> de ediciones anotadas en audiolibro de clásicos del dominio público y obras propias.</p>
+      <blockquote class="quote">"No tercerizamos voces ni edición. Cada proyecto pasa por la misma cabina."</blockquote>
+
+      <h3>Créditos de cine y TV</h3>
+      <ul class="credit-list">
+        <li><strong>Griffin in Summer</strong> (2024), as The Principal</li>
+        <li><strong>Enemies of the State</strong> (2020)</li>
+        <li><strong>The NFL Today</strong>, voice work</li>
+        <li><a href="https://www.imdb.com/name/nm3524200/" target="_blank" rel="noopener">Filmografía completa en IMDb →</a></li>
+      </ul>
+
+      <h3>Marcas y clientes</h3>
+      <ul class="brand-list">
+        <li>Florida Marlins</li>
+        <li>Pilon Coffee</li>
+        <li>Florida Power and Light</li>
+        <li>It's Just Lunch</li>
+        <li>Jawbone</li>
+        <li>Snackwell Cookies</li>
+        <li>The Freedom Box</li>
+        <li>IAM</li>
+        <li>Kolo Kino</li>
+        <li>Medicare for All</li>
+        <li>SPON</li>
+      </ul>
+    </div>
+
+    <div class="modal-actions">
+      <a href="./assets/documents/gabriel-perez-resume.pdf" target="_blank" class="btn btn-primary">
+        <span class="lang-en">Download resume (PDF)</span><span class="lang-es">Descargar CV (PDF)</span>
+      </a>
+      <a href="https://www.imdb.com/name/nm3524200/" target="_blank" rel="noopener" class="btn btn-ghost-dark">
+        <span class="lang-en">View on IMDb →</span><span class="lang-es">Ver en IMDb →</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================
+     CONTACT MODAL
+     ========================================================= -->
+<div class="modal-backdrop" id="contact-modal" hidden onclick="if(event.target===this) closeContact()">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="contact-title">
+    <button type="button" class="modal-close" onclick="closeContact()" aria-label="Close">✕</button>
+    <span class="modal-eyebrow"><span class="lang-en">Start a project</span><span class="lang-es">Empezar un proyecto</span></span>
+    <h2 id="contact-title">
+      <span class="lang-en">Tell us about your project</span>
+      <span class="lang-es">Contanos del proyecto</span>
+    </h2>
+    <p style="font-size: 15px; color: var(--gray-mid);">
+      <span class="lang-en">All fields are optional. Or, if you'd rather, write directly to <a href="mailto:gabe@feralhogcontent.com" style="color: var(--red); font-weight: 600;">gabe@feralhogcontent.com</a>.</span>
+      <span class="lang-es">Todos los campos son opcionales. O, si preferís, escribí directamente a <a href="mailto:gabe@feralhogcontent.com" style="color: var(--red); font-weight: 600;">gabe@feralhogcontent.com</a>.</span>
+    </p>
+
+    <form class="contact-form" onsubmit="sendContact(event)">
+      <div class="row">
+        <label><span class="lang-en">Name</span><span class="lang-es">Nombre</span><input type="text" name="name" autocomplete="name"></label>
+        <label><span class="lang-en">Company</span><span class="lang-es">Empresa</span><input type="text" name="company" autocomplete="organization"></label>
+      </div>
+      <div class="row">
+        <label><span class="lang-en">Email</span><span class="lang-es">Email</span><input type="email" name="email" autocomplete="email"></label>
+        <label><span class="lang-en">Phone</span><span class="lang-es">Teléfono</span><input type="tel" name="phone" autocomplete="tel"></label>
+      </div>
+      <div class="row">
+        <label>
+          <span class="lang-en">Project type</span><span class="lang-es">Tipo de proyecto</span>
+          <select name="type" id="type-select">
+            <option value=""></option>
+            <option value="Audiobook">Audiobook</option>
+            <option value="Voice-Over">Voice-Over</option>
+            <option value="Dubbing">Dubbing</option>
+            <option value="Audiovisual production">Audiovisual production</option>
+            <option value="Translation">Translation</option>
+            <option value="Other">Other</option>
+          </select>
+        </label>
+        <label><span class="lang-en">Timeline</span><span class="lang-es">Tiempo</span><input type="text" name="timeline"></label>
+      </div>
+      <label>
+        <span class="lang-en">Message</span><span class="lang-es">Mensaje</span>
+        <textarea name="message"></textarea>
+      </label>
+      <p class="opt-note">
+        <span class="lang-en">When you submit, your default email app will open with the message ready to send.</span>
+        <span class="lang-es">Al enviar, se abre tu cliente de correo con el mensaje listo para mandar.</span>
+      </p>
+      <div class="modal-actions">
+        <button type="submit" class="btn btn-primary">
+          <span class="lang-en">Send message</span><span class="lang-es">Enviar mensaje</span>
+        </button>
+        <a href="mailto:gabe@feralhogcontent.com" class="btn btn-ghost-dark">
+          <span class="lang-en">Email directly →</span><span class="lang-es">Email directo →</span>
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- =========================================================
+     SCRIPTS
+     ========================================================= -->
+<script>
+  /* Year */
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* Language toggle (preserves scroll position, no jump) */
+  const setLang = (lang) => {
+    document.body.classList.remove('lang-en', 'lang-es');
+    document.body.classList.add('lang-' + lang);
+    document.documentElement.setAttribute('lang', lang);
+    document.querySelectorAll('[data-lang-btn]').forEach(b => {
+      b.classList.toggle('active', b.dataset.langBtn === lang);
+    });
+    try { localStorage.setItem('fhc-lang', lang); } catch (e) {}
+  };
+  document.querySelectorAll('[data-lang-btn]').forEach(b => {
+    b.addEventListener('click', () => setLang(b.dataset.langBtn));
+  });
+  try {
+    const saved = localStorage.getItem('fhc-lang');
+    if (saved === 'es') setLang('es');
+  } catch (e) {}
+
+  /* Audio player */
+  let currentAudio = null;
+  let currentCard = null;
+
+  const fmtTime = (s) => {
+    if (!isFinite(s)) return '0:00';
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60).toString().padStart(2, '0');
+    return m + ':' + sec;
+  };
+
+  const togglePlay = (btn) => {
+    const card = btn.closest('.audio-card');
+    const audio = card.querySelector('audio');
+    if (!audio) return;
+    if (currentAudio && currentAudio !== audio) {
+      currentAudio.pause();
+      if (currentCard) currentCard.classList.remove('is-playing');
+    }
+    if (audio.paused) {
+      audio.play().then(() => {
+        card.classList.add('is-playing');
+        currentAudio = audio;
+        currentCard = card;
+      }).catch(err => console.warn('Audio play failed:', err));
+    } else {
+      audio.pause();
+      card.classList.remove('is-playing');
+    }
+  };
+
+  const seek = (event, bar) => {
+    const card = bar.closest('.audio-card');
+    const audio = card.querySelector('audio');
+    if (!audio || !audio.duration) return;
+    event.stopPropagation();
+    const rect = bar.getBoundingClientRect();
+    const pct = (event.clientX - rect.left) / rect.width;
+    audio.currentTime = pct * audio.duration;
+  };
+
+  document.querySelectorAll('.audio-card').forEach(card => {
+    const audio = card.querySelector('audio');
+    if (!audio) return;
+    const fill = card.querySelector('.bar-fill');
+    const cur = card.querySelector('.time-current');
+    const total = card.querySelector('.time-total');
+    audio.addEventListener('loadedmetadata', () => { total.textContent = fmtTime(audio.duration); });
+    audio.addEventListener('timeupdate', () => {
+      const pct = (audio.currentTime / audio.duration) * 100;
+      fill.style.width = (pct || 0) + '%';
+      cur.textContent = fmtTime(audio.currentTime);
+    });
+    audio.addEventListener('ended', () => {
+      card.classList.remove('is-playing');
+      fill.style.width = '0%';
+      cur.textContent = '0:00';
+    });
+  });
+
+  /* V.O. load remaining 32 voice-over cards */
+  const REMAINING_VO = [
+    { id: 'It__UpJpogw',  title: "This Movie Should Be a Mess… It's a Masterpiece", views: '258K' },
+    { id: 'H_iAtXVQ-y8',  title: 'I Am El Chapo Escaping Prison', views: '222K' },
+    { id: 'Djv60RwGZpk',  title: 'Making of Once Upon a Time… in Hollywood', views: '200K' },
+    { id: 't9xXRdrHy84',  title: 'This Movie Aged Surprisingly Well', views: '188K' },
+    { id: 'c_DEk_w3CR8',  title: "It's Tarantino's Best… and Nobody Talks About It", views: '170K' },
+    { id: 'lE3pOXYl_d4',  title: 'Guy Ritchie: Biography | Ep. 2', views: '161K' },
+    { id: 'UZLVrXCkrT8',  title: 'This $75M Spy Movie Flopped… Then the Internet Discovered It', views: '121K' },
+    { id: 'uJjT5hAtwgM',  title: 'The Wildest Movies Censors Tried to Ban', views: '110K' },
+    { id: 'yadqmwaHCDc',  title: "Everything You Didn't Know About Tarantino's Death Proof", views: '107K' },
+    { id: 'rinDm8lLPjo',  title: 'This Movie Has No Business Being So Much Fun', views: '93K' },
+    { id: 'LyxuxOabuXs',  title: 'Making of Reservoir Dogs', views: '91K' },
+    { id: 'SM53Aiarcn4',  title: 'How Tarantino Made the Wrong Movie on Purpose', views: '79K' },
+    { id: 'TJcCKYfhN4k',  title: 'Memento Is Actually Insane', views: '54K' },
+    { id: 'Dz9NRTXnDlQ',  title: "It's Nolan's Best… and Nobody Talks About It", views: '47K' },
+    { id: 'PC92K1v6LMs',  title: 'Making of Django Unchained', views: '565K' },
+    { id: 'XeOpf9olaWk',  title: 'The Ultimate Tarantino Deep Dive', views: '706K' },
+    { id: 'YyIkJXAYbdo',  title: 'I Am a Death Row Executioner', views: '577K' },
+    { id: 'fzcmX6zRLx8',  title: 'Making of Pulp Fiction', views: '583K' },
+    { id: 'v2ftzRsTjTk',  title: 'Guy Ritchie: How to Snatch a Chance | Ep. 1', views: '461K' },
+    { id: 'bHFlNgNVoC0',  title: 'The Scrappy British Film That Accidentally Changed Hollywood', views: '257K' },
+    { id: 'xiicSNWRtoQ',  title: 'Making of The Hateful Eight', views: '255K' },
+    { id: 'GR0-qex_Vz8',  title: 'Henry Cavill: Life Story (Documentary)', views: '737K' },
+    { id: 'mA29PncoNi8',  title: 'This Looks Dumb… But Guy Ritchie Created a Masterpiece', views: '41K' },
+    { id: 'rei3I7w4kTg',  title: 'The Movie That Starts as Pulp Fiction… Then Becomes Evil Dead', views: '40K' },
+    { id: '9OS93Ix3iZQ',  title: 'Ranking the Greatest Cinematographers', views: '32K' },
+    { id: 'F9y_Klw6IkU',  title: 'You Watched In Bruges Wrong', views: '21K' },
+    { id: 'Wrlqoi8uT44',  title: 'The Tiny Christopher Nolan Movie That Became Inception', views: '20K' },
+    { id: 'F0CF1ngghw4',  title: 'The Dirty Movies That Changed Hollywood', views: '17K' },
+    { id: 'iAVGNJOlJ_Y',  title: 'They Planned Six Movies… Then Lost $150M on the First One', views: '10K' },
+    { id: '97DVgarjM0k',  title: "When Tarantino Doesn't Direct", views: '9K' },
+    { id: 'KhM0TpAyjpo',  title: 'The Most Pretentious Movie Guy Ritchie Ever Made', views: '7K' },
+    { id: '22NRwF-WnI0',  title: 'You Laughed at Blue Will Smith. Now Explain $1,000,000,000', views: '5K' }
+  ];
+
+  const loadAllVO = (button) => {
+    const grid = document.getElementById('vo-grid');
+    REMAINING_VO.forEach(v => {
+      const card = document.createElement('a');
+      card.className = 'vo-card';
+      card.href = `https://www.youtube.com/watch?v=${v.id}`;
+      card.target = '_blank';
+      card.rel = 'noopener';
+      card.innerHTML = `
+        <div class="vo-thumb"><img loading="lazy" src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt=""><span class="yt-badge">YouTube</span></div>
+        <div class="vo-meta">
+          <h4 class="vo-title">${v.title}</h4>
+          <p class="vo-views"><strong>${v.views}</strong> views</p>
+        </div>`;
+      grid.appendChild(card);
+    });
+    button.style.display = 'none';
+  };
+
+  /* About modal */
+  const openAbout = () => {
+    const m = document.getElementById('about-modal');
+    m.removeAttribute('hidden');
+    m.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  };
+  const closeAbout = () => {
+    const m = document.getElementById('about-modal');
+    m.classList.remove('is-open');
+    m.setAttribute('hidden', '');
+    document.body.style.overflow = '';
+  };
+
+  /* Contact modal + mailto submit */
+  const openContact = () => {
+    const m = document.getElementById('contact-modal');
+    m.removeAttribute('hidden');
+    m.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  };
+  const closeContact = () => {
+    const m = document.getElementById('contact-modal');
+    m.classList.remove('is-open');
+    m.setAttribute('hidden', '');
+    document.body.style.overflow = '';
+  };
+
+  const sendContact = (e) => {
+    e.preventDefault();
+    const f = new FormData(e.target);
+    const lang = document.body.classList.contains('lang-es') ? 'es' : 'en';
+    const labels = {
+      en: { name: 'Name', company: 'Company', email: 'Email', phone: 'Phone', type: 'Project type', timeline: 'Timeline', message: 'Message' },
+      es: { name: 'Nombre', company: 'Empresa', email: 'Email', phone: 'Teléfono', type: 'Tipo de proyecto', timeline: 'Tiempo', message: 'Mensaje' }
+    }[lang];
+    const order = ['name', 'company', 'email', 'phone', 'type', 'timeline', 'message'];
+    let body = '';
+    order.forEach(k => {
+      const v = (f.get(k) || '').toString().trim();
+      if (v) body += `${labels[k]}: ${v}\n\n`;
+    });
+    if (!body.trim()) {
+      const msg = lang === 'es'
+        ? 'Por favor, completá al menos un campo, o usá el botón Email directo.'
+        : 'Please fill at least one field, or use the Email directly button.';
+      alert(msg);
+      return;
+    }
+    const subject = lang === 'es' ? 'Nuevo proyecto desde feralhogcontent.com' : 'New project inquiry from feralhogcontent.com';
+    const url = `mailto:gabe@feralhogcontent.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = url;
+  };
+
+  /* Esc closes any modal */
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeAbout();
+      closeContact();
+    }
+  });
+</script>
+
+</body>
+</html>
