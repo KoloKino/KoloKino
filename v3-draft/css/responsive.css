@@ -1,0 +1,504 @@
+/* Responsive overrides — kept separate to survive linter truncation */
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-image { aspect-ratio: 4/5; max-width: 320px; max-height: 420px; margin: 0 auto; }
+  .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .feature, .feature:nth-of-type(even) { grid-template-columns: 1fr; }
+  .feature:nth-of-type(even) .feature-media { order: 0; }
+  .feature-media { max-width: 320px; max-height: 420px; margin: 0 auto; }
+  .article-hero { aspect-ratio: 16/10; max-height: 360px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--space-m); }
+  .footer-brand { grid-column: 1 / -1; }
+  .facts { grid-template-columns: 1fr; gap: var(--space-s); }
+  .leaf-deco { width: 240px !important; }
+}
+@media (max-width: 640px) {
+  .grid-3, .grid-4, .grid-2 { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .hero-image, .feature-media { max-width: 280px; max-height: 360px; }
+}
+
+/* ============================================================
+   FIX: How to book accordion (sessions.html)
+   - Open items expand in place (NOT full-width grid takeover)
+   - All text in open state must be cream-colored on green background
+   ============================================================ */
+.acc-horizontal .acc-item[open] {
+  grid-column: auto;          /* stay in own column instead of spanning all */
+}
+.acc-horizontal .acc-item[open] summary {
+  flex-direction: column;     /* keep vertical layout when open */
+  align-items: flex-start;
+  min-height: 0;
+}
+.acc-horizontal .acc-item[open] summary .acc-toggle {
+  margin-left: 0;             /* reset the row-mode override */
+  margin-top: auto;
+}
+/* Force ALL text inside an open accordion to cream — links, nested spans, anything */
+.acc-horizontal .acc-item[open],
+.acc-horizontal .acc-item[open] *,
+.acc-horizontal .acc-item[open] .acc-body,
+.acc-horizontal .acc-item[open] .acc-body p,
+.acc-horizontal .acc-item[open] .acc-body span,
+.acc-horizontal .acc-item[open] .acc-body a,
+.acc-horizontal .acc-item[open] .acc-title,
+.acc-horizontal .acc-item[open] .acc-title span {
+  color: var(--cream) !important;
+}
+/* Keep the rotating + button visible: cream circle with dark icon */
+.acc-horizontal .acc-item[open] .acc-toggle {
+  background: var(--cream) !important;
+  color: var(--green-deep) !important;
+}
+.acc-horizontal .acc-item[open] .acc-toggle * { color: var(--green-deep) !important; }
+/* The numeric label stays in the rose accent */
+.acc-horizontal .acc-item[open] .acc-num {
+  color: var(--rose) !important;
+}
+/* Links inside the body get an underline so they're discoverable */
+.acc-horizontal .acc-item[open] .acc-body a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+
+/* ============================================================
+   ROUND 5 — CLEANER BOTANICAL DECORATION + DARK BEIGE ACCORDION
+   - Replaces the buggy JPG-based monstera (which carried its own
+     dark-green rectangle and looked like a square pasted on the page)
+     with a clean SVG silhouette — no rectangle, scales nicely.
+   - Sessions "How to book" accordion fields now use a dark beige
+     base color instead of the very light cream-2.
+   ============================================================ */
+
+:root {
+  --beige-dark:      #c9b89a;   /* dark beige for accordion closed-state */
+  --beige-dark-text: #2b231b;   /* darker text that reads on beige */
+}
+
+/* Accordion items in their CLOSED state get the dark beige color */
+.acc-horizontal .acc-item {
+  background: var(--beige-dark) !important;
+  color: var(--beige-dark-text);
+}
+.acc-horizontal .acc-item summary .acc-title { color: var(--beige-dark-text); }
+.acc-horizontal .acc-item summary .acc-num   { color: var(--burgundy); }
+.acc-horizontal .acc-item summary .acc-toggle {
+  background: var(--beige-dark-text);
+  color: var(--beige-dark);
+}
+/* When opened the green-deep state from the base stylesheet stays — overridden in
+   responsive.css above; nothing more to do here. */
+
+/* ============================================================
+   .monstera-aside  — now sourced from a clean SVG silhouette
+   instead of a JPG with its own background.
+   ============================================================ */
+.monstera-aside {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  width: clamp(280px, 36vw, 520px);
+  height: clamp(360px, 46vw, 680px);
+  background-image: url('../images/monstera-deco.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.22;
+}
+.monstera-aside.right  { top: -8%;   right: -10%; }
+.monstera-aside.left   { bottom: -10%; left: -10%; transform: scaleX(-1); }
+.monstera-aside.center { top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.07; width: 70vw; height: 70vw; }
+/* On dark sections, lift the silhouette to a luminous green */
+.bg-green-deep .monstera-aside,
+.bg-photo-lotus .monstera-aside,
+.bg-photo-lily  .monstera-aside,
+.bg-ink         .monstera-aside,
+.bg-video       .monstera-aside {
+  filter: invert(1) sepia(1) hue-rotate(70deg) saturate(0.4) brightness(1.1);
+  opacity: 0.14;
+}
+@media (max-width: 760px) {
+  .monstera-aside.right  { right: -28%; width: 280px; height: 360px; }
+  .monstera-aside.left   { left: -28%;  width: 280px; height: 360px; }
+}
+
+/* ============================================================
+   .with-monstera — drops a single big SVG monstera in the corner
+   of any cream2 section. No rectangle, no visible JPG bg.
+   ============================================================ */
+section.with-monstera {
+  position: relative;
+  overflow: hidden;
+}
+section.with-monstera::after {
+  content: "";
+  position: absolute;
+  inset: auto -10% -14% auto;
+  width: 420px;
+  height: 540px;
+  background-image: url('../images/monstera-deco.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+/* ============================================================
+   .bg-photo-lily  + .bg-photo-lotus — photographic backdrops
+   (kept; these don't have the rectangle issue because they're
+   full-bleed cover backgrounds).
+   ============================================================ */
+.bg-photo-lotus {
+  position: relative;
+  isolation: isolate;
+  color: var(--cream);
+  background-image:
+    linear-gradient(180deg, rgba(31,53,44,0.72) 0%, rgba(31,53,44,0.85) 60%, rgba(26,20,19,0.9) 100%),
+    url('../images/lotus-pond.jpg');
+  background-size: cover;
+  background-position: center;
+}
+.bg-photo-lotus h1, .bg-photo-lotus h2, .bg-photo-lotus h3 { color: var(--cream); }
+.bg-photo-lotus .eyebrow { color: var(--green-soft); }
+.bg-photo-lotus .eyebrow::before { background: var(--green-soft); }
+
+.bg-photo-lily {
+  position: relative;
+  isolation: isolate;
+  color: var(--cream);
+  background-image:
+    linear-gradient(180deg, rgba(31,53,44,0.82) 0%, rgba(31,53,44,0.92) 100%),
+    url('../images/lily-pads-dark.jpg');
+  background-size: cover;
+  background-position: center;
+}
+.bg-photo-lily h1, .bg-photo-lily h2, .bg-photo-lily h3 { color: var(--cream); }
+.bg-photo-lily p, .bg-photo-lily .lede { color: rgba(250,247,239,0.88); }
+.bg-photo-lily .eyebrow { color: var(--green-soft); }
+.bg-photo-lily .eyebrow::before { background: var(--green-soft); }
+
+/* Drop the half-baked tinted monstera-light backdrop — replaced cleanly with .with-monstera */
+.bg-photo-monstera-light {
+  background: var(--cream);
+}
+
+/* Lily stamp — small circular photo accent. No bg rectangle (it's a circle). */
+.lily-stamp {
+  position: absolute;
+  pointer-events: none;
+  width: clamp(120px, 16vw, 210px);
+  height: clamp(120px, 16vw, 210px);
+  border-radius: 50%;
+  background-image: url('../images/lily-pads-dark.jpg');
+  background-size: cover;
+  background-position: center;
+  border: 4px solid var(--cream);
+  box-shadow: 0 14px 40px rgba(31,53,44,0.35);
+  z-index: 1;
+}
+.lily-stamp.tr { top: -36px; right: 4%; }
+.lily-stamp.bl { bottom: -36px; left: 4%; }
+@media (max-width: 760px) {
+  .lily-stamp { width: 110px; height: 110px; }
+  .lily-stamp.tr { right: 6%; top: -28px; }
+  .lily-stamp.bl { left: 6%; bottom: -28px; }
+}
+
+/* Open state has to beat the !important on closed-state bg */
+.acc-horizontal .acc-item[open] {
+  background: var(--green-deep) !important;
+  color: var(--cream) !important;
+}
+
+/* ============================================================
+   ROUND 6 — SOUL'S OWN REFERENCE IMAGES
+   Three images Soul attached to the project: dark monstera wall,
+   isolated lotus pads cutout, lily pads on dark green water.
+   These replace the previous Unsplash + monstera-deco placeholders
+   in the spots where backgrounds had felt cheap or pasted-on.
+   ============================================================ */
+
+/* hojas-1 — dramatic dark monstera leaves filling the frame.
+   Use as full-bleed bg on the manifesto strip (replaces bg-photo-lily). */
+.bg-hojas-1 {
+  position: relative;
+  isolation: isolate;
+  color: var(--cream);
+  background-image:
+    linear-gradient(180deg, rgba(14,26,20,0.55) 0%, rgba(14,26,20,0.72) 100%),
+    url('../images/hojas-1.jpg');
+  background-size: cover;
+  background-position: center;
+}
+.bg-hojas-1 h1, .bg-hojas-1 h2, .bg-hojas-1 h3 { color: var(--cream); }
+.bg-hojas-1 p, .bg-hojas-1 .lede, .bg-hojas-1 .pull { color: rgba(250,247,239,0.88); }
+.bg-hojas-1 .eyebrow { color: var(--green-soft); }
+.bg-hojas-1 .eyebrow::before { background: var(--green-soft); }
+.bg-hojas-1 .pull-cite { color: var(--green-soft); }
+
+/* hojas-3 — lily pads on dark green water.
+   Full-bleed bg for the final CTA (replaces bg-photo-lotus). */
+.bg-hojas-3 {
+  position: relative;
+  isolation: isolate;
+  color: var(--cream);
+  background-image:
+    linear-gradient(180deg, rgba(14,26,20,0.40) 0%, rgba(14,26,20,0.75) 100%),
+    url('../images/hojas-3.jpg');
+  background-size: cover;
+  background-position: center;
+}
+.bg-hojas-3 h1, .bg-hojas-3 h2, .bg-hojas-3 h3 { color: var(--cream); }
+.bg-hojas-3 p, .bg-hojas-3 .lede { color: rgba(250,247,239,0.88); }
+.bg-hojas-3 .eyebrow { color: var(--green-soft); }
+.bg-hojas-3 .eyebrow::before { background: var(--green-soft); }
+
+/* hojas-2 — isolated lotus pads cutout (PNG with transparent bg).
+   Use as a side decoration on cream sections. Overrides the older monstera-aside. */
+.hojas-aside {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  width: clamp(220px, 30vw, 460px);
+  height: clamp(220px, 30vw, 460px);
+  background-image: url('../images/hojas-2-cutout.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.45;
+}
+.hojas-aside.right  { top: -4%; right: -8%; }
+.hojas-aside.left   { bottom: -6%; left: -8%; transform: scaleX(-1); }
+@media (max-width: 760px) {
+  .hojas-aside.right { right: -28%; width: 220px; height: 220px; }
+  .hojas-aside.left  { left: -28%; width: 220px; height: 220px; }
+}
+/* On dark sections, brighten the cutout so it reads on green */
+.bg-green-deep .hojas-aside,
+.bg-hojas-1 .hojas-aside,
+.bg-hojas-3 .hojas-aside,
+.bg-ink .hojas-aside {
+  filter: brightness(1.4) saturate(0.9);
+  opacity: 0.32;
+}
+
+/* Backwards-compat: redirect old aliases to the new classes/images so the existing
+   HTML keeps working without a sweep. */
+.bg-photo-lily  { background-image:
+    linear-gradient(180deg, rgba(14,26,20,0.55) 0%, rgba(14,26,20,0.72) 100%),
+    url('../images/hojas-1.jpg') !important;
+}
+.bg-photo-lotus { background-image:
+    linear-gradient(180deg, rgba(14,26,20,0.40) 0%, rgba(14,26,20,0.75) 100%),
+    url('../images/hojas-3.jpg') !important;
+}
+
+/* Redirect legacy monstera-aside / with-monstera to Soul's hojas-2 cutout.
+   This way the previously-injected decoration spots automatically pick up
+   the new reference image — no HTML sweep needed. */
+.monstera-aside {
+  background-image: url('../images/hojas-2-cutout.png') !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  width: clamp(220px, 32vw, 480px) !important;
+  height: clamp(220px, 32vw, 480px) !important;
+  opacity: 0.42 !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+}
+.bg-green-deep .monstera-aside,
+.bg-hojas-1 .monstera-aside,
+.bg-hojas-3 .monstera-aside,
+.bg-photo-lily .monstera-aside,
+.bg-photo-lotus .monstera-aside,
+.bg-ink .monstera-aside,
+.bg-video .monstera-aside {
+  filter: brightness(1.4) saturate(0.9) !important;
+  opacity: 0.30 !important;
+}
+
+section.with-monstera::after {
+  background-image: url('../images/hojas-2-cutout.png') !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  width: 460px !important;
+  height: 460px !important;
+  opacity: 0.36 !important;
+  mix-blend-mode: normal !important;
+}
+
+/* ============================================================
+   ROUND 7 — HERO MOBILE COMPACT
+   User: en mobile la foto no entra en el viewport. Empty space
+   en exceso entre nav, eyebrow, h1, lede, buttons. Apretar todo
+   para que la foto se vea en la primera pantalla.
+   ============================================================ */
+
+@media (max-width: 760px) {
+  .hero {
+    padding-block: 1.25rem 1rem !important;   /* nav-stack abajo, foto cerca */
+  }
+  .hero-grid {
+    gap: 1rem !important;
+  }
+  .hero-copy .eyebrow {
+    margin-bottom: 0.6rem !important;
+    font-size: 11px !important;
+    letter-spacing: 0.10em !important;
+  }
+  .hero-copy h1.h-display {
+    margin-top: 0.4rem !important;
+    margin-bottom: 0.6rem !important;
+    font-size: clamp(2.2rem, 11vw, 3.2rem) !important;
+    line-height: 1.02 !important;
+  }
+  /* Drop the manual <br/> line breaks on mobile so the h1 wraps naturally */
+  .hero-copy h1.h-display br { display: none; }
+
+  .hero-copy .lede {
+    margin-bottom: 0.85rem !important;
+    font-size: 15px !important;
+    line-height: 1.45 !important;
+  }
+  .hero-cta {
+    gap: 8px !important;
+    margin-top: 0 !important;
+  }
+  .hero-cta .btn { padding-block: 0.7rem !important; }
+  .hero-image {
+    aspect-ratio: 4/5;
+    max-width: 100% !important;     /* let the photo fill the column */
+    max-height: 60vh !important;    /* but cap so it actually fits in the viewport */
+    margin: 0.5rem auto 0 !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero { padding-block: 1rem 0.75rem !important; }
+  .hero-copy h1.h-display { font-size: 2.1rem !important; }
+  .hero-copy .lede { font-size: 14px !important; }
+  .hero-image { max-height: 56vh !important; }
+}
+
+/* Lily stamp removed by user request — neutralize the class so any stray markup never renders. */
+.lily-stamp, .lily-stamp.tr, .lily-stamp.bl { display: none !important; }
+
+/* ============================================================
+   ROUND 8 — TESTIMONIAL CAROUSEL ARROWS (desktop)
+   Mobile keeps the native touch-scroll behaviour; desktop gets
+   visible prev/next buttons + a soft fade on the right edge
+   so users can see there is more content.
+   ============================================================ */
+
+.testimonial-carousel { position: relative; }
+
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--cream);
+  color: var(--burgundy);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(26,20,19,0.06);
+  transition: background .25s var(--ease), color .25s var(--ease),
+              border-color .25s var(--ease), box-shadow .25s var(--ease),
+              opacity .25s var(--ease);
+}
+.carousel-arrow:hover {
+  background: var(--burgundy);
+  color: var(--cream);
+  border-color: var(--burgundy);
+  box-shadow: 0 8px 22px rgba(117,6,8,0.22);
+}
+.carousel-arrow:focus-visible {
+  outline: 2px solid var(--burgundy);
+  outline-offset: 3px;
+}
+.carousel-arrow svg { width: 18px; height: 18px; display: block; }
+.carousel-arrow.prev { left: -8px; }
+.carousel-arrow.next { right: -8px; }
+.carousel-arrow[aria-disabled="true"] { opacity: 0.30; cursor: default; pointer-events: none; }
+
+/* Soft fade on right edge of the strip on desktop, hinting at more content */
+.testimonial-carousel::after {
+  content: "";
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 64px;
+  background: linear-gradient(90deg, transparent, var(--cream));
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.9;
+  transition: opacity .25s var(--ease);
+}
+.testimonial-carousel.at-end::after { opacity: 0; }
+
+/* Hide arrows on mobile — touch scroll is the better UX there */
+@media (max-width: 760px) {
+  .carousel-arrow { display: none; }
+  .testimonial-carousel::after { display: none; }
+}
+
+/* When the parent section has a cream2 background, the fade and the arrow
+   bg should match that, not the lighter cream. */
+.bg-cream2 .carousel-arrow { background: var(--cream); }
+.bg-cream2 .testimonial-carousel::after {
+  background: linear-gradient(90deg, transparent, var(--cream-2));
+}
+
+/* Leaf-deco SVG circles removed by user request (they were the "semicírculos raros"). */
+.leaf-deco { display: none !important; }
+
+/* ============================================================
+   ROUND 8 — TESTIMONIAL CAROUSEL ARROWS, VISIBLE ON DESKTOP
+   Previous version was cream-on-cream (invisible). Burgundy
+   pill so users see "yes there are more, click here".
+   Also: drop the right-edge cream fade — it made the row look
+   "cut off" rather than "scrollable".
+   ============================================================ */
+
+.carousel-arrow {
+  background: var(--burgundy) !important;
+  color: var(--cream) !important;
+  border-color: var(--burgundy) !important;
+  box-shadow: 0 8px 22px rgba(117,6,8,0.22) !important;
+  width: 52px !important;
+  height: 52px !important;
+}
+.carousel-arrow:hover {
+  background: var(--burgundy-soft, #8f2125) !important;
+  color: var(--cream) !important;
+  border-color: var(--burgundy-soft, #8f2125) !important;
+  box-shadow: 0 12px 28px rgba(117,6,8,0.34) !important;
+}
+.carousel-arrow svg { width: 22px !important; height: 22px !important; stroke-width: 2.2 !important; }
+.carousel-arrow.prev { left: -22px !important; }
+.carousel-arrow.next { right: -22px !important; }
+
+/* Disable the cream fade — it was the thing making the row look cut off */
+.testimonial-carousel::after { display: none !important; }
+
+/* Make sure the parent section doesn't clip the arrows */
+section.bg-photo-monstera-light,
+section.bg-cream2 {
+  /* allow the arrows to sit on the edge without being clipped by overflow:hidden */
+}
+section.bg-photo-monstera-light[style*="overflow:hidden"] { overflow: visible !important; }
+
+@media (max-width: 760px) {
+  .carousel-arrow { display: none !important; }
+}

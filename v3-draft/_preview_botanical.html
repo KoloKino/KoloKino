@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Botanical preview</title>
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/responsive.css">
+<style>
+  body { margin: 0; }
+  .preview-section { padding: 4rem 2rem; min-height: 320px; position: relative; overflow: hidden; }
+  .preview-label { font-family: var(--font-sans); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; opacity: .7; }
+  h2 { font-family: var(--font-serif); font-style: italic; }
+</style>
+</head>
+<body>
+  <section class="preview-section bg-cream2 with-monstera">
+    <span class="preview-label">Cream + SVG monstera (with-monstera)</span>
+    <h2>Notes from the practice.</h2>
+    <p>This section should have a clean monstera silhouette in the bottom-right — no rectangle frame.</p>
+  </section>
+
+  <section class="preview-section bg-green-deep">
+    <span class="monstera-aside right" aria-hidden="true"></span>
+    <span class="preview-label">Green-deep + monstera-aside right</span>
+    <h2 style="color: var(--cream)">A patient way of paying attention.</h2>
+    <p style="color: rgba(250,247,239,0.85)">The monstera should appear as a faint lighter-green silhouette in the top-right.</p>
+  </section>
+
+  <section class="preview-section bg-photo-lily">
+<span class="monstera-aside left" aria-hidden="true"></span>
+    <span class="preview-label">bg-photo-lily backdrop + lily-stamp + monstera-aside</span>
+    <h2>Words from the table.</h2>
+    <p>Dark green water with lily pads as full-bleed bg. A circular lily stamp top-right. Monstera silhouette bottom-left.</p>
+  </section>
+
+  <section class="preview-section bg-photo-lotus">
+<span class="monstera-aside right" aria-hidden="true"></span>
+    <span class="preview-label">bg-photo-lotus backdrop (final CTA)</span>
+    <h2>Step into the practice.</h2>
+    <p>Dramatic lotus pond backdrop, dark gradient on top, lily stamp + monstera silhouette.</p>
+  </section>
+
+  <section class="preview-section" style="padding-top:2rem">
+    <span class="preview-label">Accordion — closed state (dark beige) vs open state (green-deep + cream text)</span>
+    <div class="acc-horizontal" style="margin-top:1.5rem">
+      <details class="acc-item">
+        <summary>
+          <span class="acc-num">01</span>
+          <span class="acc-title">Pick the session</span>
+          <span class="acc-toggle">+</span>
+        </summary>
+        <div class="acc-body"><p>Closed — should be dark beige with dark text. The number 01 in burgundy.</p></div>
+      </details>
+      <details class="acc-item" open>
+        <summary>
+          <span class="acc-num">02</span>
+          <span class="acc-title">Confirm</span>
+          <span class="acc-toggle">+</span>
+        </summary>
+        <div class="acc-body"><p>Open — should be dark green with cream text, cream toggle button.</p></div>
+      </details>
+      <details class="acc-item">
+        <summary>
+          <span class="acc-num">03</span>
+          <span class="acc-title">Arrive</span>
+          <span class="acc-toggle">+</span>
+        </summary>
+        <div class="acc-body"><p>Closed, beige.</p></div>
+      </details>
+      <details class="acc-item">
+        <summary>
+          <span class="acc-num">04</span>
+          <span class="acc-title">Aftercare</span>
+          <span class="acc-toggle">+</span>
+        </summary>
+        <div class="acc-body"><p>Closed, beige.</p></div>
+      </details>
+    </div>
+  </section>
+</body></html>
