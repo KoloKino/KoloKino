@@ -28,39 +28,152 @@
 <meta name="twitter:description" content="Independent documentaries exploring the stories behind cinema. 132K subscribers on YouTube." />
 <meta name="twitter:image" content="https://kolo-kino.com/banner.jpg" />
 
-<!-- Favicon -->
+<!-- Favicon — multi-size. Drop favicon-16x16.png, favicon-32x32.png, apple-touch-icon.png
+     (180x180) and favicon.ico in the repo root to upgrade. Until then, logo_200p.png
+     is used for every size as a working fallback. -->
+<link rel="icon" type="image/x-icon" href="favicon.ico" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
 <link rel="icon" type="image/png" href="logo_200p.png" />
-<link rel="apple-touch-icon" href="logo_200p.png" />
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@500;700;900&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@500;700;900&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,700;1,900&display=swap" rel="stylesheet" />
 
-<!-- Structured data -->
+<!-- Structured data — Organization + Persons (team) + VideoObjects (flagship docs)
+     linked by @id so Google understands the relationships between them. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Kolo Kino",
-  "url": "https://kolo-kino.com",
-  "logo": "https://kolo-kino.com/logo.png",
-  "description": "Independent documentary channel exploring the stories behind cinema and its most eminent figures.",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Bentagache Street 13, 2B",
-    "addressLocality": "Las Palmas de Gran Canaria",
-    "postalCode": "35009",
-    "addressCountry": "ES"
-  },
-  "email": "collabs@okolo-kino.com",
-  "sameAs": [
-    "https://www.youtube.com/@OkoloKino",
-    "https://www.youtube.com/@kolokinoclips",
-    "https://www.facebook.com/okolokinoeng",
-    "https://www.instagram.com/kolokino_clips",
-    "https://www.tiktok.com/@kolo_kino",
-    "https://www.reddit.com/r/KoloKino/"
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://kolo-kino.com/#org",
+      "name": "Kolo Kino",
+      "url": "https://kolo-kino.com",
+      "logo": "https://kolo-kino.com/logo.png",
+      "image": "https://kolo-kino.com/banner.jpg",
+      "description": "Independent documentary studio exploring the stories behind cinema and its most eminent figures. Long-form films with broadcast-grade production, made for the living-room TV.",
+      "foundingDate": "2016",
+      "founder": [
+        { "@id": "https://kolo-kino.com/#ievgen" },
+        { "@id": "https://kolo-kino.com/#alex" }
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Bentagache Street 13, 2B",
+        "addressLocality": "Las Palmas de Gran Canaria",
+        "postalCode": "35009",
+        "addressCountry": "ES"
+      },
+      "email": "collabs@okolo-kino.com",
+      "sameAs": [
+        "https://www.youtube.com/@OkoloKino",
+        "https://www.facebook.com/okolokinoeng",
+        "https://www.instagram.com/kolokino_clips",
+        "https://www.tiktok.com/@kolo_kino",
+        "https://www.reddit.com/r/KoloKino/"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://kolo-kino.com/#website",
+      "url": "https://kolo-kino.com",
+      "name": "Kolo Kino",
+      "publisher": { "@id": "https://kolo-kino.com/#org" },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://kolo-kino.com/#ievgen",
+      "name": "Ievgen Khalimovskyi",
+      "jobTitle": "Founder, Creative Director",
+      "worksFor": { "@id": "https://kolo-kino.com/#org" },
+      "nationality": "Ukrainian",
+      "sameAs": [ "https://www.imdb.com/name/nm17402806/" ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://kolo-kino.com/#alex",
+      "name": "Alexander Mandrik",
+      "jobTitle": "Co-founder, Director & Producer",
+      "worksFor": { "@id": "https://kolo-kino.com/#org" },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Las Palmas de Gran Canaria",
+        "addressCountry": "ES"
+      },
+      "sameAs": [ "https://www.imdb.com/name/nm17402807/" ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://kolo-kino.com/#gabe",
+      "name": "Gabriel J. Perez",
+      "alternateName": "Gabe Perez",
+      "jobTitle": "Voice & Narration",
+      "memberOf": { "@type": "Organization", "name": "SAG-AFTRA" },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Miami",
+        "addressRegion": "FL",
+        "addressCountry": "US"
+      },
+      "sameAs": [
+        "https://www.imdb.com/name/nm3524200/",
+        "https://www.feralhogcontent.com"
+      ]
+    },
+    {
+      "@type": "VideoObject",
+      "name": "The Ultimate Tarantino Deep Dive",
+      "description": "The full Quentin Tarantino story: from video-store clerk to Hollywood, told film by film. The flagship long-form documentary on the Kolo Kino channel.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/XeOpf9olaWk/maxresdefault.jpg",
+      "embedUrl": "https://www.youtube.com/embed/XeOpf9olaWk",
+      "contentUrl": "https://www.youtube.com/watch?v=XeOpf9olaWk",
+      "uploadDate": "2020-09-13",
+      "publisher": { "@id": "https://kolo-kino.com/#org" },
+      "creator": [ { "@id": "https://kolo-kino.com/#ievgen" }, { "@id": "https://kolo-kino.com/#alex" } ]
+    },
+    {
+      "@type": "VideoObject",
+      "name": "The Martin Scorsese Story You've Never Seen",
+      "description": "Long-form documentary on Martin Scorsese, told through his filmography and the men who shaped him.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/4kMWWLcVWdk/maxresdefault.jpg",
+      "embedUrl": "https://www.youtube.com/embed/4kMWWLcVWdk",
+      "contentUrl": "https://www.youtube.com/watch?v=4kMWWLcVWdk",
+      "uploadDate": "2024-01-14",
+      "publisher": { "@id": "https://kolo-kino.com/#org" },
+      "creator": [ { "@id": "https://kolo-kino.com/#ievgen" }, { "@id": "https://kolo-kino.com/#alex" } ]
+    },
+    {
+      "@type": "VideoObject",
+      "name": "James Cameron vs. The Impossible",
+      "description": "A year-long documentary on James Cameron, his films, his inventions and his refusal to take no for an answer.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/X3yYnbn7vwA/maxresdefault.jpg",
+      "embedUrl": "https://www.youtube.com/embed/X3yYnbn7vwA",
+      "contentUrl": "https://www.youtube.com/watch?v=X3yYnbn7vwA",
+      "uploadDate": "2025-10-05",
+      "publisher": { "@id": "https://kolo-kino.com/#org" },
+      "creator": [ { "@id": "https://kolo-kino.com/#ievgen" }, { "@id": "https://kolo-kino.com/#alex" } ]
+    },
+    {
+      "@type": "VideoObject",
+      "name": "Leonardo DiCaprio: From Break-Dance to Oscar",
+      "description": "The Leonardo DiCaprio documentary that surges in views every awards season. 1.9M+ views.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/bP4XXWfcXJU/maxresdefault.jpg",
+      "embedUrl": "https://www.youtube.com/embed/bP4XXWfcXJU",
+      "contentUrl": "https://www.youtube.com/watch?v=bP4XXWfcXJU",
+      "uploadDate": "2021-07-04",
+      "publisher": { "@id": "https://kolo-kino.com/#org" },
+      "creator": [ { "@id": "https://kolo-kino.com/#ievgen" }, { "@id": "https://kolo-kino.com/#alex" } ],
+      "interactionStatistic": {
+        "@type": "InteractionCounter",
+        "interactionType": { "@type": "WatchAction" },
+        "userInteractionCount": 1900000
+      }
+    }
   ]
 }
 </script>
@@ -83,9 +196,9 @@
     --bg-card-alt: #221919;
     --line: #2a2424;
     --line-warm: #3a2828;
-    --fg: #f5f5f5;
-    --fg-dim: #b5b0ab;
-    --fg-mute: #7a7570;
+    --fg: #f4f1ec;      /* warm cream, cinema celluloid feel instead of clinical white */
+    --fg-dim: #b5b0a8;
+    --fg-mute: #7a756d;
     --accent: #ff3b3b;
     --accent-hover: #ff6060;
     --accent-soft: #4a1212;
@@ -129,6 +242,8 @@
 
   /* Typography */
   h1, h2, h3 { font-family: var(--serif); font-weight: 700; line-height: 1.2; margin: 0 0 0.5em; letter-spacing: -0.01em; }
+  /* Italic Playfair as a single-word editorial accent inside headings */
+  h1 em, h2 em { font-style: italic; font-weight: inherit; }
   h1 { font-size: clamp(2.2rem, 5vw, 4rem); }
   h2 { font-size: clamp(1.6rem, 3.2vw, 2.6rem); }
   h3 { font-size: clamp(1.1rem, 1.8vw, 1.35rem); }
@@ -377,6 +492,10 @@
 
   /* Sections */
   .section { padding: 80px 0; position: relative; }
+  /* Make sure the sticky banner+nav does not eclipse the section title when
+     a chip is clicked. ~banner + nav heights with a bit of breathing room. */
+  section[id], header[id] { scroll-margin-top: 120px; }
+  @media (max-width: 600px) { section[id], header[id] { scroll-margin-top: 90px; } }
   /* Warm sections fade in and out at their edges so the change against the
      dark/grainy background feels gradual instead of stepped. */
   .section.alt {
@@ -417,6 +536,9 @@
     object-position: center top;
     border: 1px solid var(--line);
     background: var(--bg-elev);
+    /* Slight desaturation pulls every headshot into the same warm-dark palette
+       without needing per-image colour grading. */
+    filter: saturate(0.94);
   }
   .team-photo.placeholder {
     display: flex;
@@ -1269,9 +1391,83 @@
     body { padding-top: calc(11.28vw + 48px); }
     body.scrolled { padding-top: calc(5.64vw + 48px); }
   }
+  /* Manifesto / pull quote — single dramatic line for an editorial pause */
+  .manifesto {
+    padding: 96px 0;
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 50% 50%, rgba(255, 59, 59, 0.10) 0%, transparent 60%);
+  }
+  .manifesto::before, .manifesto::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.45;
+  }
+  .manifesto::before { top: 0; }
+  .manifesto::after { bottom: 0; }
+  .manifesto .container { max-width: 940px; }
+  .manifesto blockquote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(1.5rem, 3.2vw, 2.4rem);
+    line-height: 1.4;
+    color: var(--fg);
+    margin: 0;
+    text-wrap: balance;
+  }
+  .manifesto blockquote .open-q,
+  .manifesto blockquote .close-q {
+    font-family: var(--serif);
+    font-size: 1.5em;
+    color: var(--accent);
+    opacity: 0.5;
+    line-height: 0;
+    vertical-align: -0.15em;
+    font-style: normal;
+  }
+  .manifesto cite {
+    display: block;
+    margin-top: 26px;
+    font-style: normal;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+    font-weight: 600;
+  }
+
+  /* Reveal-on-scroll — sections fade up as they enter the viewport */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity, transform;
+  }
+  .reveal.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation: none !important; transition: none !important; }
+    *, *::before, *::after {
+      animation-duration: 0s !important;
+      animation-delay: 0s !important;
+      transition-duration: 0s !important;
+      transition-delay: 0s !important;
+    }
     html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; }
+    body.scrolled .top-banner { transform: none; }
+    .a-bar > i { transform: scaleX(1); }
   }
 </style>
 </head>
@@ -1298,7 +1494,7 @@
 <header class="hero">
   <div class="hero-content">
     <p class="eyebrow">Cinema Documentaries · Since 2016</p>
-    <h1>The stories cinema deserves</h1>
+    <h1>The stories cinema <em>deserves</em></h1>
     <div class="hero-intro">
       <p>Kolo Kino is an independent documentary studio dedicated to the stories behind cinema. We make long-form films about its directors, its craft, and the moments that shaped the films you grew up with.</p>
       <p>Months of research per project, broadcast-grade audio and visuals, and a small team of cinephiles obsessed with telling these stories the way they deserve. Built for the way cinema is best enjoyed: on a big screen, leaning back, with the lights down.</p>
@@ -1363,6 +1559,16 @@
       </a>
 
     </div>
+  </div>
+</section>
+
+<!-- ============== MANIFESTO / PULL QUOTE ============== -->
+<section class="manifesto" id="manifesto" aria-label="Manifesto">
+  <div class="container">
+    <blockquote>
+      <span class="open-q" aria-hidden="true">&ldquo;</span>Most channels compete with the thumb-scroll. We compete with Netflix.<span class="close-q" aria-hidden="true">&rdquo;</span>
+    </blockquote>
+    <cite>Alexander Mandrik &middot; On what Kolo Kino is</cite>
   </div>
 </section>
 
@@ -1814,6 +2020,47 @@
       }
     }, { passive: true });
     update();
+  })();
+
+  // Reveal-on-scroll — fade and lift content as it enters the viewport.
+  (function() {
+    if (!('IntersectionObserver' in window)) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var selector = [
+      '.section-head',
+      '.featured-card',
+      '.video-card',
+      '.team-card',
+      '.number-card',
+      '.audience-block',
+      '.sponsor-point',
+      '.premiere',
+      '.past-partners',
+      '.hero-intro',
+      '.hero-stats',
+      '.hero-cta',
+      '.manifesto blockquote',
+      '.manifesto cite'
+    ].join(', ');
+
+    var targets = document.querySelectorAll(selector);
+    targets.forEach(function(el, i) {
+      el.classList.add('reveal');
+      // tiny stagger so siblings cascade in instead of all at once
+      el.style.transitionDelay = Math.min(i * 40, 200) + 'ms';
+    });
+
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+
+    targets.forEach(function(el) { io.observe(el); });
   })();
 
   // Lightbox: click any .zoomable image to enlarge; click backdrop or press ESC to close.
