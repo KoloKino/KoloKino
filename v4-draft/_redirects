@@ -1,13 +1,13 @@
 # Old routes → new sitemap (v4)
-/sessions          /learn.html         301
-/sessions.html     /learn.html         301
-/contact           /newsletter.html    301
-/contact.html      /newsletter.html    301
-/blog              /                   301
-/blog.html         /                   301
-/blog/*            /what-is.html       301
-/courses           /learn.html         301
-/courses.html      /learn.html         301
-/courses/*         /learn.html         301
-/method            /what-is.html       301
-/method.html       /what-is.html       301
+/newsletter        /articles.html        301
+/newsletter.html   /articles.html        301
+/contact           /articles.html        301
+/contact.html      /articles.html        301
+/blog              /articles.html        301
+/blog.html         /articles.html        301
+/blog/*            /articles/:splat      301
+/courses           /learn.html           301
+/courses.html      /learn.html           301
+/courses/*         /learn.html           301
+/method            /what-is.html         301
+/method.html       /what-is.html         301

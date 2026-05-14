@@ -99,6 +99,45 @@
     });
   });
 
+  // ── article modal ────────────────────────────────────────────────
+  document.querySelectorAll('[data-article-open]').forEach((trigger) => {
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      const id = trigger.getAttribute('data-article-open');
+      const dlg = document.getElementById(id);
+      if (!dlg) return;
+      if (typeof dlg.showModal === 'function') {
+        dlg.showModal();
+      } else {
+        // Fallback: just unhide
+        dlg.setAttribute('open', '');
+      }
+      document.body.classList.add('modal-open');
+      // Reset scroll position to top
+      const scroll = dlg.querySelector('.dialog-scroll');
+      if (scroll) scroll.scrollTop = 0;
+    });
+  });
+  document.querySelectorAll('.article-dialog').forEach((dlg) => {
+    // Close button
+    const closeBtn = dlg.querySelector('.dialog-close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => dlg.close());
+    }
+    // Click outside content area = close (click on backdrop)
+    dlg.addEventListener('click', (e) => {
+      const rect = dlg.getBoundingClientRect();
+      const inside =
+        e.clientX >= rect.left && e.clientX <= rect.right &&
+        e.clientY >= rect.top  && e.clientY <= rect.bottom;
+      if (!inside) dlg.close();
+    });
+    // When closed, restore scroll
+    dlg.addEventListener('close', () => {
+      document.body.classList.remove('modal-open');
+    });
+  });
+
   // ── newsletter form handler (placeholder — replace with your provider) ──
   const FORM_THANKS = {
     en: 'Thank you. The journal is being set up — we will let you know the moment it goes live.',
