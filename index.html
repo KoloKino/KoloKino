@@ -2216,32 +2216,64 @@
 
     // ----- 2. Latest videos -----
     // YouTube RSS doesn't expose CORS, so we route through a public proxy.
-    // Try multiple proxies in order; first success wins.
+    // Strategy:
+    //   (a) On load, immediately render from localStorage cache if any prior fetch
+    //       has ever succeeded — so the page NEVER reverts to stale static HTML
+    //       once a visitor has seen the up-to-date version.
+    //   (b) In parallel, race all proxies; first one to return a valid <feed
+    //       wins, updates the DOM, and refreshes the cache.
+    //   (c) If every proxy fails AND there's no cache, the static HTML stays.
     var rssUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + CHANNEL_ID;
     var proxies = [
       'https://corsproxy.io/?url=' + encodeURIComponent(rssUrl),
       'https://api.allorigins.win/raw?url=' + encodeURIComponent(rssUrl),
       'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(rssUrl)
     ];
+    var CACHE_KEY = 'kk_rss_cache_v1';
+    var CACHE_MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24h — render even stale cache as a fallback
 
-    function tryProxy(i) {
-      if (i >= proxies.length) {
-        console.warn('[Kolo Kino] All RSS proxies failed; showing static video grid.');
-        return;
-      }
-      fetch(proxies[i], { cache: 'no-store' })
+    function readCache() {
+      try {
+        var raw = localStorage.getItem(CACHE_KEY);
+        if (!raw) return null;
+        var obj = JSON.parse(raw);
+        if (!obj || !obj.xml || !obj.ts) return null;
+        return obj;
+      } catch (e) { return null; }
+    }
+    function writeCache(xml) {
+      try { localStorage.setItem(CACHE_KEY, JSON.stringify({ xml: xml, ts: Date.now() })); } catch (e) {}
+    }
+
+    // Step (a) — paint cached feed first (if any), so users with a prior successful
+    // fetch always see the freshest version we've ever managed to retrieve, even
+    // when today's proxy round-trip ultimately fails.
+    var cached = readCache();
+    if (cached) {
+      try {
+        renderVideos(cached.xml);
+        var ageH = Math.round((Date.now() - cached.ts) / 3600000);
+        console.log('[Kolo Kino] Rendered cached RSS (age ~' + ageH + 'h). Refreshing in background...');
+      } catch (e) { /* ignore */ }
+    }
+
+    // Step (b) — race all proxies; first valid response wins.
+    var settled = false;
+    proxies.forEach(function(url, i) {
+      fetch(url, { cache: 'no-store' })
         .then(function(r) { return r.ok ? r.text() : Promise.reject('HTTP ' + r.status); })
         .then(function(xml) {
-          if (!xml || xml.indexOf('<feed') === -1) {
-            throw new Error('Proxy returned non-feed content');
-          }
+          if (settled) return;
+          if (!xml || xml.indexOf('<feed') === -1) throw new Error('non-feed content');
+          settled = true;
+          writeCache(xml);
           renderVideos(xml);
+          console.log('[Kolo Kino] RSS refreshed via proxy #' + i + '.');
         })
         .catch(function(err) {
-          console.warn('[Kolo Kino] Proxy ' + i + ' failed (' + err + '), trying next...');
-          tryProxy(i + 1);
+          console.warn('[Kolo Kino] Proxy #' + i + ' failed: ' + err);
         });
-    }
+    });
 
     function renderVideos(xml) {
       var doc = new DOMParser().parseFromString(xml, 'text/xml');
@@ -2278,13 +2310,8 @@
                 '<p class="video-views">' + (views > 0 ? fmtViews(views) : 'New') + '</p>' +
                 '</div></a>';
       }
-      if (html) {
-        grid.innerHTML = html;
-        console.log('[Kolo Kino] Latest videos refreshed from RSS (' + limit + ' items).');
-      }
+      if (html) grid.innerHTML = html;
     }
-
-    tryProxy(0);
   })();
 
   // Lightbox: click any .zoomable image to enlarge; click backdrop or press ESC to close.
