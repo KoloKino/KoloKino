@@ -18,15 +18,18 @@
 <meta property="og:description" content="Independent documentaries exploring the stories behind cinema. 132K subscribers · 23M+ views · since 2016." />
 <meta property="og:url" content="https://kolo-kino.com/" />
 <meta property="og:image" content="https://kolo-kino.com/banner.jpg" />
-<meta property="og:image:width" content="1500" />
-<meta property="og:image:height" content="500" />
+<meta property="og:image:alt" content="Kolo Kino — cinematic documentary studio banner" />
+<meta property="og:image:width" content="2048" />
+<meta property="og:image:height" content="231" />
 <meta property="og:locale" content="en_US" />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Kolo Kino · Cinema Documentaries" />
 <meta name="twitter:description" content="Independent documentaries exploring the stories behind cinema. 132K subscribers on YouTube." />
 <meta name="twitter:image" content="https://kolo-kino.com/banner.jpg" />
+<meta name="twitter:image:alt" content="Kolo Kino — cinematic documentary studio banner" />
 
 <!-- Favicon — multi-size. Drop favicon-16x16.png, favicon-32x32.png, apple-touch-icon.png
      (180x180) and favicon.ico in the repo root to upgrade. Until then, logo_200p.png
@@ -1035,11 +1038,10 @@
     stroke-linecap: round;
     stroke-dasharray: 282.74;
     stroke-dashoffset: 282.74;
-    animation: ring-fill 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    transition: stroke-dashoffset 1.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  @keyframes ring-fill {
-    to { stroke-dashoffset: 22.62; } /* 282.74 * (1 - 0.92) */
-  }
+  /* JS adds .in-view on the .aperture when it enters viewport */
+  .aperture.in-view .ring-fg { stroke-dashoffset: 22.62; /* 282.74 * (1 - 0.92) */ }
   .aperture-center {
     position: absolute;
     inset: 0;
@@ -1321,6 +1323,8 @@
     font-size: 0.92rem;
     line-height: 1.7;
   }
+  .footer-meta a { color: var(--fg-dim); border-bottom: 1px dotted var(--fg-mute); transition: color .15s ease, border-color .15s ease; }
+  .footer-meta a:hover { color: var(--accent); border-color: var(--accent); }
 
   /* Keyboard accessibility — visible focus ring + skip link */
   a:focus-visible,
@@ -1724,7 +1728,7 @@
     <!-- VIDEOS-END -->
 
     <div class="videos-cta">
-      <a class="btn btn-primary" href="https://www.youtube.com/@OkoloKino/videos" target="_blank" rel="noopener">View all 66 videos on YouTube</a>
+      <a class="btn btn-primary" href="https://www.youtube.com/@OkoloKino/videos" target="_blank" rel="noopener"><span aria-hidden="true">▶</span> View all videos on YouTube</a>
     </div>
   </div>
 </section>
@@ -2016,7 +2020,7 @@
     <p class="eyebrow">Don't Be A Stranger</p>
     <h2>Let's make something together</h2>
     <p class="contact-pitch">Tell us about your brand, your audience, and the kind of story you would like to be part of. We reply to every serious inquiry within 48 hours.</p>
-    <a class="contact-email" href="mailto:collabs@okolo-kino.com">collabs@okolo-kino.com</a>
+    <a class="contact-email" href="mailto:collabs@okolo-kino.com?subject=Sponsorship%20inquiry%20%E2%80%94%20Kolo%20Kino">collabs@okolo-kino.com</a>
     <p class="contact-address">Bentagache 13, 2B · Las Palmas de Gran Canaria · 35009, Spain</p>
     <a class="download-pdf" href="Kolo%20Kino%20Media%20Kit.pdf" target="_blank" rel="noopener" download>
       <img src="pdf.png" alt="" aria-hidden="true" />
@@ -2029,7 +2033,8 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-meta">
-      © 2026 Kolo Kino · Independent documentary studio
+      © 2026 Kolo Kino · Independent documentary studio<br/>
+      <a href="mailto:collabs@okolo-kino.com?subject=Sponsorship%20inquiry%20%E2%80%94%20Kolo%20Kino">collabs@okolo-kino.com</a>
     </div>
     <nav class="social-links" aria-label="Social media links">
       <a href="https://www.youtube.com/@OkoloKino" target="_blank" rel="noopener" aria-label="YouTube Kolo Kino"><img src="youtube.png" alt="" /> YouTube</a>
@@ -2071,7 +2076,7 @@
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     // Hero is above the fold — it shouldn't fade in on load (causes an empty-hero
-     // flash for the first 30-60ms before the IntersectionObserver fires).
+    // flash for the first 30-60ms before the IntersectionObserver fires).
     var selector = [
       '.section-head',
       '.featured-card',
@@ -2103,6 +2108,21 @@
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
 
     targets.forEach(function(el) { io.observe(el); });
+
+    // Aperture donut — triggers its ring-fill animation only when it enters view
+    // (otherwise the user who scrolls past quickly misses it entirely).
+    var apertures = document.querySelectorAll('.aperture');
+    if (apertures.length) {
+      var apertureIO = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            apertureIO.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -10% 0px', threshold: 0.3 });
+      apertures.forEach(function(el) { apertureIO.observe(el); });
+    }
   })();
 
   // Lightbox: click any .zoomable image to enlarge; click backdrop or press ESC to close.
