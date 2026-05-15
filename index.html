@@ -1818,7 +1818,7 @@
             <span class="country">Rest of world</span><span class="pct">35.8%</span>
           </li>
         </ol>
-        <p class="caption highlight">A native English-speaking audience in markets with the purchasing power to act on what they see.</p>
+        <p class="caption highlight">A community of cinephiles in the world's leading film markets, mostly English-speaking.</p>
       </div>
 
       <!-- 2. AGE — 35mm filmstrip, each bracket is a frame -->
@@ -2215,44 +2215,76 @@
       .catch(function() { /* static fallback */ });
 
     // ----- 2. Latest videos -----
+    // YouTube RSS doesn't expose CORS, so we route through a public proxy.
+    // Try multiple proxies in order; first success wins.
     var rssUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + CHANNEL_ID;
-    fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(rssUrl))
-      .then(function(r) { return r.ok ? r.text() : Promise.reject(); })
-      .then(function(xml) {
-        var doc = new DOMParser().parseFromString(xml, 'text/xml');
-        var entries = doc.getElementsByTagName('entry');
-        var grid = document.querySelector('.videos-grid');
-        if (!grid || !entries.length) return;
+    var proxies = [
+      'https://corsproxy.io/?url=' + encodeURIComponent(rssUrl),
+      'https://api.allorigins.win/raw?url=' + encodeURIComponent(rssUrl),
+      'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(rssUrl)
+    ];
 
-        var YT_NS = 'http://www.youtube.com/xml/schemas/2015';
-        var MEDIA_NS = 'http://search.yahoo.com/mrss/';
-        var html = '';
-        var limit = Math.min(entries.length, 12);
-        for (var i = 0; i < limit; i++) {
-          var entry = entries[i];
-          var idEl = entry.getElementsByTagNameNS(YT_NS, 'videoId')[0];
-          var titleEl = entry.getElementsByTagName('title')[0];
-          if (!idEl || !titleEl) continue;
-          var vid = idEl.textContent;
-          var title = titleEl.textContent;
-
-          var views = 0;
-          var commNodes = entry.getElementsByTagNameNS(MEDIA_NS, 'community');
-          if (commNodes.length) {
-            var statsNodes = commNodes[0].getElementsByTagNameNS(MEDIA_NS, 'statistics');
-            if (statsNodes.length) views = parseInt(statsNodes[0].getAttribute('views'), 10) || 0;
+    function tryProxy(i) {
+      if (i >= proxies.length) {
+        console.warn('[Kolo Kino] All RSS proxies failed; showing static video grid.');
+        return;
+      }
+      fetch(proxies[i], { cache: 'no-store' })
+        .then(function(r) { return r.ok ? r.text() : Promise.reject('HTTP ' + r.status); })
+        .then(function(xml) {
+          if (!xml || xml.indexOf('<feed') === -1) {
+            throw new Error('Proxy returned non-feed content');
           }
+          renderVideos(xml);
+        })
+        .catch(function(err) {
+          console.warn('[Kolo Kino] Proxy ' + i + ' failed (' + err + '), trying next...');
+          tryProxy(i + 1);
+        });
+    }
 
-          html += '<a class="video-card" href="https://www.youtube.com/watch?v=' + vid + '" target="_blank" rel="noopener">' +
-                  '<div class="video-thumb"><img src="https://i.ytimg.com/vi/' + vid + '/hqdefault.jpg" alt="" loading="lazy" /></div>' +
-                  '<div class="video-meta">' +
-                  '<h3>' + escapeHtml(title) + '</h3>' +
-                  '<p class="video-views">' + (views > 0 ? fmtViews(views) : 'New') + '</p>' +
-                  '</div></a>';
+    function renderVideos(xml) {
+      var doc = new DOMParser().parseFromString(xml, 'text/xml');
+      var entries = doc.getElementsByTagName('entry');
+      var grid = document.querySelector('.videos-grid');
+      if (!grid || !entries.length) {
+        console.warn('[Kolo Kino] No entries found in RSS or grid missing.');
+        return;
+      }
+
+      var YT_NS = 'http://www.youtube.com/xml/schemas/2015';
+      var MEDIA_NS = 'http://search.yahoo.com/mrss/';
+      var html = '';
+      var limit = Math.min(entries.length, 12);
+      for (var i = 0; i < limit; i++) {
+        var entry = entries[i];
+        var idEl = entry.getElementsByTagNameNS(YT_NS, 'videoId')[0];
+        var titleEl = entry.getElementsByTagName('title')[0];
+        if (!idEl || !titleEl) continue;
+        var vid = idEl.textContent;
+        var title = titleEl.textContent;
+
+        var views = 0;
+        var commNodes = entry.getElementsByTagNameNS(MEDIA_NS, 'community');
+        if (commNodes.length) {
+          var statsNodes = commNodes[0].getElementsByTagNameNS(MEDIA_NS, 'statistics');
+          if (statsNodes.length) views = parseInt(statsNodes[0].getAttribute('views'), 10) || 0;
         }
-        if (html) grid.innerHTML = html;
-      })
-      .catch(function() { /* static fallback */ });
+
+        html += '<a class="video-card" href="https://www.youtube.com/watch?v=' + vid + '" target="_blank" rel="noopener">' +
+                '<div class="video-thumb"><img src="https://i.ytimg.com/vi/' + vid + '/hqdefault.jpg" alt="" loading="lazy" /></div>' +
+                '<div class="video-meta">' +
+                '<h3>' + escapeHtml(title) + '</h3>' +
+                '<p class="video-views">' + (views > 0 ? fmtViews(views) : 'New') + '</p>' +
+                '</div></a>';
+      }
+      if (html) {
+        grid.innerHTML = html;
+        console.log('[Kolo Kino] Latest videos refreshed from RSS (' + limit + ' items).');
+      }
+    }
+
+    tryProxy(0);
   })();
 
   // Lightbox: click any .zoomable image to enlarge; click backdrop or press ESC to close.
