@@ -812,6 +812,19 @@
     line-height: 1.5;
     font-style: italic;
   }
+  /* "Highlight" caption — for the key benefit statement under Top Markets.
+     Bigger, brighter, with a red accent bar; not italic so it reads as a claim, not a footnote. */
+  .audience-block .caption.highlight {
+    margin-top: 22px;
+    padding: 10px 0 10px 14px;
+    border-left: 3px solid var(--accent);
+    font-size: 1.05rem;
+    color: var(--fg);
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: left;
+  }
 
   /* 1. Geography — premiere list with real flag images */
   .premiere-list {
@@ -969,12 +982,13 @@
     transition: color 0.2s ease;
   }
   .device svg {
-    width: 100%;
-    height: auto;
     display: block;
     margin: 0 auto 8px;
     color: rgba(255,255,255,0.35);
     transition: color 0.2s ease, filter 0.3s ease;
+    /* Explicit width + height set per device below — see device size rules.
+       This prevents portrait-aspect SVGs (tablet, mobile) from rendering
+       taller than the landscape-aspect TV when columns narrow on mobile. */
   }
   .device.dominant svg {
     color: var(--accent);
@@ -996,11 +1010,22 @@
     color: var(--fg-mute);
   }
   .device.dominant .label { color: var(--accent); }
-  /* device icon sizes — physical proportions (TV biggest, phone smallest) */
-  .device-tv svg     { max-width: 110px; }
-  .device-pc svg     { max-width: 78px;  padding-bottom: 4px; }
-  .device-tablet svg { max-width: 56px;  padding-bottom: 6px; }
-  .device-mobile svg { max-width: 36px;  padding-bottom: 10px; }
+  /* Device icon sizes — explicit width + height per device so the height
+     hierarchy (TV > PC > Tablet > Mobile) holds at every viewport.
+     Using max-width alone broke this on narrow columns because the portrait
+     SVGs would inflate vertically while the landscape TV got width-capped. */
+  .device-tv svg     { width: 100px; height: 80px; }   /* landscape 5:4  — biggest */
+  .device-pc svg     { width: 68px;  height: 60px; }   /* near-square  — next */
+  .device-tablet svg { width: 36px;  height: 50px; }   /* portrait     — smaller */
+  .device-mobile svg { width: 25px;  height: 44px; }   /* portrait narrow — smallest */
+
+  /* Scale down on narrow viewports while keeping the same hierarchy */
+  @media (max-width: 600px) {
+    .device-tv svg     { width: 78px; height: 62px; }
+    .device-pc svg     { width: 54px; height: 48px; }
+    .device-tablet svg { width: 28px; height: 40px; }
+    .device-mobile svg { width: 20px; height: 35px; }
+  }
 
   /* 4. Reach beyond subs — aperture donut */
   .reach-block .aperture { max-width: 170px; margin: 0 auto 18px; }
@@ -1793,7 +1818,7 @@
             <span class="country">Rest of world</span><span class="pct">35.8%</span>
           </li>
         </ol>
-        <p class="caption">Sums to 100% of lifetime views. Top 5 markets are all Tier-1 high-CPM regions.</p>
+        <p class="caption highlight">A native English-speaking audience in markets with the purchasing power to act on what they see.</p>
       </div>
 
       <!-- 2. AGE — 35mm filmstrip, each bracket is a frame -->
@@ -2123,6 +2148,111 @@
       }, { rootMargin: '0px 0px -10% 0px', threshold: 0.3 });
       apertures.forEach(function(el) { apertureIO.observe(el); });
     }
+  })();
+
+  // ===== Self-updating channel stats + latest videos =====
+  // Two fetches at page load:
+  //   1) Channel stats (subs + total views) from mixerno.space
+  //   2) Latest videos (with view counts) from YouTube RSS via CORS proxy
+  // If either fails, the static HTML already in the page stays as fallback.
+  (function() {
+    var CHANNEL_ID = 'UCC-4I_cirpJnU6VA3bOcudQ';
+    // Average hours-per-view from real Studio data (6.52M hrs / 23.33M views ≈ 0.28).
+    // Lets us estimate watch time proportionally to live view counts without needing
+    // the YouTube Analytics API (which requires owner-only OAuth).
+    var HOUR_PER_VIEW = 0.2796;
+
+    function fmt(n) {
+      if (!n || isNaN(n)) return '';
+      if (n >= 1e9) return (n/1e9).toFixed(1).replace(/\.0$/, '') + 'B';
+      if (n >= 1e6) return (n/1e6).toFixed(1).replace(/\.0$/, '') + 'M';
+      if (n >= 1e5) return Math.round(n/1e3) + 'K';
+      if (n >= 1e3) return (n/1e3).toFixed(1).replace(/\.0$/, '') + 'K';
+      return String(Math.round(n));
+    }
+    function fmtFull(n) {
+      if (!n || isNaN(n)) return '';
+      if (n >= 1e6) return (n/1e6).toFixed(1).replace(/\.0$/, '') + ' million';
+      if (n >= 1e3) return Math.round(n/1e3) + 'K';
+      return String(Math.round(n));
+    }
+    function fmtViews(n) { return fmt(n) + ' views'; }
+    function escapeHtml(s) {
+      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // ----- 1. Channel stats -----
+    fetch('https://mixerno.space/api/youtube-channel-counter/user/' + CHANNEL_ID)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (!data || !data.counts) return;
+        var subs = 0, views = 0;
+        data.counts.forEach(function(c) {
+          if (c.title === 'Subscribers') subs = c.count;
+          else if (c.title === 'Views') views = c.count;
+        });
+        if (!subs || !views) return;
+        var hours = Math.round(views * HOUR_PER_VIEW);
+
+        // Hero stats: views, hours, subs
+        var heroStats = document.querySelectorAll('.hero-stats strong');
+        if (heroStats[0]) heroStats[0].textContent = fmt(views);
+        if (heroStats[1]) heroStats[1].textContent = fmt(hours);
+        if (heroStats[2]) heroStats[2].textContent = fmt(subs);
+
+        // Numbers section cards: [0] views, [1] hours, [2] subs, [3] = 52% (stays fixed)
+        var nums = document.querySelectorAll('.number-card .number-value');
+        if (nums[0]) nums[0].textContent = fmt(views);
+        if (nums[1]) nums[1].textContent = fmt(hours);
+        if (nums[2]) nums[2].textContent = fmt(subs);
+
+        // Numbers section subtitle
+        var numHead = document.querySelector('#numbers .section-head > p');
+        if (numHead && !numHead.classList.contains('eyebrow')) {
+          numHead.textContent = fmtFull(hours) + ' hours watched. Half of that on living-room TVs.';
+        }
+      })
+      .catch(function() { /* static fallback */ });
+
+    // ----- 2. Latest videos -----
+    var rssUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + CHANNEL_ID;
+    fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(rssUrl))
+      .then(function(r) { return r.ok ? r.text() : Promise.reject(); })
+      .then(function(xml) {
+        var doc = new DOMParser().parseFromString(xml, 'text/xml');
+        var entries = doc.getElementsByTagName('entry');
+        var grid = document.querySelector('.videos-grid');
+        if (!grid || !entries.length) return;
+
+        var YT_NS = 'http://www.youtube.com/xml/schemas/2015';
+        var MEDIA_NS = 'http://search.yahoo.com/mrss/';
+        var html = '';
+        var limit = Math.min(entries.length, 12);
+        for (var i = 0; i < limit; i++) {
+          var entry = entries[i];
+          var idEl = entry.getElementsByTagNameNS(YT_NS, 'videoId')[0];
+          var titleEl = entry.getElementsByTagName('title')[0];
+          if (!idEl || !titleEl) continue;
+          var vid = idEl.textContent;
+          var title = titleEl.textContent;
+
+          var views = 0;
+          var commNodes = entry.getElementsByTagNameNS(MEDIA_NS, 'community');
+          if (commNodes.length) {
+            var statsNodes = commNodes[0].getElementsByTagNameNS(MEDIA_NS, 'statistics');
+            if (statsNodes.length) views = parseInt(statsNodes[0].getAttribute('views'), 10) || 0;
+          }
+
+          html += '<a class="video-card" href="https://www.youtube.com/watch?v=' + vid + '" target="_blank" rel="noopener">' +
+                  '<div class="video-thumb"><img src="https://i.ytimg.com/vi/' + vid + '/hqdefault.jpg" alt="" loading="lazy" /></div>' +
+                  '<div class="video-meta">' +
+                  '<h3>' + escapeHtml(title) + '</h3>' +
+                  '<p class="video-views">' + (views > 0 ? fmtViews(views) : 'New') + '</p>' +
+                  '</div></a>';
+        }
+        if (html) grid.innerHTML = html;
+      })
+      .catch(function() { /* static fallback */ });
   })();
 
   // Lightbox: click any .zoomable image to enlarge; click backdrop or press ESC to close.
