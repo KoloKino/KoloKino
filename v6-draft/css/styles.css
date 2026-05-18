@@ -596,10 +596,7 @@ section[id] { scroll-margin-top: 90px; }
 .bg-photo-jungle .eyebrow { color: var(--gold); }
 .bg-photo-jungle .eyebrow::before { background: var(--gold); }
 
-/* Fixed-attachment is laggy/buggy on iOS — switch to scroll on small screens */
-@media (max-width: 860px) {
-  .bg-photo-lily, .bg-photo-jungle { background-attachment: scroll; }
-}
+/* Keep the fixed-attachment effect on mobile too — user wants identical parallax behaviour */
 
 .has-deco { position: relative; overflow: hidden; }
 .has-deco > .wrap, .has-deco > .wrap-wide, .has-deco > .wrap-narrow { position: relative; z-index: 1; }
@@ -696,13 +693,31 @@ section[id] { scroll-margin-top: 90px; }
 
 /* Compact cine hero for interior pages (what-is, etc.) — shorter and centered */
 .hero-cine.hero-cine-page { min-height: 72vh; }
-@media (max-width: 720px) { .hero-cine.hero-cine-page { min-height: 64vh; } }
+@media (max-width: 720px) {
+  /* The mobile header is two rows tall, so leave more space at the top */
+  .hero-cine.hero-cine-page { min-height: auto; padding-bottom: 0; }
+  .hero-cine.hero-cine-page .hero-content {
+    padding-top: 120px;
+    padding-bottom: 2.4rem;
+    min-height: 78vh;
+  }
+  /* Video looks better on portrait viewports when shifted 17% to the left */
+  .hero-cine.hero-cine-page .hero-media video,
+  .hero-cine.hero-cine-page .hero-media img {
+    object-position: 67% 40%;
+  }
+}
 
 .hero-content-centered { text-align: center; }
 .hero-content-centered .hero-eyebrow { justify-content: center; margin-inline: auto; }
 .hero-content-centered h1 { margin-inline: auto; }
 .hero-content-centered .hero-lede { margin-inline: auto; }
 .hero-content-centered .hero-actions { justify-content: center; }
+.hero-content-centered .hero-actions .btn { justify-content: center; }
+@media (max-width: 720px) {
+  .hero-content-centered .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-content-centered .hero-actions .btn { width: 100%; }
+}
 /* Equal-width CTAs on the hero so the two buttons look balanced */
 .hero-cine .hero-actions .btn {
   flex: 1 1 240px;
