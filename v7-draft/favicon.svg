@@ -1,0 +1,8 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Burgundy background (brand color) -->
+  <rect width="64" height="64" rx="12" fill="#750608"/>
+  <!-- Cream circle outline + flow wave -->
+  <circle cx="32" cy="32" r="22" fill="none" stroke="#f6f1ea" stroke-width="2.6"/>
+  <path d="M 12 38 C 21 26, 30 26, 32 32 S 44 38, 52 26"
+        fill="none" stroke="#f6f1ea" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

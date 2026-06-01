@@ -1,0 +1,37 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lotus leaf">
+  <!-- Lotus pad: round leaf with radial veins from a central stem -->
+  <g fill="currentColor">
+    <!-- main pad shape, slightly wavy edge -->
+    <path d="M100 22
+             C 142 22, 178 58, 178 100
+             C 178 142, 142 178, 100 178
+             C 58 178, 22 142, 22 100
+             C 22 78, 30 60, 44 50
+             C 50 46, 56 50, 56 56
+             C 56 64, 50 70, 46 76
+             C 38 88, 40 108, 50 122
+             C 60 138, 76 148, 92 150
+             C 110 152, 130 144, 144 130
+             C 158 116, 162 96, 156 78
+             C 152 64, 142 52, 130 46
+             C 124 42, 126 34, 132 32
+             C 142 28, 156 32, 166 42
+             C 174 50, 178 62, 178 76
+             C 178 60, 168 42, 152 32
+             C 138 24, 120 22, 100 22 Z"
+          opacity="0.92"/>
+    <!-- radial veins -->
+    <g stroke="currentColor" stroke-width="1.4" fill="none" opacity="0.55">
+      <path d="M100 100 L 100 30"/>
+      <path d="M100 100 L 160 60"/>
+      <path d="M100 100 L 170 110"/>
+      <path d="M100 100 L 150 158"/>
+      <path d="M100 100 L 92 170"/>
+      <path d="M100 100 L 36 148"/>
+      <path d="M100 100 L 28 90"/>
+      <path d="M100 100 L 52 42"/>
+    </g>
+    <!-- center dot (stem entry point) -->
+    <circle cx="100" cy="100" r="3" opacity="0.7"/>
+  </g>
+</svg>
