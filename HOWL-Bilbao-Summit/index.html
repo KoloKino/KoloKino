@@ -86,10 +86,27 @@ input::placeholder{color:var(--text-faint)}
 .checkbox-row:hover .checkbox-box{border-color:var(--accent)}
 .dest-field{margin-top:1.2rem;max-height:0;overflow:hidden;transition:max-height .3s ease}
 .dest-field.active{max-height:200px}
+
+.toggle-block{margin-top:1.8rem;padding:1.1rem 1.2rem;border:1px solid var(--border-soft);border-radius:3px;background:rgba(255,255,255,.02);display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:pointer;user-select:none;transition:border-color .15s,background .15s}
+.toggle-block:hover{border-color:var(--border-bright)}
+.toggle-text{flex:1 1 auto;min-width:0}
+.toggle-title{font-size:.88rem;color:var(--text-primary);font-weight:400;margin-bottom:.2rem}
+.toggle-sub{font-size:.78rem;color:var(--text-faint);font-weight:300;letter-spacing:.02em}
+.toggle-block input[type="checkbox"]{position:absolute;opacity:0;pointer-events:none}
+.toggle-switch{position:relative;width:42px;height:22px;background:rgba(255,255,255,.06);border:1px solid var(--border-soft);border-radius:999px;flex-shrink:0;transition:background .25s,border-color .25s}
+.toggle-switch::after{content:"";position:absolute;width:14px;height:14px;background:var(--text-soft);border-radius:50%;top:3px;left:3px;transition:transform .25s,background .25s}
+.toggle-block input:checked ~ .toggle-switch{background:var(--voted);border-color:var(--voted)}
+.toggle-block input:checked ~ .toggle-switch::after{transform:translateX(20px);background:#0a0e14}
+
 .save-bar{margin-top:2.6rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;padding-top:2rem;border-top:1px solid var(--border-soft)}
 .save-bar-meta{color:var(--text-faint);font-size:.78rem;letter-spacing:.06em;font-weight:400;max-width:320px}
 .success-card{text-align:center}
 .success-card h2{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:2.2rem;margin-bottom:.8rem;color:var(--accent);letter-spacing:.02em}
+.success-actions{margin-top:2.2rem;display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+.success-actions .btn-primary{padding:.85rem 1.6rem;font-size:.72rem}
+.success-actions .btn-primary.secondary{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.success-actions .btn-primary.secondary:hover{background:rgba(199,220,234,.12)}
+
 .footer{position:relative;text-align:center;margin-top:4rem;padding-bottom:1.5rem;font-size:.68rem;letter-spacing:.22em;color:var(--text-faint);text-transform:uppercase;font-weight:400;text-shadow:0 1px 6px rgba(0,0,0,.6);line-height:1.9}
 .footer .footer-howl{display:block;color:var(--accent);font-weight:500;letter-spacing:.4em;margin-bottom:.2rem}
 .hidden{display:none !important}
@@ -149,6 +166,16 @@ input::placeholder{color:var(--text-faint)}
 <input type="text" id="destCity" placeholder="e.g. Paris, Tokyo">
 </div>
 </div>
+
+<label class="toggle-block" for="notifyToggle">
+<div class="toggle-text">
+<div class="toggle-title">Notify me when everyone has voted</div>
+<div class="toggle-sub">We will email you the results once all the team has filled in their availability.</div>
+</div>
+<input type="checkbox" id="notifyToggle">
+<span class="toggle-switch"></span>
+</label>
+
 <div class="save-bar">
 <span class="save-bar-meta"></span>
 <button class="btn-primary" id="saveBtn">Save</button>
@@ -163,8 +190,9 @@ input::placeholder{color:var(--text-faint)}
 <h2>Thank you</h2>
 <p class="instruction" id="successName" style="margin:0 auto .8rem;text-align:center"></p>
 <p class="instruction" style="font-size:.9rem;text-align:center;margin:0 auto">You can come back to this page any time to change your selection. Updates overwrite your previous answer.</p>
-<div style="margin-top:1.8rem;display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap">
-<button class="btn-text" id="editBtn">Edit my selection</button>
+<div class="success-actions">
+<button class="btn-primary secondary" id="viewBtn">View calendar</button>
+<button class="btn-primary secondary" id="editBtn">Modify my selection</button>
 </div>
 </div>
 </div>
@@ -178,13 +206,13 @@ const API_URL = 'https://script.google.com/macros/s/AKfycbwGjKNASWIhc5ovCQad0asx
 const TEAM={'eem@promethean-pictures.com':{name:'Elias',surname:'Merhige'},'rj@promethean-pictures.com':{name:'Richard',surname:'Johns'},'pronins.igors@gmail.com':{name:'Igor',surname:'Pronin'},'pronina.marija.2019@gmail.com':{name:'Marija',surname:'Pronina'},'creators@kolo-kino.com':{name:'Alex',surname:'Mandrik'},'tplim789@gmail.com':{name:'TP',surname:'Lim'},'raph.bourdin@gmail.com':{name:'Rapha\u00ebl',surname:'Bourdin'},'david@strangeloop-studios.com':{name:'David',surname:'Wexler'},'gavin.gamboa@gmail.com':{name:'Gavin',surname:'Gamboa'},'jacob@fonik.dk':{name:'Jacob',surname:'Kirkegaard'},'contact.lizakiladze@gmail.com':{name:'Liza',surname:'Kiladze'},'vafankula@gmail.com':{name:'Sergejs',surname:'Sobolevs'},'nikolajivani4@gmail.com':{name:'Nikolay',surname:'Shestak'}};
 const RANGE_START=new Date(2026,5,15);
 const RANGE_END=new Date(2026,6,15);
-const state={user:null,selectedDays:new Set(),origin:'',sameDest:true,destination:'',dayCounts:{},totalRespondents:0,respondents:[]};
+const state={user:null,selectedDays:new Set(),origin:'',sameDest:true,destination:'',notify:false,dayCounts:{},totalRespondents:0,respondents:[]};
 const $=(id)=>document.getElementById(id);
 const normalize=(email)=>(email||'').trim().toLowerCase();
 function showScreen(which){['loginScreen','appScreen','successScreen'].forEach(id=>$(id).classList.add('hidden'));$(which).classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'});}
 async function login(){const email=normalize($('emailInput').value);if(!email){$('loginFeedback').textContent='Please enter your email.';return;}if(!TEAM[email]){$('loginFeedback').textContent='We do not recognise this address. Please use the email this link was sent to.';return;}$('loginFeedback').textContent='';state.user={email:email,...TEAM[email]};await loadFromBackend();paintAppScreen();showScreen('appScreen');}
-async function loadFromBackend(){try{const url=API_URL+'?ts='+Date.now();const r=await fetch(url,{method:'GET'});if(!r.ok)return;const data=await r.json();if(!data||!data.ok)return;state.dayCounts=data.dayCounts||{};state.totalRespondents=data.totalRespondents||0;state.respondents=data.respondents||[];const me=(state.respondents).find(x=>(x.email||'').toLowerCase()===state.user.email);if(me){state.origin=me.origin||state.origin;}}catch(e){console.warn('GET failed:',e);}}
-function paintAppScreen(){const n=state.user.name;$('greetingText').textContent='Hello, '+n+'.';$('instructionText').textContent='Tap every day below that could work for you to be in Bilbao between 15 June and 15 July 2026. We will find the window that brings as many of us together as possible.';$('originCity').value=state.origin||'';$('sameAsDest').checked=state.sameDest;$('destField').classList.toggle('active',!state.sameDest);$('destCity').value=state.destination||'';renderCalendar();updateDayCount();renderTeamList();$('respCount').textContent=state.totalRespondents+' ';}
+async function loadFromBackend(){try{const url=API_URL+'?ts='+Date.now();const r=await fetch(url,{method:'GET'});if(!r.ok)return;const data=await r.json();if(!data||!data.ok)return;state.dayCounts=data.dayCounts||{};state.totalRespondents=data.totalRespondents||0;state.respondents=data.respondents||[];const me=(state.respondents).find(x=>(x.email||'').toLowerCase()===state.user.email);if(me){state.origin=me.origin||state.origin;state.notify=!!me.notify;}}catch(e){console.warn('GET failed:',e);}}
+function paintAppScreen(){const n=state.user.name;$('greetingText').textContent='Hello, '+n+'.';$('instructionText').textContent='Tap every day below that could work for you to be in Bilbao between 15 June and 15 July 2026. We will find the window that brings as many of us together as possible.';$('originCity').value=state.origin||'';$('sameAsDest').checked=state.sameDest;$('destField').classList.toggle('active',!state.sameDest);$('destCity').value=state.destination||'';$('notifyToggle').checked=!!state.notify;renderCalendar();updateDayCount();renderTeamList();$('respCount').textContent=state.totalRespondents+' ';}
 function renderTeamList(){const root=$('teamList');root.innerHTML='';const voted=new Set((state.respondents||[]).map(r=>(r.email||'').toLowerCase()));Object.entries(TEAM).forEach(([email,info])=>{const li=document.createElement('li');const isVoted=voted.has(email);const isMe=state.user&&email===state.user.email;li.className='team-item'+(isVoted?' voted':'')+(isMe?' me':'');li.innerHTML='<span class="team-dot"></span><span class="team-name">'+info.name+' '+info.surname+'</span>';root.appendChild(li);});}
 function isoDate(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 const MONTH_NAMES=['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -192,9 +220,10 @@ function heatClass(count){if(!count||count<=0)return 'heat-0';if(count<=2)return
 function renderCalendar(){const root=$('calendarRoot');root.innerHTML='';const months=[{y:2026,m:5},{y:2026,m:6}];const todayIso=isoDate(new Date());months.forEach(({y,m})=>{const block=document.createElement('div');block.className='cal-month-block';const title=document.createElement('div');title.className='cal-month-title';title.textContent=MONTH_NAMES[m]+' '+y;block.appendChild(title);const grid=document.createElement('div');grid.className='cal-grid';['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach(d=>{const el=document.createElement('div');el.className='cal-dayname';el.textContent=d;grid.appendChild(el);});const first=new Date(y,m,1);const startCol=(first.getDay()+6)%7;for(let i=0;i<startCol;i++){const el=document.createElement('div');el.className='cal-cell empty';grid.appendChild(el);}const daysInMonth=new Date(y,m+1,0).getDate();for(let d=1;d<=daysInMonth;d++){const date=new Date(y,m,d);const el=document.createElement('div');el.className='cal-cell';el.textContent=d;const inRange=date>=RANGE_START&&date<=RANGE_END;const iso=isoDate(date);if(!inRange){el.classList.add('outside');}else{el.classList.add('in-range');const count=state.dayCounts[iso]||0;el.classList.add(heatClass(count));if(count>0){const badge=document.createElement('span');badge.className='vote-badge';badge.textContent=count;el.appendChild(badge);}if(state.selectedDays.has(iso))el.classList.add('you');if(iso===todayIso)el.classList.add('today');el.addEventListener('click',()=>toggleDay(iso,el));}grid.appendChild(el);}block.appendChild(grid);root.appendChild(block);});}
 function toggleDay(iso,el){if(state.selectedDays.has(iso)){state.selectedDays.delete(iso);el.classList.remove('you');}else{state.selectedDays.add(iso);el.classList.add('you');}updateDayCount();}
 function updateDayCount(){$('dayCount').textContent=state.selectedDays.size+' ';}
-function bindFormEvents(){$('originCity').addEventListener('input',(e)=>{state.origin=e.target.value;});$('destCity').addEventListener('input',(e)=>{state.destination=e.target.value;});$('sameAsDest').addEventListener('change',(e)=>{state.sameDest=e.target.checked;$('destField').classList.toggle('active',!state.sameDest);});}
-async function save(){if(!state.user)return;if(state.selectedDays.size===0){$('saveFeedback').classList.remove('ok');$('saveFeedback').textContent='Please select at least one day before saving.';return;}if(!state.origin.trim()){$('saveFeedback').classList.remove('ok');$('saveFeedback').textContent='Please tell us your departure city.';return;}if(!state.sameDest&&!state.destination.trim()){$('saveFeedback').classList.remove('ok');$('saveFeedback').textContent='Please add the return destination, or tick the box above.';return;}$('saveFeedback').textContent='';const btn=$('saveBtn');btn.disabled=true;btn.textContent='Saving...';const u=state.user;const payload={email:u.email,name:u.name,surname:u.surname,days:Array.from(state.selectedDays),origin:state.origin,sameDest:state.sameDest,destination:state.destination};try{const r=await fetch(API_URL,{method:'POST',body:JSON.stringify(payload)});const data=await r.json().catch(()=>({}));if(!r.ok||!data.ok)throw new Error(data.error||('HTTP '+r.status));$('successName').textContent=u.name+', your selection is saved. Thanks for letting us know.';showScreen('successScreen');}catch(err){$('saveFeedback').classList.remove('ok');$('saveFeedback').textContent='Could not save: '+err.message+'. Please retry.';}finally{btn.disabled=false;btn.textContent='Save';}}
-document.addEventListener('DOMContentLoaded',()=>{$('loginBtn').addEventListener('click',login);$('emailInput').addEventListener('keydown',(e)=>{if(e.key==='Enter')login();});$('saveBtn').addEventListener('click',save);$('editBtn').addEventListener('click',async()=>{await loadFromBackend();paintAppScreen();showScreen('appScreen');});bindFormEvents();});
+function bindFormEvents(){$('originCity').addEventListener('input',(e)=>{state.origin=e.target.value;});$('destCity').addEventListener('input',(e)=>{state.destination=e.target.value;});$('sameAsDest').addEventListener('change',(e)=>{state.sameDest=e.target.checked;$('destField').classList.toggle('active',!state.sameDest);});$('notifyToggle').addEventListener('change',(e)=>{state.notify=e.target.checked;});}
+async function save(){if(!state.user)return;if(state.selectedDays.size===0){$('saveFeedback').classList.remove('ok');$('saveFeedback').textContent='Please select at least one day before saving.';return;}if(!state.origin.trim()){$('saveFeedback').classList.remove('ok');$('saveFeedback').textContent='Please tell us your departure city.';return;}if(!state.sameDest&&!state.destination.trim()){$('saveFeedback').classList.remove('ok');$('saveFeedback').textContent='Please add the return destination, or tick the box above.';return;}$('saveFeedback').textContent='';const btn=$('saveBtn');btn.disabled=true;btn.textContent='Saving...';const u=state.user;const payload={email:u.email,name:u.name,surname:u.surname,days:Array.from(state.selectedDays),origin:state.origin,sameDest:state.sameDest,destination:state.destination,notify:state.notify};try{const r=await fetch(API_URL,{method:'POST',body:JSON.stringify(payload)});const data=await r.json().catch(()=>({}));if(!r.ok||!data.ok)throw new Error(data.error||('HTTP '+r.status));$('successName').textContent=u.name+', your selection is saved. Thanks for letting us know.';showScreen('successScreen');}catch(err){$('saveFeedback').classList.remove('ok');$('saveFeedback').textContent='Could not save: '+err.message+'. Please retry.';}finally{btn.disabled=false;btn.textContent='Save';}}
+async function backToCalendar(){await loadFromBackend();paintAppScreen();showScreen('appScreen');}
+document.addEventListener('DOMContentLoaded',()=>{$('loginBtn').addEventListener('click',login);$('emailInput').addEventListener('keydown',(e)=>{if(e.key==='Enter')login();});$('saveBtn').addEventListener('click',save);$('viewBtn').addEventListener('click',backToCalendar);$('editBtn').addEventListener('click',backToCalendar);bindFormEvents();});
 </script>
 </body>
 </html>
