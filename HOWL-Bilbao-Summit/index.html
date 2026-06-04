@@ -91,6 +91,11 @@ input::placeholder{color:var(--text-faint)}
 textarea{width:100%;padding:.75rem .9rem;background:rgba(255,255,255,.04);border:1px solid var(--border-soft);border-radius:2px;color:var(--text-primary);font-family:inherit;font-size:.92rem;font-weight:300;line-height:1.55;letter-spacing:.01em;outline:none;transition:border-color .15s,background .15s;resize:vertical;min-height:80px;box-sizing:border-box}
 textarea:focus{border-color:var(--border-bright);background:rgba(255,255,255,.07)}
 textarea::placeholder{color:var(--text-faint)}
+.countdown{margin-top:.7rem;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-faint);font-weight:400;display:flex;align-items:center;justify-content:center;gap:.55rem;flex-wrap:wrap}
+.countdown::before,.countdown::after{content:"";width:24px;height:1px;background:rgba(192,187,168,.18)}
+.countdown strong{color:var(--accent);font-weight:500;font-variant-numeric:tabular-nums;letter-spacing:.06em;font-size:.74rem}
+.countdown.closed{color:var(--error);text-transform:none;letter-spacing:.02em;font-size:.78rem}
+.countdown.closed strong{color:var(--error)}
 
 .field-row + .field-row{margin-top:1.6rem}
 .checkbox-row{display:flex;align-items:center;gap:.7rem;margin-top:1rem;cursor:pointer;user-select:none;font-size:.88rem;color:var(--text-soft);font-weight:300}
@@ -135,6 +140,7 @@ textarea::placeholder{color:var(--text-faint)}
 <div id="loginScreen">
 <h1 class="title">Availability</h1>
 <p class="subtitle">Team meeting &middot; Bilbao, Spain</p>
+<div class="countdown"><span>Voting closes in</span><strong class="cdTime">--</strong></div>
 <div class="card login-card">
 <label class="field-label" for="emailInput">Your email</label>
 <input type="email" id="emailInput" autocomplete="email" placeholder="you@domain.com" spellcheck="false">
@@ -145,6 +151,7 @@ textarea::placeholder{color:var(--text-faint)}
 <div id="appScreen" class="hidden" style="width:100%;display:flex;flex-direction:column;align-items:center">
 <h1 class="title">Availability</h1>
 <p class="subtitle">Team meeting &middot; Bilbao, Spain</p>
+<div class="countdown"><span>Voting closes in</span><strong class="cdTime">--</strong></div>
 <div class="card">
 <h2 class="greeting" id="greetingText"></h2>
 <p class="instruction" id="instructionText"></p>
@@ -227,7 +234,10 @@ const API_URL = 'https://script.google.com/macros/s/AKfycbwGjKNASWIhc5ovCQad0asx
 const TEAM={'eem@promethean-pictures.com':{name:'Elias',surname:'Merhige'},'rj@promethean-pictures.com':{name:'Richard',surname:'Johns'},'pronins.igors@gmail.com':{name:'Igor',surname:'Pronin'},'pronina.marija.2019@gmail.com':{name:'Marija',surname:'Pronina'},'creators@kolo-kino.com':{name:'Alex',surname:'Mandrik'},'tplim789@gmail.com':{name:'TP',surname:'Lim'},'raph.bourdin@gmail.com':{name:'Rapha\u00ebl',surname:'Bourdin'},'david@strangeloop-studios.com':{name:'David',surname:'Wexler'},'gavin.gamboa@gmail.com':{name:'Gavin',surname:'Gamboa'},'jacob@fonik.dk':{name:'Jacob',surname:'Kirkegaard'},'contact.lizakiladze@gmail.com':{name:'Liza',surname:'Kiladze'},'vafankula@gmail.com':{name:'Sergejs',surname:'Sobolevs'}};
 const RANGE_START=new Date(2026,5,15);
 const RANGE_END=new Date(2026,6,15);
-const state={user:null,selectedDays:new Set(),origin:'',sameDest:true,destination:'',notify:false,companions:0,notes:'',dayCounts:{},totalRespondents:0,respondents:[]};
+const state={user:null,selectedDays:new Set(),origin:'',sameDest:true,destination:'',notify:false,companions:0,notes:'',dayCounts:{},totalRespondents:0,respondents:[],votingClosed:false};
+const DEADLINE=new Date('2026-06-08T09:00:00Z');
+function pad2(n){return String(n).padStart(2,'0');}
+function updateCountdown(){const els=document.querySelectorAll('.countdown');const now=new Date();const diff=DEADLINE-now;els.forEach(root=>{const t=root.querySelector('.cdTime');if(diff<=0){root.classList.add('closed');root.innerHTML='<span>Voting closed</span><strong class="cdTime">' +DEADLINE.toUTCString().replace(' GMT','')+ '</strong>';return;}const d=Math.floor(diff/86400000);const h=Math.floor(diff%86400000/3600000);const m=Math.floor(diff%3600000/60000);const s=Math.floor(diff%60000/1000);if(t)t.textContent=(d>0?d+'d ':'')+pad2(h)+':'+pad2(m)+':'+pad2(s);});if(diff<=0&&!state.votingClosed){state.votingClosed=true;const sb=document.getElementById('saveBtn');if(sb){sb.disabled=true;sb.textContent='Voting closed';}}}
 const $=(id)=>document.getElementById(id);
 const normalize=(email)=>(email||'').trim().toLowerCase();
 function showScreen(which){['loginScreen','appScreen','successScreen'].forEach(id=>$(id).classList.add('hidden'));$(which).classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'});}
@@ -242,9 +252,9 @@ function renderCalendar(){const root=$('calendarRoot');root.innerHTML='';const m
 function toggleDay(iso,el){if(state.selectedDays.has(iso)){state.selectedDays.delete(iso);el.classList.remove('you');}else{state.selectedDays.add(iso);el.classList.add('you');}updateDayCount();}
 function updateDayCount(){$('dayCount').textContent=state.selectedDays.size+' ';}
 function bindFormEvents(){$('originCity').addEventListener('input',(e)=>{state.origin=e.target.value;});$('destCity').addEventListener('input',(e)=>{state.destination=e.target.value;});$('sameAsDest').addEventListener('change',(e)=>{state.sameDest=e.target.checked;$('destField').classList.toggle('active',!state.sameDest);});$('notesField').addEventListener('input',(e)=>{state.notes=e.target.value;});$('notifyToggle').addEventListener('change',(e)=>{state.notify=e.target.checked;});}
-async function save(){if(!state.user)return;if(state.selectedDays.size===0){$('saveFeedback').classList.remove('ok');$('saveFeedback').textContent='Please select at least one day before saving.';return;}if(!state.origin.trim()){$('saveFeedback').classList.remove('ok');$('saveFeedback').textContent='Please tell us your departure city.';return;}if(!state.sameDest&&!state.destination.trim()){$('saveFeedback').classList.remove('ok');$('saveFeedback').textContent='Please add the return destination, or tick the box above.';return;}$('saveFeedback').textContent='';const btn=$('saveBtn');btn.disabled=true;btn.textContent='Saving...';const u=state.user;const payload={email:u.email,name:u.name,surname:u.surname,days:Array.from(state.selectedDays),origin:state.origin,sameDest:state.sameDest,destination:state.destination,notify:state.notify,companions:state.companions||0,notes:state.notes||''};try{const r=await fetch(API_URL,{method:'POST',body:JSON.stringify(payload)});const data=await r.json().catch(()=>({}));if(!r.ok||!data.ok)throw new Error(data.error||('HTTP '+r.status));$('successName').textContent=u.name+', your selection is saved. Thanks for letting us know.';showScreen('successScreen');}catch(err){$('saveFeedback').classList.remove('ok');$('saveFeedback').textContent='Could not save: '+err.message+'. Please retry.';}finally{btn.disabled=false;btn.textContent='Save';}}
+async function save(){if(!state.user)return;if(state.votingClosed||new Date()>=DEADLINE){$('saveFeedback').classList.remove('ok');$('saveFeedback').textContent='Voting has closed. The deadline was 10:00 London time on 8 June 2026.';return;}if(state.selectedDays.size===0){$('saveFeedback').classList.remove('ok');$('saveFeedback').textContent='Please select at least one day before saving.';return;}if(!state.origin.trim()){$('saveFeedback').classList.remove('ok');$('saveFeedback').textContent='Please tell us your departure city.';return;}if(!state.sameDest&&!state.destination.trim()){$('saveFeedback').classList.remove('ok');$('saveFeedback').textContent='Please add the return destination, or tick the box above.';return;}$('saveFeedback').textContent='';const btn=$('saveBtn');btn.disabled=true;btn.textContent='Saving...';const u=state.user;const payload={email:u.email,name:u.name,surname:u.surname,days:Array.from(state.selectedDays),origin:state.origin,sameDest:state.sameDest,destination:state.destination,notify:state.notify,companions:state.companions||0,notes:state.notes||''};try{const r=await fetch(API_URL,{method:'POST',body:JSON.stringify(payload)});const data=await r.json().catch(()=>({}));if(!r.ok||!data.ok)throw new Error(data.error||('HTTP '+r.status));$('successName').textContent=u.name+', your selection is saved. Thanks for letting us know.';showScreen('successScreen');}catch(err){$('saveFeedback').classList.remove('ok');$('saveFeedback').textContent='Could not save: '+err.message+'. Please retry.';}finally{btn.disabled=false;btn.textContent='Save';}}
 async function backToCalendar(){await loadFromBackend();paintAppScreen();showScreen('appScreen');}
-document.addEventListener('DOMContentLoaded',()=>{$('loginBtn').addEventListener('click',login);$('emailInput').addEventListener('keydown',(e)=>{if(e.key==='Enter')login();});$('saveBtn').addEventListener('click',save);$('viewBtn').addEventListener('click',backToCalendar);$('editBtn').addEventListener('click',backToCalendar);bindFormEvents();});
+document.addEventListener('DOMContentLoaded',()=>{$('loginBtn').addEventListener('click',login);$('emailInput').addEventListener('keydown',(e)=>{if(e.key==='Enter')login();});$('saveBtn').addEventListener('click',save);$('viewBtn').addEventListener('click',backToCalendar);$('editBtn').addEventListener('click',backToCalendar);bindFormEvents();updateCountdown();setInterval(updateCountdown,1000);});
 </script>
 </body>
 </html>

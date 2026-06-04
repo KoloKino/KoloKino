@@ -39,6 +39,17 @@ function doGet(e) {
       const r = sendPreviewEmail();
       return json_({ ok: true, sent: r });
     }
+    if (e && e.parameter && e.parameter.invitedraft === '1') {
+      const r = sendInvitationDraft();
+      return json_({ ok: true, sent: r });
+    }
+    if (e && e.parameter && e.parameter.setuptrigger === '1') {
+      const r = setupDeadlineTrigger();
+      return json_({ ok: true, trigger: r });
+    }
+    if (e && e.parameter && e.parameter.deadline === '1') {
+      return json_({ ok: true, deadline: DEADLINE_UTC.toISOString(), open: isVotingOpen_() });
+    }
     const sheet = getSheet_();
     const lastRow = sheet.getLastRow();
     if (lastRow <= 1) return json_({ ok: true, dayCounts: {}, totalRespondents: 0, respondents: [] });
@@ -74,6 +85,7 @@ function doPost(e) {
     const payload = JSON.parse(e.postData.contents);
     const email = ((payload.email || '') + '').trim().toLowerCase();
     if (!email) return json_({ ok: false, error: 'missing email' });
+    if (!isVotingOpen_()) return json_({ ok: false, error: 'Voting has closed. The deadline was 10:00 London time on 8 June 2026.' });
     const sheet = getSheet_();
     const row = [
       new Date(), email, payload.name || '', payload.surname || '',
@@ -186,7 +198,7 @@ function buildMonthHtml_(year, month, dayCounts, rangeStart, rangeEnd) {
   return html;
 }
 
-function buildResultsHtml_(respondents, dayCounts) {
+function buildResultsHtml_(respondents, dayCounts, includeNotes) {
   const total = respondents.length;
   const best = findBestWindow_(dayCounts, total);
   const RS = new Date(2026, 5, 15), RE = new Date(2026, 6, 15);
@@ -250,7 +262,7 @@ function buildResultsHtml_(respondents, dayCounts) {
     html += '<td style="font-size:13px;color:#f0ebe1;font-weight:400;">' + (r.name || '') + ' ' + (r.surname || '') + plusBadge + '</td>';
     html += '<td style="font-size:11px;color:#aea899;text-align:right;letter-spacing:0.06em;">' + (r.daysCount || 0) + ' days &middot; ' + range + '</td>';
     html += '</tr></table>';
-    if (r.notes && r.notes.toString().trim()) {
+    if (includeNotes && r.notes && r.notes.toString().trim()) {
       const safeNote = r.notes.toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
       html += '<div style="margin-top:6px;font-size:12px;color:#aea899;font-style:italic;font-weight:300;line-height:1.5;padding-left:2px;border-left:2px solid rgba(199,220,234,0.35);padding-left:10px;">' + safeNote + '</div>';
     }
@@ -290,7 +302,7 @@ function buildSampleData_() {
 
 function sendPreviewEmail() {
   const { respondents, dayCounts } = buildSampleData_();
-  const htmlBody = buildResultsHtml_(respondents, dayCounts);
+  const htmlBody = buildResultsHtml_(respondents, dayCounts, true);
   MailApp.sendEmail({
     to: 'creators@kolo-kino.com',
     subject: 'HOWL Bilbao Summit · Preview · The team has voted',
@@ -298,4 +310,143 @@ function sendPreviewEmail() {
     name: 'HOWL Coordination'
   });
   return 'Preview sent to creators@kolo-kino.com';
+}
+
+// ============================================================================
+// DEADLINE + AUTOMATIC FINAL DELIVERY
+// ============================================================================
+
+// Voting closes at 10:00 BST (UTC+1) on 8 June 2026 => 09:00 UTC.
+const DEADLINE_UTC = new Date('2026-06-08T09:00:00Z');
+
+function isVotingOpen_() {
+  return new Date() < DEADLINE_UTC;
+}
+
+function getRealRespondents_() {
+  const sheet = getSheet_();
+  const lastRow = sheet.getLastRow();
+  if (lastRow <= 1) return { respondents: [], dayCounts: {} };
+  const data = sheet.getRange(2, 1, lastRow - 1, HEADERS.length).getValues();
+  const dayCounts = {};
+  const respondents = [];
+  data.forEach(row => {
+    const email = (row[1] || '').toString();
+    const daysJson = row[4];
+    if (!email || email === 'email') return;
+    let days = [];
+    try { days = (typeof daysJson === 'string') ? JSON.parse(daysJson) : (daysJson || []); } catch (e) { days = []; }
+    respondents.push({
+      email: email,
+      name: row[2] || '',
+      surname: row[3] || '',
+      daysCount: row[5] || 0,
+      origin: row[6] || '',
+      savedAt: row[0],
+      notify: (row[9] === true || row[9] === 'TRUE' || row[9] === 'true'),
+      companions: parseInt(row[10], 10) || 0,
+      notes: (row[11] || '').toString(),
+      days: days
+    });
+    if (Array.isArray(days)) days.forEach(function(d){ dayCounts[d] = (dayCounts[d] || 0) + 1; });
+  });
+  return { respondents: respondents, dayCounts: dayCounts };
+}
+
+function sendFinalEmails() {
+  const data = getRealRespondents_();
+  const teamHtml = buildResultsHtml_(data.respondents, data.dayCounts, false);
+  const organizerHtml = buildResultsHtml_(data.respondents, data.dayCounts, true);
+  const sent = [];
+  data.respondents.forEach(function(r){
+    if (!r.notify) return;
+    if ((r.email || '').toLowerCase() === 'creators@kolo-kino.com') return;
+    MailApp.sendEmail({
+      to: r.email,
+      subject: 'HOWL Bilbao Summit · The team has voted',
+      htmlBody: teamHtml,
+      name: 'HOWL Coordination'
+    });
+    sent.push(r.email);
+  });
+  MailApp.sendEmail({
+    to: 'creators@kolo-kino.com',
+    subject: 'HOWL Bilbao Summit · Final results · Organizer copy',
+    htmlBody: organizerHtml,
+    name: 'HOWL Coordination'
+  });
+  sent.push('creators@kolo-kino.com (organizer copy)');
+  return 'Sent to: ' + sent.join(', ');
+}
+
+function setupDeadlineTrigger() {
+  ScriptApp.getProjectTriggers().forEach(function(t){
+    if (t.getHandlerFunction() === 'sendFinalEmails') ScriptApp.deleteTrigger(t);
+  });
+  ScriptApp.newTrigger('sendFinalEmails').timeBased().at(DEADLINE_UTC).create();
+  return 'Trigger set for ' + DEADLINE_UTC.toISOString();
+}
+
+// ============================================================================
+// INVITATION EMAIL
+// ============================================================================
+
+function buildInvitationHtml_(name) {
+  const fname = (name || 'there').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  let html = '<!DOCTYPE html><html><head><meta charset="UTF-8"></head>';
+  html += '<body style="margin:0;padding:0;background:#0a0e14;font-family:\'Helvetica Neue\',Helvetica,Arial,sans-serif;color:#f0ebe1;-webkit-font-smoothing:antialiased;">';
+  html += '<table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#0a0e14;padding:36px 16px;">';
+  html += '<tr><td align="center">';
+  html += '<table cellpadding="0" cellspacing="0" border="0" width="620" style="max-width:620px;background:#11161f;border:1px solid rgba(192,187,168,0.18);border-radius:4px;">';
+  html += '<tr><td style="padding:32px 40px 4px 40px;text-align:center;">';
+  html += '<div style="letter-spacing:0.5em;font-size:10px;color:#c7dcea;text-transform:uppercase;font-weight:600;">HOWL &middot; Bilbao Summit 2026</div>';
+  html += '</td></tr>';
+  html += '<tr><td style="padding:6px 40px 22px 40px;text-align:center;">';
+  html += '<h1 style="font-family:Georgia,\'Times New Roman\',serif;font-weight:300;font-size:30px;color:#f0ebe1;margin:10px 0 4px 0;letter-spacing:0.02em;line-height:1.2;">A window in Bilbao</h1>';
+  html += '<div style="font-size:11px;color:#aea899;letter-spacing:0.16em;text-transform:uppercase;font-weight:500;">Team meeting &middot; June &mdash; July 2026</div>';
+  html += '</td></tr>';
+  html += '<tr><td style="padding:8px 44px 8px 44px;">';
+  html += '<p style="font-size:15px;color:#f0ebe1;line-height:1.65;font-weight:300;margin:0 0 14px 0;">Dear ' + fname + ',</p>';
+  html += '<p style="font-size:14.5px;color:#e6e1d3;line-height:1.7;font-weight:300;margin:0 0 14px 0;">I&rsquo;m <strong style="font-weight:500;color:#f0ebe1;">Alexander Mandrik</strong>, writing from <strong style="font-weight:500;color:#f0ebe1;">Estudios y Soluciones Cinematogr&aacute;ficas Bizkaia</strong>. I&rsquo;m coordinating the HOWL team meeting in Bilbao and trying to find a window that works for the whole crew.</p>';
+  html += '<p style="font-size:14.5px;color:#e6e1d3;line-height:1.7;font-weight:300;margin:0 0 14px 0;">Below is a private calendar with every day between 15 June and 15 July 2026. Please mark every day you could realistically be in Bilbao, tell me your departure city, and add a note if there is anything I should know to make the trip easier.</p>';
+  html += '</td></tr>';
+  html += '<tr><td style="padding:18px 44px 22px 44px;text-align:center;">';
+  html += '<a href="https://kolo-kino.com/HOWL-Bilbao-Summit/" style="display:inline-block;background:#c7dcea;color:#0a0e14;text-decoration:none;padding:14px 34px;font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;border-radius:2px;font-family:\'Helvetica Neue\',Helvetica,Arial,sans-serif;">Open the calendar</a>';
+  html += '<div style="margin-top:14px;font-size:11px;color:#aea899;letter-spacing:0.04em;font-weight:300;">kolo-kino.com/HOWL-Bilbao-Summit/</div>';
+  html += '</td></tr>';
+  html += '<tr><td style="padding:6px 44px 26px 44px;">';
+  html += '<table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:rgba(199,220,234,0.06);border:1px solid rgba(199,220,234,0.25);border-radius:3px;">';
+  html += '<tr><td style="padding:16px 22px;">';
+  html += '<div style="font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:#aea899;margin-bottom:6px;font-weight:500;">Deadline to vote</div>';
+  html += '<div style="font-family:Georgia,serif;font-size:18px;color:#f0ebe1;font-weight:400;line-height:1.3;">Monday 8 June 2026 &middot; 10:00 London time</div>';
+  html += '</td></tr></table>';
+  html += '</td></tr>';
+  html += '<tr><td style="padding:6px 44px 28px 44px;">';
+  html += '<p style="font-size:14.5px;color:#e6e1d3;line-height:1.7;font-weight:300;margin:0 0 6px 0;">Looking forward to having you in Bilbao,</p>';
+  html += '</td></tr>';
+  html += '<tr><td style="padding:0 44px 36px 44px;">';
+  html += '<div style="border-top:1px solid rgba(192,187,168,0.14);padding-top:18px;">';
+  html += '<div style="font-family:Georgia,serif;font-size:17px;color:#f0ebe1;font-weight:400;letter-spacing:0.01em;">Alexander Mandrik</div>';
+  html += '<div style="font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#c7dcea;font-weight:500;margin-top:4px;">Coordinador de Desarrollo y Operaciones</div>';
+  html += '<div style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#aea899;font-weight:400;margin-top:2px;">Estudios y Soluciones Cinematogr&aacute;ficas Bizkaia</div>';
+  html += '<div style="font-size:11px;color:#aea899;font-weight:300;margin-top:10px;line-height:1.6;">amandrik@bilbaofilm.studio &middot; bilbaofilm.studio</div>';
+  html += '</div>';
+  html += '</td></tr>';
+  html += '<tr><td style="padding:24px 40px 30px 40px;text-align:center;border-top:1px solid rgba(192,187,168,0.12);">';
+  html += '<div style="letter-spacing:0.4em;color:#c7dcea;font-size:11px;font-weight:600;margin-bottom:6px;">HOWL</div>';
+  html += '<div style="font-size:9px;letter-spacing:0.22em;color:#aea899;text-transform:uppercase;line-height:1.6;">Promethean Pictures &middot; Estudios y Soluciones Cinematogr&aacute;ficas Bizkaia</div>';
+  html += '</td></tr>';
+  html += '</table></td></tr></table></body></html>';
+  return html;
+}
+
+function sendInvitationDraft() {
+  const html = buildInvitationHtml_('Alexander');
+  MailApp.sendEmail({
+    to: 'creators@kolo-kino.com',
+    subject: 'HOWL Bilbao Summit · Invitation draft (preview)',
+    htmlBody: html,
+    name: 'HOWL Coordination'
+  });
+  return 'Invitation draft sent to creators@kolo-kino.com';
 }
