@@ -1,8 +1,8 @@
 // HOWL Bilbao Summit · availability collector
-// Sheet columns: savedAt | email | name | surname | days(JSON) | daysCount | origin | sameDest | destination | notify
+// Sheet columns: savedAt | email | name | surname | days(JSON) | daysCount | origin | sameDest | destination | notify | companions | notes
 
 const SHEET_NAME = 'responses';
-const HEADERS = ['savedAt', 'email', 'name', 'surname', 'days', 'daysCount', 'origin', 'sameDest', 'destination', 'notify'];
+const HEADERS = ['savedAt', 'email', 'name', 'surname', 'days', 'daysCount', 'origin', 'sameDest', 'destination', 'notify', 'companions', 'notes'];
 
 function getSheet_() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -54,6 +54,8 @@ function doGet(e) {
         daysCount: row[5] || 0, origin: row[6] || '',
         savedAt: row[0],
         notify: (row[9] === true || row[9] === 'TRUE' || row[9] === 'true'),
+        companions: parseInt(row[10], 10) || 0,
+        notes: (row[11] || '').toString(),
         days: (() => { try { return typeof daysJson === 'string' ? JSON.parse(daysJson) : daysJson; } catch (e) { return []; } })()
       });
       try {
@@ -77,7 +79,9 @@ function doPost(e) {
       new Date(), email, payload.name || '', payload.surname || '',
       JSON.stringify(payload.days || []), (payload.days || []).length,
       payload.origin || '', payload.sameDest ? 'TRUE' : 'FALSE',
-      payload.destination || '', payload.notify ? 'TRUE' : 'FALSE'
+      payload.destination || '', payload.notify ? 'TRUE' : 'FALSE',
+      parseInt(payload.companions, 10) || 0,
+      (payload.notes || '').toString().slice(0, 2000)
     ];
     const lastRow = sheet.getLastRow();
     if (lastRow > 1) {
@@ -239,11 +243,18 @@ function buildResultsHtml_(respondents, dayCounts) {
     if (sortedDays.length > 0) {
       range = sortedDays.length === 1 ? fmtDateShort_(sortedDays[0]) : (fmtDateShort_(sortedDays[0]) + ' &rarr; ' + fmtDateShort_(sortedDays[sortedDays.length - 1]));
     }
+    const plus = (parseInt(r.companions, 10) || 0);
+    const plusBadge = plus > 0 ? ' <span style="font-size:10px;color:#c7dcea;letter-spacing:0.04em;font-weight:500;margin-left:4px;">+' + plus + '</span>' : '';
     html += '<tr><td style="padding:10px 0;border-bottom:1px solid rgba(192,187,168,0.1);">';
     html += '<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr>';
-    html += '<td style="font-size:13px;color:#f0ebe1;font-weight:400;">' + (r.name || '') + ' ' + (r.surname || '') + '</td>';
+    html += '<td style="font-size:13px;color:#f0ebe1;font-weight:400;">' + (r.name || '') + ' ' + (r.surname || '') + plusBadge + '</td>';
     html += '<td style="font-size:11px;color:#aea899;text-align:right;letter-spacing:0.06em;">' + (r.daysCount || 0) + ' days &middot; ' + range + '</td>';
-    html += '</tr></table></td></tr>';
+    html += '</tr></table>';
+    if (r.notes && r.notes.toString().trim()) {
+      const safeNote = r.notes.toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      html += '<div style="margin-top:6px;font-size:12px;color:#aea899;font-style:italic;font-weight:300;line-height:1.5;padding-left:2px;border-left:2px solid rgba(199,220,234,0.35);padding-left:10px;">' + safeNote + '</div>';
+    }
+    html += '</td></tr>';
   });
   html += '</table>';
   html += '</td></tr>';
@@ -259,18 +270,18 @@ function buildResultsHtml_(respondents, dayCounts) {
 
 function buildSampleData_() {
   const respondents = [
-    { email:'eem@promethean-pictures.com', name:'Elias',   surname:'Merhige',    days:['2026-06-20','2026-06-21','2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27','2026-06-28','2026-06-29'], daysCount:10 },
-    { email:'rj@promethean-pictures.com',  name:'Richard', surname:'Johns',      days:['2026-06-21','2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27','2026-06-28'], daysCount:8 },
-    { email:'pronins.igors@gmail.com',     name:'Igor',    surname:'Pronin',     days:['2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26'], daysCount:5 },
-    { email:'pronina.marija.2019@gmail.com',name:'Marija', surname:'Pronina',    days:['2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26'], daysCount:5 },
-    { email:'creators@kolo-kino.com',      name:'Alex',    surname:'Mandrik',    days:['2026-06-15','2026-06-16','2026-06-17','2026-06-18','2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27','2026-06-28','2026-06-29','2026-06-30','2026-07-01','2026-07-02','2026-07-03'], daysCount:16 },
-    { email:'tplim789@gmail.com',          name:'TP',      surname:'Lim',        days:['2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27','2026-06-28'], daysCount:7 },
-    { email:'raph.bourdin@gmail.com',      name:'Raphaël', surname:'Bourdin',    days:['2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-29','2026-06-30','2026-07-01'], daysCount:8 },
-    { email:'david@strangeloop-studios.com',name:'David',  surname:'Wexler',     days:['2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27','2026-06-28'], daysCount:6 },
-    { email:'gavin.gamboa@gmail.com',      name:'Gavin',   surname:'Gamboa',     days:['2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27','2026-06-28','2026-06-29','2026-06-30'], daysCount:9 },
-    { email:'jacob@fonik.dk',              name:'Jacob',   surname:'Kirkegaard', days:['2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27','2026-06-28'], daysCount:7 },
-    { email:'contact.lizakiladze@gmail.com',name:'Liza',   surname:'Kiladze',    days:['2026-06-21','2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26'], daysCount:6 },
-    { email:'vafankula@gmail.com',         name:'Sergejs', surname:'Sobolevs',   days:['2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27','2026-06-28','2026-06-29'], daysCount:8 }
+    { email:'eem@promethean-pictures.com', name:'Elias',   surname:'Merhige',    days:['2026-06-20','2026-06-21','2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27','2026-06-28','2026-06-29'], daysCount:10, companions:1, notes:'Will need a quiet workspace for the morning calls.' },
+    { email:'rj@promethean-pictures.com',  name:'Richard', surname:'Johns',      days:['2026-06-21','2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27','2026-06-28'], daysCount:8, companions:0, notes:'' },
+    { email:'pronins.igors@gmail.com',     name:'Igor',    surname:'Pronin',     days:['2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26'], daysCount:5, companions:0, notes:'' },
+    { email:'pronina.marija.2019@gmail.com',name:'Marija', surname:'Pronina',    days:['2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26'], daysCount:5, companions:0, notes:'' },
+    { email:'creators@kolo-kino.com',      name:'Alex',    surname:'Mandrik',    days:['2026-06-15','2026-06-16','2026-06-17','2026-06-18','2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27','2026-06-28','2026-06-29','2026-06-30','2026-07-01','2026-07-02','2026-07-03'], daysCount:16, companions:0, notes:'' },
+    { email:'tplim789@gmail.com',          name:'TP',      surname:'Lim',        days:['2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27','2026-06-28'], daysCount:7, companions:2, notes:'Bringing the team from Strange Loop side.' },
+    { email:'raph.bourdin@gmail.com',      name:'Raphaël', surname:'Bourdin',    days:['2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-29','2026-06-30','2026-07-01'], daysCount:8, companions:0, notes:'' },
+    { email:'david@strangeloop-studios.com',name:'David',  surname:'Wexler',     days:['2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27','2026-06-28'], daysCount:6, companions:1, notes:'' },
+    { email:'gavin.gamboa@gmail.com',      name:'Gavin',   surname:'Gamboa',     days:['2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27','2026-06-28','2026-06-29','2026-06-30'], daysCount:9, companions:0, notes:'' },
+    { email:'jacob@fonik.dk',              name:'Jacob',   surname:'Kirkegaard', days:['2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27','2026-06-28'], daysCount:7, companions:0, notes:'Flying from Copenhagen. Happy to give a sound design talk if useful.' },
+    { email:'contact.lizakiladze@gmail.com',name:'Liza',   surname:'Kiladze',    days:['2026-06-21','2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26'], daysCount:6, companions:0, notes:'' },
+    { email:'vafankula@gmail.com',         name:'Sergejs', surname:'Sobolevs',   days:['2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27','2026-06-28','2026-06-29'], daysCount:8, companions:0, notes:'' }
   ];
   const dayCounts = {};
   respondents.forEach(r => r.days.forEach(d => { dayCounts[d] = (dayCounts[d] || 0) + 1; }));
