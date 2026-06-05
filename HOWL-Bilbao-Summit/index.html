@@ -165,7 +165,7 @@ textarea::placeholder{color:var(--text-faint)}
 <div id="calendarRoot"></div>
 <div class="cal-legend">
 <span>Team votes per day:</span>
-<span class="swatches"><span class="sw s0" title="0"></span><span class="sw s1" title="1-2"></span><span class="sw s2" title="3-4"></span><span class="sw s3" title="5-6"></span><span class="sw s4" title="7-8"></span><span class="sw s5" title="9-10"></span><span class="sw s6" title="11-12"></span></span>
+<span class="swatches"><span class="sw s0" title="0"></span><span class="sw s1" title="1-2"></span><span class="sw s2" title="3-4"></span><span class="sw s3" title="5-6"></span><span class="sw s4" title="7-8"></span><span class="sw s5" title="9-10"></span><span class="sw s6" title="11-15"></span></span>
 <span style="margin-left:.6rem"><span class="sw you" style="display:inline-block;vertical-align:middle;margin-right:.4rem"></span>your picks</span>
 </div>
 </div>
@@ -231,7 +231,7 @@ Promethean Pictures &middot; Estudios y Soluciones Cinematogr&aacute;ficas Bizka
 </div>
 <script>
 const API_URL = 'https://script.google.com/macros/s/AKfycbwGjKNASWIhc5ovCQad0asxQPPJXPWeWdMVGw3Ouw47_Ox0wfd0HZ-ECLGv7lYQkuSo/exec';
-const TEAM={'eem@promethean-pictures.com':{name:'Elias',surname:'Merhige'},'rj@promethean-pictures.com':{name:'Richard',surname:'Johns'},'pronins.igors@gmail.com':{name:'Igor',surname:'Pronin'},'pronina.marija.2019@gmail.com':{name:'Marija',surname:'Pronina'},'creators@kolo-kino.com':{name:'Alex',surname:'Mandrik'},'tplim789@gmail.com':{name:'TP',surname:'Lim'},'raph.bourdin@gmail.com':{name:'Rapha\u00ebl',surname:'Bourdin'},'david@strangeloop-studios.com':{name:'David',surname:'Wexler'},'gavin.gamboa@gmail.com':{name:'Gavin',surname:'Gamboa'},'jacob@fonik.dk':{name:'Jacob',surname:'Kirkegaard'},'contact.lizakiladze@gmail.com':{name:'Liza',surname:'Kiladze'},'vafankula@gmail.com':{name:'Sergejs',surname:'Sobolevs'}};
+const TEAM={'eem@promethean-pictures.com':{name:'Elias',surname:'Merhige'},'rj@promethean-pictures.com':{name:'Richard',surname:'Johns'},'pronins.igors@gmail.com':{name:'Igor',surname:'Pronin'},'pronina.marija.2019@gmail.com':{name:'Marija',surname:'Pronina'},'creators@kolo-kino.com':{name:'Alex',surname:'Mandrik'},'tplim789@gmail.com':{name:'TP',surname:'Lim'},'raph.bourdin@gmail.com':{name:'Rapha\u00ebl',surname:'Bourdin'},'david@strangeloop-studios.com':{name:'David',surname:'Wexler'},'gavin.gamboa@gmail.com':{name:'Gavin',surname:'Gamboa'},'jacob@fonik.dk':{name:'Jacob',surname:'Kirkegaard'},'contact.lizakiladze@gmail.com':{name:'Liza',surname:'Kiladze'},'vafankula@gmail.com':{name:'Sergejs',surname:'Sobolevs'},'thumperspatch1@hotmail.com':{name:'Andrew',surname:'Simpson'},'nikers22@gmail.com':{name:'Nikita',surname:'Grigorjevs'},'kasheev211@gmail.com':{name:'Yaroslav',surname:'Kashchieiev'}};
 const RANGE_START=new Date(2026,5,15);
 const RANGE_END=new Date(2026,6,15);
 const state={user:null,selectedDays:new Set(),origin:'',sameDest:true,destination:'',notify:false,companions:0,notes:'',dayCounts:{},totalRespondents:0,respondents:[],votingClosed:false};

@@ -117,7 +117,7 @@ function doPost(e) {
 // ============================================================================
 
 // Six-level green heatmap (plus 0). Buckets are by absolute vote count
-// (team is 12 people; 1-2, 3-4, 5-6, 7-8, 9-10, 11-12).
+// (team is 15 people; 1-2, 3-4, 5-6, 7-8, 9-10, 11-15).
 function heatColor_(count) {
   if (!count || count <= 0) return { bg: 'rgba(255,255,255,0.03)', text: '#aea899' };
   if (count <= 2)  return { bg: 'rgba(120,170,90,0.12)', text: '#f0ebe1' };
@@ -215,7 +215,7 @@ function buildResultsHtml_(respondents, dayCounts, includeNotes) {
 
   html += '<tr><td style="padding:4px 36px 24px 36px;text-align:center;">';
   html += '<h1 style="font-family:Georgia,\'Times New Roman\',serif;font-weight:300;font-size:30px;color:#f0ebe1;margin:8px 0 6px 0;letter-spacing:0.02em;line-height:1.15;">The team has voted</h1>';
-  html += '<div style="font-size:11px;color:#aea899;letter-spacing:0.16em;text-transform:uppercase;font-weight:500;">' + total + ' of 12 responses received</div>';
+  html += '<div style="font-size:11px;color:#aea899;letter-spacing:0.16em;text-transform:uppercase;font-weight:500;">' + total + ' of 15 responses received</div>';
   html += '</td></tr>';
 
   if (best && best.length >= 3) {
@@ -234,7 +234,7 @@ function buildResultsHtml_(respondents, dayCounts, includeNotes) {
   // Legend
   html += '<table cellpadding="0" cellspacing="0" border="0" style="margin-top:6px;"><tr>';
   html += '<td style="font-size:9px;letter-spacing:0.14em;color:#aea899;text-transform:uppercase;font-weight:500;padding-right:8px;">Votes scale</td>';
-  const buckets = [{c:0,l:'0'},{c:1,l:'1-2'},{c:3,l:'3-4'},{c:5,l:'5-6'},{c:7,l:'7-8'},{c:9,l:'9-10'},{c:11,l:'11-12'}];
+  const buckets = [{c:0,l:'0'},{c:1,l:'1-2'},{c:3,l:'3-4'},{c:5,l:'5-6'},{c:7,l:'7-8'},{c:9,l:'9-10'},{c:11,l:'11-15'}];
   buckets.forEach(b => {
     const col = heatColor_(b.c);
     html += '<td style="padding:0 3px;"><div style="display:inline-block;width:22px;height:14px;background:' + col.bg + ';border:1px solid rgba(192,187,168,0.18);border-radius:2px;"></div></td>';
@@ -293,7 +293,10 @@ function buildSampleData_() {
     { email:'gavin.gamboa@gmail.com',      name:'Gavin',   surname:'Gamboa',     days:['2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27','2026-06-28','2026-06-29','2026-06-30'], daysCount:9, companions:0, notes:'' },
     { email:'jacob@fonik.dk',              name:'Jacob',   surname:'Kirkegaard', days:['2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27','2026-06-28'], daysCount:7, companions:0, notes:'Flying from Copenhagen. Happy to give a sound design talk if useful.' },
     { email:'contact.lizakiladze@gmail.com',name:'Liza',   surname:'Kiladze',    days:['2026-06-21','2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26'], daysCount:6, companions:0, notes:'' },
-    { email:'vafankula@gmail.com',         name:'Sergejs', surname:'Sobolevs',   days:['2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27','2026-06-28','2026-06-29'], daysCount:8, companions:0, notes:'' }
+    { email:'vafankula@gmail.com',         name:'Sergejs', surname:'Sobolevs',   days:['2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27','2026-06-28','2026-06-29'], daysCount:8, companions:0, notes:'' },
+    { email:'thumperspatch1@hotmail.com',  name:'Andrew',  surname:'Simpson',    days:['2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27'], daysCount:6, companions:0, notes:'' },
+    { email:'nikers22@gmail.com',          name:'Nikita',  surname:'Grigorjevs', days:['2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27','2026-06-28'], daysCount:7, companions:0, notes:'' },
+    { email:'kasheev211@gmail.com',        name:'Yaroslav',surname:'Kashchieiev',days:['2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27'], daysCount:5, companions:0, notes:'' }
   ];
   const dayCounts = {};
   respondents.forEach(r => r.days.forEach(d => { dayCounts[d] = (dayCounts[d] || 0) + 1; }));
@@ -408,11 +411,10 @@ function buildInvitationHtml_(name) {
   html += '<tr><td style="padding:8px 44px 8px 44px;">';
   html += '<p style="font-size:15px;color:#f0ebe1;line-height:1.65;font-weight:300;margin:0 0 14px 0;">Dear ' + fname + ',</p>';
   html += '<p style="font-size:14.5px;color:#e6e1d3;line-height:1.7;font-weight:300;margin:0 0 14px 0;">I&rsquo;m <strong style="font-weight:500;color:#f0ebe1;">Alexander Mandrik</strong>, writing from <strong style="font-weight:500;color:#f0ebe1;">Estudios y Soluciones Cinematogr&aacute;ficas Bizkaia</strong>. I&rsquo;m coordinating the HOWL team meeting in Bilbao and trying to find a window that works for the whole crew.</p>';
-  html += '<p style="font-size:14.5px;color:#e6e1d3;line-height:1.7;font-weight:300;margin:0 0 14px 0;">Below is a private calendar with every day between 15 June and 15 July 2026. Please mark every day you could realistically be in Bilbao, tell me your departure city, and add a note if there is anything I should know to make the trip easier.</p>';
+  html += '<p style="font-size:14.5px;color:#e6e1d3;line-height:1.7;font-weight:300;margin:0 0 14px 0;">The link below opens a private calendar covering 15 June to 15 July 2026. Please mark every day that could realistically work for being in Bilbao, add the departure city, and use the notes field for any detail worth mentioning in advance.</p>';
   html += '</td></tr>';
   html += '<tr><td style="padding:18px 44px 22px 44px;text-align:center;">';
   html += '<a href="https://kolo-kino.com/HOWL-Bilbao-Summit/" style="display:inline-block;background:#c7dcea;color:#0a0e14;text-decoration:none;padding:14px 34px;font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;border-radius:2px;font-family:\'Helvetica Neue\',Helvetica,Arial,sans-serif;">Open the calendar</a>';
-  html += '<div style="margin-top:14px;font-size:11px;color:#aea899;letter-spacing:0.04em;font-weight:300;">kolo-kino.com/HOWL-Bilbao-Summit/</div>';
   html += '</td></tr>';
   html += '<tr><td style="padding:6px 44px 26px 44px;">';
   html += '<table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:rgba(199,220,234,0.06);border:1px solid rgba(199,220,234,0.25);border-radius:3px;">';
@@ -429,7 +431,6 @@ function buildInvitationHtml_(name) {
   html += '<div style="font-family:Georgia,serif;font-size:17px;color:#f0ebe1;font-weight:400;letter-spacing:0.01em;">Alexander Mandrik</div>';
   html += '<div style="font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#c7dcea;font-weight:500;margin-top:4px;">Coordinador de Desarrollo y Operaciones</div>';
   html += '<div style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#aea899;font-weight:400;margin-top:2px;">Estudios y Soluciones Cinematogr&aacute;ficas Bizkaia</div>';
-  html += '<div style="font-size:11px;color:#aea899;font-weight:300;margin-top:10px;line-height:1.6;">amandrik@bilbaofilm.studio &middot; bilbaofilm.studio</div>';
   html += '</div>';
   html += '</td></tr>';
   html += '<tr><td style="padding:24px 40px 30px 40px;text-align:center;border-top:1px solid rgba(192,187,168,0.12);">';
