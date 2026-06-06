@@ -1766,10 +1766,11 @@
     opacity: 0;
     transition: opacity 1s var(--ease-cine, cubic-bezier(.4,0,.2,1));
     pointer-events: none;
-    /* Mix-blend with the warm radial gradient above for a cinematic layered look */
-    mix-blend-mode: lighten;
   }
-  .hero.is-flow-active .hero-flow-canvas { opacity: 0.82; }
+  .hero.is-flow-active .hero-flow-canvas { opacity: 1; }
+  /* When the flowmap kicks in, hide the original cinematic gradient so the
+     liquid texture is the protagonist (b-kaind look). */
+  .hero.is-flow-active { background: #000 !important; }
   @media (prefers-reduced-motion: reduce) { .hero-flow-canvas { display: none; } }
   @media (hover: none) and (pointer: coarse) { .hero-flow-canvas { display: none; } }
 
@@ -2560,21 +2561,12 @@
     void main() {
       vec2 cUv = coverUV(vUv, uCanvasRes, uImgRes);
       vec3 flow = texture2D(tFlow, vUv).rgb;
-      vec2 distorted = cUv - flow.rg * 0.09;
-      // Light chromatic split that follows the flow — adds a "celluloid" feel
-      float r = texture2D(tMap, distorted + flow.rg * 0.013).r;
+      vec2 distorted = cUv - flow.rg * 0.10;
+      // Light chromatic split that follows the flow, keeps the warm palette intact
+      float r = texture2D(tMap, distorted + flow.rg * 0.014).r;
       float g = texture2D(tMap, distorted).g;
-      float b = texture2D(tMap, distorted - flow.rg * 0.013).b;
-      vec3 color = vec3(r, g, b);
-      // Cinematic grade: light desaturation + warm tilt + vignette
-      float lum = dot(color, vec3(0.299, 0.587, 0.114));
-      color = mix(vec3(lum), color, 0.7);
-      color *= 0.82;
-      color.r *= 1.04;
-      color.b *= 0.92;
-      vec2 vc = vUv - 0.5;
-      color *= 1.0 - dot(vc, vc) * 0.6;
-      gl_FragColor = vec4(color, 1.0);
+      float b = texture2D(tMap, distorted - flow.rg * 0.014).b;
+      gl_FragColor = vec4(r, g, b, 1.0);
     }
   `;
 
