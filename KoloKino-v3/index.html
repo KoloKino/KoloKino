@@ -1771,6 +1771,30 @@
   /* When the flowmap kicks in, hide the original cinematic gradient so the
      liquid texture is the protagonist (b-kaind look). */
   .hero.is-flow-active { background: #000 !important; }
+
+  /* ---- Hero readability over the warm liquid background ---- */
+  /* Body copy: slightly lighter than --fg-dim and a soft shadow */
+  .hero .hero-intro p {
+    color: #f4ede2;
+    text-shadow: 0 1px 14px rgba(0,0,0,0.7), 0 0 2px rgba(0,0,0,0.5);
+  }
+  /* Title: reinforce the existing shadow */
+  .hero h1 {
+    text-shadow: 0 2px 22px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.55);
+  }
+  /* Eyebrow: keep accent color, add dark blurred pill behind it */
+  .hero .hero-content > .eyebrow {
+    position: relative;
+    padding: 8px 22px;
+    border-radius: 999px;
+    background: rgba(8,5,4,0.45);
+    backdrop-filter: blur(10px) saturate(120%);
+    -webkit-backdrop-filter: blur(10px) saturate(120%);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.04);
+  }
+  /* The short side dashes look better tucked tighter against the pill */
+  .hero .hero-content > .eyebrow::before,
+  .hero .hero-content > .eyebrow::after { width: 22px; opacity: 0.75; }
   @media (prefers-reduced-motion: reduce) { .hero-flow-canvas { display: none; } }
   @media (hover: none) and (pointer: coarse) { .hero-flow-canvas { display: none; } }
 
@@ -2516,7 +2540,9 @@
   gl.clearColor(0, 0, 0, 0);
 
   // Flowmap RTT (mouse paints velocity into a 128x128 framebuffer; decays each frame).
-  const flowmap = new Flowmap(gl, { falloff: 0.16, dissipation: 0.93, alpha: 0.55 });
+  // falloff doubled (0.16 → 0.32) for a 2× larger trail radius.
+  // alpha lowered (0.55 → 0.42) so the edges of the trail fall off ~50% softer.
+  const flowmap = new Flowmap(gl, { falloff: 0.32, dissipation: 0.94, alpha: 0.42 });
 
   const texture = new Texture(gl, { generateMipmaps: false });
   const img = new Image();
