@@ -2536,10 +2536,11 @@
   gl.clearColor(0, 0, 0, 0);
 
   // Flowmap RTT (mouse paints velocity into a 128x128 framebuffer; decays each frame).
-  // falloff kept at 0.32 (2× original) for a big trail radius.
-  // alpha bumped to 0.7 so the trail leaves a stronger imprint on each pass.
-  // dissipation 0.95 so it lingers a touch longer.
-  const flowmap = new Flowmap(gl, { falloff: 0.32, dissipation: 0.95, alpha: 0.70 });
+  // falloff: 0.32 → 1.0 (+250% diameter, effectively reaches the whole hero;
+  //   the wider smoothstep curve also gives a much softer edge naturally).
+  // dissipation: 0.95 → 0.97 (slower decay → softer fade-out, +30% extra softness).
+  // alpha: 0.70 → 0.70 (kept; the visible strength boost comes from the shader).
+  const flowmap = new Flowmap(gl, { falloff: 1.0, dissipation: 0.97, alpha: 0.70 });
 
   const texture = new Texture(gl, { generateMipmaps: false });
   const img = new Image();
@@ -2584,13 +2585,12 @@
     void main() {
       vec2 cUv = coverUV(vUv, uCanvasRes, uImgRes);
       vec3 flow = texture2D(tFlow, vUv).rgb;
-      // Distortion strength: 0.22 (≈ 2.2× the previous 0.10) for a clearly
-      // visible liquid drag under the cursor.
-      vec2 distorted = cUv - flow.rg * 0.22;
-      // Chromatic split widened to 0.030 to make the RGB drift readable too.
-      float r = texture2D(tMap, distorted + flow.rg * 0.030).r;
+      // Distortion strength: 0.22 → 0.33 (+50% visible drag of the liquid).
+      vec2 distorted = cUv - flow.rg * 0.33;
+      // Chromatic split widened to 0.039 to keep the RGB drift in proportion.
+      float r = texture2D(tMap, distorted + flow.rg * 0.039).r;
       float g = texture2D(tMap, distorted).g;
-      float b = texture2D(tMap, distorted - flow.rg * 0.030).b;
+      float b = texture2D(tMap, distorted - flow.rg * 0.039).b;
       gl_FragColor = vec4(r, g, b, 1.0);
     }
   `;
