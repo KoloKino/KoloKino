@@ -1782,19 +1782,15 @@
   .hero h1 {
     text-shadow: 0 2px 22px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.55);
   }
-  /* Eyebrow: keep accent color, add dark blurred pill behind it */
+  /* Eyebrow: keep accent color and the side dashes, lift it off the warm
+     background with a soft dark halo (no visible pill, no background fill). */
   .hero .hero-content > .eyebrow {
-    position: relative;
-    padding: 8px 22px;
-    border-radius: 999px;
-    background: rgba(8,5,4,0.45);
-    backdrop-filter: blur(10px) saturate(120%);
-    -webkit-backdrop-filter: blur(10px) saturate(120%);
-    box-shadow: 0 4px 24px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.04);
+    text-shadow:
+      0 0 10px rgba(0,0,0,0.95),
+      0 0 22px rgba(0,0,0,0.7),
+      0 0 40px rgba(0,0,0,0.45),
+      0 1px 2px rgba(0,0,0,0.8);
   }
-  /* The short side dashes look better tucked tighter against the pill */
-  .hero .hero-content > .eyebrow::before,
-  .hero .hero-content > .eyebrow::after { width: 22px; opacity: 0.75; }
   @media (prefers-reduced-motion: reduce) { .hero-flow-canvas { display: none; } }
   @media (hover: none) and (pointer: coarse) { .hero-flow-canvas { display: none; } }
 
@@ -2540,9 +2536,10 @@
   gl.clearColor(0, 0, 0, 0);
 
   // Flowmap RTT (mouse paints velocity into a 128x128 framebuffer; decays each frame).
-  // falloff doubled (0.16 → 0.32) for a 2× larger trail radius.
-  // alpha lowered (0.55 → 0.42) so the edges of the trail fall off ~50% softer.
-  const flowmap = new Flowmap(gl, { falloff: 0.32, dissipation: 0.94, alpha: 0.42 });
+  // falloff kept at 0.32 (2× original) for a big trail radius.
+  // alpha bumped to 0.7 so the trail leaves a stronger imprint on each pass.
+  // dissipation 0.95 so it lingers a touch longer.
+  const flowmap = new Flowmap(gl, { falloff: 0.32, dissipation: 0.95, alpha: 0.70 });
 
   const texture = new Texture(gl, { generateMipmaps: false });
   const img = new Image();
@@ -2587,11 +2584,13 @@
     void main() {
       vec2 cUv = coverUV(vUv, uCanvasRes, uImgRes);
       vec3 flow = texture2D(tFlow, vUv).rgb;
-      vec2 distorted = cUv - flow.rg * 0.10;
-      // Light chromatic split that follows the flow, keeps the warm palette intact
-      float r = texture2D(tMap, distorted + flow.rg * 0.014).r;
+      // Distortion strength: 0.22 (≈ 2.2× the previous 0.10) for a clearly
+      // visible liquid drag under the cursor.
+      vec2 distorted = cUv - flow.rg * 0.22;
+      // Chromatic split widened to 0.030 to make the RGB drift readable too.
+      float r = texture2D(tMap, distorted + flow.rg * 0.030).r;
       float g = texture2D(tMap, distorted).g;
-      float b = texture2D(tMap, distorted - flow.rg * 0.014).b;
+      float b = texture2D(tMap, distorted - flow.rg * 0.030).b;
       gl_FragColor = vec4(r, g, b, 1.0);
     }
   `;
