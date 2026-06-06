@@ -1772,6 +1772,17 @@
      liquid texture is the protagonist (b-kaind look). */
   .hero.is-flow-active { background: #000 !important; }
 
+  /* "Film & gasoline" texture mask — semi-transparent overlay above the flowmap
+     canvas but below the text content. Custom asset created by Alex. */
+  .hero-mask {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: url('background_film_and_gasoline.png') center/cover no-repeat;
+    opacity: 0.20;
+  }
+
   /* ---- Hero readability over the warm liquid background ---- */
   /* Body copy: slightly lighter than --fg-dim and a soft shadow */
   .hero .hero-intro p {
@@ -1827,6 +1838,8 @@
 <header class="hero" id="heroFrame">
   <!-- WebGL Flowmap canvas — mouse-driven liquid distortion of a director collage. -->
   <canvas class="hero-flow-canvas" id="heroFlow" aria-hidden="true"></canvas>
+  <!-- "Film & gasoline" texture mask: 20% opacity overlay on top of the flowmap -->
+  <div class="hero-mask" aria-hidden="true"></div>
   <div class="hero-content">
     <p class="eyebrow">Cinema Documentaries · Since 2016</p>
     <h1>The stories cinema <em>deserves</em></h1>
