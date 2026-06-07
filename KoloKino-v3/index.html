@@ -43,7 +43,7 @@
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@500;700;900&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,700;1,900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@500;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,700;1,900&display=swap" rel="stylesheet" />
 
 <!-- Structured data — Organization + Persons (team) + VideoObjects (flagship docs)
      linked by @id so Google understands the relationships between them. -->
@@ -208,6 +208,22 @@
     --serif: 'Playfair Display', Georgia, serif;
     --sans: 'Inter', system-ui, -apple-system, sans-serif;
     --num: 'Bodoni Moda', 'Playfair Display', Georgia, serif;
+    --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    /* v2 typographic aliases (kept as separate vars so v2-derived blocks compile cleanly) */
+    --f-serif: var(--serif);
+    --f-body: var(--sans);
+    --f-mono: var(--mono);
+    --f-num: var(--num);
+    /* v2 colour & motion aliases for the imported blocks */
+    --ink: var(--bg);
+    --ink-warm: var(--bg-warm);
+    --ink-2: var(--bg-elev);
+    --paper: var(--fg);
+    --paper-dim: var(--fg-dim);
+    --blood: var(--accent);
+    --ease-cine: cubic-bezier(0.65, 0, 0.35, 1);
+    --space-lg: 1.4rem;
+    --space-2xl: 3rem;
     --radius: 12px;
     --max-w: 1200px;
   }
@@ -1555,7 +1571,7 @@
   @media (max-width: 800px) {
     .support-callout { grid-template-columns: 1fr; text-align: left; }
   }
-  .support-text .eyebrow { color: #ff7a7a; margin-bottom: 0.8rem; }
+  .support-text .eyebrow { color: var(--accent); margin-bottom: 0.8rem; }
   .support-text h2 {
     margin: 0 0 1rem;
     font-size: clamp(1.6rem, 3vw, 2.4rem);
@@ -1617,6 +1633,18 @@
     padding: clamp(1.5rem, 3vw, 2.4rem);
     box-shadow: 0 40px 80px rgba(0,0,0,0.6);
     animation: supportSlideUp 0.4s var(--ease-cine, cubic-bezier(.4,0,.2,1));
+    isolation: isolate;  /* so the ::before texture sits above the gradient but below content */
+  }
+  /* "Film & gasoline" texture overlay on the modal card (40% opacity, full coverage) */
+  .support-modal-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url('background_film_and_gasoline.png') center/cover no-repeat;
+    opacity: 0.40;
+    pointer-events: none;
+    z-index: -1;
+    border-radius: inherit;
   }
   @keyframes supportFadeIn { from { opacity: 0 } to { opacity: 1 } }
   @keyframes supportSlideUp {
@@ -1635,7 +1663,7 @@
   .support-close:focus-visible { outline: 2px solid #ff7a7a; outline-offset: 2px; }
 
   .support-modal-head { text-align: center; margin-bottom: 1.6rem; }
-  .support-modal-head .eyebrow { color: #ff7a7a; margin-bottom: 0.6rem; }
+  .support-modal-head .eyebrow { color: var(--accent); margin-bottom: 0.6rem; }
   .support-modal-head h3 { margin: 0 0 0.5rem; font-size: clamp(1.4rem, 2.5vw, 1.8rem); }
   .support-modal-head .support-modal-lede { margin: 0; color: var(--fg-mute, #b5b0a8); font-size: 0.92rem; }
 
@@ -1678,15 +1706,20 @@
     font-weight: 700;
   }
   .support-stripe-mount {
-    background: rgba(0,0,0,0.25);
-    border-radius: 4px;
-    padding: 0.5rem;
+    /* No background: the Buy Button has its own white card. We just centre it. */
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0.4rem 0 0.2rem;
     min-height: 60px;
   }
-  .support-stripe-mount stripe-buy-button { width: 100%; }
+  .support-stripe-mount stripe-buy-button {
+    /* Let the Buy Button take its natural width (Stripe sets ~340px) instead of
+       stretching to 100% — that's what was throwing the layout off-centre. */
+    display: inline-block;
+    margin: 0 auto;
+    width: auto;
+  }
 
   /* Logos */
   .support-logo {
@@ -1783,6 +1816,219 @@
     opacity: 0.20;
   }
 
+  /* Support button in the hero — 20% bigger than the other two CTAs */
+  .btn-support-hero {
+    padding: 14px 26px;
+    font-size: 1.14rem;
+  }
+  /* Magnetic effect — buttons get pulled gently toward the cursor when nearby */
+  .btn-magnetic {
+    will-change: transform;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  /* Reel indicator (sticky nav, right side) */
+  .site-nav { display: flex; flex-wrap: wrap; align-items: center; }
+  .site-nav .reel-indicator {
+    margin-left: auto;
+    font: 500 0.72rem/1 var(--mono);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+    padding: 6px 10px;
+  }
+  @media (max-width: 700px) { .site-nav .reel-indicator { display: none; } }
+
+  /* ============== SLATE HEADER (v2 clapperboard style) ============== */
+  .slate {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: end;
+    gap: 1.5rem;
+    margin-top: 2.4rem;
+    margin-bottom: var(--space-2xl);
+    padding: 1.6rem 0 var(--space-lg);
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+  .slate::before {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; top: 0;
+    height: 14px;
+    background: repeating-linear-gradient(135deg, var(--paper) 0 14px, var(--ink) 14px 28px);
+    opacity: 0.95;
+  }
+  .slate .slate-meta {
+    font: 500 0.72rem/1.6 var(--mono);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--paper);
+  }
+  .slate .slate-meta div { display: block; }
+  .slate .slate-meta div span { color: var(--fg-mute); margin-right: 0.4em; }
+  .slate h2 { color: var(--fg); margin: 0; font-family: var(--serif); }
+  .slate .slate-side {
+    font: 500 0.7rem/1.6 var(--mono);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+    text-align: right;
+  }
+  @media (max-width: 720px) {
+    .slate { grid-template-columns: 1fr; gap: 0.6rem; }
+    .slate .slate-side { text-align: left; }
+  }
+
+  /* ============== UPCOMING (hover-swap poster + list, v2 style) ============== */
+  .upcoming-section {
+    position: relative;
+    background: var(--bg);
+    padding: clamp(4rem, 9vh, 7rem) 24px;
+    border-block: 1px solid var(--line);
+  }
+  .upcoming-section .container { max-width: var(--max-w); margin: 0 auto; }
+  .upcoming-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: stretch;
+  }
+  .upcoming-poster {
+    position: relative;
+    aspect-ratio: 16/9;
+    background: var(--bg-elev);
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .upcoming-poster .stage {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    transition: opacity 0.45s var(--ease-cine), transform 8s linear;
+    transform: scale(1.03);
+    opacity: 0;
+  }
+  .upcoming-poster .stage.is-active { opacity: 1; transform: scale(1); }
+  .upcoming-poster::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(0,0,0,0.2) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .upcoming-counter {
+    position: absolute; bottom: 1rem; right: 1.2rem;
+    z-index: 5;
+    font: 600 0.78rem/1 var(--mono);
+    letter-spacing: 0.2em;
+    color: var(--paper);
+    text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  }
+  .upcoming-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .upcoming-list li {
+    border-top: 1px solid var(--line);
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1.2rem 0;
+    cursor: pointer;
+    transition: padding-left 0.35s var(--ease-cine), color 0.35s var(--ease-cine);
+  }
+  .upcoming-list li:last-child { border-bottom: 1px solid var(--line); }
+  .upcoming-list li .num {
+    font: 500 0.72rem/1 var(--mono);
+    letter-spacing: 0.2em;
+    color: var(--fg-mute);
+    width: 2.4rem; flex-shrink: 0;
+  }
+  .upcoming-list li .subj {
+    font: 600 1.05rem/1.25 var(--serif);
+    color: var(--fg);
+    flex: 1;
+    text-decoration: none;
+  }
+  .upcoming-list li .subj:hover { text-decoration: underline; }
+  .upcoming-list li .director {
+    font: 500 0.7rem/1 var(--mono);
+    letter-spacing: 0.18em;
+    color: var(--fg-mute);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .upcoming-list li:hover, .upcoming-list li.is-active { padding-left: 0.6rem; color: var(--paper); }
+  .upcoming-list li:hover .subj, .upcoming-list li.is-active .subj { color: var(--paper); }
+  .upcoming-list li:hover .num, .upcoming-list li.is-active .num { color: var(--accent); }
+  @media (max-width: 800px) { .upcoming-grid { grid-template-columns: 1fr; } }
+
+  /* ============== TEAM v2 overrides — bigger photos, mono labels, stripped frames ============== */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+  .team-card {
+    position: relative;
+    background: var(--bg-warm);
+    border: 1px solid var(--line);
+    border-radius: 0;
+    padding: 0 0 1.8rem;
+    overflow: hidden;
+  }
+  .team-card .team-photo {
+    width: 100%;
+    aspect-ratio: 4/5;
+    height: auto;
+    object-fit: cover;
+    border-radius: 0;
+    filter: grayscale(0.25) contrast(1.05) brightness(0.95);
+    transition: filter 0.5s var(--ease-cine), transform 8s linear;
+    margin: 0;
+  }
+  .team-card:hover .team-photo { filter: grayscale(0) contrast(1.1); transform: scale(1.02); }
+  .team-card h3 {
+    margin: 1.2rem 1.2rem 0.2rem;
+    font: 700 1.4rem/1.1 var(--serif);
+    color: var(--fg);
+  }
+  .team-card .team-role {
+    margin: 0 1.2rem 0.2rem;
+    font: 600 0.72rem/1 var(--mono);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--paper);
+  }
+  .team-card .team-location {
+    margin: 0 1.2rem 0.6rem;
+    font: 500 0.78rem/1 var(--mono);
+    letter-spacing: 0.12em;
+    color: var(--fg-mute);
+  }
+  .team-card .team-bio { margin: 0.7rem 1.2rem; color: var(--fg-dim); font-size: 0.95rem; }
+  .team-card .team-links { padding: 0 1.2rem; display: flex; gap: 1rem; }
+  .team-card .team-links a {
+    font: 500 0.72rem/1 var(--mono);
+    letter-spacing: 0.2em;
+    color: var(--paper);
+    text-decoration: none;
+    border-bottom: 1px solid var(--paper-dim);
+    padding-bottom: 2px;
+    text-transform: uppercase;
+  }
+  .team-card .team-links a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  .team-card .contact-toggle { padding: 0.8rem 1.2rem 0; }
+  .team-card .contact-toggle summary {
+    cursor: pointer;
+    font: 500 0.7rem/1 var(--mono);
+    letter-spacing: 0.2em;
+    color: var(--fg-mute);
+    text-transform: uppercase;
+    padding: 0.5rem 0;
+    list-style: none;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .team-card .contact-toggle summary::-webkit-details-marker { display: none; }
+  .team-card .contact-toggle summary::before { content: "+"; color: var(--accent); }
+  .team-card .contact-toggle[open] summary::before { content: "−"; }
+  .team-card .bio-text { font-size: 0.9rem; color: var(--fg-dim); padding-top: 0.5rem; }
+  @media (prefers-reduced-motion: reduce) { .btn-magnetic { transition: none; } }
+  @media (hover: none) and (pointer: coarse) { .btn-magnetic { transition: none; } }
+
   /* ---- Hero readability over the warm liquid background ---- */
   /* Body copy: slightly lighter than --fg-dim and a soft shadow */
   .hero .hero-intro p {
@@ -1832,6 +2078,7 @@
   <a href="#videos">Latest</a>
   <a href="#support">Support</a>
   <a href="#contact">Contact</a>
+  <span class="reel-indicator" id="reelIndicator">Reel 1 / 7 · Intro</span>
 </nav>
 
 <!-- ============== HERO ============== -->
@@ -1849,58 +2096,76 @@
     </div>
     <div class="hero-cta">
       <a class="btn btn-primary" href="https://www.youtube.com/@OkoloKino" target="_blank" rel="noopener"><span aria-hidden="true">▶</span> Watch on YouTube</a>
-      <button type="button" class="btn btn-gold" data-support-open><span aria-hidden="true">✦</span> Support Kolo Kino</button>
+      <button type="button" class="btn btn-gold btn-support-hero btn-magnetic" data-support-open><span aria-hidden="true">✦</span> Support Kolo Kino</button>
       <a class="btn btn-paper" href="Kolo%20Kino%20Media%20Kit.pdf" target="_blank" rel="noopener" download><span aria-hidden="true">↓</span> Download Media Kit</a>
     </div>
   </div>
 </header>
 
-<!-- ============== FEATURED DOCUMENTARIES ============== -->
-<section class="section" id="featured">
+<!-- ============== LONG-FORM DOCUMENTARIES (slate header + hover-swap list, v2 style) ============== -->
+<section class="upcoming-section" id="featured">
   <div class="container">
-    <div class="section-head">
-      <p class="eyebrow">Full Stories</p>
+    <div class="slate">
+      <div class="slate-meta">
+        <div><span>Scene</span>02</div>
+        <div><span>Take</span>2026</div>
+        <div><span>Roll</span>A</div>
+      </div>
       <h2>Long-form documentaries</h2>
-      <p>A year of research per film. The complete story of cinema's defining figures, told film by film.</p>
+      <div class="slate-side">
+        <div>Production · Kolo Kino</div>
+        <div>Director · I. Khalimovskyi</div>
+      </div>
     </div>
-    <div class="featured-grid">
 
-      <a class="featured-card" href="https://www.youtube.com/watch?v=XeOpf9olaWk" target="_blank" rel="noopener">
-        <img src="https://i.ytimg.com/vi/XeOpf9olaWk/maxresdefault.jpg" alt="The Ultimate Tarantino Deep Dive" loading="lazy" />
-        <span class="play-badge" aria-hidden="true">▶ Watch</span>
-        <div class="featured-overlay">
-          <div class="featured-subject">Quentin Tarantino</div>
-          <p class="featured-title">The Ultimate Tarantino Deep Dive</p>
-        </div>
-      </a>
-
-      <a class="featured-card" href="https://www.youtube.com/watch?v=4kMWWLcVWdk" target="_blank" rel="noopener">
-        <img src="https://i.ytimg.com/vi/4kMWWLcVWdk/maxresdefault.jpg" alt="The Martin Scorsese Story You've Never Seen" loading="lazy" />
-        <span class="play-badge" aria-hidden="true">▶ Watch</span>
-        <div class="featured-overlay">
-          <div class="featured-subject">Martin Scorsese</div>
-          <p class="featured-title">The Martin Scorsese Story You've Never Seen</p>
-        </div>
-      </a>
-
-      <a class="featured-card" href="https://www.youtube.com/watch?v=X3yYnbn7vwA" target="_blank" rel="noopener">
-        <img src="https://i.ytimg.com/vi/X3yYnbn7vwA/maxresdefault.jpg" alt="James Cameron vs. The Impossible" loading="lazy" />
-        <span class="play-badge" aria-hidden="true">▶ Watch</span>
-        <div class="featured-overlay">
-          <div class="featured-subject">James Cameron</div>
-          <p class="featured-title">James Cameron vs. The Impossible</p>
-        </div>
-      </a>
-
-      <a class="featured-card" href="https://www.youtube.com/watch?v=bP4XXWfcXJU" target="_blank" rel="noopener">
-        <img src="https://i.ytimg.com/vi/bP4XXWfcXJU/maxresdefault.jpg" alt="Leonardo DiCaprio: From Break-Dance to Oscar" loading="lazy" />
-        <span class="play-badge" aria-hidden="true">▶ Watch</span>
-        <div class="featured-overlay">
-          <div class="featured-subject">Leonardo DiCaprio</div>
-          <p class="featured-title">From Break-Dance to Oscar</p>
-        </div>
-      </a>
-
+    <div class="upcoming-grid">
+      <div class="upcoming-poster" id="upcomingPoster">
+        <div class="stage is-active" data-key="tarantino" style="background-image:url('https://i.ytimg.com/vi/XeOpf9olaWk/maxresdefault.jpg');"></div>
+        <div class="stage" data-key="scorsese"  style="background-image:url('https://i.ytimg.com/vi/4kMWWLcVWdk/maxresdefault.jpg');"></div>
+        <div class="stage" data-key="dicaprio"  style="background-image:url('https://i.ytimg.com/vi/bP4XXWfcXJU/maxresdefault.jpg');"></div>
+        <div class="stage" data-key="cameron"   style="background-image:url('https://i.ytimg.com/vi/X3yYnbn7vwA/maxresdefault.jpg');"></div>
+        <div class="stage" data-key="pitt"      style="background-image:url('https://i.ytimg.com/vi/a_r0D5w8bs4/maxresdefault.jpg');"></div>
+        <div class="stage" data-key="robbie"    style="background-image:url('https://i.ytimg.com/vi/TvEpRpW_Tag/maxresdefault.jpg');"></div>
+        <div class="stage" data-key="cavill"    style="background-image:url('https://i.ytimg.com/vi/GR0-qex_Vz8/maxresdefault.jpg');"></div>
+        <span class="upcoming-counter" id="upcomingCounter">01 / 07</span>
+      </div>
+      <ul class="upcoming-list" id="upcomingList">
+        <li class="is-active" data-key="tarantino" data-index="01">
+          <span class="num">01</span>
+          <a class="subj" href="https://www.youtube.com/watch?v=XeOpf9olaWk" target="_blank" rel="noopener">The Ultimate Tarantino Deep Dive</a>
+          <span class="director">Tarantino</span>
+        </li>
+        <li data-key="scorsese" data-index="02">
+          <span class="num">02</span>
+          <a class="subj" href="https://www.youtube.com/watch?v=4kMWWLcVWdk" target="_blank" rel="noopener">The Martin Scorsese Story You've Never Seen</a>
+          <span class="director">Scorsese</span>
+        </li>
+        <li data-key="dicaprio" data-index="03">
+          <span class="num">03</span>
+          <a class="subj" href="https://www.youtube.com/watch?v=bP4XXWfcXJU" target="_blank" rel="noopener">Leonardo DiCaprio: From Break-Dance to Oscar</a>
+          <span class="director">DiCaprio</span>
+        </li>
+        <li data-key="cameron" data-index="04">
+          <span class="num">04</span>
+          <a class="subj" href="https://www.youtube.com/watch?v=X3yYnbn7vwA" target="_blank" rel="noopener">James Cameron vs. The Impossible</a>
+          <span class="director">Cameron</span>
+        </li>
+        <li data-key="pitt" data-index="05">
+          <span class="num">05</span>
+          <a class="subj" href="https://www.youtube.com/watch?v=a_r0D5w8bs4" target="_blank" rel="noopener">How Brad Pitt Failed His Way to Greatness</a>
+          <span class="director">Pitt</span>
+        </li>
+        <li data-key="robbie" data-index="06">
+          <span class="num">06</span>
+          <a class="subj" href="https://www.youtube.com/watch?v=TvEpRpW_Tag" target="_blank" rel="noopener">Margot Robbie: Biography</a>
+          <span class="director">Robbie</span>
+        </li>
+        <li data-key="cavill" data-index="07">
+          <span class="num">07</span>
+          <a class="subj" href="https://www.youtube.com/watch?v=GR0-qex_Vz8" target="_blank" rel="noopener">Henry Cavill: Life Story</a>
+          <span class="director">Cavill</span>
+        </li>
+      </ul>
     </div>
   </div>
 </section>
@@ -2504,6 +2769,78 @@
       if (!lb.hidden && (e.key === 'Escape' || e.key === 'Esc')) close();
     });
   })();
+</script>
+
+<!-- ============ v2-borrowed interactions: upcoming hover-swap, reel indicator, magnetic buttons ============ -->
+<script>
+// Upcoming hover-swap (v2 style): hovering a list item changes the poster + counter
+(function() {
+  var list = document.getElementById('upcomingList');
+  var stages = document.querySelectorAll('#upcomingPoster .stage');
+  var counter = document.getElementById('upcomingCounter');
+  if (!list || !stages.length) return;
+  var total = stages.length;
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  function activate(key, index) {
+    stages.forEach(function(s) { s.classList.toggle('is-active', s.dataset.key === key); });
+    list.querySelectorAll('li').forEach(function(li) { li.classList.toggle('is-active', li.dataset.key === key); });
+    if (counter) counter.textContent = pad(parseInt(index, 10)) + ' / ' + pad(total);
+  }
+  list.querySelectorAll('li').forEach(function(li) {
+    li.addEventListener('pointerenter', function() { activate(li.dataset.key, li.dataset.index); });
+  });
+})();
+
+// Reel indicator in the sticky nav, synced with scroll position
+(function() {
+  var ind = document.getElementById('reelIndicator');
+  if (!ind) return;
+  var sections = [
+    { el: document.querySelector('header.hero'), name: 'Reel 1 / 7 · Intro' },
+    { el: document.getElementById('featured'),   name: 'Reel 2 / 7 · Full Stories' },
+    { el: document.getElementById('team'),       name: 'Reel 3 / 7 · Crew' },
+    { el: document.getElementById('manifesto'),  name: 'Reel 4 / 7 · Manifesto' },
+    { el: document.getElementById('videos'),     name: 'Reel 5 / 7 · Latest' },
+    { el: document.getElementById('support'),    name: 'Reel 6 / 7 · Support' },
+    { el: document.getElementById('contact'),    name: 'Reel 7 / 7 · Contact' }
+  ].filter(function(s) { return s.el; });
+  if (!sections.length) return;
+  function onScroll() {
+    var y = window.scrollY + window.innerHeight * 0.4;
+    var current = sections[0].name;
+    sections.forEach(function(s) { if (s.el.offsetTop <= y) current = s.name; });
+    if (ind.textContent !== current) ind.textContent = current;
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+
+// Magnetic buttons — gentle attraction toward the cursor when within a radius
+(function() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  var btns = document.querySelectorAll('.btn-magnetic');
+  if (!btns.length) return;
+  var RADIUS = 160;     // px from button centre at which attraction starts
+  var STRENGTH = 0.30;  // 0..1 — how strongly the button is pulled toward the cursor
+  function onMove(e) {
+    btns.forEach(function(btn) {
+      var r = btn.getBoundingClientRect();
+      var cx = r.left + r.width / 2;
+      var cy = r.top + r.height / 2;
+      var dx = e.clientX - cx;
+      var dy = e.clientY - cy;
+      var dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < RADIUS) {
+        var pull = (1 - dist / RADIUS) * STRENGTH;
+        btn.style.transform = 'translate(' + (dx * pull).toFixed(1) + 'px,' + (dy * pull).toFixed(1) + 'px)';
+      } else if (btn.style.transform) {
+        btn.style.transform = '';
+      }
+    });
+  }
+  document.addEventListener('mousemove', onMove, { passive: true });
+})();
 </script>
 
 <!-- Stripe Buy Button — registers the <stripe-buy-button> custom element. Async, doesn't block render. -->
