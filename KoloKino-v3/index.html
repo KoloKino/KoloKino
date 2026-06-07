@@ -430,13 +430,13 @@
   /* Hero */
   .hero {
     position: relative;
-    min-height: 80vh;
+    min-height: auto;            /* let the content drive the height; was 80vh */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 70px 24px 80px;
+    padding: 24px 24px 28px;      /* ≈ 1/3 of the previous 70px / 80px vertical pad */
     overflow: hidden;
     background:
       radial-gradient(ellipse at 50% 20%, rgba(255,59,59,0.12) 0%, transparent 55%),
@@ -1837,6 +1837,52 @@
     will-change: transform;
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
+
+  /* Sticky Support bar — fixed strip directly below the nav. Slides in once the
+     visitor scrolls past the hero CTAs so the Support button stays one click
+     away while they explore the site. */
+  .support-sticky-bar {
+    position: fixed;
+    top: calc(11.28vw + 56px);          /* below the banner + nav at rest */
+    left: 0; right: 0;
+    z-index: 900;                        /* above page content, below the modal (5000) */
+    display: flex;
+    justify-content: center;
+    padding: 8px 16px;
+    background: rgba(10, 7, 7, 0.78);
+    backdrop-filter: saturate(140%) blur(14px);
+    -webkit-backdrop-filter: saturate(140%) blur(14px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    transform: translateY(-110%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.30s ease,
+                top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  body.scrolled .support-sticky-bar { top: calc(5.64vw + 56px); }
+  .support-sticky-bar.is-visible {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  /* When the donation modal is open, the sticky bar would compete with the
+     focused content. Hide it so the modal owns the attention. */
+  body.support-modal-open .support-sticky-bar { opacity: 0; pointer-events: none; }
+  .btn-support-sticky {
+    padding: 0.55rem 1.3rem;
+    font-size: 0.74rem;
+    letter-spacing: 0.22em;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .support-sticky-bar { transition: opacity 0.001s; transform: translateY(0); }
+    .support-sticky-bar:not(.is-visible) { opacity: 0; pointer-events: none; }
+  }
+  @media (max-width: 700px) {
+    .support-sticky-bar { padding: 6px 10px; }
+    .btn-support-sticky { padding: 0.45rem 1rem; font-size: 0.68rem; letter-spacing: 0.18em; }
+  }
   /* Reel indicator (sticky nav, right side) */
   .site-nav { display: flex; flex-wrap: wrap; align-items: center; }
   .site-nav .reel-indicator {
@@ -1901,15 +1947,15 @@
   .upcoming-section .container { max-width: var(--max-w); margin: 0 auto; }
   .upcoming-grid {
     display: grid;
-    grid-template-columns: 1.4fr 1fr;
+    grid-template-columns: minmax(0, 1fr) 300px;   /* poster takes most of the row,
+                                                      list fixed-width on the right */
     gap: clamp(1.5rem, 4vw, 3rem);
-    align-items: stretch;        /* poster stretches to match the list height */
+    align-items: start;          /* poster keeps native 16:9, list grows downward */
   }
   .upcoming-poster {
     width: 100%;
     max-width: 100%;
-    height: 100%;                /* fill the grid cell so it matches list height */
-    aspect-ratio: auto;          /* drop the 16:9 lock — height is now driven by the list */
+    aspect-ratio: 16 / 9;        /* honour the source thumbnail proportions */
   }
   .upcoming-poster {
     position: relative;
@@ -2106,6 +2152,13 @@
 <!-- Skip link for keyboard users — jumps past the fixed banner+nav to first content -->
 <a class="skip-link" href="#featured">Skip to content</a>
 
+<!-- Sticky Support bar — slides in below the nav once the hero CTAs scroll out of view -->
+<div class="support-sticky-bar" id="supportStickyBar" aria-hidden="true">
+  <button type="button" class="btn btn-gold btn-support-sticky btn-magnetic" data-support-open>
+    <span aria-hidden="true">✦</span> Support Kolo Kino
+  </button>
+</div>
+
 <!-- Fixed top banner (always visible; shrinks on scroll with black side bars) -->
 <div class="top-banner-wrap">
   <img src="banner.jpg" alt="Kolo Kino" class="top-banner" loading="eager" fetchpriority="high" />
@@ -2135,9 +2188,8 @@
       <p>Months of research per project, broadcast-grade audio and visuals, and a small team of cinephiles obsessed with telling these stories the way they deserve. Built for the way cinema is best enjoyed: on a big screen, leaning back, with the lights down.</p>
     </div>
     <div class="hero-cta">
-      <a class="btn btn-primary" href="https://www.youtube.com/@OkoloKino" target="_blank" rel="noopener"><span aria-hidden="true">▶</span> Watch on YouTube</a>
+      <a class="btn btn-primary btn-support-hero" href="https://www.youtube.com/@OkoloKino" target="_blank" rel="noopener"><span aria-hidden="true">▶</span> Watch on YouTube</a>
       <button type="button" class="btn btn-gold btn-support-hero btn-magnetic" data-support-open><span aria-hidden="true">✦</span> Support Kolo Kino</button>
-      <a class="btn btn-paper" href="Kolo%20Kino%20Media%20Kit.pdf" target="_blank" rel="noopener" download><span aria-hidden="true">↓</span> Download Media Kit</a>
     </div>
   </div>
 </header>
@@ -2846,6 +2898,27 @@
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+})();
+
+// Sticky Support bar — shown once the hero CTAs leave the viewport
+(function() {
+  var bar = document.getElementById('supportStickyBar');
+  if (!bar) return;
+  var trigger = document.querySelector('.hero-cta') || document.querySelector('header.hero');
+  if (!trigger) return;
+  if (!('IntersectionObserver' in window)) {
+    bar.classList.add('is-visible');  // graceful fallback: always show
+    return;
+  }
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      // Only show when the trigger has scrolled ABOVE the viewport (not below).
+      // boundingClientRect.top < 0 means we've scrolled past it downwards.
+      var passed = !e.isIntersecting && e.boundingClientRect.top < 0;
+      bar.classList.toggle('is-visible', passed);
+    });
+  }, { threshold: 0 });
+  io.observe(trigger);
 })();
 
 // Magnetic buttons — gentle attraction toward the cursor when within a radius
