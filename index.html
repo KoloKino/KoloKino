@@ -43,7 +43,7 @@
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@500;700;900&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,700;1,900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@500;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,700;1,900&display=swap" rel="stylesheet" />
 
 <!-- Structured data — Organization + Persons (team) + VideoObjects (flagship docs)
      linked by @id so Google understands the relationships between them. -->
@@ -208,6 +208,22 @@
     --serif: 'Playfair Display', Georgia, serif;
     --sans: 'Inter', system-ui, -apple-system, sans-serif;
     --num: 'Bodoni Moda', 'Playfair Display', Georgia, serif;
+    --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    /* v2 typographic aliases (kept as separate vars so v2-derived blocks compile cleanly) */
+    --f-serif: var(--serif);
+    --f-body: var(--sans);
+    --f-mono: var(--mono);
+    --f-num: var(--num);
+    /* v2 colour & motion aliases for the imported blocks */
+    --ink: var(--bg);
+    --ink-warm: var(--bg-warm);
+    --ink-2: var(--bg-elev);
+    --paper: var(--fg);
+    --paper-dim: var(--fg-dim);
+    --blood: var(--accent);
+    --ease-cine: cubic-bezier(0.65, 0, 0.35, 1);
+    --space-lg: 1.4rem;
+    --space-2xl: 3rem;
     --radius: 12px;
     --max-w: 1200px;
   }
@@ -282,41 +298,49 @@
   .btn {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 12px 22px;
-    border-radius: 999px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: all .15s ease;
+    gap: 0.5rem;
+    padding: 0.95rem 1.5rem;
+    border-radius: 0;                         /* rectangular like v2 */
+    font: 600 0.78rem/1 var(--mono);          /* mono uppercase per v2 */
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: all 0.3s cubic-bezier(0.65, 0, 0.35, 1);
     border: 1px solid transparent;
     cursor: pointer;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
   }
-  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
   .btn-primary:hover {
     background: var(--accent-hover);
+    border-color: var(--accent-hover);
     color: #fff;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(255, 59, 59, 0.35);
   }
   /* Gold filled — premium partnership feel */
   .btn-gold {
-    background: linear-gradient(135deg, #d4a14a 0%, #b8821e 100%);
+    background: linear-gradient(135deg, #f0c469 0%, #d4a040 100%);
     color: #1a0e00;
+    border-color: #d4a040;
   }
   .btn-gold:hover {
-    background: linear-gradient(135deg, #e2b25b 0%, #c89539 100%);
+    background: linear-gradient(135deg, #ffd47e 0%, #e8b558 100%);
     color: #1a0e00;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(200, 149, 57, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 160, 64, 0.45);
   }
   /* Cream / parchment — document feel */
   .btn-paper {
     background: #ede5d2;
     color: #1a0e00;
+    border-color: #ede5d2;
   }
   .btn-paper:hover {
     background: #f5edd6;
     color: #1a0e00;
+    transform: translateY(-2px);
     transform: translateY(-1px);
     box-shadow: 0 6px 20px rgba(237, 229, 210, 0.28);
   }
@@ -363,10 +387,10 @@
     -webkit-backdrop-filter: saturate(140%) blur(14px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 6px 22px rgba(0, 0, 0, 0.4);
-    padding: 12px 16px;
+    padding: 14px 16px;
     display: flex;
     justify-content: center;
-    gap: 8px;
+    gap: clamp(1rem, 3vw, 2.2rem);
     flex-wrap: wrap;
     transition: top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -374,23 +398,28 @@
   .site-nav a {
     display: inline-flex;
     align-items: center;
-    padding: 8px 16px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    border-radius: 999px;
-    color: var(--fg);
-    font-size: 0.88rem;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    transition: all 0.18s ease;
+    padding: 0.5rem 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    color: var(--fg-dim);
+    font: 600 0.74rem/1 var(--mono);
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.3s ease;
     white-space: nowrap;
+    position: relative;
   }
-  .site-nav a:hover {
+  .site-nav a:hover, .site-nav a.is-active { color: var(--fg); background: transparent; }
+  .site-nav a::after {
+    content: "";
+    position: absolute; left: 0; bottom: 2px;
+    height: 2px; width: 0;
     background: var(--accent);
-    border-color: var(--accent);
-    color: #fff;
-    transform: translateY(-1px);
+    transition: width 0.35s cubic-bezier(0.65, 0, 0.35, 1);
   }
+  .site-nav a:hover::after, .site-nav a.is-active::after { width: 100%; }
 
   body {
     padding-top: calc(11.28vw + 56px); /* banner + nav */
@@ -401,13 +430,13 @@
   /* Hero */
   .hero {
     position: relative;
-    min-height: 80vh;
+    min-height: auto;            /* let the content drive the height; was 80vh */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 70px 24px 80px;
+    padding: 24px 24px 28px;      /* ≈ 1/3 of the previous 70px / 80px vertical pad */
     overflow: hidden;
     background:
       radial-gradient(ellipse at 50% 20%, rgba(255,59,59,0.12) 0%, transparent 55%),
@@ -1415,22 +1444,19 @@
     }
     .eyebrow::before, .eyebrow::after { display: none; }
     .site-nav {
-      padding: 8px 12px;
-      gap: 6px;
+      padding: 10px 8px;
+      gap: clamp(0.7rem, 2.4vw, 1.4rem);
       flex-wrap: nowrap;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      justify-content: flex-start;
+      overflow-x: hidden;
+      justify-content: space-between;   /* spread the 5 nav links across one line */
       scrollbar-width: none;
-      /* Subtle fade on right edge hints at horizontal scroll */
-      mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 28px), transparent 100%);
-      -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 28px), transparent 100%);
     }
     .site-nav::-webkit-scrollbar { display: none; }
     .site-nav a {
-      flex-shrink: 0;
-      padding: 9px 15px;
-      font-size: 0.82rem;
+      flex: 0 0 auto;
+      padding: 0.45rem 0;
+      font-size: clamp(0.58rem, 2vw, 0.72rem);  /* shrinks just enough to fit */
+      letter-spacing: 0.12em;
       min-height: 36px;
     }
     .contact-toggle summary {
@@ -1535,6 +1561,1025 @@
     body.scrolled .top-banner { transform: none; }
     .a-bar > i { transform: scaleX(1); }
   }
+
+  /* ============== SUPPORT KOLO KINO ============== */
+  .support-section { background: var(--bg-warm, #110b0a); }
+  .support-callout {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: clamp(1.6rem, 3vw, 3rem);
+    padding: clamp(2rem, 4vw, 3.4rem);
+    background:
+      radial-gradient(ellipse at top right, rgba(255,90,90,0.10), transparent 60%),
+      linear-gradient(135deg, rgba(255,210,150,0.04), transparent 40%),
+      var(--bg-elev, #181414);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+  }
+  @media (max-width: 800px) {
+    .support-callout { grid-template-columns: 1fr; text-align: left; }
+  }
+  .support-text .eyebrow { color: var(--accent); margin-bottom: 0.8rem; }
+  .support-text h2 {
+    margin: 0 0 1rem;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    line-height: 1.1;
+  }
+  .support-text p { color: var(--fg-mute, #b5b0a8); margin: 0; max-width: 56ch; }
+  .btn-support-open {
+    cursor: pointer;
+    border: none;
+    background: linear-gradient(135deg, #ff5757 0%, #ff9966 100%);
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    padding: 1.1rem 1.8rem;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+    box-shadow: 0 14px 30px rgba(255,87,87,0.28);
+    white-space: nowrap;
+  }
+  .btn-support-open:hover {
+    transform: translateY(-2px) scale(1.02);
+    filter: brightness(1.08);
+    box-shadow: 0 18px 38px rgba(255,87,87,0.4);
+  }
+  .btn-support-open:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+  .btn-support-open .support-spark {
+    display: inline-block;
+    margin-right: 0.4rem;
+    transition: transform 0.5s var(--ease-cine, cubic-bezier(.4,0,.2,1));
+  }
+  .btn-support-open:hover .support-spark { transform: rotate(180deg) scale(1.2); }
+
+  /* Hero CTA Support button (.btn-gold reused — keep the same warm tone family) */
+  .hero-cta .btn-gold[data-support-open] { cursor: pointer; border: none; }
+
+  /* Modal */
+  .support-modal {
+    position: fixed; inset: 0; z-index: 5000;
+    display: grid; place-items: center;
+    padding: clamp(1rem, 3vw, 2rem);
+  }
+  .support-modal[hidden] { display: none; }
+  .support-modal-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(8,5,4,0.78);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    animation: supportFadeIn 0.3s var(--ease-cine, cubic-bezier(.4,0,.2,1));
+  }
+  .support-modal-card {
+    position: relative;
+    width: min(640px, 100%);
+    max-height: 92vh;
+    overflow-y: auto;
+    background: linear-gradient(180deg, #1c1614 0%, #110b0a 100%);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    padding: clamp(1.5rem, 3vw, 2.4rem);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+    animation: supportSlideUp 0.4s var(--ease-cine, cubic-bezier(.4,0,.2,1));
+    isolation: isolate;  /* so the ::before texture sits above the gradient but below content */
+  }
+  /* "Film & gasoline" texture overlay on the modal card (40% opacity, full coverage) */
+  .support-modal-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url('background_film_and_gasoline.png') center/cover no-repeat;
+    opacity: 0.40;
+    pointer-events: none;
+    z-index: -1;
+    border-radius: inherit;
+  }
+  @keyframes supportFadeIn { from { opacity: 0 } to { opacity: 1 } }
+  @keyframes supportSlideUp {
+    from { opacity: 0; transform: translateY(20px) scale(0.97); }
+    to   { opacity: 1; transform: none; }
+  }
+  .support-close {
+    position: absolute; top: 0.6rem; right: 0.6rem;
+    width: 38px; height: 38px;
+    border: none; background: transparent;
+    font-size: 1.8rem; line-height: 1; color: var(--fg, #f4f1ec);
+    cursor: pointer; border-radius: 50%;
+    transition: background 0.2s;
+  }
+  .support-close:hover { background: rgba(255,255,255,0.08); }
+  .support-close:focus-visible { outline: 2px solid #ff7a7a; outline-offset: 2px; }
+
+  .support-modal-head { text-align: center; margin-bottom: 1.6rem; }
+  .support-modal-head .eyebrow { color: var(--accent); margin-bottom: 0.6rem; }
+  .support-modal-head h3 { margin: 0 0 0.5rem; font-size: clamp(1.4rem, 2.5vw, 1.8rem); }
+  .support-modal-head .support-modal-lede { margin: 0; color: var(--fg-mute, #b5b0a8); font-size: 0.92rem; }
+
+  .support-option {
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 5px;
+    padding: 1.1rem 1.2rem;
+    background: rgba(255,255,255,0.02);
+    transition: border-color 0.25s, background 0.25s, transform 0.25s;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+  .support-option:hover { border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.04); }
+  a.support-option { text-decoration: none; color: inherit; }
+  a.support-option:hover { transform: translateY(-2px); }
+
+  /* Stripe primary block */
+  .support-stripe {
+    border-color: rgba(255,122,122,0.4);
+    background: linear-gradient(135deg, rgba(255,122,122,0.08), rgba(255,153,102,0.04));
+    margin-bottom: 1.4rem;
+  }
+  .support-option-head {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.9rem;
+  }
+  .support-option-head h4 { margin: 0 0 0.2rem; font-size: 1.05rem; }
+  .support-option-head p { margin: 0; color: var(--fg-mute, #b5b0a8); font-size: 0.86rem; }
+  .support-badge {
+    background: #ff5757;
+    color: #fff;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.55rem;
+    border-radius: 999px;
+    font-weight: 700;
+  }
+  .support-stripe-mount {
+    /* No background: the Buy Button has its own white card. We just centre it. */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.4rem 0 0.2rem;
+    min-height: 60px;
+  }
+  .support-stripe-mount stripe-buy-button {
+    /* Let the Buy Button take its natural width (Stripe sets ~340px) instead of
+       stretching to 100% — that's what was throwing the layout off-centre. */
+    display: inline-block;
+    margin: 0 auto;
+    width: auto;
+  }
+
+  /* Logos */
+  .support-logo {
+    display: grid;
+    place-items: center;
+    width: 50px; height: 50px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.06);
+    flex-shrink: 0;
+  }
+  .support-logo svg { width: 32px; height: auto; display: block; }
+  .support-logo-stripe { background: #635bff; color: #fff; }
+  .support-logo-stripe svg { width: 36px; }
+  .support-logo-kofi { background: #fff; }
+  .support-logo-bmc { background: #ffdd00; }
+  .support-logo-youtube { background: #fff; }
+
+  /* Divider */
+  .support-or {
+    display: flex; align-items: center; gap: 1rem;
+    margin: 1.2rem 0;
+    text-align: center;
+  }
+  .support-or::before, .support-or::after {
+    content: ""; flex: 1; height: 1px;
+    background: rgba(255,255,255,0.1);
+  }
+  .support-or span {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--fg-mute, #b5b0a8);
+  }
+
+  /* Secondary cards grid */
+  .support-options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+  }
+  .support-card {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+  }
+  .support-card-wide { grid-column: 1 / -1; }
+  .support-card-text h4 { margin: 0 0 0.2rem; font-size: 0.98rem; }
+  .support-card-text p { margin: 0; font-size: 0.82rem; color: var(--fg-mute, #b5b0a8); line-height: 1.4; }
+  .support-arrow {
+    font-size: 1.2rem; color: var(--fg-mute, #b5b0a8);
+    transition: transform 0.25s, color 0.25s;
+  }
+  .support-card:hover .support-arrow { transform: translate(3px, -3px); color: #fff; }
+  @media (max-width: 520px) {
+    .support-options-grid { grid-template-columns: 1fr; }
+    .support-card-wide { grid-column: auto; }
+  }
+
+  .support-thanks {
+    margin: 1.4rem 0 0;
+    text-align: center;
+    font-style: italic;
+    color: var(--fg-mute, #b5b0a8);
+    font-size: 0.88rem;
+  }
+
+  /* ============== WebGL Flowmap canvas (hero background, mouse-driven) ============== */
+  .hero-flow-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    display: block;
+    opacity: 0;
+    transition: opacity 1s var(--ease-cine, cubic-bezier(.4,0,.2,1));
+    pointer-events: none;
+  }
+  .hero.is-flow-active .hero-flow-canvas { opacity: 1; }
+  /* When the flowmap kicks in, hide the original cinematic gradient so the
+     liquid texture is the protagonist (b-kaind look). */
+  .hero.is-flow-active { background: #000 !important; }
+
+  /* "Film & gasoline" texture mask — semi-transparent overlay above the flowmap
+     canvas but below the text content. Custom asset created by Alex. */
+  .hero-mask {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: url('background_film_and_gasoline.png') center/cover no-repeat;
+    opacity: 0.20;
+  }
+
+  /* Support button in the hero — 20% bigger than the other two CTAs */
+  .btn-support-hero {
+    padding: 1.14rem 1.8rem;
+    font-size: 0.94rem;          /* 0.78 * 1.2 (v2 .btn base is 0.78rem) */
+    letter-spacing: 0.22em;
+  }
+  /* Magnetic effect — buttons get pulled gently toward the cursor when nearby */
+  .btn-magnetic {
+    will-change: transform;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Sticky Support bar — fixed strip directly below the nav. Slides in once the
+     visitor scrolls past the hero CTAs so the Support button stays one click
+     away while they explore the site. */
+  .support-sticky-bar {
+    position: fixed;
+    top: calc(11.28vw + 56px);          /* below the banner + nav at rest */
+    left: 0; right: 0;
+    z-index: 900;                        /* above page content, below the modal (5000) */
+    display: flex;
+    justify-content: center;
+    padding: 8px 16px;
+    background: rgba(10, 7, 7, 0.78);
+    backdrop-filter: saturate(140%) blur(14px);
+    -webkit-backdrop-filter: saturate(140%) blur(14px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    transform: translateY(-110%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.30s ease,
+                top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  body.scrolled .support-sticky-bar { top: calc(5.64vw + 56px); }
+  .support-sticky-bar.is-visible {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  /* When the donation modal is open, the sticky bar would compete with the
+     focused content. Hide it so the modal owns the attention. */
+  body.support-modal-open .support-sticky-bar { opacity: 0; pointer-events: none; }
+  .btn-support-sticky {
+    padding: 0.55rem 1.3rem;
+    font-size: 0.74rem;
+    letter-spacing: 0.22em;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .support-sticky-bar { transition: opacity 0.001s; transform: translateY(0); }
+    .support-sticky-bar:not(.is-visible) { opacity: 0; pointer-events: none; }
+  }
+  @media (max-width: 700px) {
+    .support-sticky-bar { padding: 6px 10px; }
+    .btn-support-sticky { padding: 0.45rem 1rem; font-size: 0.68rem; letter-spacing: 0.18em; }
+  }
+  /* Reel indicator (sticky nav, right side) */
+  .site-nav { display: flex; flex-wrap: wrap; align-items: center; }
+  .site-nav .reel-indicator {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font: 500 0.72rem/1 var(--mono);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+    padding: 6px 10px;
+    pointer-events: none;
+  }
+  @media (max-width: 700px) { .site-nav .reel-indicator { display: none; } }
+
+  /* ============== SLATE HEADER (v2 clapperboard style) ============== */
+  .slate {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: end;
+    gap: 1.5rem;
+    margin-top: 2.4rem;
+    margin-bottom: var(--space-2xl);
+    padding: 1.6rem 0 var(--space-lg);
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+  .slate::before {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; top: 0;
+    height: 14px;
+    background: repeating-linear-gradient(135deg, var(--paper) 0 14px, var(--ink) 14px 28px);
+    opacity: 0.95;
+  }
+  .slate .slate-meta {
+    font: 500 0.72rem/1.6 var(--mono);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--paper);
+  }
+  .slate .slate-meta div { display: block; }
+  .slate .slate-meta div span { color: var(--fg-mute); margin-right: 0.4em; }
+  .slate h2 { color: var(--fg); margin: 0; font-family: var(--serif); }
+  .slate .slate-side {
+    font: 500 0.7rem/1.6 var(--mono);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+    text-align: right;
+  }
+  @media (max-width: 720px) {
+    .slate { grid-template-columns: 1fr; gap: 0.6rem; }
+    .slate .slate-side { text-align: left; }
+  }
+
+  /* ============== UPCOMING (hover-swap poster + list, v2 style) ============== */
+  .upcoming-section {
+    position: relative;
+    background: var(--bg);
+    padding: clamp(4rem, 9vh, 7rem) 24px;
+    border-block: 1px solid var(--line);
+  }
+  .upcoming-section .container { max-width: var(--max-w); margin: 0 auto; }
+  .upcoming-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;   /* poster takes most of the row,
+                                                      list fixed-width on the right */
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: start;          /* poster keeps native 16:9, list grows downward */
+  }
+  .upcoming-poster {
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 16 / 9;        /* honour the source thumbnail proportions */
+  }
+  .upcoming-poster {
+    position: relative;
+    aspect-ratio: 16/9;
+    background: var(--bg-elev);
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .upcoming-poster .stage {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    transition: opacity 0.45s var(--ease-cine), transform 8s linear;
+    transform: scale(1.03);
+    opacity: 0;
+  }
+  .upcoming-poster .stage.is-active { opacity: 1; transform: scale(1); }
+  .upcoming-poster::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(0,0,0,0.2) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .upcoming-counter {
+    position: absolute; bottom: 1rem; right: 1.2rem;
+    z-index: 5;
+    font: 600 0.78rem/1 var(--mono);
+    letter-spacing: 0.2em;
+    color: var(--paper);
+    text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  }
+  .upcoming-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .upcoming-list li {
+    border-top: 1px solid var(--line);
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1.2rem 0;
+    cursor: pointer;
+    transition: padding-left 0.35s var(--ease-cine), color 0.35s var(--ease-cine);
+  }
+  .upcoming-list li:last-child { border-bottom: 1px solid var(--line); }
+  .upcoming-list li .num {
+    font: 500 0.72rem/1 var(--mono);
+    letter-spacing: 0.2em;
+    color: var(--fg-mute);
+    width: 2.4rem; flex-shrink: 0;
+  }
+  .upcoming-list li .director {
+    font: 600 1rem/1.2 var(--mono);
+    letter-spacing: 0.18em;
+    color: var(--fg);
+    text-transform: uppercase;
+    text-decoration: none;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .upcoming-list li:hover, .upcoming-list li.is-active { padding-left: 0.6rem; color: var(--paper); }
+  .upcoming-list li:hover .director, .upcoming-list li.is-active .director { color: var(--paper); }
+  .upcoming-list li:hover .num, .upcoming-list li.is-active .num { color: var(--accent); }
+  @media (max-width: 800px) {
+    .upcoming-grid { grid-template-columns: 1fr; align-items: start; }
+    /* On mobile the grid stacks: poster on top, list below. Re-lock the poster's
+       16:9 aspect ratio so it doesn't collapse to 0 height when there's no list
+       on its side to stretch it. */
+    .upcoming-poster { aspect-ratio: 16 / 9; height: auto; margin-bottom: 1rem; }
+  }
+
+  /* ============== TEAM v2 overrides — bigger photos, mono labels, stripped frames ============== */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+  .team-card {
+    position: relative;
+    background: var(--bg-warm);
+    border: 1px solid var(--line);
+    border-radius: 0;
+    padding: 0 0 1.8rem;
+    overflow: hidden;
+  }
+  .team-card .team-photo {
+    width: 100%;
+    aspect-ratio: 4/5;
+    height: auto;
+    object-fit: cover;
+    border-radius: 0;
+    filter: grayscale(0.25) contrast(1.05) brightness(0.95);
+    transition: filter 0.5s var(--ease-cine), transform 8s linear;
+    margin: 0;
+  }
+  .team-card:hover .team-photo { filter: grayscale(0) contrast(1.1); transform: scale(1.02); }
+  .team-card h3 {
+    margin: 1.2rem 1.2rem 0.2rem;
+    font: 700 1.4rem/1.1 var(--serif);
+    color: var(--fg);
+  }
+  .team-card .team-role {
+    margin: 0 1.2rem 0.2rem;
+    font: 600 0.72rem/1 var(--mono);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--paper);
+  }
+  .team-card .team-location {
+    margin: 0 1.2rem 0.6rem;
+    font: 500 0.78rem/1 var(--mono);
+    letter-spacing: 0.12em;
+    color: var(--fg-mute);
+  }
+  .team-card .team-bio { margin: 0.7rem 1.2rem; color: var(--fg-dim); font-size: 0.95rem; }
+  .team-card .team-links { padding: 0 1.2rem; display: flex; gap: 1rem; }
+  .team-card .team-links a {
+    font: 500 0.72rem/1 var(--mono);
+    letter-spacing: 0.2em;
+    color: var(--paper);
+    text-decoration: none;
+    border-bottom: 1px solid var(--paper-dim);
+    padding-bottom: 2px;
+    text-transform: uppercase;
+  }
+  .team-card .team-links a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  /* contact-toggle: kill the inherited red pill from the original v3 styles */
+  .team-card .contact-toggle { padding: 0.8rem 1.2rem 0; margin-top: auto; text-align: left; }
+  .team-card .contact-toggle summary {
+    cursor: pointer;
+    font: 500 0.7rem/1 var(--mono);
+    letter-spacing: 0.2em;
+    color: var(--fg-mute);
+    text-transform: uppercase;
+    padding: 0.5rem 0;          /* override v3 "9px 18px" pill padding */
+    list-style: none;
+    display: flex; align-items: center; gap: 0.5rem;
+    background: transparent;     /* override v3 hover background */
+    border: 0;                   /* kill v3 red border */
+    border-radius: 0;            /* kill v3 pill rounding */
+    width: max-content;          /* shrink to text width, doesn't span the card */
+  }
+  .team-card .contact-toggle summary::-webkit-details-marker { display: none; }
+  .team-card .contact-toggle summary::before { content: "+"; color: var(--accent); font-weight: 700; }
+  .team-card .contact-toggle summary::after { content: none; }   /* kill v3 ↓ arrow */
+  .team-card .contact-toggle[open] summary::before { content: "−"; }
+  .team-card .contact-toggle summary:hover {
+    background: transparent;     /* keep flat on hover, no red fill */
+    color: var(--fg);
+    transform: none;
+  }
+  .team-card .bio-text { font-size: 0.9rem; color: var(--fg-dim); padding-top: 0.5rem; }
+
+  /* Card layout: text left-aligned (v2), flex column so the About button can sit
+     at the bottom of every card on the same horizontal line. */
+  .team-card {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0;            /* override v3 var(--radius) */
+  }
+  @media (prefers-reduced-motion: reduce) { .btn-magnetic { transition: none; } }
+  @media (hover: none) and (pointer: coarse) { .btn-magnetic { transition: none; } }
+
+  /* ---- Hero readability over the warm liquid background ---- */
+  /* Body copy: slightly lighter than --fg-dim and a soft shadow */
+  .hero .hero-intro p {
+    color: #f4ede2;
+    text-shadow: 0 1px 14px rgba(0,0,0,0.7), 0 0 2px rgba(0,0,0,0.5);
+  }
+  /* Title: reinforce the existing shadow */
+  .hero h1 {
+    text-shadow: 0 2px 22px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.55);
+  }
+  /* Eyebrow: keep accent color and the side dashes, lift it off the warm
+     background with a soft dark halo (no visible pill, no background fill). */
+  .hero .hero-content > .eyebrow {
+    text-shadow:
+      0 0 10px rgba(0,0,0,0.95),
+      0 0 22px rgba(0,0,0,0.7),
+      0 0 40px rgba(0,0,0,0.45),
+      0 1px 2px rgba(0,0,0,0.8);
+  }
+  @media (prefers-reduced-motion: reduce) { .hero-flow-canvas { display: none; } }
+  @media (hover: none) and (pointer: coarse) { .hero-flow-canvas { display: none; } }
+
+  /* Body lock when modal open */
+  body.support-modal-open { overflow: hidden; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .support-modal-backdrop, .support-modal-card { animation: none; }
+    .btn-support-open:hover { transform: none; }
+  }
+
+  /* ============== UNIFIED SUPPORT BLOCK (pitch + community in one flow) ============== */
+  /* Header: eyebrow + title + intro + CTA, all centred. CTA sits directly under
+     the intro so the reader's eye travels: who → why → action → community. */
+  .support-head {
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto clamp(2.5rem, 5vw, 3.5rem);
+  }
+  .support-head .eyebrow { color: var(--accent); margin-bottom: 1rem; }
+  .support-head h2 {
+    margin: 0 0 1rem;
+    font-family: var(--serif);
+    font-size: clamp(1.7rem, 3vw, 2.4rem);
+    font-weight: 700;
+    line-height: 1.15;
+  }
+  .support-intro { color: var(--fg-dim); margin: 0 0 1.6rem; }
+  .support-head .btn-support-open { display: inline-flex; }
+  .supporters-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: start;
+  }
+  .supporters-subhead {
+    margin: 0 0 1.6rem;
+    font: 700 1rem/1 var(--mono);
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-align: center;
+  }
+  @media (max-width: 800px) { .supporters-grid { grid-template-columns: 1fr; } }
+
+  /* --- ranking list (left) --- */
+  .supporters-rank { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
+  .supporters-rank li {
+    display: grid;
+    grid-template-columns: 2.2rem 40px 1fr auto;
+    gap: 0.7rem;
+    align-items: center;
+    padding: 0.65rem 0.7rem;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.25s, border-color 0.25s, transform 0.25s;
+  }
+  .supporters-rank li:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,90,90,0.4); transform: translateX(4px); }
+  .rank-num {
+    font: 700 0.95rem/1 var(--num);
+    color: var(--fg-mute);
+    text-align: center;
+  }
+  .supporters-rank li:nth-child(1) .rank-num { color: #ffcb5b; }   /* gold */
+  .supporters-rank li:nth-child(2) .rank-num { color: #d6d6d6; }   /* silver */
+  .supporters-rank li:nth-child(3) .rank-num { color: #cd7f32; }   /* bronze */
+  .rank-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+  }
+  .rank-meta { display: flex; flex-direction: column; min-width: 0; }
+  .rank-name {
+    font: 600 0.92rem/1.2 var(--sans);
+    color: var(--fg);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .rank-platform {
+    font: 500 0.62rem/1 var(--mono);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+    margin-top: 2px;
+  }
+  .rank-amount {
+    font: 700 0.95rem/1 var(--num);
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  /* --- scattered cloud (right) --- */
+  .supporters-cloud {
+    position: relative;
+    min-height: 360px;
+    padding: 1.2rem 0.6rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem 1rem;
+    justify-content: center;
+    align-content: center;
+  }
+  .cloud-chip {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.5rem;
+    border-radius: 6px;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s;
+    /* random offset/rotation set via inline --rx, --ry, --rr */
+    transform: translate(var(--tx, 0), var(--ty, 0)) rotate(var(--rr, 0deg));
+  }
+  .cloud-chip:hover {
+    transform: translate(var(--tx, 0), var(--ty, 0)) rotate(0deg) scale(1.08);
+    background: rgba(255,90,90,0.08);
+  }
+  .cloud-avatar {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--bg-elev);
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+  }
+  .cloud-name {
+    font: 500 0.7rem/1.1 var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    text-align: center;
+    max-width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* --- conversation modal --- */
+  .supporter-modal {
+    position: fixed; inset: 0; z-index: 5000;
+    display: grid; place-items: center;
+    padding: clamp(1rem, 3vw, 2rem);
+  }
+  .supporter-modal[hidden] { display: none; }
+  .supporter-modal-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(8,5,4,0.78);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    animation: supportFadeIn 0.3s cubic-bezier(.4,0,.2,1);
+  }
+  .supporter-modal-card {
+    position: relative;
+    width: min(560px, 100%);
+    max-height: 92vh;
+    overflow-y: auto;
+    background: linear-gradient(180deg, #1c1614 0%, #110b0a 100%);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    padding: clamp(1.5rem, 3vw, 2.2rem);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+    animation: supportSlideUp 0.4s cubic-bezier(.4,0,.2,1);
+    isolation: isolate;
+  }
+  .supporter-modal-card::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: url('background_film_and_gasoline.png') center/cover no-repeat;
+    opacity: 0.40;
+    pointer-events: none; z-index: -1;
+    border-radius: inherit;
+  }
+  .supporter-close {
+    position: absolute; top: 0.6rem; right: 0.6rem;
+    width: 38px; height: 38px;
+    border: none; background: transparent;
+    font-size: 1.8rem; line-height: 1; color: var(--fg);
+    cursor: pointer; border-radius: 50%;
+    transition: background 0.2s;
+  }
+  .supporter-close:hover { background: rgba(255,255,255,0.08); }
+  .supporter-modal-head {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 1rem;
+    align-items: center;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 1.2rem;
+  }
+  .supporter-modal-avatar {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+  }
+  .supporter-modal-meta h3 { margin: 0 0 0.2rem; font-size: 1.2rem; }
+  .supporter-modal-platform {
+    margin: 0;
+    font: 500 0.66rem/1 var(--mono);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .supporter-modal-amount {
+    margin: 0.3rem 0 0;
+    font: 700 1.05rem/1 var(--num);
+    color: var(--fg);
+  }
+  .supporter-modal-thread {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-bottom: 1.2rem;
+  }
+  .supporter-msg {
+    max-width: 78%;
+    padding: 0.7rem 0.95rem;
+    border-radius: 12px;
+    font: 400 0.9rem/1.45 var(--sans);
+    position: relative;
+  }
+  .supporter-msg-author {
+    display: block;
+    font: 600 0.6rem/1 var(--mono);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
+    opacity: 0.7;
+  }
+  .supporter-msg-date {
+    display: block;
+    font: 500 0.62rem/1 var(--mono);
+    letter-spacing: 0.08em;
+    color: var(--fg-mute);
+    margin-top: 0.4rem;
+  }
+  .supporter-msg.from-supporter {
+    align-self: flex-start;
+    background: rgba(255,255,255,0.07);
+    color: var(--fg);
+    border-bottom-left-radius: 3px;
+  }
+  .supporter-msg.from-creator {
+    align-self: flex-end;
+    background: linear-gradient(135deg, rgba(255,87,87,0.22), rgba(255,153,102,0.16));
+    border: 1px solid rgba(255,87,87,0.3);
+    color: var(--fg);
+    border-bottom-right-radius: 3px;
+  }
+  .supporter-modal-foot { text-align: center; }
+  .supporter-modal-profile {
+    font: 500 0.7rem/1 var(--mono);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 3px;
+  }
+  .supporter-modal-profile:hover { color: var(--accent); }
+  body.supporter-modal-open { overflow: hidden; }
+  body.supporter-modal-open .support-sticky-bar { opacity: 0; pointer-events: none; }
+
+  /* ============== "Film & gasoline" texture on three middle sections ============== */
+  /* Long-form documentaries, Support Kolo Kino and Latest Releases all get the
+     same warm liquid texture at 40% opacity behind their content. The mask-image
+     fades the texture to transparent at the top and bottom so the transitions
+     into the neighbouring sections are gradual rather than a hard edge. */
+  #featured, #support {
+    position: relative;
+    isolation: isolate;
+  }
+  #featured::before, #support::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url('background_film_and_gasoline.png') center/cover no-repeat;
+    opacity: 0.40;
+    pointer-events: none;
+    z-index: -1;
+    /* Generous fades at both ends so the texture dissolves into the neighbouring
+       sections without any visible seam. Top: 0%–10%. Bottom: 75%–100%. */
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 10%, #000 75%, transparent 100%);
+            mask-image: linear-gradient(180deg, transparent 0%, #000 10%, #000 75%, transparent 100%);
+  }
+
+  /* ============== Contact section: borrow the hero's intro look ============== */
+  /* Same warm radial glow + dark gradient + fixed background.png the hero uses,
+     PLUS a second WebGL Flowmap canvas so the cursor leaves a liquid trail in
+     this section too. No gasoline texture here — Alex wants just the cursor effect. */
+  .contact-section, #contact {
+    position: relative;
+    isolation: isolate;
+    background:
+      radial-gradient(ellipse at 50% 20%, rgba(255,59,59,0.12) 0%, transparent 55%),
+      linear-gradient(180deg, rgba(11,11,11,0.78) 0%, rgba(11,11,11,0.92) 70%, var(--bg) 100%),
+      url('background.png') center/cover no-repeat fixed;
+    overflow: hidden;
+  }
+  .contact-flow-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    display: block;
+    opacity: 0;
+    transition: opacity 1s var(--ease-cine, cubic-bezier(.4,0,.2,1));
+    pointer-events: none;
+  }
+  .contact-section.is-flow-active .contact-flow-canvas { opacity: 1; }
+  .contact-section .container { position: relative; z-index: 2; }
+  @media (prefers-reduced-motion: reduce) { .contact-flow-canvas { display: none; } }
+  @media (hover: none) and (pointer: coarse) { .contact-flow-canvas { display: none; } }
+  /* ---- Contact readability over the warm liquid background (same recipe as hero) ---- */
+  /* Eyebrow: keep the red accent, lift it off the warm flow with a soft dark halo */
+  #contact .eyebrow {
+    text-shadow:
+      0 0 10px rgba(0,0,0,0.95),
+      0 0 22px rgba(0,0,0,0.7),
+      0 0 40px rgba(0,0,0,0.45),
+      0 1px 2px rgba(0,0,0,0.8);
+  }
+  /* Title: stronger drop shadow so the white serif stays crisp */
+  #contact h2 {
+    text-shadow:
+      0 2px 22px rgba(0,0,0,0.7),
+      0 1px 3px rgba(0,0,0,0.55);
+  }
+  /* Pitch + address: slightly brighter body colour and a halo for contrast */
+  #contact .contact-pitch,
+  #contact .contact-address {
+    color: #f4ede2;
+    text-shadow:
+      0 1px 14px rgba(0,0,0,0.7),
+      0 0 2px rgba(0,0,0,0.5);
+  }
+  /* Email link: same halo so it doesn't bleed into the warm pixels behind */
+  #contact .contact-email {
+    text-shadow:
+      0 1px 14px rgba(0,0,0,0.75),
+      0 0 2px rgba(0,0,0,0.5);
+  }
+  /* Media-kit download pill: keep its background, just lift the label */
+  #contact .download-pdf {
+    text-shadow: 0 1px 6px rgba(0,0,0,0.55);
+  }
+
+  /* Scanlines overlay above the canvas, below the text */
+  #contact::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image: repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.012) 0px,
+      rgba(255,255,255,0.012) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+    mix-blend-mode: overlay;
+  }
+
+  /* ============== Director marquee (bridge between Long-form and Team) ============== */
+  /* Thinner version of the v2 marquee — same idea, less visual weight so it
+     reads as a transition strip rather than a heading. */
+  .director-marquee {
+    position: relative;
+    background: var(--bg);
+    border-block: 1px solid var(--line);
+    padding: 0.7rem 0;
+    overflow: hidden;
+  }
+  .director-marquee .track {
+    display: flex;
+    gap: 2.4rem;
+    width: max-content;
+    animation: marquee-scroll 70s linear infinite;
+    font: 600 clamp(0.85rem, 1.5vw, 1.05rem)/1 var(--serif);
+    font-style: italic;
+    color: var(--fg-mute);
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+  .director-marquee .track:hover { animation-play-state: paused; }
+  .director-marquee .track span::after {
+    content: "✦";
+    color: var(--accent);
+    margin-left: 2.4rem;
+    font-style: normal;
+    font-size: 0.7em;
+    vertical-align: middle;
+  }
+  @keyframes marquee-scroll { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .director-marquee .track { animation: none; } }
+
+  /* ============== POSTER PLAY CURSOR (v2-style inverted-colour ▸) ============== */
+  /* Floating play icon that follows the pointer when it's over a video poster
+     (upcoming-poster stages and Latest Releases video-cards). Uses
+     mix-blend-mode: difference so the colour is automatically the inverse of
+     whatever pixel sits underneath — white on dark, dark on white. */
+  .poster-cursor {
+    position: fixed;
+    top: 0; left: 0;
+    width: 72px; height: 72px;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+    transform: translate(-50%, -50%);
+    will-change: transform;
+    opacity: 0;
+    transition: opacity 0.2s ease, width 0.25s ease, height 0.25s ease;
+  }
+  .poster-cursor svg { width: 100%; height: 100%; display: block; }
+  .poster-cursor.is-active { opacity: 1; }
+  .poster-cursor.is-pressed { width: 60px; height: 60px; }
+  /* Hide the system cursor on hover-targeted tiles so only the play glyph reads */
+  body.has-poster-cursor .upcoming-poster,
+  body.has-poster-cursor .upcoming-poster .stage,
+  body.has-poster-cursor .video-card,
+  body.has-poster-cursor .video-card * { cursor: none; }
+  @media (hover: none), (pointer: coarse) { .poster-cursor { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .poster-cursor { display: none; } }
+
+  /* Stages: only the .is-active one captures clicks (otherwise hidden links
+     under it would steal them). All stages remain in the DOM for the swap. */
+  .upcoming-poster .stage { pointer-events: none; }
+  .upcoming-poster .stage.is-active { pointer-events: auto; }
+  .upcoming-poster .stage,
+  .upcoming-poster .stage.is-active { text-decoration: none; }
 </style>
 </head>
 
@@ -1542,6 +2587,21 @@
 
 <!-- Skip link for keyboard users — jumps past the fixed banner+nav to first content -->
 <a class="skip-link" href="#featured">Skip to content</a>
+
+<!-- "Play" cursor — appears over poster tiles with mix-blend-mode: difference,
+     so the colour is inverted vs. whatever pixel is under it. -->
+<div class="poster-cursor" id="posterCursor" aria-hidden="true">
+  <svg viewBox="0 0 64 64">
+    <polygon points="22,16 22,48 50,32" fill="#fff" />
+  </svg>
+</div>
+
+<!-- Sticky Support bar — slides in below the nav once the hero CTAs scroll out of view -->
+<div class="support-sticky-bar" id="supportStickyBar" aria-hidden="true">
+  <button type="button" class="btn btn-gold btn-support-sticky btn-magnetic" data-support-open>
+    <span aria-hidden="true">✦</span> Support Kolo Kino
+  </button>
+</div>
 
 <!-- Fixed top banner (always visible; shrinks on scroll with black side bars) -->
 <div class="top-banner-wrap">
@@ -1551,16 +2611,19 @@
 <!-- Sticky navigation — sits below the banner and stays put on scroll -->
 <nav class="site-nav" aria-label="Page sections">
   <a href="#featured">Full Stories</a>
-  <a href="#videos">Latest</a>
-  <a href="#numbers">Numbers</a>
-  <a href="#audience">Audience</a>
   <a href="#team">Team</a>
-  <a href="#sponsorship">Sponsorship</a>
+  <a href="#support">Support</a>
+  <a href="#videos">Latest</a>
   <a href="#contact">Contact</a>
+  <span class="reel-indicator" id="reelIndicator">Reel 1 / 6 · Intro</span>
 </nav>
 
 <!-- ============== HERO ============== -->
-<header class="hero">
+<header class="hero" id="heroFrame">
+  <!-- WebGL Flowmap canvas — mouse-driven liquid distortion of a director collage. -->
+  <canvas class="hero-flow-canvas" id="heroFlow" aria-hidden="true"></canvas>
+  <!-- "Film & gasoline" texture mask: 20% opacity overlay on top of the flowmap -->
+  <div class="hero-mask" aria-hidden="true"></div>
   <div class="hero-content">
     <p class="eyebrow">Cinema Documentaries · Since 2016</p>
     <h1>The stories cinema <em>deserves</em></h1>
@@ -1568,81 +2631,198 @@
       <p>Kolo Kino is an independent documentary studio dedicated to the stories behind cinema. We make long-form films about its directors, its craft, and the moments that shaped the films you grew up with.</p>
       <p>Months of research per project, broadcast-grade audio and visuals, and a small team of cinephiles obsessed with telling these stories the way they deserve. Built for the way cinema is best enjoyed: on a big screen, leaning back, with the lights down.</p>
     </div>
-    <div class="hero-stats">
-      <span><strong>23.1M</strong> lifetime views</span>
-      <span><strong>6.5M</strong> hours watched</span>
-      <span><strong>132K</strong> subscribers</span>
-    </div>
     <div class="hero-cta">
-      <a class="btn btn-primary" href="https://www.youtube.com/@OkoloKino" target="_blank" rel="noopener"><span aria-hidden="true">▶</span> Watch on YouTube</a>
-      <a class="btn btn-gold" href="#contact"><span aria-hidden="true">★</span> Sponsor with us</a>
-      <a class="btn btn-paper" href="Kolo%20Kino%20Media%20Kit.pdf" target="_blank" rel="noopener" download><span aria-hidden="true">↓</span> Download Media Kit</a>
+      <a class="btn btn-primary btn-support-hero" href="https://www.youtube.com/@OkoloKino" target="_blank" rel="noopener"><span aria-hidden="true">▶</span> Watch on YouTube</a>
+      <button type="button" class="btn btn-gold btn-support-hero btn-magnetic" data-support-open><span aria-hidden="true">✦</span> Support Kolo Kino</button>
     </div>
   </div>
 </header>
 
-<!-- ============== FEATURED DOCUMENTARIES ============== -->
-<section class="section" id="featured">
+<!-- ============== LONG-FORM DOCUMENTARIES (slate header + hover-swap list, v2 style) ============== -->
+<section class="upcoming-section" id="featured">
+  <div class="container">
+    <div class="slate">
+      <div class="slate-meta">
+        <div><span>Scene</span>02</div>
+        <div><span>Take</span>2026</div>
+        <div><span>Roll</span>A</div>
+      </div>
+      <h2>Long-form documentaries</h2>
+      <div class="slate-side">
+        <div>Production · Kolo Kino</div>
+        <div>Director · I. Khalimovskyi</div>
+      </div>
+    </div>
+
+    <div class="upcoming-grid">
+      <div class="upcoming-poster" id="upcomingPoster">
+        <a class="stage is-active" data-key="tarantino" href="https://www.youtube.com/watch?v=XeOpf9olaWk" target="_blank" rel="noopener" aria-label="Watch The Ultimate Tarantino Deep Dive on YouTube" style="background-image:url('https://i.ytimg.com/vi/XeOpf9olaWk/maxresdefault.jpg');"></a>
+        <a class="stage" data-key="scorsese"  href="https://www.youtube.com/watch?v=4kMWWLcVWdk" target="_blank" rel="noopener" aria-label="Watch The Martin Scorsese Story on YouTube" style="background-image:url('https://i.ytimg.com/vi/4kMWWLcVWdk/maxresdefault.jpg');"></a>
+        <a class="stage" data-key="dicaprio"  href="https://www.youtube.com/watch?v=bP4XXWfcXJU" target="_blank" rel="noopener" aria-label="Watch Leonardo DiCaprio on YouTube" style="background-image:url('https://i.ytimg.com/vi/bP4XXWfcXJU/maxresdefault.jpg');"></a>
+        <a class="stage" data-key="cameron"   href="https://www.youtube.com/watch?v=X3yYnbn7vwA" target="_blank" rel="noopener" aria-label="Watch James Cameron vs. The Impossible on YouTube" style="background-image:url('https://i.ytimg.com/vi/X3yYnbn7vwA/maxresdefault.jpg');"></a>
+        <a class="stage" data-key="pitt"      href="https://www.youtube.com/watch?v=a_r0D5w8bs4" target="_blank" rel="noopener" aria-label="Watch How Brad Pitt Failed His Way to Greatness on YouTube" style="background-image:url('https://i.ytimg.com/vi/a_r0D5w8bs4/maxresdefault.jpg');"></a>
+        <a class="stage" data-key="robbie"    href="https://www.youtube.com/watch?v=TvEpRpW_Tag" target="_blank" rel="noopener" aria-label="Watch Margot Robbie Biography on YouTube" style="background-image:url('https://i.ytimg.com/vi/TvEpRpW_Tag/maxresdefault.jpg');"></a>
+        <a class="stage" data-key="cavill"    href="https://www.youtube.com/watch?v=GR0-qex_Vz8" target="_blank" rel="noopener" aria-label="Watch Henry Cavill Life Story on YouTube" style="background-image:url('https://i.ytimg.com/vi/GR0-qex_Vz8/maxresdefault.jpg');"></a>
+        <a class="stage" data-key="ritchie"   href="https://www.youtube.com/watch?v=v2ftzRsTjTk" target="_blank" rel="noopener" aria-label="Watch the Guy Ritchie documentary (Part 1) on YouTube" style="background-image:url('https://i.ytimg.com/vi/v2ftzRsTjTk/maxresdefault.jpg');"></a>
+        <span class="upcoming-counter" id="upcomingCounter">01 / 08</span>
+      </div>
+      <ul class="upcoming-list" id="upcomingList">
+        <li class="is-active" data-key="tarantino" data-index="01">
+          <span class="num">01</span>
+          <a class="director" href="https://www.youtube.com/watch?v=XeOpf9olaWk" target="_blank" rel="noopener">Quentin Tarantino</a>
+        </li>
+        <li data-key="scorsese" data-index="02">
+          <span class="num">02</span>
+          <a class="director" href="https://www.youtube.com/watch?v=4kMWWLcVWdk" target="_blank" rel="noopener">Martin Scorsese</a>
+        </li>
+        <li data-key="dicaprio" data-index="03">
+          <span class="num">03</span>
+          <a class="director" href="https://www.youtube.com/watch?v=bP4XXWfcXJU" target="_blank" rel="noopener">Leonardo DiCaprio</a>
+        </li>
+        <li data-key="cameron" data-index="04">
+          <span class="num">04</span>
+          <a class="director" href="https://www.youtube.com/watch?v=X3yYnbn7vwA" target="_blank" rel="noopener">James Cameron</a>
+        </li>
+        <li data-key="pitt" data-index="05">
+          <span class="num">05</span>
+          <a class="director" href="https://www.youtube.com/watch?v=a_r0D5w8bs4" target="_blank" rel="noopener">Brad Pitt</a>
+        </li>
+        <li data-key="robbie" data-index="06">
+          <span class="num">06</span>
+          <a class="director" href="https://www.youtube.com/watch?v=TvEpRpW_Tag" target="_blank" rel="noopener">Margot Robbie</a>
+        </li>
+        <li data-key="cavill" data-index="07">
+          <span class="num">07</span>
+          <a class="director" href="https://www.youtube.com/watch?v=GR0-qex_Vz8" target="_blank" rel="noopener">Henry Cavill</a>
+        </li>
+        <li data-key="ritchie" data-index="08">
+          <span class="num">08</span>
+          <a class="director" href="https://www.youtube.com/watch?v=v2ftzRsTjTk" target="_blank" rel="noopener">Guy Ritchie</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Director marquee — sits between Long-form documentaries and Team as a moving
+     bridge of names the channel has covered. Only real subjects, no filler. -->
+<div class="director-marquee" aria-hidden="true">
+  <div class="track">
+    <span>Quentin Tarantino</span><span>Martin Scorsese</span><span>Leonardo DiCaprio</span><span>James Cameron</span><span>Brad Pitt</span><span>Margot Robbie</span><span>Henry Cavill</span><span>Guy Ritchie</span>
+    <span>Quentin Tarantino</span><span>Martin Scorsese</span><span>Leonardo DiCaprio</span><span>James Cameron</span><span>Brad Pitt</span><span>Margot Robbie</span><span>Henry Cavill</span><span>Guy Ritchie</span>
+  </div>
+</div>
+
+<!-- ============== TEAM ============== -->
+<section class="section" id="team">
   <div class="container">
     <div class="section-head">
-      <p class="eyebrow">Full Stories</p>
-      <h2>Long-form documentaries</h2>
-      <p>A year of research per film. The complete story of cinema's defining figures, told film by film.</p>
+      <p class="eyebrow">The Team</p>
+      <h2>The people behind every frame</h2>
+      <p>A small, international team of cinephiles obsessed with telling cinema's stories the way they deserve.</p>
     </div>
-    <div class="featured-grid">
+    <div class="team-grid">
 
-      <a class="featured-card" href="https://www.youtube.com/watch?v=XeOpf9olaWk" target="_blank" rel="noopener">
-        <img src="https://i.ytimg.com/vi/XeOpf9olaWk/maxresdefault.jpg" alt="The Ultimate Tarantino Deep Dive" loading="lazy" />
-        <span class="play-badge" aria-hidden="true">▶ Watch</span>
-        <div class="featured-overlay">
-          <div class="featured-subject">Quentin Tarantino</div>
-          <p class="featured-title">The Ultimate Tarantino Deep Dive</p>
+      <article class="team-card">
+        <img src="team/ievgen.jpg" alt="Ievgen Khalimovskyi" class="team-photo" loading="lazy" />
+        <h3>Ievgen Khalimovskyi</h3>
+        <p class="team-role">Founder · Creative Director</p>
+        <p class="team-location">Kiev, Ukraine</p>
+        <p class="team-bio">Founder of Kolo Kino. Writer, director and editor on every documentary. Everything you love about this channel comes from Ievgen: the storytelling, the craft, the rhythm and the look.</p>
+        <div class="team-links">
+          <a href="https://www.imdb.com/name/nm17402806/" target="_blank" rel="noopener">IMDb</a>
         </div>
-      </a>
+        <details class="contact-toggle">
+          <summary>About Ievgen</summary>
+          <p class="bio-text">Studied stage direction (left in his final year) and worked as a graphic designer and editor before starting Kolo Kino as a hobby in his Kiev kitchen in 2016. He still works from Ukraine, where he kept the channel running through the war with generators, batteries and laptops bought from channel revenue. The creative engine behind every Kolo Kino documentary: concept, narrative direction, editing and the visual signature that defines the channel.</p>
+        </details>
+      </article>
 
-      <a class="featured-card" href="https://www.youtube.com/watch?v=4kMWWLcVWdk" target="_blank" rel="noopener">
-        <img src="https://i.ytimg.com/vi/4kMWWLcVWdk/maxresdefault.jpg" alt="The Martin Scorsese Story You've Never Seen" loading="lazy" />
-        <span class="play-badge" aria-hidden="true">▶ Watch</span>
-        <div class="featured-overlay">
-          <div class="featured-subject">Martin Scorsese</div>
-          <p class="featured-title">The Martin Scorsese Story You've Never Seen</p>
+      <article class="team-card">
+        <img src="team/alex.jpg" alt="Alexander Mandrik" class="team-photo" loading="lazy" />
+        <h3>Alexander Mandrik</h3>
+        <p class="team-role">Co-founder · Director &amp; Producer</p>
+        <p class="team-location">Las Palmas de Gran Canaria, Spain</p>
+        <p class="team-bio">Co-founder, channel director and producer. Runs operations, sponsor relations and overall strategy, making sure every project ships and reaches the right audience.</p>
+        <div class="team-links">
+          <a href="https://www.imdb.com/name/nm17402807/" target="_blank" rel="noopener">IMDb</a>
         </div>
-      </a>
+        <details class="contact-toggle">
+          <summary>About Alex</summary>
+          <p class="bio-text">A psychologist by training, Alex spent a decade in international business and industry, first as a branch director in China and later leading technical policy in Europe. He brings that operational background to Kolo Kino, where he handles strategy, sponsor relations and day-to-day operations from Las Palmas. His creativity lives in spreadsheets and negotiations.</p>
+        </details>
+      </article>
 
-      <a class="featured-card" href="https://www.youtube.com/watch?v=X3yYnbn7vwA" target="_blank" rel="noopener">
-        <img src="https://i.ytimg.com/vi/X3yYnbn7vwA/maxresdefault.jpg" alt="James Cameron vs. The Impossible" loading="lazy" />
-        <span class="play-badge" aria-hidden="true">▶ Watch</span>
-        <div class="featured-overlay">
-          <div class="featured-subject">James Cameron</div>
-          <p class="featured-title">James Cameron vs. The Impossible</p>
+      <article class="team-card">
+        <img src="team/gabe.jpg" alt="Gabriel J. Perez" class="team-photo" loading="lazy" />
+        <h3>Gabriel J. Perez</h3>
+        <p class="team-role">Voice &amp; Narration</p>
+        <p class="team-location">Miami, FL · SAG-AFTRA</p>
+        <p class="team-bio">The voice of Kolo Kino since 2020. Actor, producer and narrator with credits in <em>Griffin in Summer</em>, <em>The NFL Today</em> and over 30 podcast and documentary narrations.</p>
+        <div class="team-links">
+          <a href="https://www.imdb.com/name/nm3524200/" target="_blank" rel="noopener">IMDb</a>
         </div>
-      </a>
-
-      <a class="featured-card" href="https://www.youtube.com/watch?v=bP4XXWfcXJU" target="_blank" rel="noopener">
-        <img src="https://i.ytimg.com/vi/bP4XXWfcXJU/maxresdefault.jpg" alt="Leonardo DiCaprio: From Break-Dance to Oscar" loading="lazy" />
-        <span class="play-badge" aria-hidden="true">▶ Watch</span>
-        <div class="featured-overlay">
-          <div class="featured-subject">Leonardo DiCaprio</div>
-          <p class="featured-title">From Break-Dance to Oscar</p>
-        </div>
-      </a>
+        <details class="contact-toggle">
+          <summary>Contact Gabe</summary>
+          <div class="contact-options">
+            <a class="contact-btn" href="mailto:gabe@feralhogcontent.com"><span class="ico">✉</span> gabe@feralhogcontent.com</a>
+            <a class="contact-btn" href="tel:+13053023593"><span class="ico">☏</span> +1 305-302-3593</a>
+            <a class="contact-btn" href="https://www.feralhogcontent.com" target="_blank" rel="noopener"><span class="ico">↗</span> feralhogcontent.com</a>
+          </div>
+        </details>
+      </article>
 
     </div>
   </div>
 </section>
 
-<!-- ============== MANIFESTO / PULL QUOTE ============== -->
-<section class="manifesto" id="manifesto" aria-label="Manifesto">
+<!-- ============== SUPPORT KOLO KINO (pitch + existing community, unified) ============== -->
+<section class="section alt support-section" id="support">
   <div class="container">
-    <blockquote>
-      <span class="open-q" aria-hidden="true">&ldquo;</span>Most channels compete with the thumb-scroll. We compete with Netflix.<span class="close-q" aria-hidden="true">&rdquo;</span>
-    </blockquote>
-    <cite>Alexander Mandrik &middot; On what Kolo Kino is</cite>
+    <div class="support-head">
+      <p class="eyebrow">Support Kolo Kino</p>
+      <h2>Thank you for keeping cinema alive with us</h2>
+      <p class="support-intro">Every tip, every share, every minute you've spent with our films makes the next one possible. Thanks to that support, not a single Kolo Kino documentary carries a sponsor or paid placement today — and we'd like to keep it that way for as long as we can.</p>
+      <button type="button" class="btn btn-gold btn-support-hero btn-support-open btn-magnetic" data-support-open aria-haspopup="dialog" aria-controls="supportModal">
+        <span class="support-spark" aria-hidden="true">✦</span> Support Kolo Kino
+      </button>
+    </div>
+
+    <div class="supporters-grid">
+      <div class="supporters-rank-wrap">
+        <h4 class="supporters-subhead">Top supporters</h4>
+        <ol class="supporters-rank" id="supportersRank"></ol>
+      </div>
+      <div class="supporters-cloud-wrap">
+        <h4 class="supporters-subhead">All supporters</h4>
+        <div class="supporters-cloud" id="supportersCloud"></div>
+      </div>
+    </div>
   </div>
 </section>
+
+<!-- ============== SUPPORTER CONVERSATION MODAL ============== -->
+<div class="supporter-modal" id="supporterModal" role="dialog" aria-modal="true" aria-labelledby="supporterModalName" hidden>
+  <div class="supporter-modal-backdrop" data-supporter-close></div>
+  <div class="supporter-modal-card" role="document">
+    <button type="button" class="supporter-close" data-supporter-close aria-label="Close">×</button>
+    <header class="supporter-modal-head">
+      <img class="supporter-modal-avatar" id="supporterModalAvatar" alt="" />
+      <div class="supporter-modal-meta">
+        <h3 id="supporterModalName">—</h3>
+        <p class="supporter-modal-platform" id="supporterModalPlatform">—</p>
+        <p class="supporter-modal-amount" id="supporterModalAmount">—</p>
+      </div>
+    </header>
+    <div class="supporter-modal-thread" id="supporterModalThread" aria-live="polite"></div>
+    <footer class="supporter-modal-foot">
+      <a id="supporterModalProfile" target="_blank" rel="noopener" class="supporter-modal-profile">See original on platform ↗</a>
+    </footer>
+  </div>
+</div>
 
 <!-- ============== LATEST VIDEOS ============== -->
-<section class="section alt" id="videos">
+<section class="section" id="videos">
   <div class="container">
     <div class="section-head">
       <p class="eyebrow">Latest Releases</p>
@@ -1758,289 +2938,105 @@
   </div>
 </section>
 
-<!-- ============== NUMBERS ============== -->
-<section class="section" id="numbers">
-  <div class="container">
-    <div class="section-head">
-      <p class="eyebrow">By The Numbers</p>
-      <h2>An audience that watches, not just clicks</h2>
-      <p>6.5 million hours watched. Half of that on living-room TVs.</p>
-    </div>
-    <div class="numbers-grid">
-      <div class="number-card">
-        <div class="number-value">23.1M</div>
-        <div class="number-label">Lifetime Views</div>
-      </div>
-      <div class="number-card">
-        <div class="number-value">6.5M</div>
-        <div class="number-label">Hours Watched</div>
-      </div>
-      <div class="number-card">
-        <div class="number-value">132K</div>
-        <div class="number-label">Subscribers</div>
-      </div>
-      <div class="number-card">
-        <div class="number-value">52%</div>
-        <div class="number-label">Watched on TV</div>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- ============== SUPPORT KOLO KINO ============== -->
+<!-- (Support block lives further up the page now — between Team and Latest.) -->
 
-<!-- ============== AUDIENCE ============== -->
-<section class="section alt" id="audience">
-  <div class="container">
-    <div class="section-head">
-      <p class="eyebrow">Audience</p>
-      <h2>Cinephiles, worldwide</h2>
-      <p>An adult audience in Tier-1 markets, watching long-form documentaries on the biggest screen in the house.</p>
-    </div>
-    <div class="audience-grid">
+<!-- ============== SUPPORT MODAL ============== -->
+<div class="support-modal" id="supportModal" role="dialog" aria-modal="true" aria-labelledby="supportModalTitle" hidden>
+  <div class="support-modal-backdrop" data-support-close></div>
+  <div class="support-modal-card" role="document">
+    <button type="button" class="support-close" data-support-close aria-label="Close">×</button>
 
-      <!-- 1. GEOGRAPHY — top markets, raw % from YouTube Studio + Rest of world -->
-      <div class="audience-block">
-        <h3>Top Markets</h3>
-        <ol class="premiere-list">
-          <li class="premiere"><img class="flag" src="https://flagcdn.com/w160/us.png" alt="United States flag" loading="lazy" /><span class="country">United States</span><span class="pct">40.6%</span></li>
-          <li class="premiere"><img class="flag" src="https://flagcdn.com/w160/gb.png" alt="United Kingdom flag" loading="lazy" /><span class="country">United Kingdom</span><span class="pct">9.9%</span></li>
-          <li class="premiere"><img class="flag" src="https://flagcdn.com/w160/ca.png" alt="Canada flag" loading="lazy" /><span class="country">Canada</span><span class="pct">6.2%</span></li>
-          <li class="premiere"><img class="flag" src="https://flagcdn.com/w160/au.png" alt="Australia flag" loading="lazy" /><span class="country">Australia</span><span class="pct">4.2%</span></li>
-          <li class="premiere"><img class="flag" src="https://flagcdn.com/w160/de.png" alt="Germany flag" loading="lazy" /><span class="country">Germany</span><span class="pct">3.3%</span></li>
-          <li class="premiere">
-            <span class="flag globe" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="9"/>
-                <ellipse cx="12" cy="12" rx="9" ry="3.5"/>
-                <line x1="12" y1="3" x2="12" y2="21"/>
-                <line x1="3" y1="12" x2="21" y2="12"/>
-              </svg>
-            </span>
-            <span class="country">Rest of world</span><span class="pct">35.8%</span>
-          </li>
-        </ol>
-        <p class="caption highlight">A community of cinephiles in the world's leading film markets, mostly English-speaking.</p>
-      </div>
+    <header class="support-modal-head">
+      <p class="eyebrow">Support Kolo Kino</p>
+      <h3 id="supportModalTitle">Pick the way that suits you</h3>
+      <p class="support-modal-lede">Donations stay on this page. The other platforms open in a new tab so you can come back to the films.</p>
+    </header>
 
-      <!-- 2. AGE — 35mm filmstrip, each bracket is a frame -->
-      <div class="audience-block">
-        <h3>By Age</h3>
-        <div class="filmstrip" role="img" aria-label="Age distribution: 18 to 24 9.3 percent, 25 to 34 21.6 percent, 35 to 44 24 percent, 45 to 54 21.1 percent, 55 plus 23.3 percent">
-          <div class="sprockets" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-          <div class="frames">
-            <div class="frame" data-num="01"><span class="bracket">18-24</span><span class="pct">9.3%</span></div>
-            <div class="frame featured" data-num="02"><span class="bracket">25-34</span><span class="pct">21.6%</span></div>
-            <div class="frame featured" data-num="03"><span class="bracket">35-44</span><span class="pct">24.0%</span></div>
-            <div class="frame featured" data-num="04"><span class="bracket">45-54</span><span class="pct">21.1%</span></div>
-            <div class="frame featured" data-num="05"><span class="bracket">55+</span><span class="pct">23.3%</span></div>
-          </div>
-          <div class="sprockets" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        </div>
-        <p class="caption">67% in the 25-54 prime advertising bracket.</p>
-      </div>
-
-      <!-- 3. DEVICE — icons scaled by share -->
-      <div class="audience-block">
-        <h3>By Device</h3>
-        <div class="devices" role="img" aria-label="Device share: Television 52.2 percent, Mobile 21.3 percent, Computer 20.5 percent, Tablet 5.9 percent">
-
-          <div class="device device-tv dominant" title="52.2% Television">
-            <svg viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
-              <rect x="6" y="8" width="88" height="56" rx="4"/>
-              <line x1="36" y1="72" x2="64" y2="72"/>
-              <line x1="50" y1="64" x2="50" y2="72"/>
-            </svg>
-            <div class="pct">52%</div>
-            <div class="label">TV</div>
-          </div>
-
-          <div class="device device-mobile" title="21.3% Mobile">
-            <svg viewBox="0 0 40 70" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" aria-hidden="true">
-              <rect x="4" y="4" width="32" height="62" rx="5"/>
-              <line x1="16" y1="58" x2="24" y2="58"/>
-            </svg>
-            <div class="pct">21%</div>
-            <div class="label">Mobile</div>
-          </div>
-
-          <div class="device device-pc" title="20.5% Computer">
-            <svg viewBox="0 0 80 70" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
-              <rect x="6" y="6" width="68" height="46" rx="3"/>
-              <line x1="28" y1="62" x2="52" y2="62"/>
-              <line x1="40" y1="52" x2="40" y2="62"/>
-            </svg>
-            <div class="pct">20%</div>
-            <div class="label">Computer</div>
-          </div>
-
-          <div class="device device-tablet" title="5.9% Tablet">
-            <svg viewBox="0 0 40 56" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" aria-hidden="true">
-              <rect x="3" y="3" width="34" height="50" rx="3"/>
-              <circle cx="20" cy="48" r="1.2" fill="currentColor"/>
-            </svg>
-            <div class="pct">6%</div>
-            <div class="label">Tablet</div>
-          </div>
-
-        </div>
-        <p class="caption">More than half the watch time happens on living-room TVs.</p>
-      </div>
-
-      <!-- 4. REACH BEYOND SUBS — aperture donut + story -->
-      <div class="audience-block reach-block">
-        <h3>Reach Beyond Subs</h3>
-        <div class="aperture" role="img" aria-label="92 percent of watch time from non-subscribers">
-          <svg viewBox="0 0 100 100" aria-hidden="true">
-            <defs>
-              <linearGradient id="apertureGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#ff3b3b"/>
-                <stop offset="100%" stop-color="#ff8a8a"/>
-              </linearGradient>
-            </defs>
-            <circle class="ring-bg" cx="50" cy="50" r="45"/>
-            <circle class="ring-fg" cx="50" cy="50" r="45"/>
+    <!-- 1. STRIPE — primary, embedded on our own domain -->
+    <article class="support-option support-stripe">
+      <header class="support-option-head">
+        <span class="support-logo support-logo-stripe" aria-hidden="true">
+          <svg viewBox="0 0 60 25" xmlns="http://www.w3.org/2000/svg" focusable="false">
+            <path fill="currentColor" d="M59.5 14.4c0-4.3-2.1-7.7-6.1-7.7-4 0-6.5 3.4-6.5 7.7 0 5 2.8 7.6 6.9 7.6 2 0 3.6-.5 4.7-1.1v-3.4c-1.1.6-2.4 1-4 1-1.6 0-3-.6-3.2-2.5h8.1c.1-.2.1-1.1.1-1.6zm-8.2-1.6c0-1.9 1.1-2.7 2.2-2.7 1 0 2.1.8 2.1 2.7h-4.3zM41 7c-1.6 0-2.7.7-3.3 1.3l-.2-1H34v19.5l4.2-.9V21c.6.4 1.5 1 3 1 3 0 5.8-2.4 5.8-7.7C46.9 9.5 44 7 41 7zm-1 11.4c-.9 0-1.5-.3-1.9-.7v-5.7c.4-.4 1-.7 1.9-.7 1.4 0 2.4 1.6 2.4 3.5 0 2-1 3.6-2.4 3.6zM28.1 5.4 32.4 4.4V1l-4.3 0V5.4zM28.1 7H32.4v14.7H28.1zM23.5 8.2 23.2 7H19.5v14.7h4.2v-9.9c1-1.3 2.7-1 3.2-.9v-3.9c-.5-.2-2.5-.6-3.4 1.2zM15 3.3l-4.1.9V19c0 2.5 1.9 4.4 4.4 4.4 1.4 0 2.5-.3 3-.6v-3.4c-.5.2-3.3 1-3.3-1.5v-6h3.3V7H15V3.3zM4.2 11.3c0-.7.5-.9 1.4-.9 1.2 0 2.8.4 4 1V7.4c-1.3-.5-2.6-.7-4-.7-3.3 0-5.5 1.7-5.5 4.5 0 4.4 6.1 3.7 6.1 5.6 0 .8-.7 1-1.6 1-1.3 0-3.1-.6-4.4-1.3V20c1.4.6 2.9.9 4.4.9 3.4 0 5.7-1.7 5.7-4.5 0-4.6-6.1-3.8-6.1-5.6z"/>
           </svg>
-          <div class="aperture-center">
-            <span class="big">92%</span>
-            <span class="lbl">non-subs</span>
-          </div>
+        </span>
+        <div>
+          <h4>Donate via Stripe</h4>
+          <p>One-off, any amount from $5. Pay with card, Apple Pay or Google Pay.</p>
         </div>
-        <div class="reach-text">
-          <p>Most channels grow on the back of their subscribers. Kolo Kino has a different story: <strong>nine in ten viewers have never subscribed</strong>. YouTube's algorithm serves them our documentaries, and they stay.</p>
-          <p>For a sponsor, that means every campaign lands in front of a <em>constantly refreshing</em> audience, far beyond our 132K core. Each new video opens the doors of the cinema again.</p>
-        </div>
+        <span class="support-badge">Primary</span>
+      </header>
+
+      <!-- Stripe Buy Button — renders inside the modal, checkout opens secure Stripe page in a new tab -->
+      <div class="support-stripe-mount">
+        <stripe-buy-button
+          buy-button-id="buy_btn_1TfLw01D0oFvi4xOveSv4KS5"
+          publishable-key="pk_live_51TecZ61D0oFvi4xO1IfiGw5e97Z2GwP2uBQ4UjdVxx1BrwYLcz7qXJRFt7sLIP2A3kUpr1s7agDfT0KcOqyL0PHU003xUmkVDr">
+        </stripe-buy-button>
       </div>
+    </article>
 
-    </div>
-  </div>
-</section>
+    <p class="support-or"><span>or use another platform</span></p>
 
-<!-- ============== TEAM ============== -->
-<section class="section" id="team">
-  <div class="container">
-    <div class="section-head">
-      <p class="eyebrow">The Team</p>
-      <h2>The people behind every frame</h2>
-      <p>A small, international team of cinephiles obsessed with telling cinema's stories the way they deserve.</p>
-    </div>
-    <div class="team-grid">
+    <div class="support-options-grid">
 
-      <article class="team-card">
-        <img src="team/ievgen.jpg" alt="Ievgen Khalimovskyi" class="team-photo" loading="lazy" />
-        <h3>Ievgen Khalimovskyi</h3>
-        <p class="team-role">Founder · Creative Director</p>
-        <p class="team-location">Ukraine</p>
-        <p class="team-bio">Founder of Kolo Kino. Writer, director and editor on every documentary. Everything you love about this channel comes from Ievgen: the storytelling, the craft, the rhythm and the look.</p>
-        <div class="team-links">
-          <a href="https://www.imdb.com/name/nm17402806/" target="_blank" rel="noopener">IMDb</a>
+      <!-- 2. KO-FI -->
+      <a class="support-option support-card" href="https://ko-fi.com/kolokino" target="_blank" rel="noopener">
+        <span class="support-logo support-logo-kofi" aria-hidden="true">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" focusable="false">
+            <path fill="#FF5E5B" d="M52 18H8c-2 0-4 1.5-4 4v18c0 8 7 15 18 15h10c11 0 18-7 18-15v-2.2c5-.5 10-4.5 10-11.3 0-4.7-3.5-8.5-7.9-8.5zm-4 10h4c1 0 2 1 2 2.5 0 3-3 4-5 4.2V28zM30 36c-4 0-7.5-1.5-10-4 4 0 8-1.5 10-3.5 2 2 6 3.5 10 3.5-2.5 2.5-6 4-10 4z"/>
+            <path fill="#FFF" d="M48 28h4c1 0 2 1 2 2.5 0 3-3 4-5 4.2V28zM30 36c-4 0-7.5-1.5-10-4 4 0 8-1.5 10-3.5 2 2 6 3.5 10 3.5-2.5 2.5-6 4-10 4z"/>
+          </svg>
+        </span>
+        <div class="support-card-text">
+          <h4>Ko-fi</h4>
+          <p>The classic "buy us a coffee" jar. No fees, no account required.</p>
         </div>
-        <details class="contact-toggle">
-          <summary>About Ievgen</summary>
-          <p class="bio-text">Studied stage direction (left in his final year) and worked as a graphic designer and editor before starting Kolo Kino as a hobby in his Kiev kitchen in 2016. He still works from Ukraine, where he kept the channel running through the war with generators, batteries and laptops bought from channel revenue. The creative engine behind every Kolo Kino documentary: concept, narrative direction, editing and the visual signature that defines the channel.</p>
-        </details>
-      </article>
-
-      <article class="team-card">
-        <img src="team/alex.jpg" alt="Alexander Mandrik" class="team-photo" loading="lazy" />
-        <h3>Alexander Mandrik</h3>
-        <p class="team-role">Co-founder · Director &amp; Producer</p>
-        <p class="team-location">Las Palmas de Gran Canaria, Spain</p>
-        <p class="team-bio">Co-founder, channel director and producer. Runs operations, sponsor relations and overall strategy, making sure every project ships and reaches the right audience.</p>
-        <div class="team-links">
-          <a href="https://www.imdb.com/name/nm17402807/" target="_blank" rel="noopener">IMDb</a>
-        </div>
-        <details class="contact-toggle">
-          <summary>About Alex</summary>
-          <p class="bio-text">A psychologist by training, Alex spent a decade in international business and industry, first as a branch director in China and later leading technical policy in Europe. He brings that operational background to Kolo Kino, where he handles strategy, sponsor relations and day-to-day operations from Las Palmas. His creativity lives in spreadsheets and negotiations.</p>
-        </details>
-      </article>
-
-      <article class="team-card">
-        <img src="team/gabe.jpg" alt="Gabriel J. Perez" class="team-photo" loading="lazy" />
-        <h3>Gabriel J. Perez</h3>
-        <p class="team-role">Voice &amp; Narration</p>
-        <p class="team-location">Miami, FL · SAG-AFTRA</p>
-        <p class="team-bio">The voice of Kolo Kino since 2020. Actor, producer and narrator with credits in <em>Griffin in Summer</em>, <em>The NFL Today</em> and over 30 podcast and documentary narrations.</p>
-        <div class="team-links">
-          <a href="https://www.imdb.com/name/nm3524200/" target="_blank" rel="noopener">IMDb</a>
-        </div>
-        <details class="contact-toggle">
-          <summary>Contact Gabe</summary>
-          <div class="contact-options">
-            <a class="contact-btn" href="mailto:gabe@feralhogcontent.com"><span class="ico">✉</span> gabe@feralhogcontent.com</a>
-            <a class="contact-btn" href="tel:+13053023593"><span class="ico">☏</span> +1 305-302-3593</a>
-            <a class="contact-btn" href="https://www.feralhogcontent.com" target="_blank" rel="noopener"><span class="ico">↗</span> feralhogcontent.com</a>
-          </div>
-        </details>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-<!-- ============== SPONSORSHIP ============== -->
-<section class="section alt" id="sponsorship">
-  <div class="container">
-    <div class="section-head">
-      <p class="eyebrow">Brand Partnerships</p>
-      <h2>Sponsorship that fits the story</h2>
-      <p>We integrate sponsors into the documentary's narrative, not against it. The result: long-form attention from a high-intent audience.</p>
-    </div>
-    <div class="sponsorship-points">
-
-      <div class="sponsor-point">
-        <span class="icon" aria-hidden="true">◐</span>
-        <h3>Story-driven integration</h3>
-        <p>Your brand becomes part of the documentary's arc, not a 60-second interruption between scenes. We write, voice and edit each integration as a natural beat in the story.</p>
-        <details>
-          <summary>How it works</summary>
-          <div class="more">
-            We discuss your brand's voice, values and audience. We then craft a 60 to 120-second segment that feels like the narrator quoting a relevant fact, not a commercial. Final cuts are reviewed with you before publication. This approach is why our viewers don't skip: the integration <em>is</em> the show.
-          </div>
-        </details>
-      </div>
-
-      <div class="sponsor-point">
-        <span class="icon" aria-hidden="true">◑</span>
-        <h3>Long-form watch time</h3>
-        <p>6.5 million hours watched lifetime. Our average video is 14 minutes long, so sponsors get viewers who chose to spend real time with the content.</p>
-        <details>
-          <summary>Why this matters</summary>
-          <div class="more">
-            Short-form ads compete with the thumb-scroll. Kolo Kino competes with Netflix. <strong>52% of our watch time happens on living-room TVs</strong> (Smart TVs, Roku, Apple TV, Fire TV), and viewers watch with the same attention they bring to a feature film. That is rare on YouTube and almost unheard of among independent creators.
-          </div>
-        </details>
-      </div>
-
-      <div class="sponsor-point">
-        <span class="icon" aria-hidden="true">◓</span>
-        <h3>Evergreen visibility</h3>
-        <p>Documentaries don't expire. Every Oscar, every new release, every anniversary brings a fresh wave of viewers back to the relevant film, and back to your sponsorship.</p>
-        <details>
-          <summary>See the DiCaprio effect</summary>
-          <div class="more">
-            Our <em>Leonardo DiCaprio</em> documentary (1.9M views) keeps spiking years after release whenever a new DiCaprio film drops or awards season comes around. The chart below tracks views over time, and every peak is a free distribution event for the sponsor of that video.
-            <img src="pages/page_05.jpg" alt="DiCaprio documentary view spikes over time" loading="lazy" class="zoomable" />
-            <span class="zoom-hint">Click the chart to enlarge</span>
-          </div>
-        </details>
-      </div>
-
-    </div>
-
-    <!-- Past partners — social proof closing -->
-    <div class="past-partners">
-      <span class="label">Past partner</span>
-      <a class="brand-link" href="https://youtu.be/XZ1h5FB1hx4?t=113" target="_blank" rel="noopener" title="Watch the XGIMI integration on Kolo Kino">
-        <img src="xgimi.png" alt="XGIMI" />
+        <span class="support-arrow" aria-hidden="true">↗</span>
       </a>
-      <span class="watch-tag">Watch the integration ↗</span>
+
+      <!-- 3. BUY ME A COFFEE -->
+      <a class="support-option support-card" href="https://buymeacoffee.com/kolokino" target="_blank" rel="noopener">
+        <span class="support-logo support-logo-bmc" aria-hidden="true">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" focusable="false">
+            <path fill="#FFDD00" d="M14 22h36l-2 24c-.6 7-6.7 12-14 12H30c-7.3 0-13.4-5-14-12L14 22z"/>
+            <path fill="#0D0C22" d="M14 22h36c1 0 2-.7 2-2 0-1.2-.5-2-1.5-2.3-5.5-1.5-15-2.2-18.5-2.2-3.5 0-13 .7-18.5 2.2-1 .3-1.5 1.1-1.5 2.3 0 1.3 1 2 2 2zm36 4H14l1.5 18c.5 6 5.7 10.5 11.5 10.5h10c5.8 0 11-4.5 11.5-10.5L50 26z"/>
+            <path fill="#FFF" d="M22 32c2.5 0 4-1 6-1s3 1 5 1 4-1 6-1 4 1 5 1l-1 8c-.3 4-3.5 7-7 7h-7c-3.5 0-6.7-3-7-7l-1-8c.5 0 .5 0 1 0z"/>
+          </svg>
+        </span>
+        <div class="support-card-text">
+          <h4>Buy Me a Coffee</h4>
+          <p>Same idea, different platform. Pick whichever you already use.</p>
+        </div>
+        <span class="support-arrow" aria-hidden="true">↗</span>
+      </a>
+
+      <!-- 4. YOUTUBE CHANNEL MEMBERSHIP -->
+      <a class="support-option support-card support-card-wide" href="https://www.youtube.com/c/OkoloKino/join" target="_blank" rel="noopener">
+        <span class="support-logo support-logo-youtube" aria-hidden="true">
+          <svg viewBox="0 0 64 44" xmlns="http://www.w3.org/2000/svg" focusable="false">
+            <path fill="#FF0000" d="M62 7c-.7-2.7-2.9-4.9-5.7-5.6C51.1 0 32 0 32 0S12.9 0 7.7 1.4C5 2.1 2.7 4.3 2 7 .5 12.2.5 22 .5 22s0 9.8 1.5 15c.7 2.7 2.9 4.9 5.7 5.6C12.9 44 32 44 32 44s19.1 0 24.3-1.4c2.7-.7 5-2.9 5.7-5.6C63.5 31.8 63.5 22 63.5 22S63.5 12.2 62 7z"/>
+            <path fill="#FFF" d="M26 32V12l16 10-16 10z"/>
+          </svg>
+        </span>
+        <div class="support-card-text">
+          <h4>Become a channel member</h4>
+          <p>Monthly support directly on YouTube. Includes member-only badges, early access posts and a behind-the-scenes feed.</p>
+        </div>
+        <span class="support-arrow" aria-hidden="true">↗</span>
+      </a>
+
     </div>
 
+    <p class="support-thanks">Whatever you choose, thank you. Sincerely.</p>
   </div>
-</section>
+</div>
 
 <!-- ============== CONTACT ============== -->
 <section class="section contact-section" id="contact">
+  <!-- Second WebGL Flowmap canvas — same mouse-driven liquid effect as the hero. -->
+  <canvas class="contact-flow-canvas" id="contactFlow" aria-hidden="true"></canvas>
   <div class="container">
     <p class="eyebrow">Don't Be A Stranger</p>
     <h2>Let's make something together</h2>
@@ -2340,6 +3336,589 @@
       if (!lb.hidden && (e.key === 'Escape' || e.key === 'Esc')) close();
     });
   })();
+</script>
+
+<!-- ============ v2-borrowed interactions: upcoming hover-swap, reel indicator, magnetic buttons ============ -->
+<script>
+// Upcoming hover-swap (v2 style): hovering a list item changes the poster + counter
+(function() {
+  var list = document.getElementById('upcomingList');
+  var stages = document.querySelectorAll('#upcomingPoster .stage');
+  var counter = document.getElementById('upcomingCounter');
+  if (!list || !stages.length) return;
+  var total = stages.length;
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  function activate(key, index) {
+    stages.forEach(function(s) { s.classList.toggle('is-active', s.dataset.key === key); });
+    list.querySelectorAll('li').forEach(function(li) { li.classList.toggle('is-active', li.dataset.key === key); });
+    if (counter) counter.textContent = pad(parseInt(index, 10)) + ' / ' + pad(total);
+  }
+  list.querySelectorAll('li').forEach(function(li) {
+    li.addEventListener('pointerenter', function() { activate(li.dataset.key, li.dataset.index); });
+  });
+})();
+
+// Reel indicator in the sticky nav, synced with scroll position
+(function() {
+  var ind = document.getElementById('reelIndicator');
+  if (!ind) return;
+  var sections = [
+    { el: document.querySelector('header.hero'), name: 'Reel 1 / 6 · Intro' },
+    { el: document.getElementById('featured'),   name: 'Reel 2 / 6 · Full Stories' },
+    { el: document.getElementById('team'),       name: 'Reel 3 / 6 · Crew' },
+    { el: document.getElementById('support'),    name: 'Reel 4 / 6 · Support' },
+    { el: document.getElementById('videos'),     name: 'Reel 5 / 6 · Latest' },
+    { el: document.getElementById('contact'),    name: 'Reel 6 / 6 · Contact' }
+  ].filter(function(s) { return s.el; });
+  if (!sections.length) return;
+  function onScroll() {
+    var y = window.scrollY + window.innerHeight * 0.4;
+    var current = sections[0].name;
+    sections.forEach(function(s) { if (s.el.offsetTop <= y) current = s.name; });
+    if (ind.textContent !== current) ind.textContent = current;
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+
+// Sticky Support bar — shown once the hero CTAs leave the viewport, hidden again
+// while the visitor is inside the #support section itself (no point doubling the
+// CTA when the real one is right in front of them).
+(function() {
+  var bar = document.getElementById('supportStickyBar');
+  if (!bar) return;
+  var trigger = document.querySelector('.hero-cta') || document.querySelector('header.hero');
+  var supportSection = document.getElementById('support');
+  if (!trigger) return;
+  if (!('IntersectionObserver' in window)) {
+    bar.classList.add('is-visible');  // graceful fallback: always show
+    return;
+  }
+  var heroPassed = false;
+  var inSupport = false;
+  function update() {
+    bar.classList.toggle('is-visible', heroPassed && !inSupport);
+  }
+  // Watcher 1: hero CTA — bar appears once we've scrolled past it
+  new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      heroPassed = !e.isIntersecting && e.boundingClientRect.top < 0;
+      update();
+    });
+  }, { threshold: 0 }).observe(trigger);
+  // Watcher 2: #support section — bar disappears while it's in view
+  if (supportSection) {
+    new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        // Considered "inside" the section once at least 15% of it is visible.
+        inSupport = e.intersectionRatio > 0.15;
+        update();
+      });
+    }, { threshold: [0, 0.15, 0.3, 0.6, 1] }).observe(supportSection);
+  }
+})();
+
+// Poster "play" cursor — inverted-colour ▸ that follows the pointer over the
+// Long-form documentaries poster and the Latest Releases video tiles.
+(function() {
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var cur = document.getElementById('posterCursor');
+  if (!cur) return;
+  document.body.classList.add('has-poster-cursor');
+
+  var tx = window.innerWidth / 2, ty = window.innerHeight / 2;
+  var cx = tx, cy = ty;
+  window.addEventListener('pointermove', function(e) { tx = e.clientX; ty = e.clientY; }, { passive: true });
+  (function loop() {
+    cx += (tx - cx) * 0.28;
+    cy += (ty - cy) * 0.28;
+    cur.style.transform = 'translate(' + cx + 'px,' + cy + 'px) translate(-50%,-50%)';
+    requestAnimationFrame(loop);
+  })();
+
+  function arm() {
+    var targets = document.querySelectorAll('.upcoming-poster, .video-card');
+    targets.forEach(function(el) {
+      if (el.dataset.posterCursorBound) return;
+      el.dataset.posterCursorBound = '1';
+      el.addEventListener('pointerenter', function() { cur.classList.add('is-active'); });
+      el.addEventListener('pointerleave', function() { cur.classList.remove('is-active'); cur.classList.remove('is-pressed'); });
+      el.addEventListener('pointerdown',  function() { cur.classList.add('is-pressed'); });
+      el.addEventListener('pointerup',    function() { cur.classList.remove('is-pressed'); });
+    });
+  }
+  arm();
+  // The video-cards in Latest Releases are re-rendered when the RSS fetch lands;
+  // re-arm whenever the grid mutates so the new cards also pick up the cursor.
+  var grid = document.querySelector('.videos-grid');
+  if (grid && 'MutationObserver' in window) {
+    new MutationObserver(arm).observe(grid, { childList: true });
+  }
+})();
+
+// Magnetic buttons — gentle attraction toward the cursor when within a radius
+(function() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  var btns = document.querySelectorAll('.btn-magnetic');
+  if (!btns.length) return;
+  var RADIUS = 160;     // px from button centre at which attraction starts
+  var STRENGTH = 0.30;  // 0..1 — how strongly the button is pulled toward the cursor
+  function onMove(e) {
+    btns.forEach(function(btn) {
+      var r = btn.getBoundingClientRect();
+      var cx = r.left + r.width / 2;
+      var cy = r.top + r.height / 2;
+      var dx = e.clientX - cx;
+      var dy = e.clientY - cy;
+      var dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < RADIUS) {
+        var pull = (1 - dist / RADIUS) * STRENGTH;
+        btn.style.transform = 'translate(' + (dx * pull).toFixed(1) + 'px,' + (dy * pull).toFixed(1) + 'px)';
+      } else if (btn.style.transform) {
+        btn.style.transform = '';
+      }
+    });
+  }
+  document.addEventListener('mousemove', onMove, { passive: true });
+})();
+
+// ============== SUPPORTERS RANKING + CLOUD + CONVERSATION MODAL ==============
+// Data is hard-coded here for now. When we wire the Cloudflare Worker that ingests
+// Ko-fi / BMC webhooks, replace this with a fetch('/api/supporters').then(...).
+(function() {
+  // Real data from Ko-fi (Transaction_June 2026.csv) and BMC (Supporters_list_2026-06-07.csv)
+  // exported by Alex on 2026-06-07. When you reply on Ko-fi / BMC, paste your message
+  // back into the messages[] array with from:'creator'.
+  var supporters = [
+    {
+      id: 'gus',
+      name: 'Gus',
+      platform: 'Ko-fi',
+      profileUrl: 'https://ko-fi.com/kolokino',
+      amount: 50,
+      currency: 'USD',
+      messages: [
+        { from: 'supporter', author: 'Gus', date: '2026-06-06',
+          text: "One of the best channels on YouTube — amazing storytelling about storytelling, keep it up.\n\nA video on Fight Club would be epic, just sayin." }
+      ]
+    },
+    {
+      id: 'avery',
+      name: 'Avery',
+      platform: 'Ko-fi',
+      profileUrl: 'https://ko-fi.com/kolokino',
+      amount: 25,
+      currency: 'USD',
+      messages: [
+        { from: 'supporter', author: 'Avery', date: '2026-06-05',
+          text: "Love your channel! I hope you guys are able to continue making videos. Sorry the movie studio greed demons take away from something fantastic you guys made. I always share your videos with people I know who'd appreciate them. Best wishes." }
+      ]
+    },
+    {
+      id: 'parallaxed',
+      name: 'parallaxed',
+      platform: 'Ko-fi',
+      profileUrl: 'https://ko-fi.com/kolokino',
+      amount: 20,
+      currency: 'USD',
+      messages: [
+        { from: 'supporter', author: 'parallaxed', date: '2026-06-05',
+          text: "(no public message — just the tip. thanks all the same.)" }
+      ]
+    },
+    {
+      id: 'matthew',
+      name: 'Matthew Drivebolt',
+      platform: 'Buy Me a Coffee',
+      profileUrl: 'https://buymeacoffee.com/matthewdrivebolt',
+      amount: 6.71,
+      currency: 'USD',
+      avatar: 'team/Sponsors/Matthew.jpg',   // Real BMC profile photo (Alex saved it under team/Sponsors/).
+      messages: [
+        { from: 'supporter', author: 'Matthew Drivebolt', date: '2026-06-04',
+          text: "(public message coming — paste the real exchange from BMC here.)" }
+      ]
+    },
+    {
+      id: 'tunmise',
+      name: 'Tunmise A',
+      platform: 'Buy Me a Coffee',
+      profileUrl: 'https://buymeacoffee.com/kolokino',
+      amount: 6.67,
+      currency: 'USD',
+      messages: [
+        { from: 'supporter', author: 'Tunmise A', date: '2026-06-07',
+          text: "(public message coming — paste the real exchange from BMC here.)" }
+      ]
+    },
+    {
+      id: 'deadshooter',
+      name: 'DeadShooter',
+      platform: 'Ko-fi',
+      profileUrl: 'https://ko-fi.com/kolokino',
+      amount: 5,
+      currency: 'USD',
+      messages: [
+        { from: 'supporter', author: 'DeadShooter', date: '2026-06-05', text: "Hi" }
+      ]
+    }
+  ];
+
+  // Sort by amount descending for ranking
+  var ranked = supporters.slice().sort(function(a, b) { return b.amount - a.amount; });
+
+  // Generic "person silhouette" SVG used when a supporter doesn't have a real
+  // photo. Inlined as a data URI so it works offline and there is no extra HTTP.
+  var GENERIC_AVATAR = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">' +
+      '<circle cx="32" cy="32" r="32" fill="#2a2424"/>' +
+      '<circle cx="32" cy="26" r="10.5" fill="#a09a92"/>' +
+      '<path d="M 11 60 Q 11 41 32 41 Q 53 41 53 60 Z" fill="#a09a92"/>' +
+    '</svg>'
+  );
+  function avatarUrl(s) {
+    // Real photo if the supporter has one in the repo, generic silhouette
+    // otherwise. Accepts either a supporter object or a plain id string.
+    if (s && typeof s === 'object' && s.avatar) return s.avatar;
+    return GENERIC_AVATAR;
+  }
+  function platformIcon(platform) {
+    // Returns a short label that the CSS can colour-tint later
+    return platform || 'Donation';
+  }
+  function fmtAmount(amount, currency) {
+    var sym = currency === 'EUR' ? '€' : currency === 'GBP' ? '£' : '$';
+    return sym + amount;
+  }
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"]/g, function(c) {
+      return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c];
+    });
+  }
+
+  // --- render ranking ---
+  var rankList = document.getElementById('supportersRank');
+  if (rankList) {
+    var topN = Math.min(7, ranked.length);
+    var html = '';
+    for (var i = 0; i < topN; i++) {
+      var s = ranked[i];
+      html += '<li data-id="' + s.id + '">' +
+              '<span class="rank-num">' + (i < 9 ? '0' + (i+1) : (i+1)) + '</span>' +
+              '<img class="rank-avatar" src="' + avatarUrl(s) + '" alt="" loading="lazy"/>' +
+              '<div class="rank-meta">' +
+                '<span class="rank-name">' + escapeHtml(s.name) + '</span>' +
+                '<span class="rank-platform">' + escapeHtml(platformIcon(s.platform)) + '</span>' +
+              '</div>' +
+              '<span class="rank-amount">' + fmtAmount(s.amount, s.currency) + '</span>' +
+              '</li>';
+    }
+    rankList.innerHTML = html;
+  }
+
+  // --- render scattered cloud ---
+  var cloud = document.getElementById('supportersCloud');
+  if (cloud) {
+    var cloudHtml = '';
+    // Shuffle for organic placement
+    var shuffled = supporters.slice().sort(function() { return Math.random() - 0.5; });
+    shuffled.forEach(function(s) {
+      // Random offset (-12 to +12 px both axes) + small rotation (-6 to +6 deg).
+      // Locked per-render so the layout is reproducible during the session.
+      var tx = (Math.random() * 24 - 12).toFixed(1) + 'px';
+      var ty = (Math.random() * 24 - 12).toFixed(1) + 'px';
+      var rr = (Math.random() * 12 - 6).toFixed(1) + 'deg';
+      cloudHtml += '<button type="button" class="cloud-chip" data-id="' + s.id + '"' +
+                   ' style="--tx:' + tx + ';--ty:' + ty + ';--rr:' + rr + ';">' +
+                   '<img class="cloud-avatar" src="' + avatarUrl(s) + '" alt="" loading="lazy"/>' +
+                   '<span class="cloud-name">' + escapeHtml(s.name) + '</span>' +
+                   '</button>';
+    });
+    cloud.innerHTML = cloudHtml;
+  }
+
+  // --- modal handlers ---
+  var modal = document.getElementById('supporterModal');
+  var modalCard = modal && modal.querySelector('.supporter-modal-card');
+  var modalName = document.getElementById('supporterModalName');
+  var modalAvatar = document.getElementById('supporterModalAvatar');
+  var modalPlatform = document.getElementById('supporterModalPlatform');
+  var modalAmount = document.getElementById('supporterModalAmount');
+  var modalThread = document.getElementById('supporterModalThread');
+  var modalProfile = document.getElementById('supporterModalProfile');
+  var lastFocused = null;
+
+  function openSupporter(id) {
+    var s = supporters.find(function(x) { return x.id === id; });
+    if (!s || !modal) return;
+    lastFocused = document.activeElement;
+    modalName.textContent = s.name;
+    modalAvatar.src = avatarUrl(s);
+    modalPlatform.textContent = s.platform;
+    modalAmount.textContent = 'Donated ' + fmtAmount(s.amount, s.currency);
+    if (modalProfile) modalProfile.href = s.profileUrl;
+    var threadHtml = '';
+    (s.messages || []).forEach(function(m) {
+      threadHtml += '<div class="supporter-msg from-' + (m.from === 'creator' ? 'creator' : 'supporter') + '">' +
+                    '<span class="supporter-msg-author">' + escapeHtml(m.author || (m.from === 'creator' ? 'Kolo Kino' : s.name)) + '</span>' +
+                    escapeHtml(m.text) +
+                    (m.date ? '<span class="supporter-msg-date">' + escapeHtml(m.date) + '</span>' : '') +
+                    '</div>';
+    });
+    if (!threadHtml) {
+      threadHtml = '<div class="supporter-msg from-supporter">No public conversation yet — message coming soon.</div>';
+    }
+    modalThread.innerHTML = threadHtml;
+    modal.hidden = false;
+    document.body.classList.add('supporter-modal-open');
+    setTimeout(function() {
+      var closeBtn = modal.querySelector('.supporter-close');
+      if (closeBtn) closeBtn.focus();
+    }, 100);
+  }
+  function closeSupporter() {
+    if (!modal) return;
+    modal.hidden = true;
+    document.body.classList.remove('supporter-modal-open');
+    if (lastFocused && lastFocused.focus) lastFocused.focus();
+  }
+
+  // Click anywhere on a ranking li or cloud chip
+  document.addEventListener('click', function(e) {
+    var rankItem = e.target.closest('.supporters-rank li');
+    var chip = e.target.closest('.cloud-chip');
+    var close = e.target.closest('[data-supporter-close]');
+    if (rankItem && rankItem.dataset.id) { openSupporter(rankItem.dataset.id); return; }
+    if (chip && chip.dataset.id) { openSupporter(chip.dataset.id); return; }
+    if (close) { closeSupporter(); return; }
+  });
+  // ESC to close
+  document.addEventListener('keydown', function(e) {
+    if (modal && !modal.hidden && (e.key === 'Escape' || e.key === 'Esc')) closeSupporter();
+  });
+})();
+</script>
+
+<!-- Stripe Buy Button — registers the <stripe-buy-button> custom element. Async, doesn't block render. -->
+<script async src="https://js.stripe.com/v3/buy-button.js"></script>
+
+<!-- ========== OGL Flowmap hero effect (mouse-driven liquid distortion) ========== -->
+<!-- Inspired by b-kaind.com — OGL Flowmap shader (ping-pong velocity field). -->
+<script type="module">
+(async function () {
+  // Bail out for users that prefer reduced motion or are on touch devices
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+  const canvas = document.getElementById('heroFlow');
+  const frame = document.getElementById('heroFrame');
+  if (!canvas || !frame) return;
+
+  console.log('[Kolo Kino] Flowmap init starting...');
+
+  // Load OGL via ESM CDN with fallback (Skypack → esm.sh)
+  let ogl;
+  try {
+    ogl = await import('https://cdn.skypack.dev/ogl@1.0.11');
+  } catch (e1) {
+    console.warn('[Kolo Kino] Skypack OGL failed, trying esm.sh', e1);
+    try {
+      ogl = await import('https://esm.sh/ogl@1.0.11');
+    } catch (e2) {
+      console.warn('[Kolo Kino] OGL import failed (both CDNs); skipping flowmap.', e2);
+      return;
+    }
+  }
+  const { Renderer, Geometry, Program, Mesh, Vec2, Flowmap, Texture } = ogl;
+
+  // Shared shader code — same liquid distortion for every flowmap instance.
+  const vertex = `
+    attribute vec2 position;
+    attribute vec2 uv;
+    varying vec2 vUv;
+    void main() { vUv = uv; gl_Position = vec4(position, 0.0, 1.0); }
+  `;
+  const fragment = `
+    precision highp float;
+    uniform sampler2D tMap;
+    uniform sampler2D tFlow;
+    uniform vec2 uImgRes;
+    uniform vec2 uCanvasRes;
+    varying vec2 vUv;
+    vec2 coverUV(vec2 uv, vec2 cRes, vec2 iRes) {
+      float cAspect = cRes.x / cRes.y;
+      float iAspect = iRes.x / iRes.y;
+      vec2 scale = (iAspect > cAspect)
+        ? vec2(cAspect / iAspect, 1.0)
+        : vec2(1.0, iAspect / cAspect);
+      return (uv - 0.5) * scale + 0.5;
+    }
+    void main() {
+      vec2 cUv = coverUV(vUv, uCanvasRes, uImgRes);
+      vec3 flow = texture2D(tFlow, vUv).rgb;
+      vec2 distorted = cUv - flow.rg * 0.33;
+      float r = texture2D(tMap, distorted + flow.rg * 0.039).r;
+      float g = texture2D(tMap, distorted).g;
+      float b = texture2D(tMap, distorted - flow.rg * 0.039).b;
+      gl_FragColor = vec4(r, g, b, 1.0);
+    }
+  `;
+
+  // Reusable initializer: mounts a flowmap on `canvas`, listening to mouse
+  // moves inside `frame` and toggling `is-flow-active` on `frame` when ready.
+  function initFlowmap(canvas, frame, poster) {
+    if (!canvas || !frame) return;
+    let renderer;
+    try {
+      renderer = new Renderer({ canvas, dpr: Math.min(2, window.devicePixelRatio || 1), alpha: true });
+    } catch (e) {
+      console.warn('[Kolo Kino] WebGL unavailable for', canvas.id, e);
+      return;
+    }
+    const gl = renderer.gl;
+    gl.clearColor(0, 0, 0, 0);
+    const flowmap = new Flowmap(gl, { falloff: 1.0, dissipation: 0.97, alpha: 0.70 });
+    const texture = new Texture(gl, { generateMipmaps: false });
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => { texture.image = img; frame.classList.add('is-flow-active'); };
+    img.onerror = () => { console.warn('[Kolo Kino]', poster, 'failed to load.'); };
+    img.src = poster || 'hero-poster.jpg';
+    const geometry = new Geometry(gl, {
+      position: { size: 2, data: new Float32Array([-1, -1, 3, -1, -1, 3]) },
+      uv:       { size: 2, data: new Float32Array([ 0,  0, 2,  0,  0, 2]) },
+    });
+    const uCanvasRes = new Vec2(1, 1);
+    const uImgRes = new Vec2(1920, 800);
+    const program = new Program(gl, {
+      vertex, fragment,
+      uniforms: {
+        tMap: { value: texture },
+        tFlow: flowmap.uniform,
+        uCanvasRes: { value: uCanvasRes },
+        uImgRes: { value: uImgRes },
+      },
+    });
+    const mesh = new Mesh(gl, { geometry, program });
+    const mouse = new Vec2(-1);
+    const velocity = new Vec2();
+    const last = new Vec2(-1);
+    let lastT = 0;
+    function setMouse(clientX, clientY) {
+      const r = frame.getBoundingClientRect();
+      const nx = (clientX - r.left) / r.width;
+      const ny = 1.0 - (clientY - r.top) / r.height;
+      if (last.x === -1) last.set(nx, ny);
+      const now = performance.now();
+      const dt = Math.max(14, now - lastT);
+      lastT = now;
+      velocity.x = (nx - last.x) / dt * 1000;
+      velocity.y = (ny - last.y) / dt * 1000;
+      last.set(nx, ny);
+      mouse.set(nx, ny);
+    }
+    frame.addEventListener('mousemove', e => setMouse(e.clientX, e.clientY), { passive: true });
+    frame.addEventListener('mouseleave', () => { velocity.x = 0; velocity.y = 0; });
+    function resize() {
+      const w = frame.clientWidth;
+      const h = frame.clientHeight;
+      renderer.setSize(w, h);
+      uCanvasRes.x = w; uCanvasRes.y = h;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+    let visible = true;
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; }, { threshold: 0.05 })
+        .observe(frame);
+    }
+    function loop() {
+      requestAnimationFrame(loop);
+      if (!visible) return;
+      flowmap.aspect = uCanvasRes.x / uCanvasRes.y;
+      flowmap.mouse.copy(mouse);
+      flowmap.velocity.lerp(velocity, 0.1);
+      flowmap.update();
+      renderer.render({ scene: mesh });
+    }
+    requestAnimationFrame(loop);
+  }
+
+  // Hero (top of the page)
+  initFlowmap(canvas, frame, 'hero-poster.jpg');
+  // Contact (bottom of the page) — same effect with the same poster
+  initFlowmap(document.getElementById('contactFlow'),
+              document.querySelector('.contact-section'),
+              'hero-poster.jpg');
+  console.log('[Kolo Kino] Flowmaps armed (hero + contact).');
+})();
+</script>
+
+<!-- Support modal controller — opens / closes the donation widget, focus-trap, ESC to close. -->
+<script>
+(function() {
+  var modal = document.getElementById('supportModal');
+  if (!modal) return;
+  var card = modal.querySelector('.support-modal-card');
+  var openers = document.querySelectorAll('[data-support-open]');
+  var closers = modal.querySelectorAll('[data-support-close]');
+  var lastFocused = null;
+
+  function open() {
+    lastFocused = document.activeElement;
+    modal.hidden = false;
+    document.body.classList.add('support-modal-open');
+    // focus first interactive element after a brief delay (so animation can start)
+    setTimeout(function() {
+      var closeBtn = modal.querySelector('.support-close');
+      if (closeBtn) closeBtn.focus();
+    }, 100);
+  }
+
+  function close() {
+    modal.hidden = true;
+    document.body.classList.remove('support-modal-open');
+    if (lastFocused && typeof lastFocused.focus === 'function') {
+      lastFocused.focus();
+    }
+  }
+
+  openers.forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      open();
+    });
+  });
+
+  closers.forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      close();
+    });
+  });
+
+  // ESC to close
+  document.addEventListener('keydown', function(e) {
+    if (modal.hidden) return;
+    if (e.key === 'Escape' || e.key === 'Esc') close();
+  });
+
+  // Simple focus trap inside the modal
+  modal.addEventListener('keydown', function(e) {
+    if (e.key !== 'Tab' || modal.hidden) return;
+    var focusable = card.querySelectorAll('a[href], button, [tabindex]:not([tabindex="-1"]), input, select, textarea, stripe-buy-button');
+    if (!focusable.length) return;
+    var first = focusable[0];
+    var last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault(); last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault(); first.focus();
+    }
+  });
+})();
 </script>
 
 </body>
