@@ -2144,6 +2144,267 @@
     .support-modal-backdrop, .support-modal-card { animation: none; }
     .btn-support-open:hover { transform: none; }
   }
+
+  /* ============== UNIFIED SUPPORT BLOCK (pitch + community in one flow) ============== */
+  /* Header: eyebrow + title + intro + CTA, all centred. CTA sits directly under
+     the intro so the reader's eye travels: who → why → action → community. */
+  .support-head {
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto clamp(2.5rem, 5vw, 3.5rem);
+  }
+  .support-head .eyebrow { color: var(--accent); margin-bottom: 1rem; }
+  .support-head h2 {
+    margin: 0 0 1rem;
+    font-family: var(--serif);
+    font-size: clamp(1.7rem, 3vw, 2.4rem);
+    font-weight: 700;
+    line-height: 1.15;
+  }
+  .support-intro { color: var(--fg-dim); margin: 0 0 1.6rem; }
+  .support-head .btn-support-open { display: inline-flex; }
+  .supporters-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: start;
+  }
+  .supporters-subhead {
+    margin: 0 0 1rem;
+    font: 600 0.72rem/1 var(--mono);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+  }
+  @media (max-width: 800px) { .supporters-grid { grid-template-columns: 1fr; } }
+
+  /* --- ranking list (left) --- */
+  .supporters-rank { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
+  .supporters-rank li {
+    display: grid;
+    grid-template-columns: 2.2rem 40px 1fr auto;
+    gap: 0.7rem;
+    align-items: center;
+    padding: 0.65rem 0.7rem;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.25s, border-color 0.25s, transform 0.25s;
+  }
+  .supporters-rank li:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,90,90,0.4); transform: translateX(4px); }
+  .rank-num {
+    font: 700 0.95rem/1 var(--num);
+    color: var(--fg-mute);
+    text-align: center;
+  }
+  .supporters-rank li:nth-child(1) .rank-num { color: #ffcb5b; }   /* gold */
+  .supporters-rank li:nth-child(2) .rank-num { color: #d6d6d6; }   /* silver */
+  .supporters-rank li:nth-child(3) .rank-num { color: #cd7f32; }   /* bronze */
+  .rank-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+  }
+  .rank-meta { display: flex; flex-direction: column; min-width: 0; }
+  .rank-name {
+    font: 600 0.92rem/1.2 var(--sans);
+    color: var(--fg);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .rank-platform {
+    font: 500 0.62rem/1 var(--mono);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+    margin-top: 2px;
+  }
+  .rank-amount {
+    font: 700 0.95rem/1 var(--num);
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  /* --- scattered cloud (right) --- */
+  .supporters-cloud {
+    position: relative;
+    min-height: 360px;
+    padding: 1.2rem 0.6rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem 1rem;
+    justify-content: center;
+    align-content: center;
+  }
+  .cloud-chip {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.5rem;
+    border-radius: 6px;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s;
+    /* random offset/rotation set via inline --rx, --ry, --rr */
+    transform: translate(var(--tx, 0), var(--ty, 0)) rotate(var(--rr, 0deg));
+  }
+  .cloud-chip:hover {
+    transform: translate(var(--tx, 0), var(--ty, 0)) rotate(0deg) scale(1.08);
+    background: rgba(255,90,90,0.08);
+  }
+  .cloud-avatar {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--bg-elev);
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+  }
+  .cloud-name {
+    font: 500 0.7rem/1.1 var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    text-align: center;
+    max-width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* --- conversation modal --- */
+  .supporter-modal {
+    position: fixed; inset: 0; z-index: 5000;
+    display: grid; place-items: center;
+    padding: clamp(1rem, 3vw, 2rem);
+  }
+  .supporter-modal[hidden] { display: none; }
+  .supporter-modal-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(8,5,4,0.78);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    animation: supportFadeIn 0.3s cubic-bezier(.4,0,.2,1);
+  }
+  .supporter-modal-card {
+    position: relative;
+    width: min(560px, 100%);
+    max-height: 92vh;
+    overflow-y: auto;
+    background: linear-gradient(180deg, #1c1614 0%, #110b0a 100%);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    padding: clamp(1.5rem, 3vw, 2.2rem);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+    animation: supportSlideUp 0.4s cubic-bezier(.4,0,.2,1);
+    isolation: isolate;
+  }
+  .supporter-modal-card::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: url('background_film_and_gasoline.png') center/cover no-repeat;
+    opacity: 0.40;
+    pointer-events: none; z-index: -1;
+    border-radius: inherit;
+  }
+  .supporter-close {
+    position: absolute; top: 0.6rem; right: 0.6rem;
+    width: 38px; height: 38px;
+    border: none; background: transparent;
+    font-size: 1.8rem; line-height: 1; color: var(--fg);
+    cursor: pointer; border-radius: 50%;
+    transition: background 0.2s;
+  }
+  .supporter-close:hover { background: rgba(255,255,255,0.08); }
+  .supporter-modal-head {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 1rem;
+    align-items: center;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 1.2rem;
+  }
+  .supporter-modal-avatar {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+  }
+  .supporter-modal-meta h3 { margin: 0 0 0.2rem; font-size: 1.2rem; }
+  .supporter-modal-platform {
+    margin: 0;
+    font: 500 0.66rem/1 var(--mono);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .supporter-modal-amount {
+    margin: 0.3rem 0 0;
+    font: 700 1.05rem/1 var(--num);
+    color: var(--fg);
+  }
+  .supporter-modal-thread {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-bottom: 1.2rem;
+  }
+  .supporter-msg {
+    max-width: 78%;
+    padding: 0.7rem 0.95rem;
+    border-radius: 12px;
+    font: 400 0.9rem/1.45 var(--sans);
+    position: relative;
+  }
+  .supporter-msg-author {
+    display: block;
+    font: 600 0.6rem/1 var(--mono);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
+    opacity: 0.7;
+  }
+  .supporter-msg-date {
+    display: block;
+    font: 500 0.62rem/1 var(--mono);
+    letter-spacing: 0.08em;
+    color: var(--fg-mute);
+    margin-top: 0.4rem;
+  }
+  .supporter-msg.from-supporter {
+    align-self: flex-start;
+    background: rgba(255,255,255,0.07);
+    color: var(--fg);
+    border-bottom-left-radius: 3px;
+  }
+  .supporter-msg.from-creator {
+    align-self: flex-end;
+    background: linear-gradient(135deg, rgba(255,87,87,0.22), rgba(255,153,102,0.16));
+    border: 1px solid rgba(255,87,87,0.3);
+    color: var(--fg);
+    border-bottom-right-radius: 3px;
+  }
+  .supporter-modal-foot { text-align: center; }
+  .supporter-modal-profile {
+    font: 500 0.7rem/1 var(--mono);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 3px;
+  }
+  .supporter-modal-profile:hover { color: var(--accent); }
+  body.supporter-modal-open { overflow: hidden; }
+  body.supporter-modal-open .support-sticky-bar { opacity: 0; pointer-events: none; }
 </style>
 </head>
 
@@ -2171,7 +2432,7 @@
   <a href="#videos">Latest</a>
   <a href="#support">Support</a>
   <a href="#contact">Contact</a>
-  <span class="reel-indicator" id="reelIndicator">Reel 1 / 7 · Intro</span>
+  <span class="reel-indicator" id="reelIndicator">Reel 1 / 6 · Intro</span>
 </nav>
 
 <!-- ============== HERO ============== -->
@@ -2318,15 +2579,50 @@
   </div>
 </section>
 
-<!-- ============== MANIFESTO / PULL QUOTE ============== -->
-<section class="manifesto" id="manifesto" aria-label="Manifesto">
+<!-- ============== SUPPORT KOLO KINO (pitch + existing community, unified) ============== -->
+<section class="section alt support-section" id="support">
   <div class="container">
-    <blockquote>
-      <span class="open-q" aria-hidden="true">&ldquo;</span>Most channels compete with the thumb-scroll. We compete with Netflix.<span class="close-q" aria-hidden="true">&rdquo;</span>
-    </blockquote>
-    <cite>Alexander Mandrik &middot; On what Kolo Kino is</cite>
+    <div class="support-head">
+      <p class="eyebrow">Support Kolo Kino</p>
+      <h2>Thank you for keeping cinema alive with us</h2>
+      <p class="support-intro">Every tip, every share, every minute you've spent with our films makes the next one possible. Thanks to that support, not a single Kolo Kino documentary carries a sponsor or paid placement today — and we'd like to keep it that way for as long as we can.</p>
+      <button type="button" class="btn btn-gold btn-support-hero btn-support-open btn-magnetic" data-support-open aria-haspopup="dialog" aria-controls="supportModal">
+        <span class="support-spark" aria-hidden="true">✦</span> Support Kolo Kino
+      </button>
+    </div>
+
+    <div class="supporters-grid">
+      <div class="supporters-rank-wrap">
+        <h4 class="supporters-subhead">Top supporters</h4>
+        <ol class="supporters-rank" id="supportersRank"></ol>
+      </div>
+      <div class="supporters-cloud-wrap">
+        <h4 class="supporters-subhead">All supporters</h4>
+        <div class="supporters-cloud" id="supportersCloud"></div>
+      </div>
+    </div>
   </div>
 </section>
+
+<!-- ============== SUPPORTER CONVERSATION MODAL ============== -->
+<div class="supporter-modal" id="supporterModal" role="dialog" aria-modal="true" aria-labelledby="supporterModalName" hidden>
+  <div class="supporter-modal-backdrop" data-supporter-close></div>
+  <div class="supporter-modal-card" role="document">
+    <button type="button" class="supporter-close" data-supporter-close aria-label="Close">×</button>
+    <header class="supporter-modal-head">
+      <img class="supporter-modal-avatar" id="supporterModalAvatar" alt="" />
+      <div class="supporter-modal-meta">
+        <h3 id="supporterModalName">—</h3>
+        <p class="supporter-modal-platform" id="supporterModalPlatform">—</p>
+        <p class="supporter-modal-amount" id="supporterModalAmount">—</p>
+      </div>
+    </header>
+    <div class="supporter-modal-thread" id="supporterModalThread" aria-live="polite"></div>
+    <footer class="supporter-modal-foot">
+      <a id="supporterModalProfile" target="_blank" rel="noopener" class="supporter-modal-profile">See original on platform ↗</a>
+    </footer>
+  </div>
+</div>
 
 <!-- ============== LATEST VIDEOS ============== -->
 <section class="section alt" id="videos">
@@ -2446,20 +2742,7 @@
 </section>
 
 <!-- ============== SUPPORT KOLO KINO ============== -->
-<section class="section alt support-section" id="support">
-  <div class="container">
-    <div class="support-callout">
-      <div class="support-text">
-        <p class="eyebrow">Support Kolo Kino</p>
-        <h2>Help us keep the lights on in the projection room</h2>
-        <p>Every documentary takes months of research, writing, editing and narration. If our films have brought you joy, a one-off contribution lets us spend more time on the next one and less time chasing sponsors.</p>
-      </div>
-      <button type="button" class="btn btn-primary btn-support-open" data-support-open aria-haspopup="dialog" aria-controls="supportModal">
-        <span class="support-spark" aria-hidden="true">✦</span> Support Kolo Kino
-      </button>
-    </div>
-  </div>
-</section>
+<!-- (Support block lives further up the page now — between Team and Latest.) -->
 
 <!-- ============== SUPPORT MODAL ============== -->
 <div class="support-modal" id="supportModal" role="dialog" aria-modal="true" aria-labelledby="supportModalTitle" hidden>
@@ -2881,13 +3164,12 @@
   var ind = document.getElementById('reelIndicator');
   if (!ind) return;
   var sections = [
-    { el: document.querySelector('header.hero'), name: 'Reel 1 / 7 · Intro' },
-    { el: document.getElementById('featured'),   name: 'Reel 2 / 7 · Full Stories' },
-    { el: document.getElementById('team'),       name: 'Reel 3 / 7 · Crew' },
-    { el: document.getElementById('manifesto'),  name: 'Reel 4 / 7 · Manifesto' },
-    { el: document.getElementById('videos'),     name: 'Reel 5 / 7 · Latest' },
-    { el: document.getElementById('support'),    name: 'Reel 6 / 7 · Support' },
-    { el: document.getElementById('contact'),    name: 'Reel 7 / 7 · Contact' }
+    { el: document.querySelector('header.hero'), name: 'Reel 1 / 6 · Intro' },
+    { el: document.getElementById('featured'),   name: 'Reel 2 / 6 · Full Stories' },
+    { el: document.getElementById('team'),       name: 'Reel 3 / 6 · Crew' },
+    { el: document.getElementById('support'),    name: 'Reel 4 / 6 · Support' },
+    { el: document.getElementById('videos'),     name: 'Reel 5 / 6 · Latest' },
+    { el: document.getElementById('contact'),    name: 'Reel 6 / 6 · Contact' }
   ].filter(function(s) { return s.el; });
   if (!sections.length) return;
   function onScroll() {
@@ -2900,25 +3182,41 @@
   onScroll();
 })();
 
-// Sticky Support bar — shown once the hero CTAs leave the viewport
+// Sticky Support bar — shown once the hero CTAs leave the viewport, hidden again
+// while the visitor is inside the #support section itself (no point doubling the
+// CTA when the real one is right in front of them).
 (function() {
   var bar = document.getElementById('supportStickyBar');
   if (!bar) return;
   var trigger = document.querySelector('.hero-cta') || document.querySelector('header.hero');
+  var supportSection = document.getElementById('support');
   if (!trigger) return;
   if (!('IntersectionObserver' in window)) {
     bar.classList.add('is-visible');  // graceful fallback: always show
     return;
   }
-  var io = new IntersectionObserver(function(entries) {
+  var heroPassed = false;
+  var inSupport = false;
+  function update() {
+    bar.classList.toggle('is-visible', heroPassed && !inSupport);
+  }
+  // Watcher 1: hero CTA — bar appears once we've scrolled past it
+  new IntersectionObserver(function(entries) {
     entries.forEach(function(e) {
-      // Only show when the trigger has scrolled ABOVE the viewport (not below).
-      // boundingClientRect.top < 0 means we've scrolled past it downwards.
-      var passed = !e.isIntersecting && e.boundingClientRect.top < 0;
-      bar.classList.toggle('is-visible', passed);
+      heroPassed = !e.isIntersecting && e.boundingClientRect.top < 0;
+      update();
     });
-  }, { threshold: 0 });
-  io.observe(trigger);
+  }, { threshold: 0 }).observe(trigger);
+  // Watcher 2: #support section — bar disappears while it's in view
+  if (supportSection) {
+    new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        // Considered "inside" the section once at least 15% of it is visible.
+        inSupport = e.intersectionRatio > 0.15;
+        update();
+      });
+    }, { threshold: [0, 0.15, 0.3, 0.6, 1] }).observe(supportSection);
+  }
 })();
 
 // Magnetic buttons — gentle attraction toward the cursor when within a radius
@@ -2946,6 +3244,222 @@
     });
   }
   document.addEventListener('mousemove', onMove, { passive: true });
+})();
+
+// ============== SUPPORTERS RANKING + CLOUD + CONVERSATION MODAL ==============
+// Data is hard-coded here for now. When we wire the Cloudflare Worker that ingests
+// Ko-fi / BMC webhooks, replace this with a fetch('/api/supporters').then(...).
+(function() {
+  // Real data from Ko-fi (Transaction_June 2026.csv) and BMC (Supporters_list_2026-06-07.csv)
+  // exported by Alex on 2026-06-07. When you reply on Ko-fi / BMC, paste your message
+  // back into the messages[] array with from:'creator'.
+  var supporters = [
+    {
+      id: 'gus',
+      name: 'Gus',
+      platform: 'Ko-fi',
+      profileUrl: 'https://ko-fi.com/kolokino',
+      amount: 50,
+      currency: 'USD',
+      messages: [
+        { from: 'supporter', author: 'Gus', date: '2026-06-06',
+          text: "One of the best channels on YouTube — amazing storytelling about storytelling, keep it up.\n\nA video on Fight Club would be epic, just sayin." }
+      ]
+    },
+    {
+      id: 'avery',
+      name: 'Avery',
+      platform: 'Ko-fi',
+      profileUrl: 'https://ko-fi.com/kolokino',
+      amount: 25,
+      currency: 'USD',
+      messages: [
+        { from: 'supporter', author: 'Avery', date: '2026-06-05',
+          text: "Love your channel! I hope you guys are able to continue making videos. Sorry the movie studio greed demons take away from something fantastic you guys made. I always share your videos with people I know who'd appreciate them. Best wishes." }
+      ]
+    },
+    {
+      id: 'parallaxed',
+      name: 'parallaxed',
+      platform: 'Ko-fi',
+      profileUrl: 'https://ko-fi.com/kolokino',
+      amount: 20,
+      currency: 'USD',
+      messages: [
+        { from: 'supporter', author: 'parallaxed', date: '2026-06-05',
+          text: "(no public message — just the tip. thanks all the same.)" }
+      ]
+    },
+    {
+      id: 'matthew',
+      name: 'Matthew Drivebolt',
+      platform: 'Buy Me a Coffee',
+      profileUrl: 'https://buymeacoffee.com/matthewdrivebolt',
+      amount: 6.71,
+      currency: 'USD',
+      avatar: 'supporters/matthew.jpg',   // Real BMC profile photo — save the file Alex sent at this exact path.
+      messages: [
+        { from: 'supporter', author: 'Matthew Drivebolt', date: '2026-06-04',
+          text: "(public message coming — paste the real exchange from BMC here.)" }
+      ]
+    },
+    {
+      id: 'tunmise',
+      name: 'Tunmise A',
+      platform: 'Buy Me a Coffee',
+      profileUrl: 'https://buymeacoffee.com/kolokino',
+      amount: 6.67,
+      currency: 'USD',
+      messages: [
+        { from: 'supporter', author: 'Tunmise A', date: '2026-06-07',
+          text: "(public message coming — paste the real exchange from BMC here.)" }
+      ]
+    },
+    {
+      id: 'deadshooter',
+      name: 'DeadShooter',
+      platform: 'Ko-fi',
+      profileUrl: 'https://ko-fi.com/kolokino',
+      amount: 5,
+      currency: 'USD',
+      messages: [
+        { from: 'supporter', author: 'DeadShooter', date: '2026-06-05', text: "Hi" }
+      ]
+    }
+  ];
+
+  // Sort by amount descending for ranking
+  var ranked = supporters.slice().sort(function(a, b) { return b.amount - a.amount; });
+
+  // Generic "person silhouette" SVG used when a supporter doesn't have a real
+  // photo. Inlined as a data URI so it works offline and there is no extra HTTP.
+  var GENERIC_AVATAR = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">' +
+      '<circle cx="32" cy="32" r="32" fill="#2a2424"/>' +
+      '<circle cx="32" cy="26" r="10.5" fill="#a09a92"/>' +
+      '<path d="M 11 60 Q 11 41 32 41 Q 53 41 53 60 Z" fill="#a09a92"/>' +
+    '</svg>'
+  );
+  function avatarUrl(s) {
+    // Real photo if the supporter has one in the repo, generic silhouette
+    // otherwise. Accepts either a supporter object or a plain id string.
+    if (s && typeof s === 'object' && s.avatar) return s.avatar;
+    return GENERIC_AVATAR;
+  }
+  function platformIcon(platform) {
+    // Returns a short label that the CSS can colour-tint later
+    return platform || 'Donation';
+  }
+  function fmtAmount(amount, currency) {
+    var sym = currency === 'EUR' ? '€' : currency === 'GBP' ? '£' : '$';
+    return sym + amount;
+  }
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"]/g, function(c) {
+      return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c];
+    });
+  }
+
+  // --- render ranking ---
+  var rankList = document.getElementById('supportersRank');
+  if (rankList) {
+    var topN = Math.min(7, ranked.length);
+    var html = '';
+    for (var i = 0; i < topN; i++) {
+      var s = ranked[i];
+      html += '<li data-id="' + s.id + '">' +
+              '<span class="rank-num">' + (i < 9 ? '0' + (i+1) : (i+1)) + '</span>' +
+              '<img class="rank-avatar" src="' + avatarUrl(s) + '" alt="" loading="lazy"/>' +
+              '<div class="rank-meta">' +
+                '<span class="rank-name">' + escapeHtml(s.name) + '</span>' +
+                '<span class="rank-platform">' + escapeHtml(platformIcon(s.platform)) + '</span>' +
+              '</div>' +
+              '<span class="rank-amount">' + fmtAmount(s.amount, s.currency) + '</span>' +
+              '</li>';
+    }
+    rankList.innerHTML = html;
+  }
+
+  // --- render scattered cloud ---
+  var cloud = document.getElementById('supportersCloud');
+  if (cloud) {
+    var cloudHtml = '';
+    // Shuffle for organic placement
+    var shuffled = supporters.slice().sort(function() { return Math.random() - 0.5; });
+    shuffled.forEach(function(s) {
+      // Random offset (-12 to +12 px both axes) + small rotation (-6 to +6 deg).
+      // Locked per-render so the layout is reproducible during the session.
+      var tx = (Math.random() * 24 - 12).toFixed(1) + 'px';
+      var ty = (Math.random() * 24 - 12).toFixed(1) + 'px';
+      var rr = (Math.random() * 12 - 6).toFixed(1) + 'deg';
+      cloudHtml += '<button type="button" class="cloud-chip" data-id="' + s.id + '"' +
+                   ' style="--tx:' + tx + ';--ty:' + ty + ';--rr:' + rr + ';">' +
+                   '<img class="cloud-avatar" src="' + avatarUrl(s) + '" alt="" loading="lazy"/>' +
+                   '<span class="cloud-name">' + escapeHtml(s.name) + '</span>' +
+                   '</button>';
+    });
+    cloud.innerHTML = cloudHtml;
+  }
+
+  // --- modal handlers ---
+  var modal = document.getElementById('supporterModal');
+  var modalCard = modal && modal.querySelector('.supporter-modal-card');
+  var modalName = document.getElementById('supporterModalName');
+  var modalAvatar = document.getElementById('supporterModalAvatar');
+  var modalPlatform = document.getElementById('supporterModalPlatform');
+  var modalAmount = document.getElementById('supporterModalAmount');
+  var modalThread = document.getElementById('supporterModalThread');
+  var modalProfile = document.getElementById('supporterModalProfile');
+  var lastFocused = null;
+
+  function openSupporter(id) {
+    var s = supporters.find(function(x) { return x.id === id; });
+    if (!s || !modal) return;
+    lastFocused = document.activeElement;
+    modalName.textContent = s.name;
+    modalAvatar.src = avatarUrl(s);
+    modalPlatform.textContent = s.platform;
+    modalAmount.textContent = 'Donated ' + fmtAmount(s.amount, s.currency);
+    if (modalProfile) modalProfile.href = s.profileUrl;
+    var threadHtml = '';
+    (s.messages || []).forEach(function(m) {
+      threadHtml += '<div class="supporter-msg from-' + (m.from === 'creator' ? 'creator' : 'supporter') + '">' +
+                    '<span class="supporter-msg-author">' + escapeHtml(m.author || (m.from === 'creator' ? 'Kolo Kino' : s.name)) + '</span>' +
+                    escapeHtml(m.text) +
+                    (m.date ? '<span class="supporter-msg-date">' + escapeHtml(m.date) + '</span>' : '') +
+                    '</div>';
+    });
+    if (!threadHtml) {
+      threadHtml = '<div class="supporter-msg from-supporter">No public conversation yet — message coming soon.</div>';
+    }
+    modalThread.innerHTML = threadHtml;
+    modal.hidden = false;
+    document.body.classList.add('supporter-modal-open');
+    setTimeout(function() {
+      var closeBtn = modal.querySelector('.supporter-close');
+      if (closeBtn) closeBtn.focus();
+    }, 100);
+  }
+  function closeSupporter() {
+    if (!modal) return;
+    modal.hidden = true;
+    document.body.classList.remove('supporter-modal-open');
+    if (lastFocused && lastFocused.focus) lastFocused.focus();
+  }
+
+  // Click anywhere on a ranking li or cloud chip
+  document.addEventListener('click', function(e) {
+    var rankItem = e.target.closest('.supporters-rank li');
+    var chip = e.target.closest('.cloud-chip');
+    var close = e.target.closest('[data-supporter-close]');
+    if (rankItem && rankItem.dataset.id) { openSupporter(rankItem.dataset.id); return; }
+    if (chip && chip.dataset.id) { openSupporter(chip.dataset.id); return; }
+    if (close) { closeSupporter(); return; }
+  });
+  // ESC to close
+  document.addEventListener('keydown', function(e) {
+    if (modal && !modal.hidden && (e.key === 'Escape' || e.key === 'Esc')) closeSupporter();
+  });
 })();
 </script>
 
