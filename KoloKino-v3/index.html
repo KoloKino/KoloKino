@@ -1901,17 +1901,15 @@
   .upcoming-section .container { max-width: var(--max-w); margin: 0 auto; }
   .upcoming-grid {
     display: grid;
-    grid-template-columns: 1fr 1.4fr;
+    grid-template-columns: 1.4fr 1fr;
     gap: clamp(1.5rem, 4vw, 3rem);
-    align-items: start;          /* poster keeps its 16:9 without being stretched
-                                    by the taller 7-item list. List grows downward. */
+    align-items: stretch;        /* poster stretches to match the list height */
   }
   .upcoming-poster {
-    position: sticky;            /* nice touch: the poster follows the eye as the
-                                    user scans the list. Stays under the sticky nav. */
-    top: 90px;
     width: 100%;
     max-width: 100%;
+    height: 100%;                /* fill the grid cell so it matches list height */
+    aspect-ratio: auto;          /* drop the 16:9 lock — height is now driven by the list */
   }
   .upcoming-poster {
     position: relative;
@@ -1956,24 +1954,27 @@
     color: var(--fg-mute);
     width: 2.4rem; flex-shrink: 0;
   }
-  .upcoming-list li .subj {
-    font: 600 1.05rem/1.25 var(--serif);
-    color: var(--fg);
-    flex: 1;
-    text-decoration: none;
-  }
-  .upcoming-list li .subj:hover { text-decoration: underline; }
   .upcoming-list li .director {
-    font: 500 0.7rem/1 var(--mono);
+    font: 600 1rem/1.2 var(--mono);
     letter-spacing: 0.18em;
-    color: var(--fg-mute);
+    color: var(--fg);
     text-transform: uppercase;
+    text-decoration: none;
+    flex: 1;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .upcoming-list li:hover, .upcoming-list li.is-active { padding-left: 0.6rem; color: var(--paper); }
-  .upcoming-list li:hover .subj, .upcoming-list li.is-active .subj { color: var(--paper); }
+  .upcoming-list li:hover .director, .upcoming-list li.is-active .director { color: var(--paper); }
   .upcoming-list li:hover .num, .upcoming-list li.is-active .num { color: var(--accent); }
-  @media (max-width: 800px) { .upcoming-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 800px) {
+    .upcoming-grid { grid-template-columns: 1fr; align-items: start; }
+    /* On mobile the grid stacks: poster on top, list below. Re-lock the poster's
+       16:9 aspect ratio so it doesn't collapse to 0 height when there's no list
+       on its side to stretch it. */
+    .upcoming-poster { aspect-ratio: 16 / 9; height: auto; margin-bottom: 1rem; }
+  }
 
   /* ============== TEAM v2 overrides — bigger photos, mono labels, stripped frames ============== */
   .team-grid {
@@ -2171,38 +2172,31 @@
       <ul class="upcoming-list" id="upcomingList">
         <li class="is-active" data-key="tarantino" data-index="01">
           <span class="num">01</span>
-          <a class="subj" href="https://www.youtube.com/watch?v=XeOpf9olaWk" target="_blank" rel="noopener">The Ultimate Tarantino Deep Dive</a>
-          <span class="director">Tarantino</span>
+          <a class="director" href="https://www.youtube.com/watch?v=XeOpf9olaWk" target="_blank" rel="noopener">Quentin Tarantino</a>
         </li>
         <li data-key="scorsese" data-index="02">
           <span class="num">02</span>
-          <a class="subj" href="https://www.youtube.com/watch?v=4kMWWLcVWdk" target="_blank" rel="noopener">The Martin Scorsese Story You've Never Seen</a>
-          <span class="director">Scorsese</span>
+          <a class="director" href="https://www.youtube.com/watch?v=4kMWWLcVWdk" target="_blank" rel="noopener">Martin Scorsese</a>
         </li>
         <li data-key="dicaprio" data-index="03">
           <span class="num">03</span>
-          <a class="subj" href="https://www.youtube.com/watch?v=bP4XXWfcXJU" target="_blank" rel="noopener">Leonardo DiCaprio: From Break-Dance to Oscar</a>
-          <span class="director">DiCaprio</span>
+          <a class="director" href="https://www.youtube.com/watch?v=bP4XXWfcXJU" target="_blank" rel="noopener">Leonardo DiCaprio</a>
         </li>
         <li data-key="cameron" data-index="04">
           <span class="num">04</span>
-          <a class="subj" href="https://www.youtube.com/watch?v=X3yYnbn7vwA" target="_blank" rel="noopener">James Cameron vs. The Impossible</a>
-          <span class="director">Cameron</span>
+          <a class="director" href="https://www.youtube.com/watch?v=X3yYnbn7vwA" target="_blank" rel="noopener">James Cameron</a>
         </li>
         <li data-key="pitt" data-index="05">
           <span class="num">05</span>
-          <a class="subj" href="https://www.youtube.com/watch?v=a_r0D5w8bs4" target="_blank" rel="noopener">How Brad Pitt Failed His Way to Greatness</a>
-          <span class="director">Pitt</span>
+          <a class="director" href="https://www.youtube.com/watch?v=a_r0D5w8bs4" target="_blank" rel="noopener">Brad Pitt</a>
         </li>
         <li data-key="robbie" data-index="06">
           <span class="num">06</span>
-          <a class="subj" href="https://www.youtube.com/watch?v=TvEpRpW_Tag" target="_blank" rel="noopener">Margot Robbie: Biography</a>
-          <span class="director">Robbie</span>
+          <a class="director" href="https://www.youtube.com/watch?v=TvEpRpW_Tag" target="_blank" rel="noopener">Margot Robbie</a>
         </li>
         <li data-key="cavill" data-index="07">
           <span class="num">07</span>
-          <a class="subj" href="https://www.youtube.com/watch?v=GR0-qex_Vz8" target="_blank" rel="noopener">Henry Cavill: Life Story</a>
-          <span class="director">Cavill</span>
+          <a class="director" href="https://www.youtube.com/watch?v=GR0-qex_Vz8" target="_blank" rel="noopener">Henry Cavill</a>
         </li>
       </ul>
     </div>
