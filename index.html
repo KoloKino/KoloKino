@@ -1723,13 +1723,22 @@
     padding: 0.4rem 0 0.2rem;
     min-height: 60px;
   }
-  .support-stripe-mount stripe-buy-button {
-    /* Let the Buy Button take its natural width (Stripe sets ~340px) instead of
-       stretching to 100% — that's what was throwing the layout off-centre. */
-    display: inline-block;
-    margin: 0 auto;
-    width: auto;
+  /* Embedded Checkout container — Stripe renders the form inside an iframe that
+     fills the width and sizes itself based on the form. We give it a minimum
+     height so the modal doesn't jump while it boots. */
+  #stripe-embedded-mount {
+    width: 100%;
+    min-height: 320px;
+    display: block;
   }
+  .support-stripe-loading,
+  .support-stripe-error {
+    text-align: center;
+    color: var(--fg-mute, #b5b0a8);
+    font: 400 0.9rem/1.5 var(--sans);
+    padding: 1.2rem 0.5rem;
+  }
+  .support-stripe-error { color: #ff9090; }
 
   /* Logos */
   .support-logo {
@@ -2972,12 +2981,12 @@
         <span class="support-badge">Primary</span>
       </header>
 
-      <!-- Stripe Buy Button — renders inside the modal, checkout opens secure Stripe page in a new tab -->
+      <!-- Stripe Embedded Checkout — payment form lives INSIDE this div; donor never leaves kolo-kino.com.
+           Initialized lazily by the modal opener the first time it's shown (see Support modal script). -->
       <div class="support-stripe-mount">
-        <stripe-buy-button
-          buy-button-id="buy_btn_1TfLw01D0oFvi4xOveSv4KS5"
-          publishable-key="pk_live_51TecZ61D0oFvi4xO1IfiGw5e97Z2GwP2uBQ4UjdVxx1BrwYLcz7qXJRFt7sLIP2A3kUpr1s7agDfT0KcOqyL0PHU003xUmkVDr">
-        </stripe-buy-button>
+        <div id="stripe-embedded-mount" data-checkout-mount>
+          <div class="support-stripe-loading" aria-live="polite">Loading secure checkout…</div>
+        </div>
       </div>
     </article>
 
@@ -3753,8 +3762,68 @@
 })();
 </script>
 
-<!-- Stripe Buy Button — registers the <stripe-buy-button> custom element. Async, doesn't block render. -->
-<script async src="https://js.stripe.com/v3/buy-button.js"></script>
+<!-- Stripe.js v3 — powers the Embedded Checkout that lives inside the Support modal.
+     Donor enters card / Apple Pay / Google Pay / Link inside the page; no redirect off kolo-kino.com. -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<!-- Embedded Checkout bootstrap — mounts on first modal open and survives subsequent opens. -->
+<script>
+(function() {
+  var STRIPE_PK = 'pk_live_51TecZ61D0oFvi4xO1IfiGw5e97Z2GwP2uBQ4UjdVxx1BrwYLcz7qXJRFt7sLIP2A3kUpr1s7agDfT0KcOqyL0PHU003xUmkVDr';
+  var CHECKOUT_ENDPOINT = 'https://kolokino-stripe.creators-538.workers.dev/checkout';
+
+  var initialized = false;
+  var initInFlight = false;
+  var checkoutInstance = null;
+
+  // Lazily mount the Stripe Embedded Checkout into #stripe-embedded-mount.
+  // Idempotent: subsequent calls do nothing.
+  window.koloMountStripeCheckout = function() {
+    if (initialized || initInFlight) return;
+    var mountEl = document.getElementById('stripe-embedded-mount');
+    if (!mountEl) return;
+    if (typeof Stripe !== 'function') {
+      // Stripe.js hasn't loaded yet — retry shortly.
+      setTimeout(window.koloMountStripeCheckout, 400);
+      return;
+    }
+    initInFlight = true;
+    var stripe = Stripe(STRIPE_PK);
+    stripe.initEmbeddedCheckout({
+      fetchClientSecret: function() {
+        return fetch(CHECKOUT_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({})
+        })
+        .then(function(r) {
+          if (!r.ok) throw new Error('checkout endpoint ' + r.status);
+          return r.json();
+        })
+        .then(function(d) {
+          if (!d.clientSecret) throw new Error('no clientSecret in response');
+          return d.clientSecret;
+        });
+      }
+    }).then(function(checkout) {
+      checkoutInstance = checkout;
+      // Clear the "Loading secure checkout…" placeholder before mounting.
+      mountEl.innerHTML = '';
+      checkout.mount('#stripe-embedded-mount');
+      initialized = true;
+      initInFlight = false;
+    }).catch(function(err) {
+      initInFlight = false;
+      console.error('[Kolo Kino] Embedded Checkout failed:', err);
+      mountEl.innerHTML = '<p class="support-stripe-error">Couldn’t load the secure checkout. Please try Ko-fi or Buy Me a Coffee below, or refresh and try again.</p>';
+    });
+  };
+
+  // Allow other code (e.g. the support-modal opener) to query whether checkout
+  // is already mounted, so we don't re-init on every open.
+  window.koloIsStripeCheckoutMounted = function() { return initialized; };
+})();
+</script>
 
 <!-- ========== OGL Flowmap hero effect (mouse-driven liquid distortion) ========== -->
 <!-- Inspired by b-kaind.com — OGL Flowmap shader (ping-pong velocity field). -->
@@ -3922,6 +3991,10 @@
     lastFocused = document.activeElement;
     modal.hidden = false;
     document.body.classList.add('support-modal-open');
+    // Mount Stripe Embedded Checkout on first open (no-op on subsequent opens).
+    if (typeof window.koloMountStripeCheckout === 'function') {
+      window.koloMountStripeCheckout();
+    }
     // focus first interactive element after a brief delay (so animation can start)
     setTimeout(function() {
       var closeBtn = modal.querySelector('.support-close');
