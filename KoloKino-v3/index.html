@@ -321,15 +321,15 @@
   }
   /* Gold filled — premium partnership feel */
   .btn-gold {
-    background: linear-gradient(135deg, #d4a14a 0%, #b8821e 100%);
+    background: linear-gradient(135deg, #f0c469 0%, #d4a040 100%);
     color: #1a0e00;
-    border-color: #b8821e;
+    border-color: #d4a040;
   }
   .btn-gold:hover {
-    background: linear-gradient(135deg, #e2b25b 0%, #c89539 100%);
+    background: linear-gradient(135deg, #ffd47e 0%, #e8b558 100%);
     color: #1a0e00;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(200, 149, 57, 0.4);
+    box-shadow: 0 6px 20px rgba(212, 160, 64, 0.45);
   }
   /* Cream / parchment — document feel */
   .btn-paper {
@@ -2170,11 +2170,12 @@
     align-items: start;
   }
   .supporters-subhead {
-    margin: 0 0 1rem;
-    font: 600 0.72rem/1 var(--mono);
-    letter-spacing: 0.22em;
+    margin: 0 0 1.6rem;
+    font: 700 1rem/1 var(--mono);
+    letter-spacing: 0.32em;
     text-transform: uppercase;
-    color: var(--fg-mute);
+    color: var(--accent);
+    text-align: center;
   }
   @media (max-width: 800px) { .supporters-grid { grid-template-columns: 1fr; } }
 
@@ -2405,6 +2406,142 @@
   .supporter-modal-profile:hover { color: var(--accent); }
   body.supporter-modal-open { overflow: hidden; }
   body.supporter-modal-open .support-sticky-bar { opacity: 0; pointer-events: none; }
+
+  /* ============== "Film & gasoline" texture on three middle sections ============== */
+  /* Long-form documentaries, Support Kolo Kino and Latest Releases all get the
+     same warm liquid texture at 40% opacity behind their content. The mask-image
+     fades the texture to transparent at the top and bottom so the transitions
+     into the neighbouring sections are gradual rather than a hard edge. */
+  #featured, #support {
+    position: relative;
+    isolation: isolate;
+  }
+  #featured::before, #support::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url('background_film_and_gasoline.png') center/cover no-repeat;
+    opacity: 0.40;
+    pointer-events: none;
+    z-index: -1;
+    /* Generous fades at both ends so the texture dissolves into the neighbouring
+       sections without any visible seam. Top: 0%–10%. Bottom: 75%–100%. */
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 10%, #000 75%, transparent 100%);
+            mask-image: linear-gradient(180deg, transparent 0%, #000 10%, #000 75%, transparent 100%);
+  }
+
+  /* ============== Contact section: borrow the hero's intro look ============== */
+  /* Same warm radial glow + dark gradient + fixed background.png the hero uses,
+     PLUS a second WebGL Flowmap canvas so the cursor leaves a liquid trail in
+     this section too. No gasoline texture here — Alex wants just the cursor effect. */
+  .contact-section, #contact {
+    position: relative;
+    isolation: isolate;
+    background:
+      radial-gradient(ellipse at 50% 20%, rgba(255,59,59,0.12) 0%, transparent 55%),
+      linear-gradient(180deg, rgba(11,11,11,0.78) 0%, rgba(11,11,11,0.92) 70%, var(--bg) 100%),
+      url('background.png') center/cover no-repeat fixed;
+    overflow: hidden;
+  }
+  .contact-flow-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    display: block;
+    opacity: 0;
+    transition: opacity 1s var(--ease-cine, cubic-bezier(.4,0,.2,1));
+    pointer-events: none;
+  }
+  .contact-section.is-flow-active .contact-flow-canvas { opacity: 1; }
+  .contact-section .container { position: relative; z-index: 2; }
+  @media (prefers-reduced-motion: reduce) { .contact-flow-canvas { display: none; } }
+  @media (hover: none) and (pointer: coarse) { .contact-flow-canvas { display: none; } }
+  /* Scanlines overlay above the canvas, below the text */
+  #contact::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image: repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.012) 0px,
+      rgba(255,255,255,0.012) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+    mix-blend-mode: overlay;
+  }
+
+  /* ============== Director marquee (bridge between Long-form and Team) ============== */
+  /* Thinner version of the v2 marquee — same idea, less visual weight so it
+     reads as a transition strip rather than a heading. */
+  .director-marquee {
+    position: relative;
+    background: var(--bg);
+    border-block: 1px solid var(--line);
+    padding: 0.7rem 0;
+    overflow: hidden;
+  }
+  .director-marquee .track {
+    display: flex;
+    gap: 2.4rem;
+    width: max-content;
+    animation: marquee-scroll 70s linear infinite;
+    font: 600 clamp(0.85rem, 1.5vw, 1.05rem)/1 var(--serif);
+    font-style: italic;
+    color: var(--fg-mute);
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+  .director-marquee .track:hover { animation-play-state: paused; }
+  .director-marquee .track span::after {
+    content: "✦";
+    color: var(--accent);
+    margin-left: 2.4rem;
+    font-style: normal;
+    font-size: 0.7em;
+    vertical-align: middle;
+  }
+  @keyframes marquee-scroll { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .director-marquee .track { animation: none; } }
+
+  /* ============== POSTER PLAY CURSOR (v2-style inverted-colour ▸) ============== */
+  /* Floating play icon that follows the pointer when it's over a video poster
+     (upcoming-poster stages and Latest Releases video-cards). Uses
+     mix-blend-mode: difference so the colour is automatically the inverse of
+     whatever pixel sits underneath — white on dark, dark on white. */
+  .poster-cursor {
+    position: fixed;
+    top: 0; left: 0;
+    width: 72px; height: 72px;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+    transform: translate(-50%, -50%);
+    will-change: transform;
+    opacity: 0;
+    transition: opacity 0.2s ease, width 0.25s ease, height 0.25s ease;
+  }
+  .poster-cursor svg { width: 100%; height: 100%; display: block; }
+  .poster-cursor.is-active { opacity: 1; }
+  .poster-cursor.is-pressed { width: 60px; height: 60px; }
+  /* Hide the system cursor on hover-targeted tiles so only the play glyph reads */
+  body.has-poster-cursor .upcoming-poster,
+  body.has-poster-cursor .upcoming-poster .stage,
+  body.has-poster-cursor .video-card,
+  body.has-poster-cursor .video-card * { cursor: none; }
+  @media (hover: none), (pointer: coarse) { .poster-cursor { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .poster-cursor { display: none; } }
+
+  /* Stages: only the .is-active one captures clicks (otherwise hidden links
+     under it would steal them). All stages remain in the DOM for the swap. */
+  .upcoming-poster .stage { pointer-events: none; }
+  .upcoming-poster .stage.is-active { pointer-events: auto; }
+  .upcoming-poster .stage,
+  .upcoming-poster .stage.is-active { text-decoration: none; }
 </style>
 </head>
 
@@ -2412,6 +2549,14 @@
 
 <!-- Skip link for keyboard users — jumps past the fixed banner+nav to first content -->
 <a class="skip-link" href="#featured">Skip to content</a>
+
+<!-- "Play" cursor — appears over poster tiles with mix-blend-mode: difference,
+     so the colour is inverted vs. whatever pixel is under it. -->
+<div class="poster-cursor" id="posterCursor" aria-hidden="true">
+  <svg viewBox="0 0 64 64">
+    <polygon points="22,16 22,48 50,32" fill="#fff" />
+  </svg>
+</div>
 
 <!-- Sticky Support bar — slides in below the nav once the hero CTAs scroll out of view -->
 <div class="support-sticky-bar" id="supportStickyBar" aria-hidden="true">
@@ -2429,8 +2574,8 @@
 <nav class="site-nav" aria-label="Page sections">
   <a href="#featured">Full Stories</a>
   <a href="#team">Team</a>
-  <a href="#videos">Latest</a>
   <a href="#support">Support</a>
+  <a href="#videos">Latest</a>
   <a href="#contact">Contact</a>
   <span class="reel-indicator" id="reelIndicator">Reel 1 / 6 · Intro</span>
 </nav>
@@ -2473,14 +2618,15 @@
 
     <div class="upcoming-grid">
       <div class="upcoming-poster" id="upcomingPoster">
-        <div class="stage is-active" data-key="tarantino" style="background-image:url('https://i.ytimg.com/vi/XeOpf9olaWk/maxresdefault.jpg');"></div>
-        <div class="stage" data-key="scorsese"  style="background-image:url('https://i.ytimg.com/vi/4kMWWLcVWdk/maxresdefault.jpg');"></div>
-        <div class="stage" data-key="dicaprio"  style="background-image:url('https://i.ytimg.com/vi/bP4XXWfcXJU/maxresdefault.jpg');"></div>
-        <div class="stage" data-key="cameron"   style="background-image:url('https://i.ytimg.com/vi/X3yYnbn7vwA/maxresdefault.jpg');"></div>
-        <div class="stage" data-key="pitt"      style="background-image:url('https://i.ytimg.com/vi/a_r0D5w8bs4/maxresdefault.jpg');"></div>
-        <div class="stage" data-key="robbie"    style="background-image:url('https://i.ytimg.com/vi/TvEpRpW_Tag/maxresdefault.jpg');"></div>
-        <div class="stage" data-key="cavill"    style="background-image:url('https://i.ytimg.com/vi/GR0-qex_Vz8/maxresdefault.jpg');"></div>
-        <span class="upcoming-counter" id="upcomingCounter">01 / 07</span>
+        <a class="stage is-active" data-key="tarantino" href="https://www.youtube.com/watch?v=XeOpf9olaWk" target="_blank" rel="noopener" aria-label="Watch The Ultimate Tarantino Deep Dive on YouTube" style="background-image:url('https://i.ytimg.com/vi/XeOpf9olaWk/maxresdefault.jpg');"></a>
+        <a class="stage" data-key="scorsese"  href="https://www.youtube.com/watch?v=4kMWWLcVWdk" target="_blank" rel="noopener" aria-label="Watch The Martin Scorsese Story on YouTube" style="background-image:url('https://i.ytimg.com/vi/4kMWWLcVWdk/maxresdefault.jpg');"></a>
+        <a class="stage" data-key="dicaprio"  href="https://www.youtube.com/watch?v=bP4XXWfcXJU" target="_blank" rel="noopener" aria-label="Watch Leonardo DiCaprio on YouTube" style="background-image:url('https://i.ytimg.com/vi/bP4XXWfcXJU/maxresdefault.jpg');"></a>
+        <a class="stage" data-key="cameron"   href="https://www.youtube.com/watch?v=X3yYnbn7vwA" target="_blank" rel="noopener" aria-label="Watch James Cameron vs. The Impossible on YouTube" style="background-image:url('https://i.ytimg.com/vi/X3yYnbn7vwA/maxresdefault.jpg');"></a>
+        <a class="stage" data-key="pitt"      href="https://www.youtube.com/watch?v=a_r0D5w8bs4" target="_blank" rel="noopener" aria-label="Watch How Brad Pitt Failed His Way to Greatness on YouTube" style="background-image:url('https://i.ytimg.com/vi/a_r0D5w8bs4/maxresdefault.jpg');"></a>
+        <a class="stage" data-key="robbie"    href="https://www.youtube.com/watch?v=TvEpRpW_Tag" target="_blank" rel="noopener" aria-label="Watch Margot Robbie Biography on YouTube" style="background-image:url('https://i.ytimg.com/vi/TvEpRpW_Tag/maxresdefault.jpg');"></a>
+        <a class="stage" data-key="cavill"    href="https://www.youtube.com/watch?v=GR0-qex_Vz8" target="_blank" rel="noopener" aria-label="Watch Henry Cavill Life Story on YouTube" style="background-image:url('https://i.ytimg.com/vi/GR0-qex_Vz8/maxresdefault.jpg');"></a>
+        <a class="stage" data-key="ritchie"   href="https://www.youtube.com/watch?v=v2ftzRsTjTk" target="_blank" rel="noopener" aria-label="Watch the Guy Ritchie documentary (Part 1) on YouTube" style="background-image:url('https://i.ytimg.com/vi/v2ftzRsTjTk/maxresdefault.jpg');"></a>
+        <span class="upcoming-counter" id="upcomingCounter">01 / 08</span>
       </div>
       <ul class="upcoming-list" id="upcomingList">
         <li class="is-active" data-key="tarantino" data-index="01">
@@ -2511,10 +2657,23 @@
           <span class="num">07</span>
           <a class="director" href="https://www.youtube.com/watch?v=GR0-qex_Vz8" target="_blank" rel="noopener">Henry Cavill</a>
         </li>
+        <li data-key="ritchie" data-index="08">
+          <span class="num">08</span>
+          <a class="director" href="https://www.youtube.com/watch?v=v2ftzRsTjTk" target="_blank" rel="noopener">Guy Ritchie</a>
+        </li>
       </ul>
     </div>
   </div>
 </section>
+
+<!-- Director marquee — sits between Long-form documentaries and Team as a moving
+     bridge of names the channel has covered. Only real subjects, no filler. -->
+<div class="director-marquee" aria-hidden="true">
+  <div class="track">
+    <span>Quentin Tarantino</span><span>Martin Scorsese</span><span>Leonardo DiCaprio</span><span>James Cameron</span><span>Brad Pitt</span><span>Margot Robbie</span><span>Henry Cavill</span><span>Guy Ritchie</span>
+    <span>Quentin Tarantino</span><span>Martin Scorsese</span><span>Leonardo DiCaprio</span><span>James Cameron</span><span>Brad Pitt</span><span>Margot Robbie</span><span>Henry Cavill</span><span>Guy Ritchie</span>
+  </div>
+</div>
 
 <!-- ============== TEAM ============== -->
 <section class="section" id="team">
@@ -2625,7 +2784,7 @@
 </div>
 
 <!-- ============== LATEST VIDEOS ============== -->
-<section class="section alt" id="videos">
+<section class="section" id="videos">
   <div class="container">
     <div class="section-head">
       <p class="eyebrow">Latest Releases</p>
@@ -2838,6 +2997,8 @@
 
 <!-- ============== CONTACT ============== -->
 <section class="section contact-section" id="contact">
+  <!-- Second WebGL Flowmap canvas — same mouse-driven liquid effect as the hero. -->
+  <canvas class="contact-flow-canvas" id="contactFlow" aria-hidden="true"></canvas>
   <div class="container">
     <p class="eyebrow">Don't Be A Stranger</p>
     <h2>Let's make something together</h2>
@@ -3219,6 +3380,45 @@
   }
 })();
 
+// Poster "play" cursor — inverted-colour ▸ that follows the pointer over the
+// Long-form documentaries poster and the Latest Releases video tiles.
+(function() {
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var cur = document.getElementById('posterCursor');
+  if (!cur) return;
+  document.body.classList.add('has-poster-cursor');
+
+  var tx = window.innerWidth / 2, ty = window.innerHeight / 2;
+  var cx = tx, cy = ty;
+  window.addEventListener('pointermove', function(e) { tx = e.clientX; ty = e.clientY; }, { passive: true });
+  (function loop() {
+    cx += (tx - cx) * 0.28;
+    cy += (ty - cy) * 0.28;
+    cur.style.transform = 'translate(' + cx + 'px,' + cy + 'px) translate(-50%,-50%)';
+    requestAnimationFrame(loop);
+  })();
+
+  function arm() {
+    var targets = document.querySelectorAll('.upcoming-poster, .video-card');
+    targets.forEach(function(el) {
+      if (el.dataset.posterCursorBound) return;
+      el.dataset.posterCursorBound = '1';
+      el.addEventListener('pointerenter', function() { cur.classList.add('is-active'); });
+      el.addEventListener('pointerleave', function() { cur.classList.remove('is-active'); cur.classList.remove('is-pressed'); });
+      el.addEventListener('pointerdown',  function() { cur.classList.add('is-pressed'); });
+      el.addEventListener('pointerup',    function() { cur.classList.remove('is-pressed'); });
+    });
+  }
+  arm();
+  // The video-cards in Latest Releases are re-rendered when the RSS fetch lands;
+  // re-arm whenever the grid mutates so the new cards also pick up the cursor.
+  var grid = document.querySelector('.videos-grid');
+  if (grid && 'MutationObserver' in window) {
+    new MutationObserver(arm).observe(grid, { childList: true });
+  }
+})();
+
 // Magnetic buttons — gentle attraction toward the cursor when within a radius
 (function() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -3297,7 +3497,7 @@
       profileUrl: 'https://buymeacoffee.com/matthewdrivebolt',
       amount: 6.71,
       currency: 'USD',
-      avatar: 'supporters/matthew.jpg',   // Real BMC profile photo — save the file Alex sent at this exact path.
+      avatar: 'team/Sponsors/Matthew.jpg',   // Real BMC profile photo (Alex saved it under team/Sponsors/).
       messages: [
         { from: 'supporter', author: 'Matthew Drivebolt', date: '2026-06-04',
           text: "(public message coming — paste the real exchange from BMC here.)" }
@@ -3495,40 +3695,7 @@
   }
   const { Renderer, Geometry, Program, Mesh, Vec2, Flowmap, Texture } = ogl;
 
-  let renderer;
-  try {
-    renderer = new Renderer({ canvas, dpr: Math.min(2, window.devicePixelRatio || 1), alpha: true });
-  } catch (e) {
-    console.warn('[Kolo Kino] WebGL unavailable; skipping flowmap.', e);
-    return;
-  }
-  const gl = renderer.gl;
-  gl.clearColor(0, 0, 0, 0);
-
-  // Flowmap RTT (mouse paints velocity into a 128x128 framebuffer; decays each frame).
-  // falloff: 0.32 → 1.0 (+250% diameter, effectively reaches the whole hero;
-  //   the wider smoothstep curve also gives a much softer edge naturally).
-  // dissipation: 0.95 → 0.97 (slower decay → softer fade-out, +30% extra softness).
-  // alpha: 0.70 → 0.70 (kept; the visible strength boost comes from the shader).
-  const flowmap = new Flowmap(gl, { falloff: 1.0, dissipation: 0.97, alpha: 0.70 });
-
-  const texture = new Texture(gl, { generateMipmaps: false });
-  const img = new Image();
-  img.crossOrigin = 'anonymous';
-  img.onload = () => {
-    texture.image = img;
-    frame.classList.add('is-flow-active');
-    console.log('[Kolo Kino] OGL Flowmap hero effect armed.');
-  };
-  img.onerror = () => { console.warn('[Kolo Kino] hero-poster.jpg failed to load.'); };
-  img.src = 'hero-poster.jpg';
-
-  // Fullscreen triangle (faster than two-triangle quad)
-  const geometry = new Geometry(gl, {
-    position: { size: 2, data: new Float32Array([-1, -1, 3, -1, -1, 3]) },
-    uv:       { size: 2, data: new Float32Array([ 0,  0, 2,  0,  0, 2]) },
-  });
-
+  // Shared shader code — same liquid distortion for every flowmap instance.
   const vertex = `
     attribute vec2 position;
     attribute vec2 uv;
@@ -3542,7 +3709,6 @@
     uniform vec2 uImgRes;
     uniform vec2 uCanvasRes;
     varying vec2 vUv;
-
     vec2 coverUV(vec2 uv, vec2 cRes, vec2 iRes) {
       float cAspect = cRes.x / cRes.y;
       float iAspect = iRes.x / iRes.y;
@@ -3551,13 +3717,10 @@
         : vec2(1.0, iAspect / cAspect);
       return (uv - 0.5) * scale + 0.5;
     }
-
     void main() {
       vec2 cUv = coverUV(vUv, uCanvasRes, uImgRes);
       vec3 flow = texture2D(tFlow, vUv).rgb;
-      // Distortion strength: 0.22 → 0.33 (+50% visible drag of the liquid).
       vec2 distorted = cUv - flow.rg * 0.33;
-      // Chromatic split widened to 0.039 to keep the RGB drift in proportion.
       float r = texture2D(tMap, distorted + flow.rg * 0.039).r;
       float g = texture2D(tMap, distorted).g;
       float b = texture2D(tMap, distorted - flow.rg * 0.039).b;
@@ -3565,67 +3728,93 @@
     }
   `;
 
-  const uCanvasRes = new Vec2(1, 1);
-  const uImgRes = new Vec2(1920, 800);
-  const program = new Program(gl, {
-    vertex, fragment,
-    uniforms: {
-      tMap: { value: texture },
-      tFlow: flowmap.uniform,
-      uCanvasRes: { value: uCanvasRes },
-      uImgRes: { value: uImgRes },
-    },
-  });
-  const mesh = new Mesh(gl, { geometry, program });
-
-  // Track mouse on the hero — canvas has pointer-events:none so the listener goes on the frame
-  const mouse = new Vec2(-1);
-  const velocity = new Vec2();
-  const last = new Vec2(-1);
-  let lastT = 0;
-
-  function setMouse(clientX, clientY) {
-    const r = frame.getBoundingClientRect();
-    const nx = (clientX - r.left) / r.width;
-    const ny = 1.0 - (clientY - r.top) / r.height;
-    if (last.x === -1) last.set(nx, ny);
-    const now = performance.now();
-    const dt = Math.max(14, now - lastT);
-    lastT = now;
-    velocity.x = (nx - last.x) / dt * 1000;
-    velocity.y = (ny - last.y) / dt * 1000;
-    last.set(nx, ny);
-    mouse.set(nx, ny);
-  }
-  frame.addEventListener('mousemove', e => setMouse(e.clientX, e.clientY), { passive: true });
-  frame.addEventListener('mouseleave', () => { velocity.x = 0; velocity.y = 0; });
-
-  function resize() {
-    const w = frame.clientWidth;
-    const h = frame.clientHeight;
-    renderer.setSize(w, h);
-    uCanvasRes.x = w; uCanvasRes.y = h;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  // Pause when offscreen — saves battery on long scroll
-  let visible = true;
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; }, { threshold: 0.05 })
-      .observe(frame);
-  }
-
-  function loop() {
+  // Reusable initializer: mounts a flowmap on `canvas`, listening to mouse
+  // moves inside `frame` and toggling `is-flow-active` on `frame` when ready.
+  function initFlowmap(canvas, frame, poster) {
+    if (!canvas || !frame) return;
+    let renderer;
+    try {
+      renderer = new Renderer({ canvas, dpr: Math.min(2, window.devicePixelRatio || 1), alpha: true });
+    } catch (e) {
+      console.warn('[Kolo Kino] WebGL unavailable for', canvas.id, e);
+      return;
+    }
+    const gl = renderer.gl;
+    gl.clearColor(0, 0, 0, 0);
+    const flowmap = new Flowmap(gl, { falloff: 1.0, dissipation: 0.97, alpha: 0.70 });
+    const texture = new Texture(gl, { generateMipmaps: false });
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => { texture.image = img; frame.classList.add('is-flow-active'); };
+    img.onerror = () => { console.warn('[Kolo Kino]', poster, 'failed to load.'); };
+    img.src = poster || 'hero-poster.jpg';
+    const geometry = new Geometry(gl, {
+      position: { size: 2, data: new Float32Array([-1, -1, 3, -1, -1, 3]) },
+      uv:       { size: 2, data: new Float32Array([ 0,  0, 2,  0,  0, 2]) },
+    });
+    const uCanvasRes = new Vec2(1, 1);
+    const uImgRes = new Vec2(1920, 800);
+    const program = new Program(gl, {
+      vertex, fragment,
+      uniforms: {
+        tMap: { value: texture },
+        tFlow: flowmap.uniform,
+        uCanvasRes: { value: uCanvasRes },
+        uImgRes: { value: uImgRes },
+      },
+    });
+    const mesh = new Mesh(gl, { geometry, program });
+    const mouse = new Vec2(-1);
+    const velocity = new Vec2();
+    const last = new Vec2(-1);
+    let lastT = 0;
+    function setMouse(clientX, clientY) {
+      const r = frame.getBoundingClientRect();
+      const nx = (clientX - r.left) / r.width;
+      const ny = 1.0 - (clientY - r.top) / r.height;
+      if (last.x === -1) last.set(nx, ny);
+      const now = performance.now();
+      const dt = Math.max(14, now - lastT);
+      lastT = now;
+      velocity.x = (nx - last.x) / dt * 1000;
+      velocity.y = (ny - last.y) / dt * 1000;
+      last.set(nx, ny);
+      mouse.set(nx, ny);
+    }
+    frame.addEventListener('mousemove', e => setMouse(e.clientX, e.clientY), { passive: true });
+    frame.addEventListener('mouseleave', () => { velocity.x = 0; velocity.y = 0; });
+    function resize() {
+      const w = frame.clientWidth;
+      const h = frame.clientHeight;
+      renderer.setSize(w, h);
+      uCanvasRes.x = w; uCanvasRes.y = h;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+    let visible = true;
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; }, { threshold: 0.05 })
+        .observe(frame);
+    }
+    function loop() {
+      requestAnimationFrame(loop);
+      if (!visible) return;
+      flowmap.aspect = uCanvasRes.x / uCanvasRes.y;
+      flowmap.mouse.copy(mouse);
+      flowmap.velocity.lerp(velocity, 0.1);
+      flowmap.update();
+      renderer.render({ scene: mesh });
+    }
     requestAnimationFrame(loop);
-    if (!visible) return;
-    flowmap.aspect = uCanvasRes.x / uCanvasRes.y;
-    flowmap.mouse.copy(mouse);
-    flowmap.velocity.lerp(velocity, 0.1);
-    flowmap.update();
-    renderer.render({ scene: mesh });
   }
-  requestAnimationFrame(loop);
+
+  // Hero (top of the page)
+  initFlowmap(canvas, frame, 'hero-poster.jpg');
+  // Contact (bottom of the page) — same effect with the same poster
+  initFlowmap(document.getElementById('contactFlow'),
+              document.querySelector('.contact-section'),
+              'hero-poster.jpg');
+  console.log('[Kolo Kino] Flowmaps armed (hero + contact).');
 })();
 </script>
 
