@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Body Map · Soul Touch Therapy — Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --ivory:#f4ede0; --cream:#f0e7d5; --cream-soft:#ede4cf; --paper:#faf6ec;
+  --sage-deep:#2c3a30; --sage-night:#1f2a23; --sage:#4a5a4d; --sage-soft:#8e9d8c; --sage-mist:#c7cfc1;
+  --burgundy:#6f0c0c; --burgundy-soft:#8a2828; --gold:#c4a878; --gold-soft:#d6c098;
+  --ink:#2b2a28; --ink-soft:#4a4844; --muted:#7a766e;
+  --line:rgba(43,42,40,.10); --line-strong:rgba(43,42,40,.20);
+  --font-display:"Unbounded",system-ui,sans-serif;
+  --font-sans:"Inter",system-ui,sans-serif;
+  --font-serif:"Cormorant Garamond",Georgia,serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;}
+body{
+  font-family:var(--font-sans);
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(196,168,120,.10), transparent 55%),
+    radial-gradient(ellipse at 90% 100%, rgba(111,12,12,.06), transparent 50%),
+    var(--cream);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+
+/* ---------------- Header ---------------- */
+.bm-head{
+  max-width:1180px; margin-inline:auto;
+  padding:clamp(1.5rem,4vw,3rem) clamp(1.25rem,4vw,3rem) 0;
+  display:flex; align-items:flex-end; justify-content:space-between;
+  flex-wrap:wrap; gap:1.5rem;
+}
+.bm-head .eyebrow{
+  font-size:11px; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--burgundy); font-weight:500; display:inline-flex; align-items:center; gap:12px;
+}
+.bm-head .eyebrow::before{content:"";width:24px;height:1px;background:var(--burgundy);}
+.bm-head h1{
+  font-family:var(--font-display); font-weight:300;
+  font-size:clamp(2rem,4.5vw,3.4rem); line-height:1.04; letter-spacing:-.01em;
+  margin:.8rem 0 0; max-width:16ch;
+}
+.bm-head h1 em{font-family:var(--font-serif);font-style:italic;color:var(--burgundy);}
+.bm-head p.intro{
+  font-family:var(--font-serif); font-style:italic; font-size:1.15rem; color:var(--ink-soft);
+  max-width:42ch; margin:.9rem 0 0;
+}
+
+.bm-controls{display:flex;flex-direction:column;gap:.75rem;align-items:flex-end;}
+.toggle-group{
+  display:inline-flex; background:var(--paper); border:1px solid var(--line);
+  border-radius:999px; padding:4px;
+}
+.toggle-group button{
+  border:0; background:transparent; cursor:pointer;
+  font-family:var(--font-sans); font-size:11px; font-weight:500;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft);
+  padding:.55rem 1.1rem; border-radius:999px; transition:all .25s var(--ease);
+}
+.toggle-group button.active{background:var(--burgundy);color:var(--cream);}
+.toggle-group button:hover:not(.active){color:var(--burgundy);}
+.toggle-group.lang button{padding:.5rem .85rem;letter-spacing:.1em;}
+
+/* ---------------- Layout ---------------- */
+.bm-stage{
+  max-width:1180px; margin:clamp(1.5rem,4vw,2.5rem) auto 0;
+  padding:0 clamp(1.25rem,4vw,3rem) clamp(2rem,5vw,4rem);
+  display:grid; grid-template-columns:1.05fr .95fr;
+  gap:clamp(1.5rem,4vw,3.5rem); align-items:stretch;
+}
+@media(max-width:840px){ .bm-stage{grid-template-columns:1fr;} }
+
+/* ---------------- Figure ---------------- */
+.bm-figure{
+  position:relative; background:var(--paper);
+  border:1px solid var(--line); border-radius:24px;
+  padding:1rem; overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+  min-height:480px;
+}
+.bm-figure::before{
+  content:""; position:absolute; inset:0;
+  background:radial-gradient(ellipse at 50% 35%, rgba(142,157,140,.16), transparent 62%);
+  pointer-events:none;
+}
+.bm-figure .view-label{
+  position:absolute; top:18px; left:50%; transform:translateX(-50%);
+  font-size:10px; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--muted);
+}
+svg.body{width:100%;height:auto;max-height:74vh;display:block;position:relative;z-index:1;}
+
+/* silhouette */
+.silhouette{
+  fill:rgba(74,90,77,.16); stroke:var(--sage); stroke-width:1.4;
+  transition:opacity .5s var(--ease);
+}
+.spine{stroke:var(--sage-soft); stroke-width:1.2; stroke-dasharray:3 6; fill:none; opacity:.7;}
+
+/* points */
+.point{cursor:pointer;}
+.point-hit{fill:transparent;}
+.point-ring{
+  fill:none; stroke:var(--burgundy); stroke-width:1.5;
+  transform-box:fill-box; transform-origin:center;
+  animation:pulse-ring 2.8s var(--ease) infinite;
+}
+.point.back .point-ring{stroke:var(--burgundy);}
+.point-dot{
+  fill:var(--burgundy); stroke:var(--paper); stroke-width:1.5;
+  transform-box:fill-box; transform-origin:center;
+  transition:transform .25s var(--ease), fill .25s var(--ease);
+}
+.point:hover .point-dot{transform:scale(1.45);}
+.point.active .point-dot{fill:var(--gold);transform:scale(1.6);}
+.point.active .point-ring{stroke:var(--gold);}
+.point .point-num{
+  font-family:var(--font-sans); font-size:7px; font-weight:600;
+  fill:var(--paper); text-anchor:middle; dominant-baseline:central;
+  pointer-events:none;
+}
+@keyframes pulse-ring{
+  0%{transform:scale(.5);opacity:.7;}
+  80%{opacity:0;}
+  100%{transform:scale(2.8);opacity:0;}
+}
+@media(prefers-reduced-motion:reduce){ .point-ring{animation:none;opacity:.35;} }
+
+/* layer fade */
+.layer{transition:opacity .45s var(--ease);}
+.layer.hidden{opacity:0;pointer-events:none;}
+
+/* ---------------- Panel ---------------- */
+.bm-panel{
+  background:linear-gradient(180deg,var(--sage-deep),var(--sage-night));
+  color:var(--cream); border-radius:24px;
+  padding:clamp(1.5rem,3.5vw,2.5rem);
+  display:flex; flex-direction:column;
+  position:relative; overflow:hidden;
+}
+.bm-panel::before{
+  content:""; position:absolute; top:-30%; right:-20%;
+  width:60%; aspect-ratio:1; border-radius:50%;
+  background:radial-gradient(circle,rgba(196,168,120,.18),transparent 70%);
+  pointer-events:none;
+}
+.bm-panel .panel-kicker{
+  font-size:10px; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--gold); display:inline-flex; align-items:center; gap:10px;
+}
+.bm-panel .panel-kicker::before{content:"";width:18px;height:1px;background:var(--gold);}
+.panel-empty{
+  display:flex;flex-direction:column;gap:1rem;justify-content:center;
+  flex:1; min-height:280px;
+}
+.panel-empty h2{
+  font-family:var(--font-display); font-weight:300;
+  font-size:clamp(1.6rem,3vw,2.3rem); line-height:1.1; color:var(--cream); margin:.4rem 0 0;
+}
+.panel-empty p{
+  font-family:var(--font-serif); font-style:italic; font-size:1.2rem;
+  color:rgba(244,237,224,.78); max-width:34ch; margin:0;
+}
+.panel-empty .hint{
+  font-family:var(--font-sans); font-style:normal; font-size:12px;
+  letter-spacing:.12em; text-transform:uppercase; color:rgba(244,237,224,.5);
+  display:flex; align-items:center; gap:10px; margin-top:.5rem;
+}
+.panel-empty .hint .pip{width:9px;height:9px;border-radius:50%;background:var(--burgundy);box-shadow:0 0 0 4px rgba(111,12,12,.25);}
+
+.panel-detail{display:none;flex-direction:column;gap:0;flex:1;}
+.panel-detail.show{display:flex;animation:fade-up .5s var(--ease);}
+@keyframes fade-up{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+.panel-detail .pd-index{
+  font-family:var(--font-serif); font-style:italic; font-size:1rem; color:var(--gold-soft);
+  margin-top:1.1rem;
+}
+.panel-detail h2{
+  font-family:var(--font-display); font-weight:300;
+  font-size:clamp(1.7rem,3.4vw,2.6rem); line-height:1.05; color:var(--cream);
+  margin:.3rem 0 0; letter-spacing:-.01em;
+}
+.panel-detail .pd-region{
+  font-family:var(--font-sans); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--sage-mist); margin-top:.6rem;
+}
+.pd-block{margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(244,237,224,.16);}
+.pd-block .pd-label{
+  font-family:var(--font-sans); font-size:10px; letter-spacing:.24em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:.55rem;
+}
+.pd-block p{
+  margin:0; font-size:15px; line-height:1.6; color:rgba(244,237,224,.9);
+}
+.pd-block.tech p{font-family:var(--font-serif);font-style:italic;font-size:1.15rem;color:rgba(244,237,224,.95);}
+.pd-nav{display:flex;gap:.6rem;margin-top:auto;padding-top:1.6rem;}
+.pd-nav button{
+  flex:1; border:1px solid rgba(244,237,224,.28); background:transparent; color:var(--cream);
+  border-radius:999px; padding:.7rem 1rem; cursor:pointer;
+  font-family:var(--font-sans); font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+  transition:all .25s var(--ease);
+}
+.pd-nav button:hover{background:var(--gold);border-color:var(--gold);color:var(--sage-night);}
+
+/* footer note */
+.bm-foot{
+  max-width:1180px; margin:0 auto; padding:0 clamp(1.25rem,4vw,3rem) 3rem;
+  font-size:12px; color:var(--muted); line-height:1.6; max-width:70ch;
+}
+.bm-foot strong{color:var(--ink-soft);font-weight:600;}
+.lang-es{display:none;}
+html[lang="es"] .lang-es{display:inline;}
+html[lang="es"] .lang-en{display:none;}
+</style>
+</head>
+<body>
+
+<header class="bm-head">
+  <div>
+    <span class="eyebrow"><span class="lang-en">Body map · preview</span><span class="lang-es">Mapa corporal · preview</span></span>
+    <h1><span class="lang-en">Where touch <em>lands</em>.</span><span class="lang-es">Dónde <em>aterriza</em> el tacto.</span></h1>
+    <p class="intro"><span class="lang-en">An interactive map of the points Soul Touch Therapy returns to. Tap any point.</span><span class="lang-es">Un mapa interactivo de los puntos a los que vuelve el Soul Touch Therapy. Toca cualquier punto.</span></p>
+  </div>
+  <div class="bm-controls">
+    <div class="toggle-group view" role="tablist" aria-label="Body view">
+      <button data-view="front" class="active"><span class="lang-en">Front</span><span class="lang-es">Frente</span></button>
+      <button data-view="back"><span class="lang-en">Back</span><span class="lang-es">Espalda</span></button>
+    </div>
+    <div class="toggle-group lang" aria-label="Language">
+      <button data-lang="en" class="active">EN</button>
+      <button data-lang="es">ES</button>
+    </div>
+  </div>
+</header>
+
+<div class="bm-stage">
+  <div class="bm-figure">
+    <span class="view-label"><span class="lang-en" data-view-label-front>Front view</span></span>
+    <svg class="body" viewBox="0 0 400 860" role="img" aria-label="Human body massage points">
+      <!-- ===== silhouette (shared front/back) ===== -->
+      <g id="figure">
+        <!-- head -->
+        <ellipse class="silhouette" cx="200" cy="74" rx="36" ry="44"/>
+        <!-- neck -->
+        <path class="silhouette" d="M183 112 q17 14 34 0 l-2 26 q-15 10 -30 0 z"/>
+        <!-- torso: shoulders -> waist -> pelvis -->
+        <path class="silhouette" d="
+          M150 150
+          C172 134 228 134 250 150
+          C258 152 268 156 276 164
+          C262 158 250 156 244 158
+          C250 196 254 244 246 300
+          C242 332 250 356 252 388
+          L148 388
+          C150 356 158 332 154 300
+          C146 244 150 196 156 158
+          C150 156 138 158 124 164
+          C132 156 142 152 150 150 Z"/>
+        <!-- right arm -->
+        <path class="silhouette" d="M250 158 C272 164 284 184 288 214 C293 256 292 318 286 372 C284 392 280 408 272 420 C266 428 258 426 256 416 C262 404 266 388 266 368 C268 318 266 256 260 216 C257 192 252 174 244 162 Z"/>
+        <!-- left arm -->
+        <path class="silhouette" d="M150 158 C128 164 116 184 112 214 C107 256 108 318 114 372 C116 392 120 408 128 420 C134 428 142 426 144 416 C138 404 134 388 134 368 C132 318 134 256 140 216 C143 192 148 174 156 162 Z"/>
+        <!-- right leg -->
+        <path class="silhouette" d="M252 388 C256 470 252 560 244 650 C240 700 238 760 234 800 C233 818 224 820 218 808 C214 770 214 700 212 650 C209 560 205 470 202 392 Z"/>
+        <!-- left leg -->
+        <path class="silhouette" d="M148 388 C144 470 148 560 156 650 C160 700 162 760 166 800 C167 818 176 820 182 808 C186 770 186 700 188 650 C191 560 195 470 198 392 Z"/>
+        <!-- spine (only on back view) -->
+        <line class="spine layer back-only hidden" x1="200" y1="124" x2="200" y2="384"/>
+      </g>
+      <!-- points injected by JS -->
+      <g id="points-layer"></g>
+    </svg>
+  </div>
+
+  <aside class="bm-panel">
+    <div class="panel-empty" id="panelEmpty">
+      <span class="panel-kicker"><span class="lang-en">The map</span><span class="lang-es">El mapa</span></span>
+      <h2><span class="lang-en">Nine places a body asks to be met.</span><span class="lang-es">Nueve lugares donde el cuerpo pide ser encontrado.</span></h2>
+      <p><span class="lang-en">Each point is a doorway: somewhere tension gathers, and somewhere release can begin.</span><span class="lang-es">Cada punto es una puerta: un lugar donde se acumula la tensión, y donde puede empezar la soltura.</span></p>
+      <span class="hint"><span class="pip"></span><span class="lang-en">Tap a pulsing point to read it</span><span class="lang-es">Toca un punto que late para leerlo</span></span>
+    </div>
+
+    <div class="panel-detail" id="panelDetail">
+      <span class="pd-index" id="pdIndex"></span>
+      <h2 id="pdTitle"></h2>
+      <div class="pd-region" id="pdRegion"></div>
+
+      <div class="pd-block">
+        <div class="pd-label"><span class="lang-en">What it holds</span><span class="lang-es">Qué guarda</span></div>
+        <p id="pdHolds"></p>
+      </div>
+      <div class="pd-block tech">
+        <div class="pd-label"><span class="lang-en">How Soul works it</span><span class="lang-es">Cómo lo trabaja Soul</span></div>
+        <p id="pdTech"></p>
+      </div>
+
+      <div class="pd-nav">
+        <button id="pdPrev">‹ <span class="lang-en">Prev</span><span class="lang-es">Ant.</span></button>
+        <button id="pdNext"><span class="lang-en">Next</span><span class="lang-es">Sig.</span> ›</button>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<p class="bm-foot">
+  <span class="lang-en"><strong>Preview note —</strong> This is a standalone draft to evaluate before integrating into the site. The silhouette is stylised (not a clinical chart). Points, copy, positions, colours and animation are all editable. It can live on the <em>“What is Soul Touch Therapy”</em> page or the course page. Built with the site palette and fonts; works without any library.</span>
+  <span class="lang-es"><strong>Nota de preview —</strong> Es un borrador independiente para valorar antes de integrarlo en la web. La silueta es estilizada (no un gráfico clínico). Puntos, textos, posiciones, colores y animación son editables. Puede ir en la página <em>“Qué es Soul Touch Therapy”</em> o en la del curso. Hecho con la paleta y fuentes del sitio; funciona sin librerías.</span>
+</p>
+
+<script>
+const POINTS = {
+  front: [
+    {x:170,y:60,  region_en:"Temples",region_es:"Sienes",
+      title_en:"Temporal release",title_es:"Liberación temporal",
+      holds_en:"Mental overwhelm, screen fatigue, the low hum of a day that never stopped.",holds_es:"Saturación mental, fatiga de pantalla, el zumbido sordo de un día que no paró.",
+      tech_en:"Slow circles, barely any weight. The lightest touch on the body asks for the lightest hands.",tech_es:"Círculos lentos, casi sin peso. El tacto más ligero del cuerpo pide las manos más ligeras."},
+    {x:230,y:60, region_en:"Temples",region_es:"Sienes",
+      title_en:"Temporal release",title_es:"Liberación temporal",
+      holds_en:"Mental overwhelm, screen fatigue, the low hum of a day that never stopped.",holds_es:"Saturación mental, fatiga de pantalla, el zumbido sordo de un día que no paró.",
+      tech_en:"Slow circles, barely any weight. The lightest touch on the body asks for the lightest hands.",tech_es:"Círculos lentos, casi sin peso. El tacto más ligero del cuerpo pide las manos más ligeras."},
+    {x:178,y:96, region_en:"Jaw · TMJ",region_es:"Mandíbula · ATM",
+      title_en:"The unclenching",title_es:"El desapriete",
+      holds_en:"Held words, swallowed anger, the grind of sleep that wasn't rest.",holds_es:"Palabras retenidas, rabia tragada, el rechinar de un sueño que no descansó.",
+      tech_en:"Thumb pads along the masseter while the breath lengthens. The jaw lets go last, so we wait.",tech_es:"Yemas de los pulgares por el masetero mientras la respiración se alarga. La mandíbula suelta la última, así que esperamos."},
+    {x:200,y:150, region_en:"Heart centre",region_es:"Centro del pecho",
+      title_en:"Sternum &amp; breath",title_es:"Esternón y respiración",
+      holds_en:"Shallow breathing, the chest that learned to brace, grief that never found an exit.",holds_es:"Respiración corta, el pecho que aprendió a blindarse, el duelo que no encontró salida.",
+      tech_en:"A still, warm palm. No pushing — just enough presence for the ribcage to remember it can open.",tech_es:"Una palma quieta y cálida. Sin empujar — solo la presencia justa para que la caja torácica recuerde que puede abrirse."},
+    {x:200,y:210, region_en:"Solar plexus",region_es:"Plexo solar",
+      title_en:"The nervous knot",title_es:"El nudo nervioso",
+      holds_en:"Anxiety, the fluttering stomach, the body's first alarm that something isn't safe.",holds_es:"Ansiedad, el estómago revuelto, la primera alarma del cuerpo de que algo no es seguro.",
+      tech_en:"Layered hands rising and falling with the breath, until the rhythm slows on its own.",tech_es:"Manos superpuestas que suben y bajan con la respiración, hasta que el ritmo se calma solo."},
+    {x:200,y:290, region_en:"Lower belly · hara",region_es:"Bajo vientre · hara",
+      title_en:"Grounding centre",title_es:"Centro de arraigo",
+      holds_en:"Scattered energy, the sense of living in your head, disconnection from the lower body.",holds_es:"Energía dispersa, la sensación de vivir en la cabeza, desconexión de la parte baja del cuerpo.",
+      tech_en:"Broad, slow contact that says: you are held from below. The centre of gravity returns.",tech_es:"Contacto amplio y lento que dice: te sostienen desde abajo. El centro de gravedad regresa."},
+    {x:160,y:352, region_en:"Hip flexor",region_es:"Flexor de cadera",
+      title_en:"The psoas line",title_es:"La línea del psoas",
+      holds_en:"Sitting all day, fight-or-flight stored deep, lower-back ache with no clear cause.",holds_es:"Estar sentada todo el día, el lucha-o-huida guardado en lo profundo, lumbalgia sin causa clara.",
+      tech_en:"Patient, angled pressure that the body must consent to. The psoas only releases when it trusts.",tech_es:"Presión paciente y en ángulo que el cuerpo debe consentir. El psoas solo suelta cuando confía."},
+    {x:240,y:352, region_en:"Hip flexor",region_es:"Flexor de cadera",
+      title_en:"The psoas line",title_es:"La línea del psoas",
+      holds_en:"Sitting all day, fight-or-flight stored deep, lower-back ache with no clear cause.",holds_es:"Estar sentada todo el día, el lucha-o-huida guardado en lo profundo, lumbalgia sin causa clara.",
+      tech_en:"Patient, angled pressure that the body must consent to. The psoas only releases when it trusts.",tech_es:"Presión paciente y en ángulo que el cuerpo debe consentir. El psoas solo suelta cuando confía."},
+    {x:130,y:404, region_en:"Palm",region_es:"Palma",
+      title_en:"Hands that are always working",title_es:"Manos que siempre trabajan",
+      holds_en:"Phone grip, keyboard tension, the held effort of doing. Often the most touch-starved place.",holds_es:"Agarre del móvil, tensión del teclado, el esfuerzo contenido de hacer. A menudo el lugar más falto de tacto.",
+      tech_en:"Thumb opening the palm from the centre out, finger by finger. Small surface, huge relief.",tech_es:"El pulgar abre la palma del centro hacia afuera, dedo a dedo. Superficie pequeña, alivio enorme."}
+  ],
+  back: [
+    {x:200,y:118, region_en:"Base of skull · occiput",region_es:"Base del cráneo · occipucio",
+      title_en:"The suboccipital gate",title_es:"La puerta suboccipital",
+      holds_en:"Tension headaches, forward-head posture, the weight of constant looking-down.",holds_es:"Cefaleas tensionales, la cabeza adelantada, el peso de mirar siempre hacia abajo.",
+      tech_en:"Fingertips cradle the skull's base while it grows heavy. The neck finally hands over its weight.",tech_es:"Las yemas acunan la base del cráneo mientras se vuelve pesada. El cuello por fin entrega su peso."},
+    {x:158,y:162, region_en:"Trapezius",region_es:"Trapecio",
+      title_en:"The shoulder of stress",title_es:"El hombro del estrés",
+      holds_en:"The classic knot. Deadlines, carried responsibility, shoulders that live near the ears.",holds_es:"El nudo clásico. Plazos, responsabilidad cargada, hombros que viven cerca de las orejas.",
+      tech_en:"Forearm and slow breath, sinking only as fast as the tissue allows. Never force a trapezius.",tech_es:"Antebrazo y respiración lenta, hundiéndose solo al ritmo que el tejido permite. Nunca fuerces un trapecio."},
+    {x:242,y:162, region_en:"Trapezius",region_es:"Trapecio",
+      title_en:"The shoulder of stress",title_es:"El hombro del estrés",
+      holds_en:"The classic knot. Deadlines, carried responsibility, shoulders that live near the ears.",holds_es:"El nudo clásico. Plazos, responsabilidad cargada, hombros que viven cerca de las orejas.",
+      tech_en:"Forearm and slow breath, sinking only as fast as the tissue allows. Never force a trapezius.",tech_es:"Antebrazo y respiración lenta, hundiéndose solo al ritmo que el tejido permite. Nunca fuerces un trapecio."},
+    {x:172,y:212, region_en:"Between the shoulder blades",region_es:"Entre los omóplatos",
+      title_en:"Rhomboid field",title_es:"Campo romboidal",
+      holds_en:"Rounded posture, the ache of a heart kept guarded, hours hunched over a desk.",holds_es:"Postura encorvada, el dolor de un corazón a la defensiva, horas inclinada sobre la mesa.",
+      tech_en:"Thumbs walking the inner edge of the scapula, opening the space the chest closed.",tech_es:"Los pulgares recorren el borde interno de la escápula, abriendo el espacio que el pecho cerró."},
+    {x:228,y:212, region_en:"Between the shoulder blades",region_es:"Entre los omóplatos",
+      title_en:"Rhomboid field",title_es:"Campo romboidal",
+      holds_en:"Rounded posture, the ache of a heart kept guarded, hours hunched over a desk.",holds_es:"Postura encorvada, el dolor de un corazón a la defensiva, horas inclinada sobre la mesa.",
+      tech_en:"Thumbs walking the inner edge of the scapula, opening the space the chest closed.",tech_es:"Los pulgares recorren el borde interno de la escápula, abriendo el espacio que el pecho cerró."},
+    {x:200,y:300, region_en:"Lumbar",region_es:"Lumbar",
+      title_en:"The lower back",title_es:"La zona lumbar",
+      holds_en:"The most common pain in the world. Compression, fatigue, the load of standing through it all.",holds_es:"El dolor más común del mundo. Compresión, fatiga, la carga de aguantar de pie todo.",
+      tech_en:"Warm broad pressure either side of the spine — never on it. Heat first, depth later.",tech_es:"Presión amplia y cálida a cada lado de la columna — nunca encima. Primero el calor, después la profundidad."},
+    {x:200,y:362, region_en:"Sacrum",region_es:"Sacro",
+      title_en:"The still triangle",title_es:"El triángulo quieto",
+      holds_en:"The body's anchor. Holding here can settle a whole nervous system in minutes.",holds_es:"El ancla del cuerpo. Sostener aquí puede calmar todo un sistema nervioso en minutos.",
+      tech_en:"A motionless, warm palm over the sacrum. Often the quietest part of a session, and the deepest.",tech_es:"Una palma cálida e inmóvil sobre el sacro. A menudo la parte más callada de una sesión, y la más profunda."},
+    {x:168,y:402, region_en:"Glutes · piriformis",region_es:"Glúteos · piriforme",
+      title_en:"Where the sciatic begins",title_es:"Donde empieza el ciático",
+      holds_en:"Sciatic referral, deep gripping no stretch reaches, the seat of guarded movement.",holds_es:"Dolor ciático referido, agarre profundo que ningún estiramiento alcanza, el asiento del movimiento contenido.",
+      tech_en:"Elbow or supported thumb, sustained and slow, breathing together until the grip lets go.",tech_es:"Codo o pulgar apoyado, sostenido y lento, respirando juntos hasta que el agarre cede."},
+    {x:232,y:402, region_en:"Glutes · piriformis",region_es:"Glúteos · piriforme",
+      title_en:"Where the sciatic begins",title_es:"Donde empieza el ciático",
+      holds_en:"Sciatic referral, deep gripping no stretch reaches, the seat of guarded movement.",holds_es:"Dolor ciático referido, agarre profundo que ningún estiramiento alcanza, el asiento del movimiento contenido.",
+      tech_en:"Elbow or supported thumb, sustained and slow, breathing together until the grip lets go.",tech_es:"Codo o pulgar apoyado, sostenido y lento, respirando juntos hasta que el agarre cede."}
+  ]
+};
+
+const layer = document.getElementById('points-layer');
+const html = document.documentElement;
+let view = 'front';
+let activeIndex = -1;
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function renderPoints(){
+  layer.innerHTML = '';
+  const list = POINTS[view];
+  list.forEach((p,i)=>{
+    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('class','point '+view);
+    g.setAttribute('transform',`translate(${p.x} ${p.y})`);
+    g.setAttribute('tabindex','0');
+    g.setAttribute('role','button');
+    g.dataset.i = i;
+    const delay = (i*0.32).toFixed(2);
+    g.innerHTML = `
+      <circle class="point-ring" r="7" style="animation-delay:${reduce?0:delay}s"></circle>
+      <circle class="point-ring" r="7" style="animation-delay:${reduce?0:(parseFloat(delay)+1.4).toFixed(2)}s"></circle>
+      <circle class="point-dot" r="7"></circle>
+      <circle class="point-hit" r="20"></circle>`;
+    g.addEventListener('click',()=>select(i));
+    g.addEventListener('keydown',(e)=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();select(i);} });
+    layer.appendChild(g);
+  });
+  activeIndex = -1;
+  showEmpty();
+}
+
+function showEmpty(){
+  document.getElementById('panelEmpty').style.display='flex';
+  document.getElementById('panelDetail').classList.remove('show');
+}
+
+function select(i){
+  const list = POINTS[view];
+  const p = list[i];
+  if(!p) return;
+  activeIndex = i;
+  layer.querySelectorAll('.point').forEach((el,idx)=>el.classList.toggle('active',idx===i));
+  const lang = html.getAttribute('lang')==='es'?'es':'en';
+  document.getElementById('pdIndex').textContent = (lang==='es'?'Punto ':'Point ')+(i+1)+' / '+list.length;
+  document.getElementById('pdTitle').innerHTML = p['title_'+lang];
+  document.getElementById('pdRegion').innerHTML = p['region_'+lang];
+  document.getElementById('pdHolds').textContent = p['holds_'+lang];
+  document.getElementById('pdTech').textContent = p['tech_'+lang];
+  document.getElementById('panelEmpty').style.display='none';
+  const det = document.getElementById('panelDetail');
+  det.classList.remove('show'); void det.offsetWidth; det.classList.add('show');
+}
+
+/* view toggle */
+document.querySelectorAll('.toggle-group.view button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.toggle-group.view button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    view = b.dataset.view;
+    document.querySelector('.view-label').innerHTML = view==='front'
+      ? '<span class="lang-en">Front view</span><span class="lang-es">Vista frontal</span>'
+      : '<span class="lang-en">Back view</span><span class="lang-es">Vista posterior</span>';
+    document.querySelectorAll('.back-only').forEach(el=>el.classList.toggle('hidden',view!=='back'));
+    renderPoints();
+  });
+});
+
+/* lang toggle */
+document.querySelectorAll('.toggle-group.lang button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.toggle-group.lang button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    html.setAttribute('lang',b.dataset.lang);
+    if(activeIndex>=0) select(activeIndex);
+  });
+});
+
+/* prev / next */
+document.getElementById('pdPrev').addEventListener('click',()=>{
+  const n = POINTS[view].length;
+  select((activeIndex-1+n)%n);
+});
+document.getElementById('pdNext').addEventListener('click',()=>{
+  const n = POINTS[view].length;
+  select((activeIndex+1)%n);
+});
+
+renderPoints();
+</script>
+</body>
+</html>
