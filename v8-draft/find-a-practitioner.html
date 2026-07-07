@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Find a practitioner · Soul Touch Therapy</title>
+<meta name="description" content="Find a certified Soul Touch Therapy practitioner near you or online. An interactive world map of therapists trained in the Soul Touch method." />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Find a practitioner · Soul Touch Therapy" />
+<meta property="og:description" content="Certified Soul Touch Therapy practitioners worldwide." />
+<meta property="og:image" content="https://soulflowvibe.com/images/community.jpg" />
+<link rel="canonical" href="https://soulflowvibe.com/find-a-practitioner.html" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+<link rel="stylesheet" href="css/styles.css?v=v7-9" />
+<link rel="stylesheet" href="css/responsive.css" />
+<script>try{var l=localStorage.getItem('stt-lang');if(l)document.documentElement.setAttribute('lang',l);}catch(e){}</script>
+<style>
+/* ---- Find a practitioner (map + directory) ---- */
+.finder-hero{ padding: calc(var(--header-h) + 3rem) 0 2rem; text-align:center; }
+.finder-hero .lede{ max-width: 640px; margin: 1rem auto 0; }
+.finder-toolbar{ position: sticky; top: var(--header-h); z-index: 30; background: var(--paper-warm);
+  border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  display:flex; gap:.8rem; flex-wrap:wrap; align-items:center; justify-content:center;
+  padding:.9rem clamp(1rem,4vw,3rem); }
+.finder-toolbar input[type=search], .finder-toolbar select{
+  font-family:var(--font-sans); font-size:14px; color:var(--ink);
+  background:var(--paper); border:1px solid var(--line-strong); border-radius:var(--radius);
+  padding:.6rem .85rem; min-width:170px; }
+.finder-toolbar input[type=search]{ min-width:220px; }
+.finder-toolbar input:focus, .finder-toolbar select:focus{ outline:none; border-color:var(--burgundy); box-shadow:0 0 0 3px var(--burgundy-glow); }
+.seg{ display:inline-flex; border:1px solid var(--line-strong); border-radius:999px; overflow:hidden; background:var(--paper); }
+.seg button{ font-family:var(--font-sans); font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+  padding:.55rem .95rem; background:transparent; color:var(--muted); cursor:pointer; border:none; transition:.2s var(--ease); }
+.seg button.active{ background:var(--burgundy); color:var(--cream); }
+.finder-count{ width:100%; text-align:center; font-family:var(--font-sans); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+.finder{ display:grid; grid-template-columns: minmax(340px, 1fr) 1.18fr; gap:2rem;
+  padding: 2rem clamp(1rem,4vw,3rem) 4rem; align-items:start; }
+.finder-list{ display:flex; flex-direction:column; gap:1rem; }
+.pract-card{ display:grid; grid-template-columns:86px 1fr; gap:1.1rem; padding:1.1rem;
+  border:1px solid var(--line); border-radius:var(--radius-lg); background:var(--paper);
+  cursor:pointer; transition:border-color .25s var(--ease), box-shadow .25s var(--ease), transform .25s var(--ease); }
+.pract-card:hover, .pract-card.active{ border-color:var(--burgundy-soft); box-shadow:0 16px 36px rgba(43,42,40,.08); }
+.pract-card.active{ transform:translateY(-1px); }
+.pract-photo, .pract-avatar{ width:86px; height:86px; border-radius:var(--radius); object-fit:cover; }
+.pract-avatar{ display:flex; align-items:center; justify-content:center; background:var(--sage-deep); color:var(--cream);
+  font-family:var(--font-display); font-size:1.4rem; }
+.pract-name{ font-family:var(--font-display); font-weight:400; font-size:1.1rem; color:var(--ink); line-height:1.15; }
+.pract-loc{ font-family:var(--font-sans); font-size:13px; color:var(--muted); margin:.15rem 0 .5rem; }
+.pract-badges{ display:flex; flex-wrap:wrap; gap:.35rem; margin-bottom:.5rem; }
+.badge{ font-family:var(--font-sans); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase;
+  padding:.2rem .55rem; border-radius:999px; background:var(--cream-soft); color:var(--ink-soft); border:1px solid var(--line); }
+.badge.fmt{ background:transparent; color:var(--burgundy); border-color:var(--burgundy-soft); }
+.pract-bio{ font-size:13.5px; color:var(--ink-soft); line-height:1.5; margin-bottom:.6rem; }
+.pract-links{ display:flex; flex-wrap:wrap; gap:.9rem; }
+.pract-links a{ font-family:var(--font-sans); font-size:12px; letter-spacing:.04em; text-transform:uppercase;
+  color:var(--burgundy); text-decoration:none; border-bottom:1px solid var(--burgundy-soft); padding-bottom:1px; }
+.pract-links a:hover{ color:var(--burgundy-dark); }
+.finder-map{ position:sticky; top: calc(var(--header-h) + 68px); height: calc(100vh - var(--header-h) - 96px);
+  min-height:420px; border:1px solid var(--line-strong); border-radius:var(--radius-lg); overflow:hidden; }
+#map{ width:100%; height:100%; background:var(--sage-mist); }
+.finder-empty{ padding:3rem 1rem; text-align:center; color:var(--muted); font-family:var(--font-serif); font-style:italic; font-size:1.2rem; }
+.map-pin{ width:22px; height:22px; border-radius:50% 50% 50% 0; background:var(--burgundy);
+  border:2px solid var(--cream); box-shadow:0 3px 8px rgba(0,0,0,.35); transform:rotate(-45deg); }
+.map-pin.is-active{ background:var(--gold); width:26px; height:26px; }
+.leaflet-popup-content-wrapper{ border-radius:var(--radius-lg); }
+.leaflet-popup-content{ font-family:var(--font-sans); margin:.9rem 1rem; }
+.leaflet-popup-content b{ font-family:var(--font-display); font-weight:400; font-size:1rem; }
+.p-pop-loc{ color:var(--muted); font-size:12px; margin:.15rem 0 .4rem; }
+.p-pop a{ color:var(--burgundy); font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
+@media (max-width: 900px){
+  .finder{ grid-template-columns:1fr; }
+  .finder-map{ position:relative; top:0; order:-1; height:56vh; min-height:340px; }
+  .finder-toolbar{ top:0; }
+}
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" aria-hidden="true"></div>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap-wide">
+    <a class="brand" href="index.html" aria-label="Soul Touch Therapy">
+      <img class="logo logo-light" src="images/logo/v6.png" alt="Soul Touch Therapy" />
+      <img class="logo logo-dark" src="images/logo/v7.png" alt="Soul Touch Therapy" />
+    </a>
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <ul class="nav-primary" role="navigation">
+      <li><a href="what-is.html" class="nav-long"><span class="lang-en">What is Soul Touch Therapy</span><span class="lang-es">Qué es Soul Touch Therapy</span><span class="lang-pt">O que é Soul Touch Therapy</span><span class="lang-de">Was ist Soul Touch Therapy</span><span class="lang-it">Cos&rsquo;è Soul Touch Therapy</span><span class="lang-fr">Qu&rsquo;est-ce que Soul Touch Therapy</span><span class="lang-ru">Что такое Soul Touch Therapy</span><span class="lang-uk">Що таке Soul Touch Therapy</span></a></li>
+      <li><a href="find-a-practitioner.html" class="active"><span class="lang-en">Find a practitioner</span><span class="lang-es">Encontrar terapeuta</span><span class="lang-pt">Encontrar terapeuta</span><span class="lang-de">Praktiker finden</span><span class="lang-it">Trova un terapeuta</span><span class="lang-fr">Trouver un praticien</span><span class="lang-ru">Найти практика</span><span class="lang-uk">Знайти практика</span></a></li>
+      <li><a href="articles.html"><span class="lang-en">Blog</span><span class="lang-es">Blog</span><span class="lang-pt">Blog</span><span class="lang-de">Blog</span><span class="lang-it">Blog</span><span class="lang-fr">Blog</span><span class="lang-ru">Блог</span><span class="lang-uk">Блог</span></a></li>
+      <li class="nav-cta-li"><a class="nav-cta magnetic" href="learn.html#enroll"><span class="lang-en">Enroll</span><span class="lang-es">Inscribirme</span><span class="lang-pt">Inscrever</span><span class="lang-de">Buchen</span><span class="lang-it">Iscriviti</span><span class="lang-fr">S&rsquo;inscrire</span><span class="lang-ru">Записаться</span><span class="lang-uk">Записатися</span></a></li>
+    </ul>
+    <div class="nav-extras">
+      <div class="lang-toggle">
+        <button type="button" class="lang-current" aria-label="Change language" aria-expanded="false">
+          <span class="lang-current-label">ENG</span>
+          <span class="lang-caret" aria-hidden="true">▾</span>
+        </button>
+        <div class="lang-dropdown">
+          <button data-lang="en">ENG</button><button data-lang="es">ESP</button><button data-lang="pt">POR</button><button data-lang="de">DEU</button><button data-lang="it">ITA</button><button data-lang="fr">FRA</button><button data-lang="ru">РУС</button><button data-lang="uk">УКР</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="finder-hero">
+    <div class="wrap">
+      <span class="eyebrow"><span class="lang-en">The community</span><span class="lang-es">La comunidad</span><span class="lang-pt">A comunidade</span><span class="lang-de">Die Community</span><span class="lang-it">La comunità</span><span class="lang-fr">La communauté</span><span class="lang-ru">Сообщество</span><span class="lang-uk">Спільнота</span></span>
+      <h1 class="h-display"><span class="lang-en">Find a certified practitioner.</span><span class="lang-es">Encuentra un terapeuta certificado.</span><span class="lang-pt">Encontra um terapeuta certificado.</span><span class="lang-de">Finde eine zertifizierte Praktikerin.</span><span class="lang-it">Trova un terapeuta certificato.</span><span class="lang-fr">Trouvez un praticien certifié.</span><span class="lang-ru">Найдите сертифицированного практика.</span><span class="lang-uk">Знайдіть сертифікованого практика.</span></h1>
+      <p class="lede"><span class="lang-en">Certified practitioners worldwide, trained in the Soul Touch Therapy method. Find one near you — in person or online.</span><span class="lang-es">Terapeutas certificados en todo el mundo, formados en el método Soul Touch Therapy. Encuentra uno cerca de ti — presencial u online.</span><span class="lang-pt">Terapeutas certificados em todo o mundo, formados no método Soul Touch Therapy. Encontra um perto de ti — presencial ou online.</span><span class="lang-de">Zertifizierte Praktiker·innen weltweit, ausgebildet in der Soul Touch Therapy Methode. Finde eine·n in deiner Nähe — vor Ort oder online.</span><span class="lang-it">Terapeuti certificati in tutto il mondo, formati nel metodo Soul Touch Therapy. Trovane uno vicino a te — di persona o online.</span><span class="lang-fr">Des praticien·nes certifié·es dans le monde entier, formé·es à la méthode Soul Touch Therapy. Trouvez-en un·e près de chez vous — en personne ou en ligne.</span><span class="lang-ru">Сертифицированные практики по всему миру, обученные методу Soul Touch Therapy. Найдите специалиста рядом — очно или онлайн.</span><span class="lang-uk">Сертифіковані практики по всьому світу, навчені методу Soul Touch Therapy. Знайдіть спеціаліста поруч — особисто або онлайн.</span></p>
+    </div>
+  </section>
+
+  <div class="finder-toolbar">
+    <input type="search" id="f-search" placeholder="Search by name or city…" aria-label="Search" />
+    <select id="f-country" aria-label="Country"><option value="">All countries</option></select>
+    <select id="f-spec" aria-label="Specialty"><option value="">All specialties</option></select>
+    <div class="seg" id="f-format" role="group" aria-label="Format">
+      <button data-fmt="" class="active">All</button>
+      <button data-fmt="in-person">In person</button>
+      <button data-fmt="online">Online</button>
+    </div>
+    <span class="finder-count" id="f-count"></span>
+  </div>
+
+  <div class="finder">
+    <div class="finder-list" id="list"></div>
+    <div class="finder-map"><div id="map" data-lenis-prevent></div></div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-body">
+    <div class="wrap-wide">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand brand-footer" href="index.html" aria-label="Soul Touch Therapy">
+            <img class="logo" src="images/logo/v6.png" alt="Soul Touch Therapy" />
+          </a>
+          <p><span class="lang-en">Touch as a healing language.</span><span class="lang-es">El tacto como lenguaje que sana.</span></p>
+        </div>
+        <div class="footer-col"><h4><span class="lang-en">Explore</span><span class="lang-es">Explora</span></h4><ul>
+          <li><a href="what-is.html"><span class="lang-en">What is Soul Touch Therapy</span><span class="lang-es">Qué es Soul Touch Therapy</span></a></li>
+          <li><a href="learn.html"><span class="lang-en">Learn</span><span class="lang-es">Aprender</span></a></li>
+          <li><a href="find-a-practitioner.html"><span class="lang-en">Find a practitioner</span><span class="lang-es">Encontrar terapeuta</span></a></li>
+          <li><a href="articles.html"><span class="lang-en">Blog</span><span class="lang-es">Blog</span></a></li>
+        </ul></div>
+        <div class="footer-col"><h4><span class="lang-en">Practice</span><span class="lang-es">Práctica</span></h4><ul>
+          <li><a href="learn.html#enroll"><span class="lang-en">Enroll · 2.0</span><span class="lang-es">2.0</span></a></li>
+        </ul></div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Soul Touch Therapy.</span>
+        <span><span class="lang-en">Los Angeles · worldwide online</span><span class="lang-es">Los Ángeles · online</span></span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lenis@1.3.4/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="js/main.js?v=v7-9"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script>
+/* ============================================================
+   FIND A PRACTITIONER — data source + map/list rendering
+   ------------------------------------------------------------
+   TO CONNECT YOUR GOOGLE SHEET (so you can add practitioners
+   by adding a row, no code changes):
+     1) Make a Google Sheet with these column headers (row 1):
+        name | photo | city | country | lat | lng | formats |
+        specialties | bio | instagram | email | website | booking
+        - formats:     comma-separated, e.g.  in-person, online
+        - specialties: comma-separated keys:  self-massage, prenatal,
+                       table, floor, scalp, buccal
+        - lat / lng:   optional. If left blank, the map will look up
+                       the city automatically. For exact pins, paste
+                       coordinates (Google Maps → right-click → copy).
+     2) File → Share → Publish to web (or set link sharing to "Anyone
+        with the link – Viewer").
+     3) Copy the Sheet ID from its URL and paste it below.
+   Until a Sheet ID is set, the demo entries below are shown.
+   ============================================================ */
+const SHEET_ID   = "1eCGbEuGzbclNsoEKriO64SEnexVLbfWkgSL4SSKOXQk"; // connected Google Sheet (form responses)
+const SHEET_NAME = "Sheet1";    // tab name
+
+const SPECIALTIES = {
+  "self-massage":"Self-massage", "prenatal":"Prenatal", "table":"Table",
+  "floor":"Floor", "scalp":"Scalp & oil", "buccal":"Buccal"
+};
+
+/* Demo data (used only until your Google Sheet is connected). Replace freely. */
+const SEED = [
+  { name:"Soul (Valeriia Vasileva)", photo:"images/soul-portrait.jpg", city:"Los Angeles", country:"USA",
+    lat:34.0522, lng:-118.2437, formats:"in-person, online",
+    specialties:"Soul Touch Therapy", bio:"Founder of the Soul Touch Therapy method.",
+    instagram:"https://instagram.com/soul_flowvibe", website:"https://soulflowvibe.com", booking:"" }
+];
+
+let ALL = [], MARKERS = {}, map, activeId = null;
+
+function splitList(v){ return (v||"").split(/[,;]/).map(s=>s.trim()).filter(Boolean); }
+function slug(v){ return (v||"").toLowerCase().trim(); }
+
+function pick(r){ for(let k=1;k<arguments.length;k++){ const v=r[arguments[k]]; if(v!=null && (""+v).trim()!=="") return (""+v).trim(); } return ""; }
+function igURL(v){ if(!v) return ""; if(/^https?:/i.test(v)) return v; return "https://instagram.com/"+v.replace(/^@/,"").trim(); }
+function geoQuery(p){ const c1=(p.country||"").split("/")[0].trim(); return p.city ? [p.city,c1].filter(Boolean).join(", ") : (c1 || (p.country||"")); }
+function normalize(r, i){
+  const lat=pick(r,"lat"), lng=pick(r,"lng");
+  return {
+    id: "p"+i,
+    name: pick(r,"name","full name"),
+    photo: pick(r,"photo","photo url"),
+    city: pick(r,"city"),
+    country: pick(r,"country"),
+    lat: lat!=="" ? parseFloat(lat) : null,
+    lng: lng!=="" ? parseFloat(lng) : null,
+    formats: splitList(pick(r,"formats","format")).map(slug),
+    specialties: splitList(pick(r,"specialties","specialty")),
+    bio: pick(r,"bio"),
+    instagram: igURL(pick(r,"instagram")),
+    email: pick(r,"email","email address"),
+    website: pick(r,"website","website url"),
+    booking: pick(r,"booking","booking link")
+  };
+}
+
+/* --- minimal CSV parser (handles quoted fields) --- */
+function parseCSV(text){
+  const rows=[]; let row=[], cur="", q=false;
+  for(let i=0;i<text.length;i++){ const c=text[i];
+    if(q){ if(c==='"'){ if(text[i+1]==='"'){cur+='"';i++;} else q=false; } else cur+=c; }
+    else { if(c==='"') q=true; else if(c===","){row.push(cur);cur="";}
+      else if(c==="\n"){row.push(cur);rows.push(row);row=[];cur="";}
+      else if(c!=="\r") cur+=c; } }
+  if(cur!==""||row.length){ row.push(cur); rows.push(row); }
+  return rows;
+}
+function rowsToObjects(rows){
+  if(!rows.length) return [];
+  const head = rows[0].map(h=>h.trim().toLowerCase());
+  return rows.slice(1).filter(r=>r.some(c=>c.trim())).map(r=>{
+    const o={}; head.forEach((h,i)=> o[h]= (r[i]||"")); return o;
+  });
+}
+
+/* --- geocode a city when lat/lng missing (OpenStreetMap Nominatim, cached) --- */
+async function geocode(q){
+  const key="stt-geo:"+q; try{ const c=localStorage.getItem(key); if(c) return JSON.parse(c); }catch(e){}
+  try{
+    const r = await fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&q="+encodeURIComponent(q),
+      { headers:{ "Accept":"application/json" } });
+    const j = await r.json();
+    if(j && j[0]){ const p={lat:+j[0].lat, lng:+j[0].lon}; try{localStorage.setItem(key,JSON.stringify(p));}catch(e){} return p; }
+  }catch(e){}
+  return null;
+}
+
+function avatarInitials(name){ return name.split(/\s+/).map(w=>w[0]).slice(0,2).join("").toUpperCase(); }
+
+function contactLinks(p){
+  const out=[];
+  if(p.booking)  out.push(`<a href="${p.booking}" target="_blank" rel="noopener">Book</a>`);
+  if(p.instagram)out.push(`<a href="${p.instagram}" target="_blank" rel="noopener">Instagram</a>`);
+  if(p.website)  out.push(`<a href="${p.website}" target="_blank" rel="noopener">Website</a>`);
+  if(p.email)    out.push(`<a href="mailto:${p.email}">Email</a>`);
+  return out.join("");
+}
+
+function cardHTML(p){
+  const img = p.photo
+    ? `<img class="pract-photo" src="${p.photo}" alt="${p.name}" loading="lazy" onerror="this.outerHTML='<div class=&quot;pract-avatar&quot;>${avatarInitials(p.name)}</div>'" />`
+    : `<div class="pract-avatar">${avatarInitials(p.name)}</div>`;
+  const fmt = p.formats.map(f=> `<span class="badge fmt">${f==="online"?"Online":"In person"}</span>`).join("");
+  const spec = p.specialties.map(s=> `<span class="badge">${s}</span>`).join("");
+  return `<article class="pract-card" data-id="${p.id}">
+    ${img}
+    <div>
+      <div class="pract-name">${p.name}</div>
+      <div class="pract-loc">${[p.city,p.country].filter(Boolean).join(", ")}</div>
+      <div class="pract-badges">${fmt}${spec}</div>
+      ${p.bio?`<p class="pract-bio">${p.bio}</p>`:""}
+      <div class="pract-links">${contactLinks(p)}</div>
+    </div>
+  </article>`;
+}
+
+function pinIcon(active){
+  return L.divIcon({ className:"", html:`<div class="map-pin${active?" is-active":""}"></div>`,
+    iconSize:[22,22], iconAnchor:[11,22], popupAnchor:[0,-20] });
+}
+
+function currentFilters(){
+  return {
+    q: slug(document.getElementById("f-search").value),
+    country: document.getElementById("f-country").value,
+    spec: document.getElementById("f-spec").value,
+    fmt: document.querySelector("#f-format button.active").dataset.fmt
+  };
+}
+function matches(p, f){
+  if(f.country && p.country!==f.country) return false;
+  if(f.spec && !p.specialties.includes(f.spec)) return false;
+  if(f.fmt && p.formats.length && !p.formats.includes(f.fmt)) return false;
+  if(f.q){ const hay=(p.name+" "+p.city+" "+p.country).toLowerCase(); if(!hay.includes(f.q)) return false; }
+  return true;
+}
+
+function setActive(id, fromMap){
+  activeId = id;
+  document.querySelectorAll(".pract-card").forEach(c=> c.classList.toggle("active", c.dataset.id===id));
+  Object.entries(MARKERS).forEach(([mid,m])=> m.setIcon(pinIcon(mid===id)));
+  const p = ALL.find(x=>x.id===id);
+  if(p && MARKERS[id]){
+    if(!fromMap) map.flyTo([p.lat,p.lng], Math.max(map.getZoom(),6), {duration:.7});
+    MARKERS[id].openPopup();
+  }
+  if(fromMap){ const card=document.querySelector('.pract-card[data-id="'+id+'"]'); if(card) card.scrollIntoView({behavior:"smooth",block:"center"}); }
+}
+
+function render(){
+  const f = currentFilters();
+  const shown = ALL.filter(p=> matches(p,f));
+  const list = document.getElementById("list");
+  list.innerHTML = shown.length ? shown.map(cardHTML).join("")
+    : '<div class="finder-empty">No practitioners match your filters yet.</div>';
+  document.getElementById("f-count").textContent = shown.length + (shown.length===1?" practitioner":" practitioners");
+
+  const shownIds = new Set(shown.map(p=>p.id));
+  Object.entries(MARKERS).forEach(([id,m])=>{ if(shownIds.has(id)) m.addTo(map); else map.removeLayer(m); });
+
+  list.querySelectorAll(".pract-card").forEach(card=>{
+    card.addEventListener("click", ()=> setActive(card.dataset.id, false));
+  });
+
+  const withPins = shown.filter(p=>MARKERS[p.id]);
+  if(withPins.length){ try{ map.fitBounds(withPins.map(p=>[p.lat,p.lng]), {padding:[50,50], maxZoom:9}); }catch(e){} }
+}
+
+function buildFilters(){
+  const countries=[...new Set(ALL.map(p=>p.country).filter(Boolean))].sort();
+  const cs=document.getElementById("f-country");
+  countries.forEach(c=>{ const o=document.createElement("option"); o.value=c; o.textContent=c; cs.appendChild(o); });
+  const specs=[...new Set(ALL.flatMap(p=>p.specialties))].filter(Boolean).sort();
+  const ss=document.getElementById("f-spec");
+  specs.forEach(s=>{ const o=document.createElement("option"); o.value=s; o.textContent=s; ss.appendChild(o); });
+  if(!ALL.some(p=>p.formats.length)){ const ft=document.getElementById("f-format"); if(ft) ft.style.display="none"; }
+
+  ["f-search"].forEach(id=> document.getElementById(id).addEventListener("input", render));
+  ["f-country","f-spec"].forEach(id=> document.getElementById(id).addEventListener("change", render));
+  document.querySelectorAll("#f-format button").forEach(b=> b.addEventListener("click", ()=>{
+    document.querySelectorAll("#f-format button").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active"); render();
+  }));
+}
+
+async function init(){
+  map = L.map("map",{ scrollWheelZoom:true, worldCopyJump:true }).setView([25,10], 2);
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+    maxZoom:18, attribution:'&copy; OpenStreetMap' }).addTo(map);
+  setTimeout(()=> map.invalidateSize(), 200);
+
+  if(SHEET_ID) loadSheet(); else processData(SEED);
+}
+
+/* Load the Google Sheet via gviz JSONP (a <script> tag) — works from file:// AND https, no CORS */
+function loadSheet(){
+  window.__sttGviz = function(resp){
+    let objs = [];
+    try{
+      const cols = resp.table.cols.map(c => (c.label||"").trim().toLowerCase());
+      objs = resp.table.rows.map(r => {
+        const o = {}; (r.c||[]).forEach((cell,i)=>{ o[cols[i]] = (cell && cell.v!=null) ? cell.v : ""; }); return o;
+      }).filter(o => Object.values(o).some(v => (""+v).trim()));
+    }catch(e){}
+    processData(objs.length ? objs : SEED);
+  };
+  const sc = document.createElement("script");
+  sc.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json;responseHandler:__sttGviz&sheet=${encodeURIComponent(SHEET_NAME)}`;
+  sc.onerror = () => processData(SEED);
+  document.head.appendChild(sc);
+}
+
+async function processData(raw){
+  ALL = raw.map(normalize).filter(p=>p.name);
+
+  /* geocode entries that have a city/country but no coordinates */
+  const need = ALL.filter(p=>(!p.lat||!p.lng) && (p.city||p.country));
+  for(const p of need){
+    const g = await geocode(geoQuery(p));
+    if(g){ p.lat=g.lat; p.lng=g.lng; }
+    await new Promise(r=>setTimeout(r,1100)); /* respect Nominatim rate limit */
+  }
+
+  ALL.forEach(p=>{
+    if(p.lat && p.lng){
+      const m = L.marker([p.lat,p.lng], {icon:pinIcon(false)});
+      m.bindPopup(`<div class="p-pop"><b>${p.name}</b><div class="p-pop-loc">${[p.city,p.country].filter(Boolean).join(", ")}</div>${contactLinks(p)}</div>`);
+      m.on("click", ()=> setActive(p.id, true));
+      MARKERS[p.id]=m;
+    }
+  });
+
+  buildFilters();
+  render();
+}
+
+if(window.L) init(); else window.addEventListener("load", init);
+</script>
+</body>
+</html>
