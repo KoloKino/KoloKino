@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kolo Kino — Release Calendar · Jul–Dec 2026</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222c; --line:#2a2f3a;
+    --txt:#e7eaf0; --muted:#9aa3b2; --faint:#6b7280;
+    --nolan:#4f8ef7; --fincher:#f0a13a; --vill:#31c9a5; --doc:#b57bff;
+    --done:#4b5563; --anchor:#ff5d73; --ok:#2fbf71; --warn:#f5c451; --bad:#ff5d73;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;padding:24px 18px 60px}
+  .wrap{max-width:1180px;margin:0 auto}
+  h1{font-size:24px;margin:0 0 2px}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 22px}
+
+  .verdict{border-radius:14px;padding:18px 20px;margin:0 0 22px;
+    background:linear-gradient(180deg,#221f14,#1a1a12);border:1px solid #4a421f}
+  .verdict .tag{display:inline-block;font-weight:700;font-size:12px;letter-spacing:.5px;
+    text-transform:uppercase;color:#111;background:var(--warn);padding:3px 10px;border-radius:999px}
+  .verdict h2{margin:10px 0 6px;font-size:18px}
+  .verdict p{margin:6px 0;color:#e7e2cf;font-size:14.5px}
+  .verdict b{color:#fff}
+
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:0 0 24px}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .kpi .n{font-size:26px;font-weight:750}
+  .kpi .l{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .kpi.warn .n{color:var(--warn)} .kpi.bad .n{color:var(--bad)}
+
+  .ctrl{display:flex;align-items:center;gap:10px;margin:0 0 14px;flex-wrap:wrap}
+  .ctrl .lbl{font-size:13px;color:var(--muted)}
+  .seg{display:inline-flex;background:var(--panel2);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .seg button{background:transparent;border:0;color:var(--muted);padding:8px 14px;font-size:13px;cursor:pointer;font-weight:600}
+  .seg button.on{background:var(--nolan);color:#fff}
+  #scenNote{font-size:12.5px;color:var(--muted)}
+
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin:8px 0 16px;font-size:12.5px;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .dot{width:11px;height:11px;border-radius:3px;display:inline-block}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;margin:0 0 22px;overflow-x:auto}
+  .card h3{margin:2px 6px 12px;font-size:15px}
+  .gantt{display:grid;gap:4px;min-width:1050px}
+  .grow{display:grid;gap:4px;align-items:stretch}
+  .glabel{font-size:12px;color:var(--muted);display:flex;align-items:center;padding-left:6px;font-weight:600}
+  .mhead{font-size:11px;color:var(--faint);text-align:center;font-weight:700;text-transform:uppercase;letter-spacing:.4px;
+    border-bottom:1px solid var(--line);padding-bottom:3px}
+  .whead{font-size:10.5px;color:var(--muted);text-align:center;line-height:1.15;padding:2px 0}
+  .whead b{color:var(--txt);font-size:11px}
+  .cell{min-height:34px;border-radius:6px;background:var(--panel2);border:1px solid var(--line);
+    font-size:10px;color:var(--txt);padding:4px 5px;display:flex;align-items:center;overflow:hidden;line-height:1.12}
+  .cell.empty{background:transparent;border:1px dashed #262b34}
+  .cell.nolan{background:rgba(79,142,247,.16);border-color:rgba(79,142,247,.5)}
+  .cell.fincher{background:rgba(240,161,58,.15);border-color:rgba(240,161,58,.5)}
+  .cell.vill{background:rgba(49,201,165,.15);border-color:rgba(49,201,165,.5)}
+  .cell.doc{background:rgba(181,123,255,.18);border-color:rgba(181,123,255,.6);font-weight:700}
+  .cell.done{background:rgba(75,85,99,.25);border-color:#3a3f4a;color:var(--muted)}
+  .cell .k{font-size:8px;text-transform:uppercase;letter-spacing:.3px;opacity:.7;margin-left:auto;white-space:nowrap}
+  .anchor{min-height:26px;border-radius:6px;font-size:9.5px;font-weight:700;color:#fff;
+    background:rgba(255,93,115,.2);border:1px solid var(--anchor);display:flex;align-items:center;
+    justify-content:center;text-align:center;padding:2px;line-height:1.1}
+  .anchor.soft{opacity:.55}
+
+  table{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;position:sticky;top:0;background:var(--panel)}
+  td.date{white-space:nowrap;color:var(--muted);font-variant-numeric:tabular-nums}
+  .pill{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:999px}
+  .pill.nolan{background:rgba(79,142,247,.2);color:#9cc0ff}
+  .pill.fincher{background:rgba(240,161,58,.2);color:#f4c07f}
+  .pill.vill{background:rgba(49,201,165,.2);color:#7fe4cd}
+  .pill.doc{background:rgba(181,123,255,.22);color:#d3b6ff}
+  .pill.done{background:rgba(75,85,99,.3);color:#aab2bf}
+  tr.rowdoc td{background:rgba(181,123,255,.06)}
+  .risk{color:var(--warn);font-size:12px}
+  .risk.hot{color:var(--bad)}
+  .evt td{background:rgba(255,93,115,.08);border-top:1px dashed rgba(255,93,115,.4)}
+  .evt .date{color:#ff9aa8}
+
+  .notes{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+  .notes h3{margin:0 0 10px;font-size:15px}
+  .notes ul{margin:0;padding-left:18px}
+  .notes li{margin:7px 0;font-size:13.5px;color:#d3d8e0}
+  .notes li b{color:#fff}
+  .foot{color:var(--faint);font-size:11.5px;margin-top:20px;text-align:center}
+  @media(max-width:640px){.kpis{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Release Calendar — Kolo Kino</h1>
+  <p class="sub">July → December 2026 · Wrapping Nolan → Fincher → Villeneuve · Weekly cadence (Thursdays) · Updated 16 Jul 2026</p>
+
+  <div class="verdict" id="verdict">
+    <span class="tag" id="vtag">Doable, but at the limit</span>
+    <h2 id="vhead"></h2>
+    <p id="vbody"></p>
+  </div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="ctrl">
+    <span class="lbl">Scenario:</span>
+    <div class="seg">
+      <button id="btnA" class="on" onclick="setScen('A')">Without Odyssey (base)</button>
+      <button id="btnB" onclick="setScen('B')">With Odyssey (+1 wk)</button>
+    </div>
+    <span id="scenNote"></span>
+  </div>
+
+  <div class="legend">
+    <span><i class="dot" style="background:var(--nolan)"></i>Nolan</span>
+    <span><i class="dot" style="background:var(--fincher)"></i>Fincher</span>
+    <span><i class="dot" style="background:var(--vill)"></i>Villeneuve</span>
+    <span><i class="dot" style="background:var(--doc)"></i>Documentary / event episode</span>
+    <span><i class="dot" style="background:var(--anchor)"></i>Film premiere (external anchor)</span>
+  </div>
+
+  <div class="card">
+    <h3>Gantt view — one lane per director</h3>
+    <div class="gantt" id="gantt"></div>
+  </div>
+
+  <div class="card">
+    <h3>Week-by-week calendar</h3>
+    <table id="tbl">
+      <thead><tr><th>Date</th><th>Series</th><th>Content</th><th>Type</th><th>Note / risk</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <div class="notes">
+    <h3>Feasibility read</h3>
+    <ul id="notesList"></ul>
+  </div>
+
+  <p class="foot">Verified external anchors: The Odyssey — theaters 17 Jul 2026 · The Adventures of Cliff Booth — IMAX 25 Nov / Netflix 23 Dec 2026 · Dune: Part Three — theaters 18 Dec 2026.</p>
+</div>
+
+<script>
+const weeks = [
+  {iso:"16 Jul", wd:"Thu", m:"July"},
+  {iso:"23 Jul", wd:"Thu", m:"July"},
+  {iso:"30 Jul", wd:"Thu", m:"July"},
+  {iso:"6 Aug", wd:"Thu", m:"August"},
+  {iso:"13 Aug", wd:"Thu", m:"August"},
+  {iso:"20 Aug", wd:"Thu", m:"August"},
+  {iso:"27 Aug", wd:"Thu", m:"August"},
+  {iso:"3 Sep", wd:"Thu", m:"Sept"},
+  {iso:"10 Sep", wd:"Thu", m:"Sept"},
+  {iso:"17 Sep", wd:"Thu", m:"Sept"},
+  {iso:"24 Sep", wd:"Thu", m:"Sept"},
+  {iso:"1 Oct", wd:"Thu", m:"Oct"},
+  {iso:"8 Oct", wd:"Thu", m:"Oct"},
+  {iso:"15 Oct", wd:"Thu", m:"Oct"},
+  {iso:"22 Oct", wd:"Thu", m:"Oct"},
+  {iso:"29 Oct", wd:"Thu", m:"Oct"},
+  {iso:"5 Nov", wd:"Thu", m:"Nov"},
+  {iso:"12 Nov", wd:"Thu", m:"Nov"},
+  {iso:"19 Nov", wd:"Thu", m:"Nov"},
+  {iso:"26 Nov", wd:"Thu", m:"Nov"},
+  {iso:"3 Dec", wd:"Thu", m:"Dec"},
+  {iso:"10 Dec", wd:"Thu", m:"Dec"},
+  {iso:"17 Dec", wd:"Thu", m:"Dec"},
+  {iso:"24 Dec", wd:"Thu", m:"Dec"},
+  {iso:"31 Dec", wd:"Thu", m:"Dec"}
+];
+
+const A = {
+ 0:{s:"nolan",t:"Tenet",k:"aired",done:true},
+ 1:{s:"nolan",t:"Oppenheimer",k:"episode",note:"Possibly Tue 21 Jul"},
+ 2:{s:"nolan",t:"Nolan · Complete Biography / Filmography",k:"documentary",doc:true,note:"Wraps the Nolan series"},
+ 3:{s:"fincher",t:"Alien³",k:"episode"},
+ 4:{s:"fincher",t:"Se7en",k:"episode"},
+ 5:{s:"fincher",t:"The Game",k:"episode"},
+ 6:{s:"fincher",t:"Fight Club",k:"episode"},
+ 7:{s:"fincher",t:"Panic Room",k:"episode"},
+ 8:{s:"fincher",t:"Zodiac",k:"episode"},
+ 9:{s:"fincher",t:"The Curious Case of Benjamin Button",k:"episode"},
+ 10:{s:"fincher",t:"The Social Network",k:"episode"},
+ 11:{s:"fincher",t:"The Girl with the Dragon Tattoo",k:"episode"},
+ 12:{s:"fincher",t:"Gone Girl",k:"episode"},
+ 13:{s:"fincher",t:"Mank",k:"episode"},
+ 14:{s:"fincher",t:"The Killer",k:"episode",note:"Fincher's last feature"},
+ 15:{s:"vill",t:"Villeneuve · First 3 films",k:"episode",note:"32 août / Maelström / Polytechnique"},
+ 16:{s:"vill",t:"Incendies",k:"episode"},
+ 17:{s:"vill",t:"Prisoners",k:"episode"},
+ 18:{s:"vill",t:"Enemy",k:"episode"},
+ 19:{s:"vill",t:"Sicario",k:"episode",risk:"hot",note:"DOUBLE WEEK: overlaps the Fincher doc (Cliff Booth 25 Nov)"},
+ 20:{s:"vill",t:"Arrival",k:"episode"},
+ 21:{s:"vill",t:"Blade Runner 2049",k:"episode"},
+ 22:{s:"vill",t:"Dune (2021)",k:"episode",risk:"hot",note:"The Villeneuve doc drops the next day (18 Dec)"},
+ 23:{s:"vill",t:"Dune: Part Two",k:"episode",note:"Airs AFTER the documentary — closes on Christmas Eve"},
+ 24:{empty:true}
+};
+const A_events = [
+ {after:19,date:"25 Nov (Wed)",s:"fincher",t:"Fincher · Complete Filmography / Biography",k:"DOC-EVENT",note:"Anchor: IMAX premiere of The Adventures of Cliff Booth"},
+ {after:22,date:"18 Dec (Fri)",s:"vill",t:"Villeneuve · Complete documentary",k:"DOC-EVENT",note:"Anchor: theatrical release of Dune: Part Three"}
+];
+
+const B = {
+ 0:{s:"nolan",t:"Tenet",k:"aired",done:true},
+ 1:{s:"nolan",t:"Oppenheimer",k:"episode",note:"Possibly Tue 21 Jul"},
+ 2:{s:"nolan",t:"The Odyssey",k:"episode",note:"Inserted — film opens 17 Jul"},
+ 3:{s:"nolan",t:"Nolan · Complete Biography / Filmography",k:"documentary",doc:true,note:"Wraps the Nolan series"},
+ 4:{s:"fincher",t:"Alien³",k:"episode"},
+ 5:{s:"fincher",t:"Se7en",k:"episode"},
+ 6:{s:"fincher",t:"The Game",k:"episode"},
+ 7:{s:"fincher",t:"Fight Club",k:"episode"},
+ 8:{s:"fincher",t:"Panic Room",k:"episode"},
+ 9:{s:"fincher",t:"Zodiac",k:"episode"},
+ 10:{s:"fincher",t:"The Curious Case of Benjamin Button",k:"episode"},
+ 11:{s:"fincher",t:"The Social Network",k:"episode"},
+ 12:{s:"fincher",t:"The Girl with the Dragon Tattoo",k:"episode"},
+ 13:{s:"fincher",t:"Gone Girl",k:"episode"},
+ 14:{s:"fincher",t:"Mank",k:"episode"},
+ 15:{s:"fincher",t:"The Killer",k:"episode",note:"Fincher's last feature"},
+ 16:{s:"vill",t:"Villeneuve · First 3 films",k:"episode",note:"32 août / Maelström / Polytechnique"},
+ 17:{s:"vill",t:"Incendies",k:"episode"},
+ 18:{s:"vill",t:"Prisoners",k:"episode"},
+ 19:{s:"vill",t:"Enemy",k:"episode",risk:"hot",note:"DOUBLE WEEK: Fincher doc (Cliff Booth 25 Nov)"},
+ 20:{s:"vill",t:"Sicario",k:"episode"},
+ 21:{s:"vill",t:"Arrival",k:"episode"},
+ 22:{s:"vill",t:"Blade Runner 2049",k:"episode",risk:"hot",note:"The Villeneuve doc (18 Dec) drops with the series only halfway"},
+ 23:{s:"vill",t:"Dune (2021)",k:"episode"},
+ 24:{s:"vill",t:"Dune: Part Two",k:"episode",note:"Closes on 31 Dec — the year runs out"}
+};
+const B_events = [
+ {after:19,date:"25 Nov (Wed)",s:"fincher",t:"Fincher · Complete Filmography / Biography",k:"DOC-EVENT",note:"Anchor: IMAX premiere of Cliff Booth"},
+ {after:22,date:"18 Dec (Fri)",s:"vill",t:"Villeneuve · Complete documentary",k:"DOC-EVENT",note:"Anchor: Dune: Part Three — but the series is only at Blade Runner 2049"}
+];
+
+const anchors = {
+ A:[{w:0,txt:"The Odyssey · theaters 17 Jul"},{w:19,txt:"Cliff Booth · IMAX 25 Nov"},{w:22,txt:"Dune 3 · theaters 18 Dec"},{w:23,txt:"Cliff Booth · Netflix 23 Dec",soft:true}],
+ B:[{w:0,txt:"The Odyssey · theaters 17 Jul"},{w:19,txt:"Cliff Booth · IMAX 25 Nov"},{w:22,txt:"Dune 3 · theaters 18 Dec"},{w:23,txt:"Cliff Booth · Netflix 23 Dec",soft:true}]
+};
+
+const scenNotes = {
+ A:"22 weekly episodes + 3 documentaries in 24 weeks → fits with 1 buffer week, but with 1 double week and Dune 3 aligned tightly.",
+ B:"Inserting Odyssey pushes everything +1 week: the Dune 3 documentary (18 Dec) would land with the series only at Blade Runner 2049, and Dune: Part Two slips to 31 Dec."
+};
+
+const notes = {
+ A:[
+  "<b>Verdict: doable but no margin.</b> The total comes to <b>25 videos</b> (22 weekly episodes + 3 long-form documentaries) across 24 Thursday slots. It fits, but leaves <b>a single buffer week</b> in the whole half-year.",
+  "<b>Stress point #1 — 25 Nov (Cliff Booth):</b> Fincher's complete documentary is anchored to the IMAX premiere, but by then the run is already on Villeneuve. That week you have to ship <b>two videos</b> (Sicario + Fincher doc).",
+  "<b>Stress point #2 — 18 Dec (Dune 3):</b> the Villeneuve documentary fits well, but the last individual episode (Dune: Part Two) lands <b>behind the doc</b>, falling on Christmas Eve. You close the year in the very last week.",
+  "<b>The real bottleneck is Fincher's 12 features.</b> They run from August to late October with no breathing room. To recover margin or fit Odyssey in, the cleanest lever is to <b>group 2–3 Fincher films</b> (e.g. The Game + Panic Room, or an early diptych).",
+  "<b>Starting context:</b> you're running ~4 weeks behind the original Nolan plan (Tenet was slated for 18 Jun and airs today, 16 Jul). At this pace, <b>any one-week slip</b> knocks the Dune 3 documentary off 18 Dec.",
+  "<b>Three heavy documentaries in the busiest stretch.</b> Nolan (Jul), Fincher (Nov) and Villeneuve (Dec) are long-lane productions running alongside the weekly episodes. Best to start them weeks ahead, not in their premiere week."
+ ],
+ B:[
+  "<b>With Odyssey the plan no longer fits within the year.</b> It adds a video (26 total) and shifts the whole tail +1 week.",
+  "<b>It breaks the key alignment:</b> the Villeneuve documentary stays anchored to 18 Dec (Dune 3), but the series would only have reached <b>Blade Runner 2049</b>. Dune (2021) and Dune: Part Two would air <i>after</i> the documentary that sums them up.",
+  "<b>Dune: Part Two lands on 31 Dec</b> — with zero buffer and risking the release in the middle of New Year's week.",
+  "<b>Recommendation if you want Odyssey no matter what:</b> offset it by grouping 2 Fincher features or merging an early Villeneuve episode, to give back that lost week and put Dune 3 back on 18 Dec.",
+  "<b>Same 25 Nov double release</b> (Cliff Booth) as in the base scenario."
+ ]
+};
+
+let scen="A";
+function data(){return scen==="A"?A:B}
+function events(){return scen==="A"?A_events:B_events}
+
+function setScen(s){
+  scen=s;
+  btnA.classList.toggle("on",s==="A"); btnB.classList.toggle("on",s==="B");
+  document.getElementById("scenNote").textContent=scenNotes[s];
+  render();
+}
+
+function render(){
+  const d=data();
+  const g=document.getElementById("gantt");
+  const cols=weeks.length;
+  const tmpl=`160px repeat(${cols}, minmax(42px,1fr))`;
+  let html="";
+  html+=`<div class="grow" style="grid-template-columns:${tmpl}"><div class="glabel"></div>`;
+  weeks.forEach((w,i)=>{ html+=`<div class="mhead">${(i===0||weeks[i-1].m!==w.m)?w.m:""}</div>`;});
+  html+=`</div>`;
+  html+=`<div class="grow" style="grid-template-columns:${tmpl}"><div class="glabel">Week</div>`;
+  weeks.forEach(w=>{ html+=`<div class="whead"><b>${w.iso.split(' ')[0]}</b><br>${w.iso.split(' ')[1]}</div>`;});
+  html+=`</div>`;
+  const series=[["nolan","Nolan"],["fincher","Fincher"],["vill","Villeneuve"]];
+  series.forEach(([key,label])=>{
+    html+=`<div class="grow" style="grid-template-columns:${tmpl}"><div class="glabel">${label}</div>`;
+    for(let i=0;i<cols;i++){
+      const it=d[i];
+      if(it && !it.empty && it.s===key){
+        const cls=it.done?"done":(it.doc?"doc":it.s);
+        html+=`<div class="cell ${cls}" title="${it.t}">${shorten(it.t)}<span class="k">${it.k}</span></div>`;
+      } else {
+        html+=`<div class="cell empty"></div>`;
+      }
+    }
+    html+=`</div>`;
+  });
+  html+=`<div class="grow" style="grid-template-columns:${tmpl}"><div class="glabel">Event docs</div>`;
+  const evByWeek={}; events().forEach(e=>evByWeek[e.after]=e);
+  for(let i=0;i<cols;i++){
+    const e=evByWeek[i];
+    if(e){ html+=`<div class="cell doc" title="${e.t}">${shorten(e.t)}<span class="k">${e.date.split(' ')[0]} ${e.date.split(' ')[1]}</span></div>`; }
+    else html+=`<div class="cell empty"></div>`;
+  }
+  html+=`</div>`;
+  html+=`<div class="grow" style="grid-template-columns:${tmpl}"><div class="glabel">Film premiere</div>`;
+  const anByWeek={}; anchors[scen].forEach(a=>{ if(!anByWeek[a.w]) anByWeek[a.w]=a; });
+  for(let i=0;i<cols;i++){
+    const a=anByWeek[i];
+    if(a){ html+=`<div class="anchor ${a.soft?'soft':''}" title="${a.txt}">${a.txt}</div>`; }
+    else html+=`<div class="cell empty" style="border:none;background:transparent;min-height:26px"></div>`;
+  }
+  html+=`</div>`;
+  g.innerHTML=html;
+
+  const tb=document.getElementById("tbody");
+  let rows="";
+  for(let i=0;i<cols;i++){
+    const it=d[i];
+    if(it && !it.empty){
+      const scls=it.done?"done":(it.doc?"doc":it.s);
+      const slabel=it.done?"Aired":(it.s==="nolan"?"Nolan":it.s==="fincher"?"Fincher":"Villeneuve");
+      const riskCls=it.risk==="hot"?"risk hot":"risk";
+      rows+=`<tr class="${it.doc?'rowdoc':''}">
+        <td class="date">${weeks[i].iso} · ${weeks[i].wd}</td>
+        <td><span class="pill ${scls}">${it.doc?'DOC':slabel}</span></td>
+        <td>${it.t}</td>
+        <td>${it.k}</td>
+        <td>${it.note?`<span class="${riskCls}">${it.note}</span>`:''}</td></tr>`;
+    } else if(it && it.empty){
+      rows+=`<tr><td class="date">${weeks[i].iso} · ${weeks[i].wd}</td><td><span class="pill done">Free</span></td><td style="color:var(--muted)">Buffer week</td><td>—</td><td><span class="risk" style="color:var(--ok)">Only margin of the half-year</span></td></tr>`;
+    }
+    events().filter(e=>e.after===i).forEach(e=>{
+      rows+=`<tr class="evt">
+        <td class="date">${e.date}</td>
+        <td><span class="pill doc">DOC-EVENT</span></td>
+        <td>${e.t}</td>
+        <td>premiere special</td>
+        <td><span class="risk hot">${e.note} · +1 video that week</span></td></tr>`;
+    });
+  }
+  tb.innerHTML=rows;
+
+  document.getElementById("notesList").innerHTML=notes[scen].map(n=>`<li>${n}</li>`).join("");
+  const vt=document.getElementById("vtag"), vh=document.getElementById("vhead"), vb=document.getElementById("vbody"), vc=document.getElementById("verdict");
+  if(scen==="A"){
+    vt.textContent="Doable, but at the limit"; vt.style.background="var(--warn)"; vt.style.color="#111";
+    vc.style.background="linear-gradient(180deg,#221f14,#1a1a12)"; vc.style.borderColor="#4a421f";
+    vh.textContent="The plan just fits — no buffer and one double week";
+    vb.innerHTML="25 videos (22 episodes + 3 documentaries) across 24 Thursdays. <b>Fits with 1 week to spare</b>, but it requires shipping two videos the week of 25 Nov and Dune: Part Two closing on Christmas Eve. Zero tolerance for slips — and right now you're ~4 weeks behind.";
+  } else {
+    vt.textContent="Doesn't fit in the year"; vt.style.background="var(--bad)"; vt.style.color="#fff";
+    vc.style.background="linear-gradient(180deg,#241417,#1a1113)"; vc.style.borderColor="#5a2731";
+    vh.textContent="With Odyssey, the Dune 3 documentary falls out of sync";
+    vb.innerHTML="Inserting Odyssey adds a video and shifts everything +1 week. The <b>Villeneuve doc would still be 18 Dec</b> but with the series only at Blade Runner 2049, and <b>Dune: Part Two would land on 31 Dec</b>. To fit Odyssey you'd need to group 2 features elsewhere.";
+  }
+
+  const nEp = countType(d), nDoc = countDocs(d)+events().length;
+  const kp=document.getElementById("kpis");
+  kp.innerHTML=`
+   <div class="kpi"><div class="n">${nEp+nDoc}</div><div class="l">videos Jul→Dec</div></div>
+   <div class="kpi"><div class="n">${nDoc}</div><div class="l">long-form docs</div></div>
+   <div class="kpi ${scen==='A'?'warn':'bad'}"><div class="n">${scen==='A'?'1':'0'}</div><div class="l">buffer weeks</div></div>
+   <div class="kpi ${scen==='A'?'warn':'bad'}"><div class="n">${scen==='A'?'18 Dec':'31 Dec'}</div><div class="l">Villeneuve series ends</div></div>`;
+}
+function countType(d){let n=0;for(const k in d){const it=d[k];if(it&&!it.empty&&!it.done&&!it.doc)n++;}return n;}
+function countDocs(d){let n=0;for(const k in d){const it=d[k];if(it&&it.doc)n++;}return n;}
+function shorten(t){return t.length>26?t.slice(0,25)+"…":t;}
+
+setScen('A');
+</script>
+</body>
+</html>
