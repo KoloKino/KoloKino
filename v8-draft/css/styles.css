@@ -407,7 +407,7 @@ section[id] { scroll-margin-top: 90px; }
   position: relative;
 }
 .nav-toggle span {
-  display: block; width: 22px; height: 1.5px;
+  display: block; width: 24px; height: 2px; border-radius: 2px;
   background: var(--ink); margin: 5px auto;
   transition: transform .3s var(--ease), opacity .3s var(--ease), background .3s var(--ease);
 }
@@ -2578,7 +2578,7 @@ html.js .page-loader {
   .brand, .brand .logo { height: 42px !important; max-width: none !important; }
   .site-header.scrolled .brand, .site-header.scrolled .brand .logo { height: 36px !important; }
   .nav-extras { order: 2; margin-left: auto !important; gap: 0.5rem; flex-shrink: 0; }
-  .nav-toggle { display: inline-flex !important; order: 3; flex-shrink: 0; margin-left: 0.3rem; }
+  .nav-toggle { display: inline-block !important; order: 3; flex-shrink: 0; margin-left: 0.3rem; }
 
   .nav-primary {
     position: absolute !important;
