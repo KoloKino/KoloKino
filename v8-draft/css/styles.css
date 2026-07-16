@@ -2571,8 +2571,8 @@ html.js .page-loader {
 .audience-cta{ text-align:center; margin-top:clamp(2rem,5vw,3.5rem); }
 @media (max-width:760px){ .audience-grid{ grid-template-columns:1fr; } }
 
-/* ============================================================ MOBILE HAMBURGER NAV (<=900px) */
-@media (max-width: 900px) {
+/* ============================================================ MOBILE HAMBURGER NAV (<=1100px) */
+@media (max-width: 1100px) {
   .site-header .wrap-wide { flex-wrap: nowrap; align-items: center; column-gap: 0.5rem; }
   .brand { order: 1; flex-shrink: 0; }
   .brand, .brand .logo { height: 42px !important; max-width: none !important; }
