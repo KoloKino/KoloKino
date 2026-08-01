@@ -80,6 +80,16 @@
       const target = document.querySelector(href);
       if (!target) return;
       e.preventDefault();
+      // If the mobile menu is open, close it first — otherwise body.no-scroll
+      // (overflow:hidden) blocks the scroll and the link appears dead.
+      const navEl = document.querySelector('.nav-primary');
+      if (navEl && navEl.classList.contains('open')) {
+        navEl.classList.remove('open');
+        const tog = document.querySelector('.nav-toggle');
+        if (tog) tog.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('no-scroll');
+        if (lenis) lenis.start();
+      }
       const offset = 80;
       const rect = target.getBoundingClientRect();
       const top = window.scrollY + rect.top - offset;
