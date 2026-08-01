@@ -2574,11 +2574,10 @@ html.js .page-loader {
   border-radius:var(--radius-lg); overflow:hidden; background:transparent; }
 /* Feathered edges — the thumbnail dissolves into the section background (iOS-safe) */
 .video-embed::before{ content:""; position:absolute; inset:0; z-index:3; border-radius:inherit; pointer-events:none;
-  box-shadow: inset 0 0 30px 8px var(--sage-deep), inset 0 0 72px 34px var(--sage-deep); }
-/* Stronger feather on mobile where the images run wider */
+  box-shadow: inset 0 0 40px 18px var(--sage-deep); }
+/* Stronger feather on mobile where the portrait runs wider */
 @media (max-width: 760px){
   .profile-card .profile-media::before{ box-shadow: inset 0 0 30px 8px var(--paper), inset 0 0 78px 42px var(--paper); }
-  .video-embed::before{ box-shadow: inset 0 0 34px 10px var(--sage-deep), inset 0 0 86px 48px var(--sage-deep); }
 }
 .video-embed.video-facade{ display:block; cursor:pointer; }
 .video-embed img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
