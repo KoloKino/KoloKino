@@ -2648,3 +2648,5 @@ html.js .page-loader {
   background: linear-gradient(180deg, var(--sage-night) 0%, transparent 100%);
   z-index: 0; pointer-events: none;
 }
+
+#best-plan { scroll-margin-top: clamp(80px, 12vh, 120px); }
