@@ -830,9 +830,14 @@ section[id] { scroll-margin-top: 90px; }
 }
 /* Equal-width CTAs on the hero so the two buttons look balanced */
 .hero-cine .hero-actions .btn {
-  flex: 1 1 240px;
-  max-width: 280px;
+  flex: 0 0 auto;
+  min-width: 260px;
+  display: inline-flex;
   justify-content: center;
+  text-align: center;
+  gap: 0;
+  font-size: 16px;
+  padding: 1.25rem 2.6rem;
 }
 @media (max-width: 720px) {
   .hero-cine .hero-actions .btn { max-width: none; flex-basis: 100%; }
@@ -904,7 +909,6 @@ html[lang="uk"] .word-rotator span.lang-uk {
 .hero-stats {
   position: relative;
   z-index: 2;
-  border-top: 1px solid var(--line-cream);
   padding-block: 1.4rem;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
