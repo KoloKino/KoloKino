@@ -65,7 +65,23 @@
 .pract-links a:hover{ color:var(--burgundy-dark); }
 .finder-map{ position:sticky; top: calc(var(--header-h) + 68px); height: calc(100vh - var(--header-h) - 96px);
   min-height:420px; border:1px solid var(--line-strong); border-radius:var(--radius-lg); overflow:hidden; }
-#map{ width:100%; height:100%; background:var(--sage-mist); }
+#map{ width:100%; height:100%; background:var(--cream); }
+/* Warm the base tiles into the site palette — keeps land/water contrast */
+#map .leaflet-tile{ filter: sepia(0.3) saturate(0.85) hue-rotate(332deg) brightness(0.99) contrast(1.03); }
+.leaflet-container{ background:var(--cream); }
+/* Zoom controls on-brand */
+.leaflet-bar{ border:none !important; border-radius:var(--radius) !important; overflow:hidden; box-shadow:0 8px 22px rgba(43,42,40,.12); }
+.leaflet-bar a{ background:var(--paper); color:var(--burgundy); border-bottom:1px solid var(--line) !important; width:34px; height:34px; line-height:34px; font-size:18px; }
+.leaflet-bar a:hover{ background:var(--cream-soft); color:var(--burgundy-dark); }
+.leaflet-bar a:last-child{ border-bottom:none !important; }
+/* Attribution on-brand */
+.leaflet-control-attribution{ background:rgba(250,246,236,.72) !important; color:var(--muted) !important; font-family:var(--font-sans); font-size:10px; }
+.leaflet-control-attribution a{ color:var(--burgundy) !important; }
+/* English continent labels overlaid on the label-free base */
+.leaflet-tooltip.continent-label{ background:transparent !important; border:none !important; box-shadow:none !important;
+  color:rgba(74,58,42,.55); font-family:var(--font-sans); font-size:12px; font-weight:600; letter-spacing:.2em;
+  text-transform:uppercase; white-space:nowrap; text-shadow:0 1px 3px rgba(250,246,236,.85); padding:0; }
+.leaflet-tooltip.continent-label::before{ display:none !important; }
 .finder-empty{ padding:3rem 1rem; text-align:center; color:var(--muted); font-family:var(--font-serif); font-style:italic; font-size:1.2rem; }
 .map-pin{ width:22px; height:22px; border-radius:50% 50% 50% 0; background:var(--burgundy);
   border:2px solid var(--cream); box-shadow:0 3px 8px rgba(0,0,0,.35); transform:rotate(-45deg); }
@@ -216,7 +232,48 @@ const SEED = [
     tiktok:"https://www.tiktok.com/@fayrouz.premiummassages",
     youtube:"https://youtube.com/@fayrouzpm",
     specialties:"Soul Touch Therapy",
-    bio:"I come from elderly care. A nurse for 12+ years, so I bring medical insight. 3 years in the massage field, starting with postpartum relaxing massage." }
+    bio:"I come from elderly care. A nurse for 12+ years, so I bring medical insight. 3 years in the massage field, starting with postpartum relaxing massage." },
+  { name:"Magdalena Szyszka", city:"Berlin", country:"Germany",
+    lat:52.5200, lng:13.4050,
+    instagram:"magdalenas_vibes", email:"magdalenasvibes888@gmail.com",
+    phone:"+49 160 7731030", whatsapp:"491607731030",
+    specialties:"Soul Touch Therapy" },
+  { name:"Jennifer Wolinetz", city:"Los Angeles", country:"USA",
+    lat:34.0522, lng:-118.2437,
+    instagram:"sohealthywjen", email:"jennifer.wolinetz@gmail.com",
+    specialties:"Somatic therapy",
+    bio:"Master-level, Polyvagal/ANS-informed process therapist. 3 years practicing, certified in children's yoga, 20+ years of personal yoga practice. Just starting with hands-on work, separate from process therapy. A diverse background in yoga, touch, and foundational ANS/somatic process therapy." },
+  { name:"Alexandra Dieterle", city:"Neu-Ulm", country:"Germany",
+    lat:48.3931, lng:10.0106,
+    instagram:"3moonlover3", tiktok:"https://www.tiktok.com/@alexx17118",
+    email:"goldenmaisonalexx@gmail.com", phone:"+491736553386", whatsapp:"491736553386",
+    specialties:"Soul Touch Therapy, Aromatherapy, Energy work",
+    bio:"A lot of energy work and aromatherapy. I offer Aroma-Therapy, Soul Touch Therapy, and coaching to reset the nervous system. Drawing on deep self-experience, I bring women from chaos to calm." },
+  { name:"Marija Rukavina", city:"Zagreb", country:"Croatia",
+    lat:45.8150, lng:15.9819,
+    instagram:"multidisciplinaryfairy", email:"marijarukavina95@gmail.com",
+    specialties:"Soul Touch Therapy, Massage Therapy, Bodywork, Energy work, Yoga",
+    bio:"Soul Touch Therapy, massage therapy, bodywork, energy work, medical & rehabilitation massage, functional and boxing fitness (Animal Movements + Yoga), biomechanics exercises, nutrition, guided ice baths, breathing and Kundalini awakening — and above all, a safe space for everyone. Currently working the season on the Adriatic coast (Primošten)." },
+  { name:"Zuzanna Student", city:"Bruges", country:"Belgium",
+    lat:51.2093, lng:3.2247,
+    email:"hello@blisskobodywork.com", phone:"+32476056795", whatsapp:"32476056795",
+    specialties:"Soul Touch Therapy, Bodywork, Breathwork",
+    bio:"One-to-one bodywork (Zenthai Shiatsu and Touch Therapy, 90 min) and breathwork (Holosomatic® conscious connected breathing, 120 min, in-person or online). Monthly group breathwork sessions in Bruges, and women's circles opening September 2026." },
+  { name:"Jiska van den Berg", city:"Amsterdam", country:"The Netherlands",
+    lat:52.3676, lng:4.9041,
+    email:"Ritualsbyjiss@hotmail.com", phone:"0631770119", whatsapp:"31631770119",
+    specialties:"Soul Touch Therapy",
+    bio:"Soul Touch Therapy. One year of practice." },
+  { name:"Eva-Maria Kölker", city:"Krefeld", country:"Germany",
+    lat:51.3388, lng:6.5853,
+    instagram:"evamaria.koelker", email:"hallo@evamaria-koelker.de", phone:"+4915140465891", whatsapp:"4915140465891",
+    specialties:"Breathwork, Massage Therapy, Somatic Work",
+    bio:"I support women who have lost the connection to their bodies after childbirth or a C-section to reconnect through mindful bodywork and breathwork. Offering 1:1 and group breathwork sessions, Female Energy Massage, and the Touch Method." },
+  { name:"Mary Caroline Whims", city:"Traverse City", country:"USA",
+    lat:44.7631, lng:-85.6206,
+    instagram:"marycarolinemakes", email:"silverbranch98@gmail.com",
+    specialties:"Soul Touch Therapy",
+    bio:"I am an artist by calling, and I give each bodywork client the same love, sensitivity, and attention to detail that I pour into my other passions." }
 ];
 
 let ALL = [], MARKERS = {}, map, activeId = null;
@@ -376,9 +433,16 @@ function buildFilters(){
 
 async function init(){
   map = L.map("map",{ scrollWheelZoom:true, worldCopyJump:true }).setView([25,10], 2);
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
-    maxZoom:18, attribution:'&copy; OpenStreetMap' }).addTo(map);
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png",{
+    maxZoom:20, subdomains:'abcd', attribution:'&copy; OpenStreetMap &copy; CARTO' }).addTo(map);
   map.attributionControl.setPrefix(false);
+
+  // Single-language (English) continent labels — the base tiles carry none
+  [["North America",48,-100],["South America",-18,-62],["Europe",57,30],
+   ["Africa",4,22],["Asia",47,95],["Oceania",-25,134]].forEach(([name,lat,lng])=>{
+    L.tooltip({permanent:true, direction:"center", className:"continent-label", interactive:false})
+      .setLatLng([lat,lng]).setContent(name).addTo(map);
+  });
   setTimeout(()=> map.invalidateSize(), 200);
 
   if(SHEET_ID) loadSheet(); else processData(SEED);
