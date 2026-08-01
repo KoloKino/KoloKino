@@ -250,7 +250,7 @@
     loop();
 
     // Hover state on interactive elements
-    const interactives = 'a, button, .nav-card, .video-card, .testimonial-card, .magnetic, .qa-item summary, .curriculum-item summary, [data-cursor-hover]';
+    const interactives = 'a, button, .nav-card, .video-card, .testimonial-card, .magnetic, .qa-item summary, .curriculum-item summary, .principle-acc summary, .pillar summary, [data-cursor-hover]';
     document.querySelectorAll(interactives).forEach((el) => {
       el.addEventListener('mouseenter', () => ring.classList.add('hover'));
       el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
