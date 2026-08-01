@@ -2640,6 +2640,14 @@ html.js .page-loader {
   }
   .nav-primary a.nav-long { display: block !important; -webkit-line-clamp: unset !important; max-width: none !important; }
   .nav-primary a::after { display: none !important; }
+  /* Dropdown sits on a light (paper) background — keep links dark & readable
+     even when the header is in dark-mode over the hero (ENROLL button excluded) */
+  .nav-primary a:not(.nav-cta),
+  .site-header.dark-mode:not(.scrolled) .nav-primary a:not(.nav-cta) { color: var(--ink) !important; }
+  .nav-primary a:not(.nav-cta):hover,
+  .nav-primary a:not(.nav-cta).active,
+  .site-header.dark-mode:not(.scrolled) .nav-primary a:not(.nav-cta):hover,
+  .site-header.dark-mode:not(.scrolled) .nav-primary a:not(.nav-cta).active { color: var(--burgundy) !important; }
   .nav-primary .nav-cta-li { margin-left: 0 !important; margin-top: 0.9rem; }
   .nav-primary .nav-cta-li a { display: inline-block !important; width: auto; border-bottom: 0; padding: 0.7rem 1.5rem !important; }
   body.no-scroll { overflow: hidden; }
