@@ -936,6 +936,7 @@ html[lang="uk"] .word-rotator span.lang-uk {
 }
 @media (max-width: 720px) {
   .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 1.2rem 2rem; }
+  .hero-stats .stat:nth-child(3) { grid-column: 1 / -1; }
   .hero-cine .hero-content { padding-top: calc(var(--header-h) + 0.6rem); padding-bottom: var(--space-m); }
 }
 
@@ -1551,9 +1552,13 @@ html[lang="uk"] .word-rotator span.lang-uk {
   position: relative;
 }
 .pricing-tiers .tier-featured {
-  border-color: rgba(196, 168, 120, 0.55);
-  background: linear-gradient(180deg, rgba(196,168,120,0.12), rgba(31,42,35,0.55));
-  box-shadow: 0 40px 80px rgba(0,0,0,0.28);
+  border-color: rgba(196, 168, 120, 0.8);
+  background: linear-gradient(180deg, rgba(196,168,120,0.18), rgba(31,42,35,0.55));
+  box-shadow: 0 0 0 1px rgba(196,168,120,0.4),
+              0 30px 70px rgba(0,0,0,0.38),
+              0 0 70px rgba(196,168,120,0.28);
+  transform: scale(1.04);
+  position: relative; z-index: 2;
 }
 .pricing-tiers .tier-note {
   font-family: var(--font-sans); font-size: 10px;
@@ -1580,6 +1585,12 @@ html[lang="uk"] .word-rotator span.lang-uk {
   color: rgba(244,237,224,0.55); margin-left: 6px; vertical-align: middle;
 }
 .pricing-tiers .tier-instalment{ display:block; margin-top:.35rem; font-family:var(--font-sans); font-size:11px; letter-spacing:.06em; color:var(--gold); }
+.pricing-tiers .tier-featured .tier-note{
+  display:inline-block; align-self:flex-start;
+  background:var(--gold); color:var(--sage-night);
+  padding:.32rem .8rem; border-radius:999px;
+  font-weight:600; box-shadow:0 4px 14px rgba(196,168,120,0.4);
+}
 .pricing-tiers .tier-blurb {
   font-family: var(--font-serif); font-style: italic;
   font-size: 1.02rem; line-height: 1.45; color: rgba(244,237,224,0.78);
@@ -1617,6 +1628,7 @@ html[lang="uk"] .word-rotator span.lang-uk {
 .tiers-guarantee .pay-flex { color: var(--gold); font-weight: 600; }
 @media (max-width: 860px) {
   .pricing-tiers { grid-template-columns: 1fr; max-width: 460px; margin-inline: auto; }
+  .pricing-tiers .tier-featured { transform: none; }
 }
 
 /* ============================================================ Profile card */
@@ -2624,5 +2636,15 @@ html.js .page-loader {
   content: ""; position: absolute; top: 0; left: 0; right: 0;
   height: clamp(120px, 18vw, 200px);
   background: linear-gradient(180deg, var(--sage-deep) 0%, rgba(44,58,48,0.55) 45%, transparent 100%);
+  z-index: 0; pointer-events: none;
+}
+
+/* Smooth hero -> next section blend (homepage, after removing the marquee) */
+.hero-cine:not(.hero-cine-page) + section { position: relative; }
+.hero-cine:not(.hero-cine-page) + section > * { position: relative; z-index: 1; }
+.hero-cine:not(.hero-cine-page) + section::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0;
+  height: clamp(90px, 14vw, 190px);
+  background: linear-gradient(180deg, var(--sage-night) 0%, transparent 100%);
   z-index: 0; pointer-events: none;
 }
