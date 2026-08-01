@@ -2613,3 +2613,12 @@ html.js .page-loader {
   .nav-primary .nav-cta-li a { display: inline-block !important; width: auto; border-bottom: 0; padding: 0.7rem 1.5rem !important; }
   body.no-scroll { overflow: hidden; }
 }
+
+/* Soft blend: video (sage-deep) -> flagship course (jungle) on the homepage */
+#pricing { position: relative; }
+#pricing::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0;
+  height: clamp(120px, 18vw, 200px);
+  background: linear-gradient(180deg, var(--sage-deep) 0%, rgba(44,58,48,0.55) 45%, transparent 100%);
+  z-index: 0; pointer-events: none;
+}
