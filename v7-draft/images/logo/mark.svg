@@ -1,6 +1,0 @@
-<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Soul Flow mark">
-  <!-- Soul Flow brand mark: a thin circle with an inner wave (flow). currentColor = burgundy in light, cream on dark backgrounds. -->
-  <circle cx="50" cy="50" r="42" fill="none" stroke="currentColor" stroke-width="2.4"/>
-  <path d="M 14 58 C 28 40, 44 40, 50 50 S 72 60, 86 42"
-        fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
