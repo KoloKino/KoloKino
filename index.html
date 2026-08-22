@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>Kolo Kino · Cinema Documentaries · 132K subscribers on YouTube</title>
-<meta name="description" content="Kolo Kino is an independent documentary channel exploring the stories behind cinema, from Tarantino and Scorsese to Cameron and DiCaprio. 132K+ subscribers, 23M+ views, made by and for true lovers of the seventh art." />
+<title>Kolo Kino · Cinema Documentaries · 160K subscribers on YouTube</title>
+<meta name="description" content="Kolo Kino is an independent documentary studio exploring the stories behind cinema, from Tarantino and Scorsese to Cameron and DiCaprio. 160K+ subscribers, 31M+ views, half the watch time on living-room TVs." />
 <meta name="keywords" content="Kolo Kino, cinema documentaries, filmmaking, Tarantino, Christopher Nolan, Martin Scorsese, James Cameron, Leonardo DiCaprio, Guy Ritchie, YouTube documentary channel" />
 <meta name="author" content="Kolo Kino" />
 <meta name="theme-color" content="#0b0b0b" />
@@ -15,7 +15,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Kolo Kino" />
 <meta property="og:title" content="Kolo Kino · Cinema Documentaries" />
-<meta property="og:description" content="Independent documentaries exploring the stories behind cinema. 132K subscribers · 23M+ views · since 2016." />
+<meta property="og:description" content="Independent documentaries exploring the stories behind cinema. 160K subscribers · 31M+ views · since 2016." />
 <meta property="og:url" content="https://kolo-kino.com/" />
 <meta property="og:image" content="https://kolo-kino.com/banner.jpg" />
 <meta property="og:image:alt" content="Kolo Kino — cinematic documentary studio banner" />
@@ -27,7 +27,7 @@
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Kolo Kino · Cinema Documentaries" />
-<meta name="twitter:description" content="Independent documentaries exploring the stories behind cinema. 132K subscribers on YouTube." />
+<meta name="twitter:description" content="Independent documentaries exploring the stories behind cinema. 160K subscribers on YouTube." />
 <meta name="twitter:image" content="https://kolo-kino.com/banner.jpg" />
 <meta name="twitter:image:alt" content="Kolo Kino — cinematic documentary studio banner" />
 
@@ -71,7 +71,7 @@
         "postalCode": "35009",
         "addressCountry": "ES"
       },
-      "email": "collabs@okolo-kino.com",
+      "email": "creators@kolo-kino.com",
       "sameAs": [
         "https://www.youtube.com/@OkoloKino",
         "https://www.facebook.com/okolokinoeng",
@@ -2592,6 +2592,580 @@
   .upcoming-poster .stage.is-active { pointer-events: auto; }
   .upcoming-poster .stage,
   .upcoming-poster .stage.is-active { text-decoration: none; }
+
+/* ===== BRAND BAND ===== */
+/* ============================================================
+   BRAND BAND STYLES — sponsor-facing flow.
+   Ported from the 2026 Media Kit edition and re-based on the
+   current design tokens so both flows share one visual language.
+   ============================================================ */
+
+/* --- Brand band wrapper: a warmer, deeper stage so the shift from
+       audience content to business content is felt, not announced. --- */
+.brand-band {
+  position: relative;
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-warm) 12%, var(--bg-warm) 88%, var(--bg) 100%);
+}
+.brand-band::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.5;
+}
+
+/* --- Brand intro --- */
+.brand-intro-section { padding-top: 92px; }
+.brand-intro { text-align: center; max-width: 900px; margin: 0 auto; }
+.brand-intro h2 {
+  font-family: var(--serif);
+  font-size: clamp(2.4rem, 5.4vw, 4.2rem);
+  line-height: 1.06;
+  margin: 10px 0 0;
+  letter-spacing: -0.02em;
+}
+.brand-intro h2 em { color: var(--accent); font-style: italic; }
+.brand-attrib {
+  margin: 14px 0 0;
+  font: 500 0.72rem/1 var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+}
+.brand-intro-copy {
+  max-width: 760px;
+  margin: 26px auto 0;
+  color: var(--fg-dim);
+  font-size: 1.06rem;
+  line-height: 1.65;
+}
+.brand-intro-copy p { margin: 0 0 14px; }
+.brand-intro-copy p:last-child { margin-bottom: 0; }
+.brand-intro-copy em { color: var(--accent); font-style: italic; }
+
+.brand-hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 36px;
+  justify-content: center;
+  margin: 36px 0 32px;
+  color: var(--fg-mute);
+  font-size: 1.05rem;
+}
+.brand-hero-stats strong {
+  color: var(--fg);
+  font-weight: 700;
+  font-family: var(--num);
+  font-variant-numeric: tabular-nums lining-nums;
+  font-size: 1.25rem;
+  letter-spacing: 0.02em;
+}
+.brand-cta { justify-content: center; }
+
+/* --- Numbers --- */
+.numbers-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.number-card {
+  background: var(--bg-elev);
+  border: 1px solid var(--line-warm);
+  border-radius: var(--radius);
+  padding: 36px 20px 30px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .2s ease, transform .2s ease;
+}
+.number-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+.number-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 40%; height: 2px;
+  background: var(--accent);
+  opacity: 0.6;
+}
+.number-value {
+  font-family: var(--num);
+  font-variant-numeric: tabular-nums lining-nums;
+  font-size: clamp(2.6rem, 4.4vw, 3.8rem);
+  font-weight: 800;
+  color: var(--fg);
+  line-height: 1;
+  margin-bottom: 10px;
+  letter-spacing: -0.02em;
+}
+.number-label {
+  font-size: 0.92rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  font-weight: 600;
+}
+.numbers-secondary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 20px;
+}
+.num-sec {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 14px;
+  border: 1px dashed var(--line-warm);
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.015);
+  text-align: center;
+}
+.num-sec .v {
+  font-family: var(--num);
+  font-variant-numeric: tabular-nums lining-nums;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+}
+.num-sec .l {
+  font-size: 0.86rem;
+  color: var(--fg-mute);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* --- Audience --- */
+.audience-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.audience-block {
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 30px 28px;
+  position: relative;
+  overflow: hidden;
+}
+.audience-block h3 {
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--accent);
+  font-weight: 700;
+  margin: 0 0 22px;
+}
+.audience-block .caption {
+  margin: 18px 0 0;
+  font-size: 0.92rem;
+  color: var(--fg-mute);
+  line-height: 1.5;
+  font-style: italic;
+}
+.audience-block .caption.highlight {
+  margin-top: 22px;
+  padding: 10px 0 10px 14px;
+  border-left: 3px solid var(--accent);
+  font-size: 1.05rem;
+  color: var(--fg);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: left;
+}
+
+/* 1. Geography */
+.premiere-list { list-style: none; margin: 0; padding: 0; }
+.premiere {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px dashed rgba(255,255,255,0.06);
+}
+.premiere:last-child { border-bottom: none; }
+.premiere .flag {
+  width: 56px; height: 36px;
+  object-fit: cover;
+  display: block;
+  border-radius: 3px;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+.premiere .flag.globe {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.04);
+  color: var(--fg-mute);
+  object-fit: initial;
+}
+.premiere .flag.globe svg { width: 22px; height: 22px; }
+.premiere .country { color: var(--fg-dim); font-size: 1rem; }
+.premiere .pct {
+  font-family: var(--num);
+  font-variant-numeric: tabular-nums lining-nums;
+  font-size: 1.25rem;
+  color: var(--fg);
+  font-weight: 700;
+}
+
+/* 2. Age — 35mm filmstrip */
+.filmstrip {
+  display: block;
+  margin: 6px 0 0;
+  background: #0a0606;
+  border-radius: 2px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  overflow: hidden;
+}
+.filmstrip .sprockets {
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  gap: 4px;
+  height: 14px;
+  align-items: center;
+  padding: 4px 6px;
+  background: #050202;
+}
+.filmstrip .sprockets > i {
+  display: block;
+  height: 7px;
+  background: rgba(245,245,235,0.92);
+  border-radius: 1px;
+  box-shadow: inset 0 0 2px rgba(0,0,0,0.4);
+}
+.filmstrip .frames {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 3px;
+  padding: 3px 6px;
+  background: #050202;
+}
+.filmstrip .frame {
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005));
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6px 4px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+.filmstrip .frame::before {
+  content: attr(data-num);
+  position: absolute;
+  top: 4px; left: 6px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.32);
+  letter-spacing: 0.05em;
+}
+.filmstrip .frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.45) 100%);
+  pointer-events: none;
+}
+.filmstrip .frame.featured {
+  background:
+    radial-gradient(ellipse at center, rgba(255,59,59,0.32) 0%, rgba(255,59,59,0.08) 70%, transparent 100%),
+    linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.4));
+  border-color: rgba(255,59,59,0.55);
+}
+.filmstrip .frame.featured::before { color: rgba(255,59,59,0.7); }
+.filmstrip .frame .bracket {
+  font-size: 0.72rem;
+  color: var(--fg-mute);
+  letter-spacing: 0.04em;
+  margin-bottom: 5px;
+  position: relative;
+  z-index: 1;
+}
+.filmstrip .frame.featured .bracket { color: var(--fg-dim); }
+.filmstrip .frame .pct {
+  font-family: var(--num);
+  font-variant-numeric: tabular-nums lining-nums;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--fg);
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+}
+
+/* 3. Device */
+.devices {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  align-items: end;
+  min-height: 130px;
+  padding-top: 8px;
+}
+.device {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: center;
+  color: var(--fg-mute);
+  transition: color 0.2s ease;
+}
+.device svg {
+  display: block;
+  margin: 0 auto 8px;
+  color: rgba(255,255,255,0.35);
+  transition: color 0.2s ease, filter 0.3s ease;
+}
+.device.dominant svg {
+  color: var(--accent);
+  filter: drop-shadow(0 0 14px rgba(255,59,59,0.45));
+}
+.device .pct {
+  font-family: var(--num);
+  font-variant-numeric: tabular-nums lining-nums;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--fg);
+  line-height: 1;
+  margin-bottom: 2px;
+}
+.device .label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--fg-mute);
+}
+.device.dominant .label { color: var(--accent); }
+.device-tv svg     { width: 100px; height: 80px; }
+.device-pc svg     { width: 68px;  height: 60px; }
+.device-tablet svg { width: 36px;  height: 50px; }
+.device-mobile svg { width: 25px;  height: 44px; }
+
+/* 4. Reach beyond subs — aperture donut */
+.reach-block .aperture { max-width: 170px; margin: 0 auto 18px; }
+.reach-text {
+  text-align: left;
+  color: var(--fg-dim);
+  line-height: 1.6;
+  font-size: 0.96rem;
+}
+.reach-text p { margin: 0 0 10px; }
+.reach-text p:last-child { margin-bottom: 0; }
+.reach-text strong { color: var(--fg); font-weight: 600; }
+.reach-text em { font-style: italic; color: var(--accent); font-weight: 500; }
+.aperture {
+  width: 100%;
+  max-width: 220px;
+  margin: 0 auto 6px;
+  position: relative;
+  aspect-ratio: 1;
+}
+.aperture svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.aperture .ring-bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 9; }
+.aperture .ring-fg {
+  fill: none;
+  stroke: url(#apertureGrad);
+  stroke-width: 9;
+  stroke-linecap: round;
+  stroke-dasharray: 282.74;
+  stroke-dashoffset: 282.74;
+  transition: stroke-dashoffset 1.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.aperture.in-view .ring-fg { stroke-dashoffset: 22.62; }
+.aperture-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.aperture-center .big {
+  font-family: var(--num);
+  font-variant-numeric: tabular-nums lining-nums;
+  font-size: 3.2rem;
+  font-weight: 800;
+  color: var(--fg);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.aperture-center .lbl {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+/* --- Sponsorship --- */
+.sponsorship-points {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-top: 40px;
+}
+.sponsor-point {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 30px 26px 26px;
+  text-align: left;
+  transition: border-color .2s ease, transform .2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.sponsor-point::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 3px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+}
+.sponsor-point:hover { border-color: var(--accent); transform: translateY(-3px); }
+.sponsor-point .icon {
+  font-family: var(--serif);
+  font-size: 2.4rem;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 14px;
+  display: block;
+}
+.sponsor-point h3 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  font-family: var(--sans);
+  font-weight: 700;
+}
+.sponsor-point > p { font-size: 1rem; margin: 0 0 14px; color: var(--fg-dim); line-height: 1.55; }
+.sponsor-point details { margin-top: 12px; }
+.sponsor-point details summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  list-style: none;
+  padding: 6px 0;
+  user-select: none;
+  transition: color .15s ease;
+}
+.sponsor-point details summary::-webkit-details-marker { display: none; }
+.sponsor-point details summary::after {
+  content: '  +';
+  display: inline-block;
+  transition: transform .25s ease;
+  font-weight: 400;
+}
+.sponsor-point details[open] summary::after { content: '  −'; }
+.sponsor-point details summary:hover { color: var(--accent-hover); }
+.sponsor-point details .more {
+  margin-top: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: 0.95rem;
+  color: var(--fg-dim);
+  line-height: 1.6;
+}
+.sponsor-point details .more img {
+  border-radius: 8px;
+  margin: 12px 0 4px;
+  border: 1px solid var(--line);
+  max-width: 100%;
+  height: auto;
+  cursor: zoom-in;
+}
+.zoom-hint {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.78rem;
+  color: var(--fg-mute);
+  font-style: italic;
+  letter-spacing: 0.04em;
+}
+
+/* --- Past partners --- */
+.past-partners {
+  margin-top: 56px;
+  padding-top: 26px;
+  border-top: 1px solid var(--line-warm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px 22px;
+}
+.past-partners .label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--fg-mute);
+  font-weight: 600;
+}
+.past-partners .brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 22px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: rgba(255,255,255,0.03);
+  transition: all .2s ease;
+}
+.past-partners .brand-link:hover {
+  border-color: var(--accent);
+  background: rgba(255,59,59,0.08);
+  transform: translateY(-1px);
+}
+.past-partners .brand-link img {
+  display: block;
+  height: 28px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.92;
+  transition: opacity .2s ease;
+}
+.past-partners .brand-link:hover img { opacity: 1; }
+.past-partners .watch-tag {
+  font-size: 0.78rem;
+  color: var(--fg-mute);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+  .numbers-grid { grid-template-columns: repeat(2, 1fr); }
+  .numbers-secondary { grid-template-columns: 1fr; }
+  .audience-grid { grid-template-columns: 1fr; }
+  .sponsorship-points { grid-template-columns: 1fr; }
+  .brand-intro-section { padding-top: 64px; }
+  .device-tv svg     { width: 78px; height: 62px; }
+  .device-pc svg     { width: 54px; height: 48px; }
+  .device-tablet svg { width: 28px; height: 40px; }
+  .device-mobile svg { width: 20px; height: 35px; }
+}
+@media (max-width: 560px) {
+  .brand-hero-stats { gap: 10px 22px; font-size: 0.95rem; }
+  .num-sec { flex-direction: column; gap: 4px; }
+}
+
+
+.videos-grid.is-two-up { grid-template-columns: repeat(2, 1fr); }
 </style>
 
 <!-- Cloudflare Web Analytics — privacy-first, cookie-less, GDPR-compliant by design.
@@ -2599,6 +3173,29 @@
      No cookies, no fingerprinting, no consent banner required.
      Token tied to kolo-kino.com only; dashboard at dash.cloudflare.com → Analytics → Web Analytics. -->
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "05848bc215194dc5a56819f1d5548c71"}'></script>
+
+<style>
+/* Quiet brand door under the hero CTAs */
+.hero-brand-door { margin: 22px 0 0; text-align: center; }
+.hero-brand-door a {
+  font: 600 0.78rem/1 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  border-bottom: 1px solid rgba(255,255,255,0.18);
+  padding-bottom: 3px;
+  transition: color .2s ease, border-color .2s ease;
+}
+.hero-brand-door a:hover { color: var(--accent); border-color: var(--accent); }
+/* Nav pill so "For Brands" reads as the other door, not just another anchor */
+.site-nav a.nav-brands {
+  border: 1px solid var(--line-warm);
+  border-radius: 999px;
+  padding: 4px 12px;
+  color: var(--fg-dim);
+}
+.site-nav a.nav-brands:hover { border-color: var(--accent); color: var(--accent); }
+</style>
 </head>
 
 <body>
@@ -2632,8 +3229,9 @@
   <a href="#team">Team</a>
   <a href="#support">Support</a>
   <a href="#videos">Latest</a>
+  <a href="#brands" class="nav-brands">For Brands</a>
   <a href="#contact">Contact</a>
-  <span class="reel-indicator" id="reelIndicator">Reel 1 / 6 · Intro</span>
+  <span class="reel-indicator" id="reelIndicator">Reel 1 / 9 · Intro</span>
 </nav>
 
 <!-- ============== HERO ============== -->
@@ -2653,6 +3251,7 @@
       <a class="btn btn-primary btn-support-hero" href="https://www.youtube.com/@OkoloKino" target="_blank" rel="noopener"><span aria-hidden="true">▶</span> Watch on YouTube</a>
       <button type="button" class="btn btn-gold btn-support-hero btn-magnetic" data-support-open><span aria-hidden="true">✦</span> Support Kolo Kino</button>
     </div>
+    <p class="hero-brand-door"><a href="#brands">Here on behalf of a brand? See the media kit &rarr;</a></p>
   </div>
 </header>
 
@@ -2800,7 +3399,7 @@
     <div class="support-head">
       <p class="eyebrow">Support Kolo Kino</p>
       <h2>Thank you for keeping cinema alive with us</h2>
-      <p class="support-intro">Every tip, every share, every minute you've spent with our films makes the next one possible. Thanks to that support, not a single Kolo Kino documentary carries a sponsor or paid placement today — and we'd like to keep it that way for as long as we can.</p>
+      <p class="support-intro">Every tip, every share, every minute you've spent with our films makes the next one possible. That support is what lets us stay selective: we only ever work with brands we would recommend to a friend, and no sponsor has ever had a say in which stories we tell or how we tell them.</p>
       <button type="button" class="btn btn-gold btn-support-hero btn-support-open btn-magnetic" data-support-open aria-haspopup="dialog" aria-controls="supportModal">
         <span class="support-spark" aria-hidden="true">✦</span> Support Kolo Kino
       </button>
@@ -2849,14 +3448,62 @@
     </div>
 
     <!-- VIDEOS-START · static fallback only; JS overrides with live RSS on load. -->
-    <!-- Snapshot 2026-06-07 — refresh manually only if RSS plumbing breaks. -->
+    <!-- Snapshot 2026-08-15 — 12 items to fill the 3x4 grid. -->
     <div class="videos-grid">
+
+      <a class="video-card" href="https://www.youtube.com/watch?v=UdfxiWxOl8Q" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="https://i.ytimg.com/vi/UdfxiWxOl8Q/hqdefault.jpg" alt="" loading="lazy" /></div>
+        <div class="video-meta">
+          <h3>The Best Bad Sequel Ever Made</h3>
+          <span class="video-views">18K views</span>
+        </div>
+      </a>
+
+      <a class="video-card" href="https://www.youtube.com/watch?v=1TGFX9UkIkk" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="https://i.ytimg.com/vi/1TGFX9UkIkk/hqdefault.jpg" alt="" loading="lazy" /></div>
+        <div class="video-meta">
+          <h3>The Ultimate Nolan Deep Dive</h3>
+          <span class="video-views">32K views</span>
+        </div>
+      </a>
+
+      <a class="video-card" href="https://www.youtube.com/watch?v=3Y1BwZvyLrI" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="https://i.ytimg.com/vi/3Y1BwZvyLrI/hqdefault.jpg" alt="" loading="lazy" /></div>
+        <div class="video-meta">
+          <h3>A Horror Film About Bureaucracy</h3>
+          <span class="video-views">72K views</span>
+        </div>
+      </a>
+
+      <a class="video-card" href="https://www.youtube.com/watch?v=PF7E0Ubce8I" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="https://i.ytimg.com/vi/PF7E0Ubce8I/hqdefault.jpg" alt="" loading="lazy" /></div>
+        <div class="video-meta">
+          <h3>TENET Is Simple. elpmiS sI TENET</h3>
+          <span class="video-views">244K views</span>
+        </div>
+      </a>
+
+      <a class="video-card" href="https://www.youtube.com/watch?v=E_acyvEzEbQ" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="https://i.ytimg.com/vi/E_acyvEzEbQ/hqdefault.jpg" alt="" loading="lazy" /></div>
+        <div class="video-meta">
+          <h3>The Nolan Film That Will Age Best</h3>
+          <span class="video-views">70K views</span>
+        </div>
+      </a>
+
+      <a class="video-card" href="https://www.youtube.com/watch?v=KqhWsI-b3Mw" target="_blank" rel="noopener">
+        <div class="video-thumb"><img src="https://i.ytimg.com/vi/KqhWsI-b3Mw/hqdefault.jpg" alt="" loading="lazy" /></div>
+        <div class="video-meta">
+          <h3>We Weren't Ready for What INTERSTELLAR Was</h3>
+          <span class="video-views">484K views</span>
+        </div>
+      </a>
 
       <a class="video-card" href="https://www.youtube.com/watch?v=9m0hTNp2Qos" target="_blank" rel="noopener">
         <div class="video-thumb"><img src="https://i.ytimg.com/vi/9m0hTNp2Qos/hqdefault.jpg" alt="" loading="lazy" /></div>
         <div class="video-meta">
           <h3>THE DARK KNIGHT RISES Closed an Era Nobody Wanted to End</h3>
-          <p class="video-views">95.8K views</p>
+          <span class="video-views">476K views</span>
         </div>
       </a>
 
@@ -2864,7 +3511,7 @@
         <div class="video-thumb"><img src="https://i.ytimg.com/vi/-vEO541HTKY/hqdefault.jpg" alt="" loading="lazy" /></div>
         <div class="video-meta">
           <h3>The Last Time Hollywood Trusted an Original Idea</h3>
-          <p class="video-views">109K views</p>
+          <span class="video-views">214K views</span>
         </div>
       </a>
 
@@ -2872,7 +3519,7 @@
         <div class="video-thumb"><img src="https://i.ytimg.com/vi/AQrTboJ3ne4/hqdefault.jpg" alt="" loading="lazy" /></div>
         <div class="video-meta">
           <h3>Why THE DARK KNIGHT Is Still Unmatched</h3>
-          <p class="video-views">756K views</p>
+          <span class="video-views">1.1M views</span>
         </div>
       </a>
 
@@ -2880,7 +3527,7 @@
         <div class="video-thumb"><img src="https://i.ytimg.com/vi/0O9wlY6oDN4/hqdefault.jpg" alt="" loading="lazy" /></div>
         <div class="video-meta">
           <h3>Why THE PRESTIGE Feels Smarter Every Time You Watch It</h3>
-          <p class="video-views">194K views</p>
+          <span class="video-views">270K views</span>
         </div>
       </a>
 
@@ -2888,63 +3535,15 @@
         <div class="video-thumb"><img src="https://i.ytimg.com/vi/HDn6iJZl87k/hqdefault.jpg" alt="" loading="lazy" /></div>
         <div class="video-meta">
           <h3>Why BATMAN BEGINS Still Feels Different</h3>
-          <p class="video-views">2.2M views</p>
+          <span class="video-views">3.4M views</span>
         </div>
       </a>
 
       <a class="video-card" href="https://www.youtube.com/watch?v=Dz9NRTXnDlQ" target="_blank" rel="noopener">
         <div class="video-thumb"><img src="https://i.ytimg.com/vi/Dz9NRTXnDlQ/hqdefault.jpg" alt="" loading="lazy" /></div>
         <div class="video-meta">
-          <h3>It's Nolan's Best… and Nobody Talks About It</h3>
-          <p class="video-views">124K views</p>
-        </div>
-      </a>
-
-      <a class="video-card" href="https://www.youtube.com/watch?v=TJcCKYfhN4k" target="_blank" rel="noopener">
-        <div class="video-thumb"><img src="https://i.ytimg.com/vi/TJcCKYfhN4k/hqdefault.jpg" alt="" loading="lazy" /></div>
-        <div class="video-meta">
-          <h3>Memento Is Actually Insane</h3>
-          <p class="video-views">197K views</p>
-        </div>
-      </a>
-
-      <a class="video-card" href="https://www.youtube.com/watch?v=Wrlqoi8uT44" target="_blank" rel="noopener">
-        <div class="video-thumb"><img src="https://i.ytimg.com/vi/Wrlqoi8uT44/hqdefault.jpg" alt="" loading="lazy" /></div>
-        <div class="video-meta">
-          <h3>The Tiny Christopher Nolan Movie That Became Inception</h3>
-          <p class="video-views">26.9K views</p>
-        </div>
-      </a>
-
-      <a class="video-card" href="https://www.youtube.com/watch?v=F0CF1ngghw4" target="_blank" rel="noopener">
-        <div class="video-thumb"><img src="https://i.ytimg.com/vi/F0CF1ngghw4/hqdefault.jpg" alt="" loading="lazy" /></div>
-        <div class="video-meta">
-          <h3>The Dirty Movies That Changed Hollywood</h3>
-          <p class="video-views">20.7K views</p>
-        </div>
-      </a>
-
-      <a class="video-card" href="https://www.youtube.com/watch?v=rinDm8lLPjo" target="_blank" rel="noopener">
-        <div class="video-thumb"><img src="https://i.ytimg.com/vi/rinDm8lLPjo/hqdefault.jpg" alt="" loading="lazy" /></div>
-        <div class="video-meta">
-          <h3>This Movie Has No Business Being So Much Fun</h3>
-          <p class="video-views">167K views</p>
-        </div>
-      </a>
-
-      <a class="video-card" href="https://www.youtube.com/watch?v=KhM0TpAyjpo" target="_blank" rel="noopener">
-        <div class="video-thumb"><img src="https://i.ytimg.com/vi/KhM0TpAyjpo/hqdefault.jpg" alt="" loading="lazy" /></div>
-        <div class="video-meta">
-          <h3>The MOST Pretentious Movie Guy Ritchie Ever Made</h3>
-          <p class="video-views">8.7K views</p>
-        </div>
-      </a>
-
-      <a class="video-card" href="https://www.youtube.com/watch?v=F9y_Klw6IkU" target="_blank" rel="noopener">
-        <div class="video-thumb"><img src="https://i.ytimg.com/vi/F9y_Klw6IkU/hqdefault.jpg" alt="" loading="lazy" /></div>
-        <div class="video-meta">
-          <h3>You Watched In Bruges Wrong</h3>
-          <p class="video-views">28.2K views</p>
+          <h3>It’s Nolan’s Best… and Nobody Talks About It</h3>
+          <span class="video-views">157K views</span>
         </div>
       </a>
 
@@ -3053,6 +3652,274 @@
 </div>
 
 <!-- ============== CONTACT ============== -->
+<!-- ============================================================
+     BRAND BAND — everything between these markers is the sponsor-facing
+     flow. Data verified against YouTube Studio on 2026-08-22 (Lifetime).
+     ============================================================ -->
+<div class="brand-band" id="brandBand">
+
+<!-- ============== BRAND INTRO ============== -->
+<section class="section brand-intro-section" id="brands">
+  <div class="container">
+    <div class="brand-intro">
+      <p class="eyebrow">For Brands · Media Kit 2026</p>
+      <h2>We compete where the <em>lights go down</em>.</h2>
+      <p class="brand-attrib">Alexander Mandrik · co-founder &amp; producer, Kolo Kino</p>
+      <div class="brand-intro-copy">
+        <p>Most YouTube channels compete with the thumb-scroll: eight-second hooks, vertical clips, attention bought in fractions of a second. Kolo Kino does the opposite. Long-form cinema documentaries, broadcast-grade, watched leaning back on a living-room TV.</p>
+        <p>That changes what a brand integration <em>does</em>. Our viewers don't skip, because the integration is part of the film, not the wall they were trying to scroll past.</p>
+      </div>
+      <!-- Order is load-bearing: the self-updating stats script fills
+           .hero-stats strong as [0] views, [1] hours, [2] subs. [3] stays fixed. -->
+      <div class="hero-stats brand-hero-stats">
+        <span><strong>31.3M</strong> lifetime views</span>
+        <span><strong>7.7M</strong> hours watched</span>
+        <span><strong>160K</strong> subscribers</span>
+        <span><strong>50%</strong> watched on TV</span>
+      </div>
+      <div class="hero-cta brand-cta">
+        <a class="btn btn-gold btn-magnetic" href="#contact"><span aria-hidden="true">★</span> Start a conversation</a>
+        <a class="btn btn-primary" href="Kolo%20Kino%20Media%20Kit.pdf" target="_blank" rel="noopener"><span aria-hidden="true">⤓</span> Download Media Kit</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== NUMBERS ============== -->
+<section class="section alt" id="numbers">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">By The Numbers</p>
+      <h2>An audience that watches, not just clicks</h2>
+      <p>7.7 million hours watched lifetime. Half of that on living-room TVs.</p>
+    </div>
+    <div class="numbers-grid">
+      <div class="number-card">
+        <div class="number-value">31.3M</div>
+        <div class="number-label">Lifetime Views</div>
+      </div>
+      <div class="number-card">
+        <div class="number-value">7.7M</div>
+        <div class="number-label">Hours Watched</div>
+      </div>
+      <div class="number-card">
+        <div class="number-value">160K</div>
+        <div class="number-label">Subscribers</div>
+      </div>
+      <div class="number-card">
+        <div class="number-value">50%</div>
+        <div class="number-label">Watched on TV</div>
+      </div>
+    </div>
+    <div class="numbers-secondary">
+      <div class="num-sec">
+        <span class="v">1M</span>
+        <span class="l">Unique viewers monthly</span>
+      </div>
+      <div class="num-sec">
+        <span class="v">330K</span>
+        <span class="l">Average views per film</span>
+      </div>
+      <div class="num-sec">
+        <span class="v">1.8M</span>
+        <span class="l">Views in the last 28 days</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== AUDIENCE ============== -->
+<section class="section" id="audience">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Audience</p>
+      <h2>Cinephiles, worldwide</h2>
+      <p>An adult audience in Tier-1 markets, watching long-form documentaries on the biggest screen in the house.</p>
+    </div>
+    <div class="audience-grid">
+
+      <!-- 1. GEOGRAPHY -->
+      <div class="audience-block">
+        <h3>Top Markets</h3>
+        <ol class="premiere-list">
+          <li class="premiere"><img class="flag" src="https://flagcdn.com/w160/us.png" alt="United States flag" loading="lazy" /><span class="country">United States</span><span class="pct">41.9%</span></li>
+          <li class="premiere"><img class="flag" src="https://flagcdn.com/w160/gb.png" alt="United Kingdom flag" loading="lazy" /><span class="country">United Kingdom</span><span class="pct">9.8%</span></li>
+          <li class="premiere"><img class="flag" src="https://flagcdn.com/w160/ca.png" alt="Canada flag" loading="lazy" /><span class="country">Canada</span><span class="pct">6.2%</span></li>
+          <li class="premiere"><img class="flag" src="https://flagcdn.com/w160/au.png" alt="Australia flag" loading="lazy" /><span class="country">Australia</span><span class="pct">4.3%</span></li>
+          <li class="premiere"><img class="flag" src="https://flagcdn.com/w160/in.png" alt="India flag" loading="lazy" /><span class="country">India</span><span class="pct">3.7%</span></li>
+          <li class="premiere">
+            <span class="flag globe" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"/>
+                <ellipse cx="12" cy="12" rx="9" ry="3.5"/>
+                <line x1="12" y1="3" x2="12" y2="21"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+              </svg>
+            </span>
+            <span class="country">Rest of world</span><span class="pct">34.1%</span>
+          </li>
+        </ol>
+        <p class="caption highlight">62% of all views come from the US, UK, Canada and Australia: the world's leading film markets, in English, with no dubbing or localisation needed.</p>
+      </div>
+
+      <!-- 2. AGE — 35mm filmstrip -->
+      <div class="audience-block">
+        <h3>By Age</h3>
+        <div class="filmstrip" role="img" aria-label="Age distribution: 18 to 24 8.8 percent, 25 to 34 24.6 percent, 35 to 44 26.3 percent, 45 to 54 19.6 percent, 55 plus 19.5 percent">
+          <div class="sprockets" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="frames">
+            <div class="frame" data-num="01"><span class="bracket">18-24</span><span class="pct">8.8%</span></div>
+            <div class="frame featured" data-num="02"><span class="bracket">25-34</span><span class="pct">24.6%</span></div>
+            <div class="frame featured" data-num="03"><span class="bracket">35-44</span><span class="pct">26.3%</span></div>
+            <div class="frame featured" data-num="04"><span class="bracket">45-54</span><span class="pct">19.6%</span></div>
+            <div class="frame" data-num="05"><span class="bracket">55+</span><span class="pct">19.5%</span></div>
+          </div>
+          <div class="sprockets" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p class="caption">70.5% sit in the 25-54 prime advertising bracket.</p>
+      </div>
+
+      <!-- 3. DEVICE -->
+      <div class="audience-block">
+        <h3>By Device</h3>
+        <div class="devices" role="img" aria-label="Device share of watch time: Television 49.9 percent, Mobile 23 percent, Computer 21.2 percent, Tablet 5.8 percent">
+
+          <div class="device device-tv dominant" title="49.9% Television">
+            <svg viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+              <rect x="6" y="8" width="88" height="56" rx="4"/>
+              <line x1="36" y1="72" x2="64" y2="72"/>
+              <line x1="50" y1="64" x2="50" y2="72"/>
+            </svg>
+            <div class="pct">50%</div>
+            <div class="label">TV</div>
+          </div>
+
+          <div class="device device-pc" title="21.2% Computer">
+            <svg viewBox="0 0 80 70" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+              <rect x="6" y="6" width="68" height="46" rx="3"/>
+              <line x1="28" y1="62" x2="52" y2="62"/>
+              <line x1="40" y1="52" x2="40" y2="62"/>
+            </svg>
+            <div class="pct">21%</div>
+            <div class="label">Computer</div>
+          </div>
+
+          <div class="device device-tablet" title="5.8% Tablet">
+            <svg viewBox="0 0 40 56" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="3" width="34" height="50" rx="3"/>
+              <circle cx="20" cy="48" r="1.2" fill="currentColor"/>
+            </svg>
+            <div class="pct">6%</div>
+            <div class="label">Tablet</div>
+          </div>
+
+          <div class="device device-mobile" title="23% Mobile">
+            <svg viewBox="0 0 40 70" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" aria-hidden="true">
+              <rect x="4" y="4" width="32" height="62" rx="5"/>
+              <line x1="16" y1="58" x2="24" y2="58"/>
+            </svg>
+            <div class="pct">23%</div>
+            <div class="label">Mobile</div>
+          </div>
+
+        </div>
+        <p class="caption">Half the watch time happens on living-room televisions.</p>
+      </div>
+
+      <!-- 4. REACH BEYOND SUBS -->
+      <div class="audience-block reach-block">
+        <h3>Reach Beyond Subs</h3>
+        <div class="aperture" role="img" aria-label="92 percent of watch time comes from non-subscribers">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <defs>
+              <linearGradient id="apertureGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#ff3b3b"/>
+                <stop offset="100%" stop-color="#ff8a8a"/>
+              </linearGradient>
+            </defs>
+            <circle class="ring-bg" cx="50" cy="50" r="45"/>
+            <circle class="ring-fg" cx="50" cy="50" r="45"/>
+          </svg>
+          <div class="aperture-center">
+            <span class="big">92%</span>
+            <span class="lbl">non-subs</span>
+          </div>
+        </div>
+        <div class="reach-text">
+          <p>Most channels grow on the back of their subscribers. Kolo Kino has a different story: <strong>nine in ten viewers have never subscribed</strong>. YouTube's algorithm serves them our documentaries, and they stay.</p>
+          <p>For a sponsor, that means every campaign lands in front of a <em>constantly refreshing</em> audience, far beyond our 160K core. Each new film opens the doors of the cinema again.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============== SPONSORSHIP ============== -->
+<section class="section alt" id="sponsorship">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Brand Partnerships</p>
+      <h2>Sponsorship that fits the story</h2>
+      <p>We integrate sponsors into the documentary's narrative, not against it. The result: long-form attention from a high-intent audience.</p>
+    </div>
+    <div class="sponsorship-points">
+
+      <div class="sponsor-point">
+        <span class="icon" aria-hidden="true">◐</span>
+        <h3>Story-driven integration</h3>
+        <p>Your brand becomes part of the documentary's arc, not a 60-second interruption between scenes. We write, voice and edit each integration as a natural beat in the story.</p>
+        <details>
+          <summary>How it works</summary>
+          <div class="more">
+            We discuss your brand's voice, values and audience. We then craft a 60 to 120-second segment that feels like the narrator quoting a relevant fact, not a commercial. Final cuts are reviewed with you before publication. This approach is why our viewers don't skip: the integration <em>is</em> the show.
+          </div>
+        </details>
+      </div>
+
+      <div class="sponsor-point">
+        <span class="icon" aria-hidden="true">◑</span>
+        <h3>Long-form watch time</h3>
+        <p>7.7 million hours watched lifetime, and an average view duration close to 15 minutes. Sponsors get viewers who chose to spend real time with the content.</p>
+        <details>
+          <summary>Why this matters</summary>
+          <div class="more">
+            Short-form ads compete with the thumb-scroll. Kolo Kino competes with Netflix. <strong>Half of our watch time happens on living-room TVs</strong> (Smart TVs, Roku, Apple TV, Fire TV), and viewers watch with the same attention they bring to a feature film. That is rare on YouTube and almost unheard of among independent creators.
+          </div>
+        </details>
+      </div>
+
+      <div class="sponsor-point">
+        <span class="icon" aria-hidden="true">◓</span>
+        <h3>Evergreen visibility</h3>
+        <p>Documentaries don't expire. Every Oscar, every new release, every anniversary brings a fresh wave of viewers back to the relevant film, and back to your sponsorship.</p>
+        <details>
+          <summary>See the DiCaprio effect</summary>
+          <div class="more">
+            Our <em>Leonardo DiCaprio</em> documentary keeps spiking years after release whenever a new DiCaprio film drops or awards season comes around. The chart below tracks views over time, and every peak is a free distribution event for the sponsor of that video.
+            <img src="pages/page_05.jpg" alt="DiCaprio documentary view spikes over time" loading="lazy" class="zoomable" />
+            <span class="zoom-hint">Click the chart to enlarge</span>
+          </div>
+        </details>
+      </div>
+
+    </div>
+
+    <!-- Past partners -->
+    <div class="past-partners">
+      <span class="label">Past partner</span>
+      <a class="brand-link" href="https://youtu.be/XZ1h5FB1hx4?t=113" target="_blank" rel="noopener" title="Watch the XGIMI integration on Kolo Kino">
+        <img src="xgimi.png" alt="XGIMI" />
+      </a>
+      <span class="watch-tag">Watch the integration ↗</span>
+    </div>
+
+  </div>
+</section>
+
+</div><!-- /.brand-band -->
+
+
 <section class="section contact-section" id="contact">
   <!-- Second WebGL Flowmap canvas — same mouse-driven liquid effect as the hero. -->
   <canvas class="contact-flow-canvas" id="contactFlow" aria-hidden="true"></canvas>
@@ -3060,7 +3927,7 @@
     <p class="eyebrow">Don't Be A Stranger</p>
     <h2>Let's make something together</h2>
     <p class="contact-pitch">Tell us about your brand, your audience, and the kind of story you would like to be part of. We reply to every serious inquiry within 48 hours.</p>
-    <a class="contact-email" href="mailto:collabs@okolo-kino.com?subject=Sponsorship%20inquiry%20%E2%80%94%20Kolo%20Kino">collabs@okolo-kino.com</a>
+    <a class="contact-email" href="mailto:creators@kolo-kino.com?subject=Sponsorship%20inquiry%20%C2%B7%20Kolo%20Kino">creators@kolo-kino.com</a>
     <p class="contact-address">Bentagache 13, 2B · Las Palmas de Gran Canaria · 35009, Spain</p>
     <a class="download-pdf" href="Kolo%20Kino%20Media%20Kit.pdf" target="_blank" rel="noopener" download>
       <img src="pdf.png" alt="" aria-hidden="true" />
@@ -3074,7 +3941,7 @@
   <div class="footer-inner">
     <div class="footer-meta">
       © 2026 Kolo Kino · Independent documentary studio<br/>
-      <a href="mailto:collabs@okolo-kino.com?subject=Sponsorship%20inquiry%20%E2%80%94%20Kolo%20Kino">collabs@okolo-kino.com</a>
+      <a href="mailto:creators@kolo-kino.com?subject=Sponsorship%20inquiry%20%C2%B7%20Kolo%20Kino">creators@kolo-kino.com</a>
     </div>
     <nav class="social-links" aria-label="Social media links">
       <a href="https://www.youtube.com/@OkoloKino" target="_blank" rel="noopener" aria-label="YouTube Kolo Kino"><img src="youtube.png" alt="" /> YouTube</a>
@@ -3175,7 +4042,7 @@
     // Average hours-per-view from real Studio data (6.52M hrs / 23.33M views ≈ 0.28).
     // Lets us estimate watch time proportionally to live view counts without needing
     // the YouTube Analytics API (which requires owner-only OAuth).
-    var HOUR_PER_VIEW = 0.2796;
+    var HOUR_PER_VIEW = 0.246;  // recalibrated 2026-08-22: 7.7M hrs / 31.3M views
 
     function fmt(n) {
       if (!n || isNaN(n)) return '';
@@ -3244,10 +4111,13 @@
     var rssUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + CHANNEL_ID;
     var bust = '&_=' + Date.now();          // cache-bust to bypass proxy CDN caches
     var rssEnc = encodeURIComponent(rssUrl);
+    // Order matters. rss2json's free tier caps at 10 items and errors on &count,
+    // which left the 3x4 grid two short. YouTube's XML carries 15 entries and the
+    // view counts, so XML leads now and rss2json is only a safety net.
     var sources = [
-      { kind: 'json', url: 'https://api.rss2json.com/v1/api.json?rss_url=' + rssEnc + bust },
       { kind: 'xml',  url: 'https://api.allorigins.win/raw?url=' + rssEnc + '&_=' + Date.now() },
-      { kind: 'xml',  url: 'https://api.codetabs.com/v1/proxy?quest=' + rssEnc + '&_=' + Date.now() }
+      { kind: 'xml',  url: 'https://api.codetabs.com/v1/proxy?quest=' + rssEnc + '&_=' + Date.now() },
+      { kind: 'json', url: 'https://api.rss2json.com/v1/api.json?rss_url=' + rssEnc + bust }
     ];
     var CACHE_KEY      = 'kk_rss_cache_v2';   // bumped key — invalidate any v1 stale payloads
     var CACHE_MAX_AGE  = 7 * 24 * 3600 * 1000; // 7 days — old caches are ignored entirely
@@ -3426,12 +4296,15 @@
   var ind = document.getElementById('reelIndicator');
   if (!ind) return;
   var sections = [
-    { el: document.querySelector('header.hero'), name: 'Reel 1 / 6 · Intro' },
-    { el: document.getElementById('featured'),   name: 'Reel 2 / 6 · Full Stories' },
-    { el: document.getElementById('team'),       name: 'Reel 3 / 6 · Crew' },
-    { el: document.getElementById('support'),    name: 'Reel 4 / 6 · Support' },
-    { el: document.getElementById('videos'),     name: 'Reel 5 / 6 · Latest' },
-    { el: document.getElementById('contact'),    name: 'Reel 6 / 6 · Contact' }
+    { el: document.querySelector('header.hero'), name: 'Reel 1 / 9 · Intro' },
+    { el: document.getElementById('featured'),   name: 'Reel 2 / 9 · Full Stories' },
+    { el: document.getElementById('team'),       name: 'Reel 3 / 9 · Crew' },
+    { el: document.getElementById('support'),    name: 'Reel 4 / 9 · Support' },
+    { el: document.getElementById('videos'),     name: 'Reel 5 / 9 · Latest' },
+    { el: document.getElementById('brands'),     name: 'Reel 6 / 9 · For Brands' },
+    { el: document.getElementById('audience'),   name: 'Reel 7 / 9 · Audience' },
+    { el: document.getElementById('sponsorship'),name: 'Reel 8 / 9 · Partnerships' },
+    { el: document.getElementById('contact'),    name: 'Reel 9 / 9 · Contact' }
   ].filter(function(s) { return s.el; });
   if (!sections.length) return;
   function onScroll() {
@@ -4052,5 +4925,20 @@
 })();
 </script>
 
+
+<script>
+// Keep the Latest grid visually complete: a 3-wide grid only looks right with a
+// multiple of 3. If the feed ever returns fewer, fall back to 2 columns.
+(function () {
+  var grid = document.querySelector('.videos-grid');
+  if (!grid) return;
+  function balance() {
+    var n = grid.querySelectorAll('.video-card').length;
+    grid.classList.toggle('is-two-up', n > 0 && n % 3 !== 0 && n % 2 === 0);
+  }
+  balance();
+  new MutationObserver(balance).observe(grid, { childList: true });
+})();
+</script>
 </body>
 </html>
