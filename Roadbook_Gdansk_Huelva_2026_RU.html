@@ -1,0 +1,568 @@
+<title>Роудбук Гданьск — Уэльва</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+
+<style>
+:root{
+  --ground:#F1F3F2;
+  --surface:#FFFFFF;
+  --surface-2:#E7ECEB;
+  --ink:#141A1E;
+  --ink-2:#4E5A62;
+  --ink-3:#77848C;
+  --line:#D7DEDC;
+  --line-strong:#B9C4C2;
+  --accent:#1B5C72;
+  --on-accent:#FFFFFF;
+  --accent-ink:#134656;
+  --accent-soft:#E0EDF2;
+  --signal:#9C6108;
+  --signal-soft:#F8EEDA;
+  --danger:#9C2B1E;
+  --danger-soft:#F7E4E1;
+  --shadow:0 1px 2px rgba(20,26,30,.06), 0 8px 24px -16px rgba(20,26,30,.30);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0D1114;
+    --surface:#151B1F;
+    --surface-2:#1C242A;
+    --ink:#E6ECED;
+    --ink-2:#A2AFB6;
+    --ink-3:#7C8990;
+    --line:#283238;
+    --line-strong:#3A464D;
+    --accent:#7BBBD2;
+    --on-accent:#0D1114;
+    --accent-ink:#A8D6E7;
+    --accent-soft:#12303B;
+    --signal:#E3A946;
+    --signal-soft:#2E2410;
+    --danger:#EE8B7E;
+    --danger-soft:#381814;
+    --shadow:0 1px 2px rgba(0,0,0,.5), 0 10px 28px -18px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0D1114;
+  --surface:#151B1F;
+  --surface-2:#1C242A;
+  --ink:#E6ECED;
+  --ink-2:#A2AFB6;
+  --ink-3:#7C8990;
+  --line:#283238;
+  --line-strong:#3A464D;
+  --accent:#7BBBD2;
+  --on-accent:#0D1114;
+  --accent-ink:#A8D6E7;
+  --accent-soft:#12303B;
+  --signal:#E3A946;
+  --signal-soft:#2E2410;
+  --danger:#EE8B7E;
+  --danger-soft:#381814;
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 10px 28px -18px rgba(0,0,0,.8);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:16.5px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px 96px}
+h1,h2,h3,h4{font-family:"Golos Text","IBM Plex Sans",sans-serif;text-wrap:balance;margin:0}
+a{color:var(--accent-ink);text-decoration-thickness:1px;text-underline-offset:2px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+
+/* ---------- masthead ---------- */
+.masthead{padding:56px 0 34px;border-bottom:2px solid var(--ink);margin-bottom:8px}
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:18px;
+}
+.masthead h1{font-size:clamp(2.3rem,6.2vw,3.6rem);line-height:1.02;letter-spacing:-.025em;font-weight:700}
+.masthead h1 .to{color:var(--accent);font-weight:500}
+.standfirst{margin:18px 0 0;max-width:60ch;color:var(--ink-2);font-size:1.02rem}
+.keyfacts{display:flex;flex-wrap:wrap;gap:0;margin-top:30px;border:1px solid var(--line);background:var(--surface);border-radius:2px}
+.keyfacts div{flex:1 1 140px;padding:14px 16px;border-right:1px solid var(--line)}
+.keyfacts div:last-child{border-right:0}
+.keyfacts dt{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px}
+.keyfacts dd{margin:0;font-family:"Golos Text",sans-serif;font-weight:600;font-size:1.18rem;font-variant-numeric:tabular-nums}
+
+/* ---------- nav ---------- */
+nav.toc{
+  position:sticky;top:0;z-index:20;background:var(--ground);
+  border-bottom:1px solid var(--line);margin-bottom:44px;
+  display:flex;gap:4px;overflow-x:auto;padding:8px 0;
+}
+nav.toc a{
+  font-family:"IBM Plex Mono",monospace;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;
+  white-space:nowrap;padding:6px 11px;border-radius:2px;text-decoration:none;color:var(--ink-2);
+}
+nav.toc a:hover{background:var(--surface-2);color:var(--ink)}
+
+section{margin-bottom:56px;scroll-margin-top:64px}
+h2{font-size:1.62rem;letter-spacing:-.015em;font-weight:700;margin-bottom:6px}
+h2 .num{font-family:"IBM Plex Mono",monospace;font-size:.8rem;color:var(--accent);letter-spacing:.1em;display:block;margin-bottom:8px;font-weight:500}
+.lede{color:var(--ink-2);max-width:66ch;margin:10px 0 26px}
+h3{font-size:1.12rem;font-weight:600;margin:30px 0 10px}
+p{margin:0 0 14px;max-width:70ch}
+ul,ol{max-width:70ch;padding-left:1.15em;margin:0 0 14px}
+li{margin-bottom:6px}
+
+/* ---------- callouts ---------- */
+.note{
+  background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);
+  padding:18px 20px;border-radius:2px;margin:0 0 26px;box-shadow:var(--shadow);
+}
+.note.warn{border-left-color:var(--signal);background:var(--signal-soft);border-color:var(--signal-soft)}
+.note.stop{border-left-color:var(--danger);background:var(--danger-soft);border-color:var(--danger-soft)}
+.note h4{font-size:.95rem;letter-spacing:.01em;margin-bottom:6px}
+.note p:last-child,.note ul:last-child{margin-bottom:0}
+
+/* ---------- day cards ---------- */
+.day{background:var(--surface);border:1px solid var(--line);border-radius:3px;margin-bottom:22px;box-shadow:var(--shadow);overflow:hidden}
+.day-head{display:flex;align-items:stretch;gap:0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.marker{
+  flex:0 0 auto;background:var(--accent);color:var(--on-accent);padding:16px 18px;min-width:96px;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.marker .d{font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+.marker .n{font-family:"Golos Text",sans-serif;font-size:1.5rem;font-weight:700;line-height:1.1}
+.day-title{flex:1 1 240px;padding:14px 18px;display:flex;flex-direction:column;justify-content:center;min-width:0}
+.day-title h3{margin:0;font-size:1.14rem}
+.day-title .sub{color:var(--ink-2);font-size:.9rem}
+.day-stats{flex:0 0 auto;display:flex;border-left:1px solid var(--line)}
+.day-stats div{padding:12px 16px;border-right:1px solid var(--line);text-align:right}
+.day-stats div:last-child{border-right:0}
+.day-stats .k{font-family:"IBM Plex Mono",monospace;font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.day-stats .v{font-family:"Golos Text",sans-serif;font-weight:600;font-variant-numeric:tabular-nums;font-size:1.02rem}
+
+.legs{list-style:none;margin:0;padding:0}
+.legs li{display:flex;gap:16px;padding:12px 18px;border-bottom:1px dashed var(--line);align-items:baseline}
+.legs li:last-child{border-bottom:0}
+.legs .t{flex:0 0 54px;font-family:"IBM Plex Mono",monospace;font-size:.9rem;font-weight:500;color:var(--accent-ink);font-variant-numeric:tabular-nums}
+.legs .body{flex:1 1 auto;min-width:0}
+.legs .place{font-weight:600}
+.legs .km{font-family:"IBM Plex Mono",monospace;font-size:.78rem;color:var(--ink-3);margin-left:8px;font-variant-numeric:tabular-nums}
+.legs .what{color:var(--ink-2);font-size:.93rem;display:block}
+.legs li.meal{background:var(--surface-2)}
+.legs li.sleep .t{color:var(--signal)}
+
+/* ---------- tables ---------- */
+.scroller{overflow-x:auto;border:1px solid var(--line);border-radius:3px;background:var(--surface);box-shadow:var(--shadow);margin-bottom:22px}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:.93rem}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{
+  font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink-3);background:var(--surface-2);border-bottom:1px solid var(--line-strong);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+tfoot td{font-weight:600;background:var(--surface-2);border-top:1px solid var(--line-strong)}
+caption{caption-side:top;text-align:left;padding:12px 14px;font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);background:var(--surface-2);border-bottom:1px solid var(--line)}
+
+/* ---------- route compare ---------- */
+.routes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:26px}
+.route{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:20px;box-shadow:var(--shadow)}
+.route.pick{border-color:var(--accent);border-width:2px}
+.route .tag{font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.route.pick .tag{color:var(--accent-ink)}
+.route h3{margin:0 0 4px;font-size:1.2rem}
+.route .desc{color:var(--ink-2);font-size:.92rem;margin:0 0 16px}
+.route dl{display:grid;grid-template-columns:1fr auto;gap:6px 12px;margin:0;font-size:.93rem}
+.route dt{color:var(--ink-2)}
+.route dd{margin:0;font-family:"IBM Plex Mono",monospace;font-weight:500;font-variant-numeric:tabular-nums;text-align:right}
+.route .total{border-top:1px solid var(--line);margin-top:12px;padding-top:12px}
+.route .total dd{font-size:1.05rem;font-weight:600}
+
+/* ---------- misc ---------- */
+.pill{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.09em;text-transform:uppercase;padding:2px 7px;border-radius:2px;background:var(--accent-soft);color:var(--accent-ink);white-space:nowrap}
+.pill.warn{background:var(--signal-soft);color:var(--signal)}
+.pill.ok{background:var(--accent-soft);color:var(--accent-ink)}
+.check{list-style:none;padding:0;max-width:74ch}
+.check li{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);align-items:flex-start}
+.check li:last-child{border-bottom:0}
+.check .box{flex:0 0 auto;width:15px;height:15px;border:1.5px solid var(--line-strong);border-radius:2px;margin-top:5px}
+footer{border-top:1px solid var(--line);padding-top:22px;color:var(--ink-3);font-size:.86rem;max-width:74ch}
+footer a{color:var(--ink-2)}
+@media (max-width:640px){
+  .day-stats{border-left:0;border-top:1px solid var(--line);width:100%}
+  .day-stats div{flex:1;text-align:left}
+  .legs li{flex-direction:column;gap:2px}
+  .legs .t{flex:none}
+  .keyfacts div{border-right:0;border-bottom:1px solid var(--line);flex:1 1 100%}
+  .keyfacts div:last-child{border-bottom:0}
+}
+</style>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow">Роудбук · 26–30 августа 2026 · два водителя</div>
+  <h1>Гданьск <span class="to">→</span> Уэльва</h1>
+  <p class="standfirst">Четыре ночи, 3430 км и машина, которую в воскресенье утром нужно сдать на Южный причал. Свой потолок — 130 км/ч, отели в небольших городках, две раздельные кровати и ужин каждый вечер.</p>
+  <dl class="keyfacts">
+    <div><dt>Расстояние</dt><dd>3430 км</dd></div>
+    <div><dt>За рулём</dt><dd>35 ч 20</dd></div>
+    <div><dt>Ночёвок</dt><dd>4</dd></div>
+    <div><dt>Стоимость</dt><dd>580–650 €</dd></div>
+  </dl>
+</header>
+
+<nav class="toc" aria-label="Разделы">
+  <a href="#avisos">Важное</a>
+  <a href="#rutas">Два маршрута</a>
+  <a href="#dias">По дням</a>
+  <a href="#domingo">Воскресенье</a>
+  <a href="#hoteles">Отели</a>
+  <a href="#gasolina">Бензин</a>
+  <a href="#papeles">Документы</a>
+  <a href="#llamadas">Перед выездом</a>
+</nav>
+
+<section id="avisos">
+  <h2><span class="num">Для начала</span>Важное</h2>
+
+  <div class="note stop">
+    <h4>В воскресенье 30-го из Уэльвы не уходит ни одно судно</h4>
+    <p>На той неделе у Fred. Olsen отходы только во вторник 25-го, среду 26-го, пятницу 28-го и субботу 29-го. Следующий — как раз ваш, <strong>вторник 1 сентября, 16:00</strong>. У терминала в Уэльве нет обычного рабочего дня: он <em>открывается за три часа до каждого отхода</em>. Раз вы уже договорились сдать машину заранее, попросите подтвердить это <strong>письмом, а не по телефону</strong>: кто принимает, у каких ворот, во сколько именно в воскресенье 30-го и где машина стоит до вторника. Без такого письма в воскресенье можно приехать к закрытым воротам.</p>
+  </div>
+
+  <div class="note warn">
+    <h4>Погранконтроль Польша — Германия работает</h4>
+    <p>Германия продлила проверки на польской границе до марта 2027-го, и Кольбасково (A6/A11) — один из таких переходов: там фиксировали очереди до 5 км. Вы проезжаете в среду около 19:30, время удачное, но паспорта держите под рукой и заложите полчаса запаса. Плюс до 2028 года идут работы на развязке Щецин-Западный и на объездной Кольбасково.</p>
+  </div>
+
+  <div class="note">
+    <h4>Машина не заряжается — и на пароме всё равно было бы нельзя</h4>
+    <p>Разъём зарядки заблокирован, так что RX 450h+ всю дорогу едет в гибридном режиме: все расчёты ниже сделаны <strong>без единой подзарядки</strong>, только бензин, как ты и просил. Кстати, Fred. Olsen прямо запрещает заряжать электромобили и гибриды на борту, так что на переходе это ничего бы не изменило.</p>
+  </div>
+</section>
+
+<section id="rutas">
+  <h2><span class="num">Сравнение</span>Два маршрута</h2>
+  <p class="lede">70 % пути у них общие: Гданьск — Щецин по S6 (бесплатно, и с июня 2026-го дорога достроена целиком), Германия по автобану, Бельгия через Валлонию, Испания целиком по «Серебряному пути». Различается только участок <strong>Орлеан → Бордо</strong>.</p>
+
+  <div class="routes">
+    <div class="route">
+      <div class="tag">Маршрут A</div>
+      <h3>Быстрый, с платниками</h3>
+      <p class="desc">A10 от Орлеана до Бордо через Пуатье. Платная автомагистраль всю дорогу, 130 где можно.</p>
+      <dl>
+        <dt>Расстояние</dt><dd>3427 км</dd>
+        <dt>За рулём</dt><dd>35 ч 20</dd>
+        <dt>Платники, Франция</dt><dd>~81 €</dd>
+        <dt>Платники, Испания</dt><dd>~17 €</dd>
+        <dt>Бензин (8,5 л/100)</dt><dd>291 л · ~555 €</dd>
+      </dl>
+      <div class="total"><dl><dt>Итого</dt><dd>~653 €</dd></dl></div>
+    </div>
+
+    <div class="route pick">
+      <div class="tag">Маршрут B · рекомендую</div>
+      <h3>Разумный смешанный</h3>
+      <p class="desc">До Орлеана всё то же; дальше короткий платный кусок A71 до Вьерзона и вниз по <strong>бесплатной A20</strong> (Вьерзон — Лимож), затем <strong>N141</strong> на Ангулем и <strong>N10</strong> на Бордо. Везде 2×2, 110 км/ч.</p>
+      <dl>
+        <dt>Расстояние</dt><dd>3448 км</dd>
+        <dt>За рулём</dt><dd>36 ч 10</dd>
+        <dt>Платники, Франция</dt><dd>~43 €</dd>
+        <dt>Платники, Испания</dt><dd>~17 €</dd>
+        <dt>Бензин (7,9 л/100)</dt><dd>272 л · ~520 €</dd>
+      </dl>
+      <div class="total"><dl><dt>Итого</dt><dd>~580 €</dd></dl></div>
+    </div>
+  </div>
+
+  <p><strong>Вывод:</strong> маршрут B стоит <strong>лишних 50 минут</strong>, причём в один-единственный день, и экономит <strong>около 73 €</strong>. Плюс 400 км вы едете 110 вместо 130 — а именно там гибрид весом 2,2 тонны перестаёт быть экономичным. С вашим запасом времени я бы шёл по B, а A держал про запас: если день не задастся и надо будет наверстать, переиграть можно прямо на месте, в Орлеане — там маршруты и расходятся.</p>
+
+  <div class="scroller">
+    <table>
+      <caption>Километры и часы за рулём по дням</caption>
+      <thead>
+        <tr><th>День</th><th>Этап</th><th class="num">Маршрут A</th><th class="num">Часы A</th><th class="num">Маршрут B</th><th class="num">Часы B</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Ср 26</td><td>Гданьск → Ораниенбург</td><td class="num">515 км</td><td class="num">5 ч 20</td><td class="num">515 км</td><td class="num">5 ч 20</td></tr>
+        <tr><td>Чт 27</td><td>Ораниенбург → Шарлевиль-Мезьер</td><td class="num">860 км</td><td class="num">8 ч 50</td><td class="num">860 км</td><td class="num">8 ч 50</td></tr>
+        <tr><td>Пт 28</td><td>Шарлевиль → Сен-Поль-ле-Дакс</td><td class="num">871 км</td><td class="num">9 ч 00</td><td class="num">892 км</td><td class="num">9 ч 50</td></tr>
+        <tr><td>Сб 29</td><td>Дакс → Мерида</td><td class="num">885 км</td><td class="num">9 ч 05</td><td class="num">885 км</td><td class="num">9 ч 05</td></tr>
+        <tr><td>Вс 30</td><td>Мерида → Южный причал, Уэльва</td><td class="num">296 км</td><td class="num">3 ч 05</td><td class="num">296 км</td><td class="num">3 ч 05</td></tr>
+      </tbody>
+      <tfoot>
+        <tr><td colspan="2">Всего</td><td class="num">3427 км</td><td class="num">35 ч 20</td><td class="num">3448 км</td><td class="num">36 ч 10</td></tr>
+      </tfoot>
+    </table>
+  </div>
+  <p style="color:var(--ink-2);font-size:.9rem">Часы — чистое движение, без остановок. Сверх этого каждый день закладывайте 1 ч 15 – 1 ч 30 на отдых, обед и заправки: во времени прибытия в маршруте ниже они уже учтены.</p>
+</section>
+
+<section id="dias">
+  <h2><span class="num">Маршрут</span>По дням</h2>
+  <p class="lede">Выезд в 8:00 — на практике это будет 8:15 или 8:30, и этот запас в расписании уже заложен. За рулём по два часа, меняетесь на каждой остановке: выходит примерно 4 ч 30 на водителя в день. Время указано для маршрута B; по маршруту A в пятницу приедете на 50 минут раньше.</p>
+
+  <article class="day">
+    <div class="day-head">
+      <div class="marker"><span class="d">Среда</span><span class="n">26</span></div>
+      <div class="day-title"><h3>Гданьск → Ораниенбург</h3><span class="sub">S6 до Щецина, граница и северное кольцо Берлина</span></div>
+      <div class="day-stats">
+        <div><span class="k">км</span><span class="v">515</span></div>
+        <div><span class="k">за рулём</span><span class="v">5 ч 20</span></div>
+        <div><span class="k">приезд</span><span class="v">21:00</span></div>
+      </div>
+    </div>
+    <ul class="legs">
+      <li><span class="t mono">14:30</span><span class="body"><span class="place">Выезд из Гданьска</span><span class="km">км 0</span><span class="what">С полным баком: польский бензин (1,70 €/л) — самый дешёвый за всю поездку, наравне с испанским.</span></span></li>
+      <li><span class="t mono">16:50</span><span class="body"><span class="place">Кошалин</span><span class="km">км 205</span><span class="what">Кофе и первая смена. S6 достроена с июня 2026-го, обычных участков «шестёрки» больше нет.</span></span></li>
+      <li class="meal"><span class="t mono">18:50</span><span class="body"><span class="place">Ужин в Щецине</span><span class="km">км 372</span><span class="what">Ужин здесь, в Польше, снимает немецкую проблему: в Бранденбурге кухни закрываются в 21:00. В старом городе Щецина всё работает допоздна и вдвое дешевле. 45 минут — и последняя польская заправка перед границей.</span></span></li>
+      <li><span class="t mono">19:45</span><span class="body"><span class="place">Граница Кольбасково / Помеллен</span><span class="km">км 385</span><span class="what">Немецкий контроль работает. Паспорта под рукой. Время хорошее: пробки тут утренние.</span></span></li>
+      <li class="sleep"><span class="t mono">21:00</span><span class="body"><span class="place">Ораниенбург</span><span class="km">км 515</span><span class="what">Ночь 1. Если возьмёте Stadthotel — его ресторан работает до 22:00, и тогда ужинать можно там, а не в Щецине. Выберите что-то одно.</span></span></li>
+    </ul>
+  </article>
+
+  <article class="day">
+    <div class="day-head">
+      <div class="marker"><span class="d">Четверг</span><span class="n">27</span></div>
+      <div class="day-title"><h3>Ораниенбург → Шарлевиль-Мезьер</h3><span class="sub">A2 до Рура, Ахен, Валлония и Арденны</span></div>
+      <div class="day-stats">
+        <div><span class="k">км</span><span class="v">860</span></div>
+        <div><span class="k">за рулём</span><span class="v">8 ч 50</span></div>
+        <div><span class="k">приезд</span><span class="v">18:30</span></div>
+      </div>
+    </div>
+    <ul class="legs">
+      <li><span class="t mono">07:15</span><span class="body"><span class="place">Завтрак в отеле</span><span class="what">Без спешки: все три варианта в Ораниенбурге кормят с 6:30, так что к этому времени там уже спокойно.</span></span></li>
+      <li><span class="t mono">08:00</span><span class="body"><span class="place">Выезд</span><span class="km">км 0</span><span class="what">Кольцо A10 на запад и дальше A2. Самый длинный автобанный день: единственное место, где 130 — это ваше решение, а не знак.</span></span></li>
+      <li><span class="t mono">09:35</span><span class="body"><span class="place">Магдебург</span><span class="km">км 150</span><span class="what">Кофе и смена.</span></span></li>
+      <li class="meal"><span class="t mono">12:35</span><span class="body"><span class="place">Обед — Бад-Эйнхаузен / Порта-Вестфалика</span><span class="km">км 420</span><span class="what">Прямо перед въездом в Рур. Любая Rasthof на A2 сгодится, но если съехать на 5 минут в городок — вкуснее и дешевле.</span></span></li>
+      <li><span class="t mono">14:20</span><span class="body"><span class="place">Рур насквозь</span><span class="km">км 500</span><span class="what">Дортмунд — Дуйсбург. Самое проблемное место дня: точечные ночные работы и плотный трафик. В центры городов не заезжать — там Umweltzone.</span></span></li>
+      <li><span class="t mono">16:10</span><span class="body"><span class="place">Ахен → Бельгия</span><span class="km">км 690</span><span class="what">Заправляемся в Бельгии (1,81 €/л) — дешевле, чем в Германии (2,14 €/л). Батис или Вервье.</span></span></li>
+      <li class="sleep"><span class="t mono">18:30</span><span class="body"><span class="place">Шарлевиль-Мезьер</span><span class="km">км 860</span><span class="what">Ночь 2. Ужин в 19:45 на площади Дюкаль, пять минут пешком от Kyriad — кухня Au Bouillon Ducale работает до 21:30.</span></span></li>
+    </ul>
+  </article>
+
+  <article class="day">
+    <div class="day-head">
+      <div class="marker"><span class="d">Пятница</span><span class="n">28</span></div>
+      <div class="day-title"><h3>Шарлевиль → Сен-Поль-ле-Дакс</h3><span class="sub">Франция насквозь: Реймс, Орлеан, A20 и Ланды</span></div>
+      <div class="day-stats">
+        <div><span class="k">км</span><span class="v">892</span></div>
+        <div><span class="k">за рулём</span><span class="v">9 ч 50</span></div>
+        <div><span class="k">приезд</span><span class="v">19:10</span></div>
+      </div>
+    </div>
+    <ul class="legs">
+      <li><span class="t mono">08:00</span><span class="body"><span class="place">Выезд</span><span class="km">км 0</span><span class="what">Завтрак в отеле в 7:15.</span></span></li>
+      <li><span class="t mono">10:20</span><span class="body"><span class="place">Шампань, между Реймсом и Труа</span><span class="km">км 210</span><span class="what">Кофе. A26 платная — 11,90 €.</span></span></li>
+      <li><span class="t mono">12:00</span><span class="body"><span class="place">Орлеан — здесь выбираем маршрут</span><span class="km">км 345</span><span class="what">Налево по A71 на Вьерзон (8,20 €) — это маршрут B. Прямо по A10 на Пуатье (46 €) — маршрут A.</span></span></li>
+      <li class="meal"><span class="t mono">12:55</span><span class="body"><span class="place">Обед — Вьерзон или Шатору</span><span class="km">км 425</span><span class="what">Во Франции обедать надо с 12 до 14: в 14:15 кухни уже закрыты. Поэтому едим здесь, а не южнее. 45 минут.</span></span></li>
+      <li><span class="t mono">15:40</span><span class="body"><span class="place">Лимож</span><span class="km">км 615</span><span class="what">Кофе и смена. A20 от Вьерзона бесплатная.</span></span></li>
+      <li><span class="t mono">17:05</span><span class="body"><span class="place">Ангулем</span><span class="km">км 720</span><span class="what">Выходим на N10 — бесплатные 2×2 до самого Бордо. Заправка.</span></span></li>
+      <li><span class="t mono">18:25</span><span class="body"><span class="place">Объездная Бордо</span><span class="km">км 835</span><span class="what">В город не заезжать: там ZFE и нужен стикер Crit'Air, а объездная A630 в зону не входит. По ней проезжаете без всего.</span></span></li>
+      <li class="sleep"><span class="t mono">19:10</span><span class="body"><span class="place">Сен-Поль-ле-Дакс</span><span class="km">км 892</span><span class="what">Ночь 3. У Campanile свой ресторан, работает каждый день с 19:00 до 22:00 — приезжаете ровно к ужину и машину трогать больше не надо.</span></span></li>
+    </ul>
+  </article>
+
+  <article class="day">
+    <div class="day-head">
+      <div class="marker"><span class="d">Суббота</span><span class="n">29</span></div>
+      <div class="day-title"><h3>Сен-Поль-ле-Дакс → Мерида</h3><span class="sub">Ирун, Бургос и весь «Серебряный путь»</span></div>
+      <div class="day-stats">
+        <div><span class="k">км</span><span class="v">885</span></div>
+        <div><span class="k">за рулём</span><span class="v">9 ч 05</span></div>
+        <div><span class="k">приезд</span><span class="v">18:25</span></div>
+      </div>
+    </div>
+    <ul class="legs">
+      <li><span class="t mono">08:00</span><span class="body"><span class="place">Выезд</span><span class="km">км 0</span><span class="what">Завтрак в 7:15 — Campanile кормит с 6:30 и по субботам тоже.</span></span></li>
+      <li><span class="t mono">09:35</span><span class="body"><span class="place">Ирун</span><span class="km">км 150</span><span class="what">Первая испанская заправка, 1,70 €/л. Дальше — единственный платный участок в Испании: AP-8 и AP-1 до Арминьона, около 17 €. Бесплатная N-1 есть, но это 40 лишних минут через перевал — сегодня не стоит.</span></span></li>
+      <li><span class="t mono">12:10</span><span class="body"><span class="place">Бургос</span><span class="km">км 385</span><span class="what">Кофе и смена. Отсюда всё бесплатно: A-62 и A-66.</span></span></li>
+      <li class="meal"><span class="t mono">14:55</span><span class="body"><span class="place">Обед — Саламанка</span><span class="km">км 625</span><span class="what">Суббота и настоящее испанское время обеда — здесь это как раз на руку: в Испании кормят до 16:00. Съехать в центр — 10 минут. 45–60 минут.</span></span></li>
+      <li><span class="t mono">16:40</span><span class="body"><span class="place">Перевал Бехар</span><span class="km">км 710</span><span class="what">Осторожно: покрытие A-66 между Сориуэлой и перевалом Бехар разбито (ремонт подписали в августе, но работы ещё не начались). Ямы есть, перекрытий нет.</span></span></li>
+      <li class="sleep"><span class="t mono">18:25</span><span class="body"><span class="place">Мерида</span><span class="km">км 885</span><span class="what">Ночь 4. Суббота в Мериде: с ужином проблем не будет в любое время. Загруженную машину ставьте на огороженную парковку отеля.</span></span></li>
+    </ul>
+  </article>
+
+  <article class="day">
+    <div class="day-head">
+      <div class="marker"><span class="d">Воскресенье</span><span class="n">30</span></div>
+      <div class="day-title"><h3>Мерида → Южный причал → аэропорт Севильи</h3><span class="sub">Сдача машины и вылет на Лас-Пальмас</span></div>
+      <div class="day-stats">
+        <div><span class="k">км</span><span class="v">296</span></div>
+        <div><span class="k">за рулём</span><span class="v">3 ч 05</span></div>
+        <div><span class="k">порт</span><span class="v">11:20</span></div>
+      </div>
+    </div>
+    <ul class="legs">
+      <li class="meal"><span class="t mono">07:30</span><span class="body"><span class="place">Завтрак в отеле</span><span class="what">Накануне уточните, кормят ли в воскресенье в это время; если нет — завтракаете на любой заправке A-66, они работают круглосуточно.</span></span></li>
+      <li><span class="t mono">08:00</span><span class="body"><span class="place">Выезд из Мериды</span><span class="km">км 0</span><span class="what">Последний день. Августовское воскресенье: A-66 и A-49 в это время пустые.</span></span></li>
+      <li><span class="t mono">09:10</span><span class="body"><span class="place">Сафра</span><span class="km">км 110</span><span class="what">Кофе и последняя смена.</span></span></li>
+      <li><span class="t mono">10:15</span><span class="body"><span class="place">Севилья, по SE-30</span><span class="km">км 190</span><span class="what">Уходим на A-49 в сторону Уэльвы. Последняя заправка: бак должен быть на том уровне, который назовёт перевозчик.</span></span></li>
+      <li><span class="t mono">11:20</span><span class="body"><span class="place">Внешний порт, Южный причал — Палос-де-ла-Фронтера</span><span class="km">км 296</span><span class="what">Сдача машины. Это 16 км от Уэльвы, промзона: ни общественного транспорта, ни стоянки такси. Машину на выезд бронируйте заранее.</span></span></li>
+      <li><span class="t mono">12:00</span><span class="body"><span class="place">Такси в аэропорт Севильи</span><span class="what">103 км, 1 ч 15. Radio Taxi Huelva даёт фиксированные 130 € от города; от Южного причала попросите расчёт, рассчитывайте на 130–150 €.</span></span></li>
+      <li><span class="t mono">13:20</span><span class="body"><span class="place">Аэропорт Севильи (SVQ)</span><span class="what">За три с половиной часа до рейса в 16:55. Даже если выедете из Мериды в 8:30 и сдача затянется, вы всё равно на месте после двух: это единственная точка маршрута без плана C, поэтому запас сделан намеренно.</span></span></li>
+    </ul>
+  </article>
+</section>
+
+<section id="domingo">
+  <h2><span class="num">Критический день</span>Как уехать из Уэльвы</h2>
+  <p class="lede">Южный причал находится в Палос-де-ла-Фронтера, в 16 км от автовокзала Уэльвы, в промзоне без общественного транспорта. Всё дальнейшее держится на такси, заказанном за сутки. Время рассчитано из того, что машину вы сдаёте между 11:20 и 12:00.</p>
+
+  <div class="scroller">
+    <table>
+      <caption>Как добраться до SVQ · воскресенье 30 августа</caption>
+      <thead><tr><th>Вариант</th><th>Как</th><th class="num">В аэропорту</th><th class="num">Цена</th><th>Риск</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Такси напрямую</strong> <span class="pill ok">рекомендую</span></td>
+          <td>Южный причал → SVQ, минуя Уэльву. Выезд в 12:00.</td>
+          <td class="num">13:20</td><td class="num">130–150 €</td>
+          <td>Никакого, если заказано заранее</td>
+        </tr>
+        <tr>
+          <td>Такси + автобус в 13:00</td>
+          <td>Такси от причала до автовокзала Уэльвы (25 €, 20 мин), автобус Damas в 13:00 до Plaza de Armas, оттуда автобус EA. Это <strong>последний подходящий рейс</strong>.</td>
+          <td class="num">~15:05</td><td class="num">~47 €</td>
+          <td>Запас 1 ч 50 и зависит от того, не затянется ли сдача</td>
+        </tr>
+        <tr>
+          <td>Автобус в 15:00</td>
+          <td>Приходит на Plaza de Armas в 16:15.</td>
+          <td class="num">~17:00</td><td class="num">—</td>
+          <td>Рейс потерян</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>При выезде из Мериды в 8:00 на автобус в 11:00 вы уже не успеваете, так что бюджетный вариант — только рейс в 13:00. Летнее расписание Damas (действует до 31 августа) даёт по воскресеньям отправления из Уэльвы в <span class="mono">09:00 · 11:00 · 13:00 · 15:00 · 16:00 · 17:00 · 19:00 · 20:00 · 21:30</span>. Осторожно с тем PDF, на который по умолчанию ведёт сайт Damas: это зимнее расписание, уже недействующее, и рейса в 13:00 в нём <em>нет</em>. Прямого автобуса из Уэльвы в аэропорт не существует: всегда пересадка на автобус EA (6 €, ~35 мин от Plaza de Armas, ~20 мин от вокзала Santa Justa).</p>
+
+  <div class="note">
+    <h4>Раз билет ещё не куплен</h4>
+    <p>С такси напрямую вы в SVQ в 13:20, так что подходит любой рейс от 15:15, не только тот, что в 16:55. Покупайте, уже заложив время на такси, а не наоборот: если сдача машины затянется на полчаса, вы всё равно успеваете спокойно.</p>
+  </div>
+</section>
+
+<section id="hoteles">
+  <h2><span class="num">Где ночевать</span>Четыре ночи</h2>
+  <p class="lede">У всех одно и то же: две раздельные кровати, своя парковка, ранний завтрак и решённый ужин именно в этот день недели. С выездом в 8:00 завтрак вообще перестаёт быть проблемой — везде кормят задолго до того, как вы встанете. Ничего не забронировано, а в августе места разбирают быстро: бронируйте сегодня и отдельно просите <em>номер с двумя раздельными кроватями</em> (Zweibettzimmer / chambre twin).</p>
+
+  <div class="scroller">
+    <table>
+      <caption>Рекомендации и запасные варианты</caption>
+      <thead><tr><th>Ночь</th><th>Отель</th><th>Почему</th><th class="num">Цена</th><th>Что уточнить при звонке</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Ср 26</strong><br><span class="mono" style="font-size:.8rem;color:var(--ink-3)">Ораниенбург</span></td>
+          <td><strong>Stadthotel Oranienburg</strong><br><span style="font-size:.85rem;color:var(--ink-2)">Запасные: Landhotel Classic (Вензикендорф) · Hotel T3 Budget (Хеннигсдорф)</span></td>
+          <td>Свой ресторан, по средам до 22:00, бесплатная парковка, кондиционер. Единственный в округе, где ужин гарантирован к вашему приезду.</td>
+          <td class="num">108–130 €<br><span style="font-size:.8rem;color:var(--ink-3)">Classic: 78–84 €</span></td>
+          <td>Цену напрямую по телефону (03301 690-888) и что в номере две кровати</td>
+        </tr>
+        <tr>
+          <td><strong>Чт 27</strong><br><span class="mono" style="font-size:.8rem;color:var(--ink-3)">Шарлевиль</span></td>
+          <td><strong>Kyriad Charleville-Mézières</strong><br><span style="font-size:.85rem;color:var(--ink-2)">Запасные: ibis Charleville (бесплатная закрытая парковка) · Hôtel Inn Design Sedan</span></td>
+          <td>Номера 18 м², Prestige — 22 м²: самые просторные из трёх вариантов. 460 м до площади Дюкаль.</td>
+          <td class="num">~69–95 €<br><span style="font-size:.8rem;color:var(--ink-3)">+10 €/сутки парковка</span></td>
+          <td>Twin — и заодно забронировать стол в <em>Au Bouillon Ducale</em> (по четвергам 19:00–21:30)</td>
+        </tr>
+        <tr>
+          <td><strong>Пт 28</strong><br><span class="mono" style="font-size:.8rem;color:var(--ink-3)">Сен-Поль-ле-Дакс</span></td>
+          <td><strong>Campanile Dax–Saint-Paul</strong><br><span style="font-size:.85rem;color:var(--ink-2)">Запасные: Kyriad Dax Superior (21 м²) · Le Relais des Plages (8 номеров)</span></td>
+          <td>Лучше всех четырёх подходит: twin прямо указан, свой ресторан ежедневно 19:00–22:00, парковка бесплатная и охраняемая.</td>
+          <td class="num">высокий сезон<br><span style="font-size:.8rem;color:var(--ink-3)">цена не подтверждена</span></td>
+          <td>Правда ли номера 30 м², как заявлено, и цену на 28 августа</td>
+        </tr>
+        <tr>
+          <td><strong>Сб 29</strong><br><span class="mono" style="font-size:.8rem;color:var(--ink-3)">Мерида</span></td>
+          <td><strong>ILUNION Las Lomas</strong><br><span style="font-size:.85rem;color:var(--ink-2)">Запасные: Velada Mérida (парковка 8 €) · AZZ Medea (ближе к центру)</span></td>
+          <td>Бесплатная парковка на закрытой территории с садом — накануне сдачи, с загруженной машиной, это весомо. Свой ресторан и бассейн.</td>
+          <td class="num">от ~63 €</td>
+          <td>Во сколько завтрак по воскресеньям — вам нужно поесть до 8:00</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="color:var(--ink-2);font-size:.9rem">Цены взяты с сайтов отелей и агрегаторов; ни одна не подтверждена на эти конкретные даты — Booking закрывает автоматические запросы.</p>
+</section>
+
+<section id="gasolina">
+  <h2><span class="num">Топливо</span>Где заправляться и во сколько обойдётся</h2>
+  <p class="lede">Без подзарядки батареи RX 450h+ всю дорогу едет в гибридном режиме. В расчёте <strong>8,5 л/100 км</strong> для маршрута A (крейсер 130, машина гружёная, кондиционер в августе) и <strong>7,9 л/100 км</strong> для B, где 400 км идут на 110. При баке в 55 литров это 620–670 км хода: пять-шесть заправок.</p>
+
+  <div class="scroller">
+    <table>
+      <caption>Расход бензина по дням · цены августа 2026</caption>
+      <thead><tr><th>День</th><th>Страны</th><th class="num">A · литры</th><th class="num">A · €</th><th class="num">B · литры</th><th class="num">B · €</th></tr></thead>
+      <tbody>
+        <tr><td>Ср 26</td><td>Польша · Германия</td><td class="num">44 л</td><td class="num">79 €</td><td class="num">41 л</td><td class="num">74 €</td></tr>
+        <tr><td>Чт 27</td><td>Германия · Бельгия</td><td class="num">73 л</td><td class="num">152 €</td><td class="num">68 л</td><td class="num">141 €</td></tr>
+        <tr><td>Пт 28</td><td>Франция</td><td class="num">74 л</td><td class="num">149 €</td><td class="num">70 л</td><td class="num">142 €</td></tr>
+        <tr><td>Сб 29</td><td>Франция · Испания</td><td class="num">75 л</td><td class="num">132 €</td><td class="num">70 л</td><td class="num">123 €</td></tr>
+        <tr><td>Вс 30</td><td>Испания</td><td class="num">25 л</td><td class="num">43 €</td><td class="num">23 л</td><td class="num">40 €</td></tr>
+      </tbody>
+      <tfoot><tr><td colspan="2">Всего</td><td class="num">291 л</td><td class="num">555 €</td><td class="num">272 л</td><td class="num">520 €</td></tr></tfoot>
+    </table>
+  </div>
+
+  <h3>Хитрость: заправляться там, где дёшево</h3>
+  <p>В августе 2026-го разброс цен между самой дорогой и самой дешёвой страной — 26 %: <span class="mono">Польша 1,70 · Испания 1,70 · Бельгия 1,81 · Франция 2,01 · Германия 2,14 €/л</span>. Германию и Францию — 800 и 1000 км маршрута — не объехать, но въезжать в них можно с полным баком:</p>
+  <ol>
+    <li><strong>Из Гданьска выезжать с полным баком</strong> и долиться на последней польской заправке перед Кольбасково (км 380). Этого хватает до Рура.</li>
+    <li><strong>В Германии — минимум</strong>: литров 20 в Руре, только чтобы дотянуть до Бельгии.</li>
+    <li><strong>Полный бак в Бельгии</strong> (Батис или Вервье, на 33 цента дешевле немецкого). Хватает до Орлеана.</li>
+    <li><strong>Одна заправка во Франции</strong>, рассчитанная так, чтобы пересечь границу с Испанией. Заливать в супермаркетах (Leclerc, Intermarché), а не на автомагистрали: разница 15–20 центов.</li>
+    <li><strong>Полный бак в Ируне</strong> и ещё один после Саламанки. В Испании цена снова как в Польше.</li>
+  </ol>
+  <p>Так набегает экономия 20–25 € против «заправляюсь где придётся». Вместе с платниками общая разница между маршрутами получается <strong>около 73 € в пользу B</strong>.</p>
+</section>
+
+<section id="papeles">
+  <h2><span class="num">Формальности</span>Документы и снаряжение</h2>
+
+  <h3>Что нужно обязательно</h3>
+  <ul>
+    <li><strong>Маячок V-16 с подключением.</strong> В Испании обязателен с 1 января 2026-го и заменяет аварийные треугольники. Иностранные номера освобождены, но RX на испанских номерах (куплен на Канарах), так что <strong>к вам это относится</strong>. Нужен сертифицированный и из списка DGT; штраф до 200 €.</li>
+    <li><strong>Треугольник и светоотражающий жилет</strong> для Франции: там треугольник по-прежнему обязателен, так что везти надо и то, и другое. За алкотестер с 2020 года не штрафуют.</li>
+    <li><strong>Огнетушитель и аптечка</strong> для проезда через Бельгию. С иностранными номерами достаточно требований страны регистрации, но с ними не будет никаких споров, а стоят они 30 €.</li>
+    <li><strong>Паспорта под рукой</strong> на переходе Польша — Германия.</li>
+  </ul>
+
+  <h3>Что не нужно, если не съезжать с маршрута</h3>
+  <ul>
+    <li><strong>Немецкий Umweltplakette</strong>: только внутри Umweltzone (центр Берлина, Ганновер, города Рура). Маршрут обходит их по автобанам. Если всё-таки соберётесь в какой-нибудь центр — зелёный стикер стоит 5–12 € в любом TÜV или DEKRA.</li>
+    <li><strong>Французский Crit'Air</strong>: единственная ZFE на пути — Бордо, а объездная A630 в зону прямо не входит. К тому же стикер идёт 2–3 недели, то есть уже не успеть: просто не заезжайте в город.</li>
+    <li><strong>Виньетки</strong>: ни Германия, ни Бельгия в 2026-м с легковых не берут.</li>
+  </ul>
+
+  <div class="note warn">
+    <h4>И привычная канарская история</h4>
+    <p>Отправка машины отдельно, как груза, запускает ввоз через VEXCAN и IGIC с таможенной стоимости. Раз машина куплена на Канарах, есть путь <em>возвращаемых товаров</em>, но его надо доказать: канарский счёт, подтверждение уплаченного IGIC и дата вывоза с островов. Таможню Fred. Olsen не оформляет — это работа вашего агента в Лас-Пальмасе. И следите за сроком: машину нужно забрать в порту назначения <strong>в течение 24 часов</strong> после прихода.</p>
+  </div>
+</section>
+
+<section id="llamadas">
+  <h2><span class="num">На этой неделе</span>Перед выездом</h2>
+  <p class="lede">Выезжаете в среду. Вот звонки, которые нельзя откладывать до вторника.</p>
+
+  <ul class="check">
+    <li><span class="box"></span><span><strong>Fred. Olsen Carga — письмом, а не по телефону.</strong> <span class="mono">comerciales.carga@fredolsen.es</span> с копией на <span class="mono">puerta.huelva@fredolsen.es</span>, либо <span class="mono">902 510 107 / 928 987 067</span>. Пусть письменно подтвердят: точное время и ворота сдачи в воскресенье 30-го, где машина стоит до вторника, какие документы нужны (попросят <em>техпаспорт</em>), порядок передачи ключей, требуемый уровень топлива и заряда и кто может забрать машину в Лас-Пальмасе.</span></li>
+    <li><span class="box"></span><span><strong>Radio Taxi Huelva</strong> — <span class="mono">685 125 099</span> (WhatsApp) или <span class="mono">959 499 816</span>. Подача на Южный причал внешнего порта, воскресенье 30-го, 12:00, в аэропорт Севильи. Просите фиксированную цену. Стоянки такси там нет.</span></li>
+    <li><span class="box"></span><span><strong>Четыре отеля</strong> — с просьбой о двух раздельных кроватях и самом просторном номере из доступных. Цены выше на эти даты не подтверждены.</span></li>
+    <li><span class="box"></span><span><strong>Билет Севилья → Лас-Пальмас.</strong> С прямым такси подходит любой рейс от 15:15 воскресенья.</span></li>
+    <li><span class="box"></span><span><strong>Маячок V-16</strong>, если его ещё нет в машине.</span></li>
+    <li><span class="box"></span><span><strong>Во вторник вечером</strong>: посмотреть ремонты на <span class="mono">autobahn-baustellen.de</span> (A2 и A44) и на <span class="mono">vinci-autoroutes.com/fr/infos-travaux</span>, а также подтвердить у Damas (<span class="mono">959 25 69 00</span>) воскресный автобус — на случай, если поедете им.</span></li>
+  </ul>
+</section>
+
+<footer>
+  <p>Расстояния и время рассчитаны в OSRM по реальной трассе; время — чистое движение, без остановок, и уже с учётом потолка 130 км/ч. Цены на топливо — за неделю с 10 августа 2026 года. Французские платники по тарифам Vinci и Atlandes 2026; сумма для A19 Санс — Артене оценочная. Расписание парома взято из официального движка Fred. Olsen на неделю с 24 по 30 августа 2026 года, автобусов — из летнего PDF Damas, действующего до 31 августа.</p>
+</footer>
+
+</div>
