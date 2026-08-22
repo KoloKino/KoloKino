@@ -3165,7 +3165,6 @@
 }
 
 
-.videos-grid.is-two-up { grid-template-columns: repeat(2, 1fr); }
 </style>
 
 <!-- Cloudflare Web Analytics — privacy-first, cookie-less, GDPR-compliant by design.
@@ -4149,24 +4148,117 @@
 
     // (b) Race all sources; first one home wins.
     var settled = false;
-    sources.forEach(function(src, i) {
-      fetch(src.url, { cache: 'no-store' })
-        .then(function(r) { return r.ok ? r.text() : Promise.reject('HTTP ' + r.status); })
-        .then(function(body) {
-          if (settled) return;
+    // Sources are tried IN ORDER, not raced. A parallel race always handed the win
+    // to whichever proxy replied first, and that was rss2json, whose free tier caps
+    // at 10 items. Sequential + "hold out for a full 12" keeps the 3x4 grid intact.
+    var WANT = 12;
+    var PER_SOURCE_TIMEOUT = 5000;
+
+    // Snapshot the static cards already in the page. They are real, recent videos,
+    // so they double as the top-up pool if a feed comes back short.
+    var staticPool = (function () {
+      var out = [];
+      document.querySelectorAll('.videos-grid .video-card').forEach(function (a) {
+        var m = /[?&]v=([\w-]+)/.exec(a.getAttribute('href') || '');
+        if (!m) return;
+        var h3 = a.querySelector('h3');
+        var vw = a.querySelector('.video-views');
+        out.push({
+          id: m[1],
+          title: h3 ? h3.textContent.trim() : '',
+          viewsText: vw ? vw.textContent.trim() : ''
+        });
+      });
+      return out;
+    })();
+
+    // Pad a short feed back up to 12 using the static pool, skipping duplicates.
+    function topUp(items) {
+      var seen = {};
+      items.forEach(function (it) { seen[it.id] = 1; });
+      for (var i = 0; i < staticPool.length && items.length < WANT; i++) {
+        var s = staticPool[i];
+        if (seen[s.id]) continue;
+        seen[s.id] = 1;
+        items.push({ id: s.id, title: s.title, views: 0, viewsText: s.viewsText });
+      }
+      return items.slice(0, WANT);
+    }
+
+    // rss2json strips <media:statistics>, so its items arrive with views = 0 and
+    // would render as "New". Any of them already present in the static grid has a
+    // real, recent count sitting right there: borrow it instead of showing "New".
+    function enrich(items) {
+      var byId = {};
+      staticPool.forEach(function (s) { byId[s.id] = s.viewsText; });
+      items.forEach(function (it) {
+        if (!it.viewsText && !it.views && byId[it.id]) it.viewsText = byId[it.id];
+      });
+      return items;
+    }
+
+    function fetchWithTimeout(url, ms) {
+      return new Promise(function (resolve, reject) {
+        var done = false;
+        var timer = setTimeout(function () {
+          if (!done) { done = true; reject(new Error('timeout')); }
+        }, ms);
+        fetch(url, { cache: 'no-store' })
+          .then(function (r) {
+            if (done) return;
+            done = true; clearTimeout(timer);
+            r.ok ? resolve(r.text()) : reject(new Error('HTTP ' + r.status));
+          })
+          .catch(function (e) {
+            if (done) return;
+            done = true; clearTimeout(timer); reject(e);
+          });
+      });
+    }
+
+    (function tryNext(i, best, bestKind) {
+      if (i >= sources.length) {
+        // Nothing returned a full set. Use the best partial we saw, topped up.
+        if (best && best.length) {
+          var merged = topUp(best.slice());
+          enrich(merged);
+          settled = true;
+          writeCache(merged);
+          renderItems(merged);
+          console.log('[Kolo Kino] RSS: best partial had ' + best.length +
+                      ', topped up to ' + merged.length + '.');
+          if (bestKind === 'json') backfillViews(merged);
+        } else {
+          console.warn('[Kolo Kino] RSS: every source failed, keeping static grid.');
+        }
+        return;
+      }
+      var src = sources[i];
+      fetchWithTimeout(src.url, PER_SOURCE_TIMEOUT)
+        .then(function (body) {
           var items = (src.kind === 'json') ? parseJsonFeed(body) : parseXmlFeed(body);
           if (!items || !items.length) throw new Error('no items');
-          settled = true;
-          writeCache(items);
-          renderItems(items);
-          console.log('[Kolo Kino] RSS refreshed via source #' + i + ' (' + src.kind + ').');
-          // If we won via rss2json, fetch view counts separately (rss2json strips them)
-          if (src.kind === 'json') backfillViews(items);
+          if (items.length >= WANT) {
+            settled = true;
+            enrich(items);
+            writeCache(items);
+            renderItems(items);
+            console.log('[Kolo Kino] RSS refreshed via source #' + i +
+                        ' (' + src.kind + ') with ' + items.length + ' items.');
+            if (src.kind === 'json') backfillViews(items);
+            return;
+          }
+          // Short. Remember it and keep looking for a complete source.
+          console.warn('[Kolo Kino] Source #' + i + ' (' + src.kind + ') returned only ' +
+                       items.length + ', trying the next one.');
+          if (!best || items.length > best.length) { best = items; bestKind = src.kind; }
+          tryNext(i + 1, best, bestKind);
         })
-        .catch(function(err) {
+        .catch(function (err) {
           console.warn('[Kolo Kino] Source #' + i + ' failed: ' + err);
+          tryNext(i + 1, best, bestKind);
         });
-    });
+    })(0, null, null);
 
     function parseJsonFeed(body) {
       try {
@@ -4236,7 +4328,7 @@
                '<div class="video-thumb"><img src="https://i.ytimg.com/vi/' + it.id + '/hqdefault.jpg" alt="" loading="lazy" /></div>' +
                '<div class="video-meta">' +
                '<h3>' + escapeHtml(it.title) + '</h3>' +
-               '<p class="video-views">' + (it.views > 0 ? fmtViews(it.views) : 'New') + '</p>' +
+               '<p class="video-views">' + (it.viewsText || (it.views > 0 ? fmtViews(it.views) : 'New')) + '</p>' +
                '</div></a>';
       }).join('');
       grid.innerHTML = html;
@@ -4926,19 +5018,5 @@
 </script>
 
 
-<script>
-// Keep the Latest grid visually complete: a 3-wide grid only looks right with a
-// multiple of 3. If the feed ever returns fewer, fall back to 2 columns.
-(function () {
-  var grid = document.querySelector('.videos-grid');
-  if (!grid) return;
-  function balance() {
-    var n = grid.querySelectorAll('.video-card').length;
-    grid.classList.toggle('is-two-up', n > 0 && n % 3 !== 0 && n % 2 === 0);
-  }
-  balance();
-  new MutationObserver(balance).observe(grid, { childList: true });
-})();
-</script>
 </body>
 </html>
